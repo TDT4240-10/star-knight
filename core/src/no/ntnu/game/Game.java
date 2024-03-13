@@ -8,11 +8,16 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
+	FirebaseInterface _FI;
+
+	public Game(FirebaseInterface FI) { _FI = FI; }
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+
+		// TODO: Initialize Database references
+		// _FI.SomeFunction();
 	}
 
 	@Override
