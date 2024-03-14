@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "488682862126",
+    "firebase_url": "https://star-knight-259ee-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "star-knight-259ee",
+    "storage_bucket": "star-knight-259ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488682862126:android:4ec37d2a44d817cb4291bf",
+        "android_client_info": {
+          "package_name": "no.ntnu.game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxPct5BlfS7XDB1Vz4LjGjpMnTcuflJ7E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

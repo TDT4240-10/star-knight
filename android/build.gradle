@@ -32,7 +32,6 @@ android {
     }
 }
 
-
 // called every time gradle gets executed, takes the native dependencies of
 // the natives configuration, and extracts them to the proper libs/ folders
 // so they get packed with the APK.
@@ -87,3 +86,5 @@ tasks.register('run', Exec) {
 }
 
 eclipse.project.name = appName + "-android"
+
+apply plugin: 'com.google.gms.google-services'
