@@ -6,9 +6,12 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
 
 This project uses Firebase for the backend. The Firebase SDK is included in the Android module.
 
-The project is set up to use Firebase Realtime Database.
+The project is set up to use:
 
-### Using Firebase 🧑🏽‍🚒
+- Firebase Realtime Database. [Get Started](https://firebase.google.com/docs/database/quickstart#java_1)🚀
+- Firebase Firestore. [Get Started](https://firebase.google.com/docs/firestore/quickstart#java_1)🚀
+
+### Using Firebase in the project 🧑🏽‍🚒
 
 Firebase is Android specific, i.e you cannot access Firebase methods from the Desktop or Core files.
 All methods must be called through a class that implements the "FirebaseInterface" located in "core".
