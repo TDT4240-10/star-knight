@@ -14,17 +14,18 @@ public class Game extends ApplicationAdapter {
 	private ShapeRenderer shapeRenderer;
 	private Button leftArrowButton;
 	private SpriteBatch spriteBatch;
-
+	private Button menubutton;
 	FirebaseInterface _FI;
 
 	public Game(FirebaseInterface FI) { _FI = FI; }
 	@Override
 	public void create () {
+
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
-		// Create a left arrow button using the factory method
-		leftArrowButton = ButtonFactory.createLeftArrowButton(1900, 200);
-
+		// Create a left arrow button using the factory method this is where u specific the direction
+		leftArrowButton = ButtonFactory.createLeftArrowButton(200, 200);
+		menubutton = ButtonFactory.createMenuButton(300,1400,"Play");
 		// TODO: Initialize Database references
 		// _FI.SomeFunction();
 
@@ -38,7 +39,8 @@ public class Game extends ApplicationAdapter {
 
 		// Render the left arrow button
 		leftArrowButton.render(shapeRenderer ,  spriteBatch);
-
+		// Render the menu button
+		menubutton.render(shapeRenderer,spriteBatch);
 		shapeRenderer.end();
 
 		// Handle input

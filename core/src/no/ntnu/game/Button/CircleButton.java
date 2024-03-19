@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 
 /**
- * THIS IS button used for the game
+ * This is for all the circle button used for the game
  *
  * @author Jeff
  */
@@ -18,13 +18,16 @@ public class CircleButton implements Button {
     private BitmapFont font;
     private String text;
 
+    // this color scheme is for all text in the game
+    public static Color Starknighttext = new Color(199 / 255f, 199 / 255f, 176 / 255f, 255 / 255f);
+    public static Color outlineColor = new Color(40/ 255f, 40/ 255f, 41/ 255f, 1/ 255f);
     public CircleButton(float x, float y) {
         this.x = x;
         this.y = y;
         this.radius = 150;
         this.text = "test"; // Default text
         this.font = new BitmapFont(); // Default font
-        this.font.getData().setScale(5); // Set scale factor to 2 (doubles the size)
+        this.font.getData().setScale(8); // Set scale factor to 2 (doubles the size)
 
     }
 
@@ -33,12 +36,15 @@ public class CircleButton implements Button {
     @Override
     public void render(ShapeRenderer shapeRenderer, SpriteBatch batch) {
         shapeRenderer.begin(ShapeType.Filled);
+        // Draw outline circle
+        shapeRenderer.setColor(outlineColor);
+        shapeRenderer.circle(x, y, radius + 15);
         shapeRenderer.setColor(color);
         shapeRenderer.circle(x, y, radius);
         shapeRenderer.end();
         // Render text
         batch.begin();
-        font.setColor(Color.BLACK); // Set font color
+        font.setColor(Starknighttext); // Set font color
         font.draw(batch, text, x - font.getCapHeight() / 2f, y + font.getCapHeight() / 2f); // Adjust text position
         batch.end();
     }
