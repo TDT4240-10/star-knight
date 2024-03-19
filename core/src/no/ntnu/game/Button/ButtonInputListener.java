@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 
+import java.util.Objects;
+
 import no.ntnu.game.Button.Button;
 
 public class ButtonInputListener extends InputAdapter {
@@ -21,16 +23,32 @@ public class ButtonInputListener extends InputAdapter {
         float touchX = screenX;
         float touchY = Gdx.graphics.getHeight() - screenY;
 
-        // Check if the touch is within the button bounds
-        if (this.button.isPressed(touchX, touchY)) {
-            // Handle button press
-            System.out.println("Button pressed: " + button);
-            this.button.setColor(Starknightdown); // For example, change button color when pressed
-            return true; // Indicate that the touch event is handled
+        // add the functionality of the buttons here
+        switch(this.button.getName()) {
+            case "LeftArrow":
+                if (this.button.isPressed(touchX, touchY)) {
+                    // Handle button press for LeftArrow
+                    System.out.println("LeftArrow button pressed");
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "RightArrow":
+                if (this.button.isPressed(touchX, touchY)) {
+                    // Handle button press for RightArrow
+                    System.out.println("RightArrow button pressed");
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            // Add more cases for other buttons if needed
+            default:
+                break;
         }
 
         return false; // Indicate that the touch event is not handled
     }
+
 
 
     @Override
