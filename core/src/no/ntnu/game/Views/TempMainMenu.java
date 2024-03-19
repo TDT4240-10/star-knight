@@ -24,20 +24,8 @@ public class TempMainMenu extends View {
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-    }
-
-//    public void create() {
-//
-//    }
-
-
-    @Override
-    protected void handleInput() {
-    }
-
-    @Override
-    public void update(float dt) {
-
+        shapeRenderer = new ShapeRenderer();
+        spriteBatch = new SpriteBatch();
     }
 
     @Override
@@ -71,6 +59,18 @@ public class TempMainMenu extends View {
         playButton.render(shapeRenderer,spriteBatch);
     }
 
+    @Override
+    protected void handleInput() {
+        // if play button is pressed, go to CreateOrJoinRoomScreen
+//        if(playButton.isPressed()){
+//            gvm.set(new CreateOrJoinRoomScreen(gvm));
+//        }
+    }
+
+    @Override
+    public void update(float dt) {
+
+    }
     @Override
     public void dispose() {
 
