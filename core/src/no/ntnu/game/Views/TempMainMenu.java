@@ -16,7 +16,7 @@ public class TempMainMenu extends View {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
-    private Button menubutton;
+    private Button playButton;
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
     public TempMainMenu(GameViewManager gvm) {
@@ -43,13 +43,13 @@ public class TempMainMenu extends View {
     @Override
     public void render(SpriteBatch sb) {
         // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(menubutton);
+        ButtonInputListener menuInputListener = new ButtonInputListener(playButton);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(menuInputListener);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        menubutton = ButtonFactory.createMenuButton(300,700,"Play");
+        playButton = ButtonFactory.createPlayButton(300,700);
 
         sb.begin();
 
@@ -68,7 +68,7 @@ public class TempMainMenu extends View {
         sb.end();
 
         // Render the menu button
-        menubutton.render(shapeRenderer,spriteBatch);
+        playButton.render(shapeRenderer,spriteBatch);
     }
 
     @Override

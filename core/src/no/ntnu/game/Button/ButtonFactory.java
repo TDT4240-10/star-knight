@@ -56,4 +56,13 @@ public class ButtonFactory {
         createRoomButton.setText("Create Room");
         return createRoomButton;
     }
+
+    // create play button
+    public static Button createPlayButton(float x, float y) {
+        Button playButton = new RectangleButton(x, y);
+        playButton.setName("Play");
+        playButton.setColor(Starknight);
+        playButton.setText("Play");
+        return playButton;
+    }
 }
