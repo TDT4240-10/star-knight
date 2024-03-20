@@ -3,23 +3,23 @@ package no.ntnu.game.Button;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.sun.tools.javac.Main;
 
-import java.util.Objects;
-
-import no.ntnu.game.Button.Button;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.GameLobbyScreen;
-import no.ntnu.game.Views.GameViewManager;
-import no.ntnu.game.Views.TempMainMenu;
+import no.ntnu.game.Views.GameScreenManager;
+import no.ntnu.game.Views.MainMenuScreen;
+import no.ntnu.game.Views.SettingsScreen;
+import no.ntnu.game.Views.TutorialScreen;
 
 public class ButtonInputListener extends InputAdapter {
     private Button button;
-    private GameViewManager gvm;
+    private GameScreenManager gsm;
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
-    public ButtonInputListener(Button button, GameViewManager gvm) {
+    public ButtonInputListener(Button button, GameScreenManager gsm) {
         this.button = button;
-        this.gvm = gvm;
+        this.gsm = gsm;
     }
 
 
@@ -51,15 +51,39 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Starknightdown); // For example, change button color when pressed
                     System.out.println("Play button pressed, color set");
-                    gvm.set(new CreateOrJoinRoomScreen(gvm));
+                    gsm.set(new CreateOrJoinRoomScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
-
+            case "JoinRoom":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
+                    System.out.println("Join Room button pressed, color set");
+                    gsm.set(new GameLobbyScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "CreateRoom":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
+                    System.out.println("Create Room button pressed, color set");
+                    gsm.set(new GameLobbyScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "StartGame":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
+                    System.out.println("Start Game button pressed, color set");
+                    gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
             case "Tutorial":
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Starknightdown); // For example, change button color when pressed
                     System.out.println("Tutorial button pressed, color set");
+                    gsm.push(new TutorialScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -68,30 +92,15 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Settings button pressed, color set");
+                    gsm.push(new SettingsScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
-            case "JoinRoom":
+            case "ExitToMainMenu":
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
-                    System.out.println("Join Room button pressed, color set");
-                    gvm.set(new GameLobbyScreen(gvm));
-                    return true; // Indicate that the touch event is handled
-                }
-                break;
-            case "CreateRoom":
-                if (this.button.isPressed(touchX, touchY)) {
-                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
-                    System.out.println("Create Room button pressed, color set");
-                    gvm.set(new GameLobbyScreen(gvm));
-                    return true; // Indicate that the touch event is handled
-                }
-                break;
-            case "StartGame":
-                if (this.button.isPressed(touchX, touchY)) {
-                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
-                    System.out.println("Start Game button pressed, color set");
-                    gvm.set(new TempMainMenu(gvm));
+                    System.out.println("Exit to Main Menu button pressed, color set");
+                    gsm.set(new MainMenuScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;

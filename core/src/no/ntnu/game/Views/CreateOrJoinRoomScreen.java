@@ -15,10 +15,9 @@ import no.ntnu.game.Button.ButtonInputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 
 
-public class CreateOrJoinRoomScreen extends View{
+public class CreateOrJoinRoomScreen extends Screen {
 
     private Stage stage;
     private TextField textField;
@@ -39,7 +38,7 @@ public class CreateOrJoinRoomScreen extends View{
     // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
     // there will be two buttons, one for creating a room and one for joining a room.
 
-    public CreateOrJoinRoomScreen(GameViewManager gvm) {
+    public CreateOrJoinRoomScreen(GameScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font

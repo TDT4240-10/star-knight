@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
-import no.ntnu.game.Views.GameViewManager;
-import no.ntnu.game.Views.TempMainMenu;
+import no.ntnu.game.Views.GameScreenManager;
+import no.ntnu.game.Views.MainMenuScreen;
 
 
 public class StarKnight extends Game {
@@ -20,13 +20,13 @@ public class StarKnight extends Game {
 	private SpriteBatch spriteBatch;
 	//	private Button menubutton;
 	FirebaseInterface _FI;
-	private GameViewManager gvm;
+	private GameScreenManager gvm;
 
 	public StarKnight(FirebaseInterface FI) { _FI = FI; }
 
 	@Override
 	public void create () {
-		gvm = new GameViewManager();
+		gvm = new GameScreenManager();
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
 
@@ -35,7 +35,7 @@ public class StarKnight extends Game {
 //		mainMenuScreen = new MainMenuScreen(spriteBatch);
 //		setScreen(mainMenuScreen);
 
-		gvm.push(new TempMainMenu(gvm));	// push the main menu screen to the stack
+		gvm.push(new MainMenuScreen(gvm));	// push the main menu screen to the stack
 	}
 
 	@Override

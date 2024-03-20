@@ -48,6 +48,15 @@ public class ButtonFactory {
         return rectSettingsButton;
     }
 
+    // create exit button
+    public static Button createExitButton(float x, float y) {
+        Button exitButton = new RectangleButton(x, y);
+        exitButton.setName("ExitToMainMenu");
+        exitButton.setColor(Starknight);
+        exitButton.setText("Exit");
+        return exitButton;
+    }
+
     // this is for the menu screen where u need multiple buttons to navigate
     public static Button createMenuButton(float x, float y, String text) {
         Button SettingButton = new RectangleButton(x, y);

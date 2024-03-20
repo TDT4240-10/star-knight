@@ -15,7 +15,7 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
-public class GameLobbyScreen extends View {
+public class GameLobbyScreen extends Screen {
     private Stage stage;
     private TextField textField;
     private Skin skin; // libGDX skins provide styling for UI widgets
@@ -31,7 +31,7 @@ public class GameLobbyScreen extends View {
 
     private Button startGameButton;
 
-    public GameLobbyScreen(GameViewManager gvm) {
+    public GameLobbyScreen(GameScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font

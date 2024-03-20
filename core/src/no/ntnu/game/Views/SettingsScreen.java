@@ -12,19 +12,17 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
-public class MainMenuScreen extends Screen {
+public class SettingsScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
-    private Button playButton;
-    private Button tutorialButton;
-    private Button rectSettingsButton;
+    private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public MainMenuScreen(GameScreenManager gvm) {
+    public SettingsScreen(GameScreenManager gvm) {
         super(gvm);
-        logo = new Texture("starknight_logo.png");
+        logo = new Texture("settings.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
@@ -33,23 +31,17 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        playButton = ButtonFactory.createPlayButton(300,900);
-        tutorialButton = ButtonFactory.createTutorialButton(300,600);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,300);
+        exitButton = ButtonFactory.createExitButton(300,900);
 
         // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm);
-        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm);
-        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm);
-
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-        inputMultiplexer.addProcessor(menuInputListener);
-        inputMultiplexer.addProcessor(tutorialInputListener);
-        inputMultiplexer.addProcessor(settingsInputListener);
+        inputMultiplexer.addProcessor(exitInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
+
 
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -67,9 +59,7 @@ public class MainMenuScreen extends Screen {
         sb.end();
 
         // Render the menu button
-        playButton.render(shapeRenderer,sb);
-        tutorialButton.render(shapeRenderer,sb);
-        rectSettingsButton.render(shapeRenderer,sb);
+        exitButton.render(shapeRenderer,sb);
 
         shapeRenderer.end();
     }

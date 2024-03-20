@@ -3,11 +3,11 @@ package no.ntnu.game.Views;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
-public abstract class View {
+public abstract class Screen {
     protected Vector3 mouse; // this is a protected xyz coordinate system
-    protected GameViewManager gvm;
+    protected GameScreenManager gvm;
 
-    protected View(GameViewManager gvm) {
+    protected Screen(GameScreenManager gvm) {
         this.gvm = gvm;
         mouse = new Vector3();
     }
