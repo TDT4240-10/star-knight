@@ -8,13 +8,17 @@ import java.util.Objects;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
+import no.ntnu.game.Views.GameViewManager;
+import no.ntnu.game.Views.TempMainMenu;
 
 public class ButtonInputListener extends InputAdapter {
     private Button button;
+    private GameViewManager gvm;
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
-    public ButtonInputListener(Button button) {
+    public ButtonInputListener(Button button, GameViewManager gvm) {
         this.button = button;
+        this.gvm = gvm;
     }
 
 
@@ -42,17 +46,45 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
-            // Add more cases for other buttons if needed
             case "Play":
                 if (this.button.isPressed(touchX, touchY)) {
-
-                    // Handle button press for Play
-                    System.out.println("Play button pressed");
                     this.button.setColor(Starknightdown); // For example, change button color when pressed
-                    this.button.setGoNext(true);
+                    System.out.println("Play button pressed, color set");
+                    gvm.set(new CreateOrJoinRoomScreen(gvm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+
+            case "Tutorial":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    System.out.println("Tutorial button pressed, color set");
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+
+            case "RectSettings":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
+                    System.out.println("Settings button pressed, color set");
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "JoinRoom":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
+                    System.out.println("Join Room button pressed, color set");
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "CreateRoom":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
+                    System.out.println("Create Room button pressed, color set");
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            // Add more cases for other buttons if needed
             default:
                 break;
         }
@@ -71,7 +103,7 @@ public class ButtonInputListener extends InputAdapter {
         // Check if the touch is within the button bounds
         if (this.button.isPressed(touchX, touchY)) {
             // Handle button press
-            System.out.println("Button let go: " + button);
+            System.out.println("Button pressed: " + button);
 
             this.button.setColor(Starknight); // For example, change button color when pressed
             return true; // Indicate that the touch event is handled

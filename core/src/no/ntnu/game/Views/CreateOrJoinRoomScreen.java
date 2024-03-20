@@ -1,6 +1,7 @@
 package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
+import no.ntnu.game.Button.ButtonInputListener;
 
 public class CreateOrJoinRoomScreen extends View{
     private SpriteBatch batch;
@@ -28,25 +30,37 @@ public class CreateOrJoinRoomScreen extends View{
 
     public CreateOrJoinRoomScreen(GameViewManager gvm) {
         super(gvm);
-        shapeRenderer = new ShapeRenderer();//
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-
-        // create and join room buttons
-        createRoomButton = ButtonFactory.createCreateRoomButton(300, 8000);
-        joinRoomButton = ButtonFactory.createJoinRoomButton(300, 500);
+        shapeRenderer = new ShapeRenderer();
+//        spriteBatch = new SpriteBatch();
     }
 
 
 
     @Override
     public void render(SpriteBatch sb) {
+        // Create input listeners for buttons
+        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm);
+        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm);
+
+
+        // Set input processors
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
+        inputMultiplexer.addProcessor(createRoomInputListner);
+        inputMultiplexer.addProcessor(joinRoomInputListner);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
+        createRoomButton = ButtonFactory.createCreateRoomButton(300, 800);
+        joinRoomButton = ButtonFactory.createJoinRoomButton(300, 500);
+
         sb.begin();
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         // draw logo
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
@@ -55,30 +69,27 @@ public class CreateOrJoinRoomScreen extends View{
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.draw(logo, logoX, logoY);
+        sb.end();
 
         // render both buttons
-        createRoomButton.render(shapeRenderer, spriteBatch);
-        joinRoomButton.render(shapeRenderer, spriteBatch);
+        createRoomButton.render(shapeRenderer, sb);
+        joinRoomButton.render(shapeRenderer, sb);
         shapeRenderer.end();
 
-        sb.end();
     }
 
     @Override
     protected void handleInput() {
-        // if create room button is clicked, go to lobby with auto generated id
-
-        // else, enter a game room id and join a room. if id is not valid, stay on page
     }
 
     @Override
     public void update(float dt){
-        handleInput();
+
     }
 
     @Override
     public void dispose() {
-//        background.dispose();
+        shapeRenderer.dispose();
         logo.dispose();
         System.out.println("Create or Join Room View Disposed");
     }

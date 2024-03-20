@@ -14,10 +14,9 @@ public interface Button {
 
     void render(ShapeRenderer shapeRenderer, SpriteBatch batch);
     boolean isPressed(float touchX, float touchY);
-//    boolean goNext();
+
 
     void dispose();
-
 
     void setColor(Color color);
 
@@ -26,8 +25,4 @@ public interface Button {
     void setName(String name);
 
     String getName();
-
-    Boolean getGoNext();
-
-    void setGoNext(boolean goNext);
 }

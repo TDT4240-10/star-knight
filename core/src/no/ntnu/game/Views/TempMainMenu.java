@@ -17,29 +17,39 @@ public class TempMainMenu extends View {
     BitmapFont font; // Declare the font variable
 
     private Button playButton;
+    private Button tutorialButton;
+    private Button rectSettingsButton;
+
     private ShapeRenderer shapeRenderer;
-    private SpriteBatch spriteBatch;
+    //    private SpriteBatch spriteBatch;
     public TempMainMenu(GameViewManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-        spriteBatch = new SpriteBatch();
+//        spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        playButton = ButtonFactory.createPlayButton(300,700);
-
         // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(playButton);
+        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm);
+        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm);
+        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm);
+
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
+
         inputMultiplexer.addProcessor(menuInputListener);
+        inputMultiplexer.addProcessor(tutorialInputListener);
+        inputMultiplexer.addProcessor(settingsInputListener);
+
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        sb.begin();
+        playButton = ButtonFactory.createPlayButton(300,900);
+        tutorialButton = ButtonFactory.createTutorialButton(300,600);
+        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,300);
 
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -52,22 +62,20 @@ public class TempMainMenu extends View {
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
+        sb.begin();
         sb.draw(logo, logoX, logoY);
         sb.end();
 
         // Render the menu button
-        playButton.render(shapeRenderer,spriteBatch);
+        playButton.render(shapeRenderer,sb);
+        tutorialButton.render(shapeRenderer,sb);
+        rectSettingsButton.render(shapeRenderer,sb);
+
         shapeRenderer.end();
     }
 
     @Override
     protected void handleInput() {
-        // if the play button is pressed, go to the next screen
-        if (playButton.getGoNext()) {
-            System.out.println("im here");
-            gvm.set(new CreateOrJoinRoomScreen(gvm));
-            dispose();
-        }
     }
 
     @Override
@@ -76,6 +84,6 @@ public class TempMainMenu extends View {
     }
     @Override
     public void dispose() {
-
+        shapeRenderer.dispose();
     }
 }
