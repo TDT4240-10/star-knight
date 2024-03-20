@@ -33,6 +33,10 @@ public class TempMainMenu extends View {
 
     @Override
     public void render(SpriteBatch sb) {
+        playButton = ButtonFactory.createPlayButton(300,900);
+        tutorialButton = ButtonFactory.createTutorialButton(300,600);
+        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,300);
+
         // Create input listeners for buttons
         ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm);
         ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm);
@@ -46,10 +50,6 @@ public class TempMainMenu extends View {
         inputMultiplexer.addProcessor(settingsInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
-
-        playButton = ButtonFactory.createPlayButton(300,900);
-        tutorialButton = ButtonFactory.createTutorialButton(300,600);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,300);
 
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -76,6 +76,10 @@ public class TempMainMenu extends View {
 
     @Override
     protected void handleInput() {
+        // if play button is pressed, go to CreateOrJoinRoomScreen
+//        if(playButton.isPressed()){
+//            gvm.set(new CreateOrJoinRoomScreen(gvm));
+//        }
     }
 
     @Override
