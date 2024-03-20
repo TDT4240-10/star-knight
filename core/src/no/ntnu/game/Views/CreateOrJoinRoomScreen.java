@@ -91,9 +91,7 @@ public class CreateOrJoinRoomScreen extends View{
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.draw(logo, logoX, logoY);
 
-        float instructionY = 1000;
-        float instructionX = 300; // Align with your buttons
-        font.draw(sb, "Enter your unique room ID!", instructionX, instructionY);
+        font.draw(sb, "Enter your unique room ID!", 300, 1000);
         sb.end();
 
         // render both buttons

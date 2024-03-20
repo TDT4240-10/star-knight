@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
+import no.ntnu.game.Views.GameLobbyScreen;
 import no.ntnu.game.Views.GameViewManager;
 import no.ntnu.game.Views.TempMainMenu;
 
@@ -74,6 +75,7 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Join Room button pressed, color set");
+                    gvm.set(new GameLobbyScreen(gvm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -81,6 +83,15 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Create Room button pressed, color set");
+                    gvm.set(new GameLobbyScreen(gvm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "StartGame":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
+                    System.out.println("Start Game button pressed, color set");
+                    gvm.set(new TempMainMenu(gvm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;

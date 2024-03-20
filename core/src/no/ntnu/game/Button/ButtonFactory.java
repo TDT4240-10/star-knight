@@ -81,4 +81,13 @@ public class ButtonFactory {
         playButton.setText("Play");
         return playButton;
     }
+
+    // create start game button
+    public static Button createStartGameButton(float x, float y) {
+        Button startGameButton = new RectangleButton(x, y);
+        startGameButton.setName("StartGame");
+        startGameButton.setColor(Starknight);
+        startGameButton.setText("Start");
+        return startGameButton;
+    }
 }

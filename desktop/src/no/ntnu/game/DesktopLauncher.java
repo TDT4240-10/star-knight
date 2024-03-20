@@ -2,6 +2,10 @@ package no.ntnu.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+<<<<<<< HEAD
+=======
+import no.ntnu.game.StarKnight;
+>>>>>>> han-branch
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
