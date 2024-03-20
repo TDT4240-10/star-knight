@@ -18,6 +18,7 @@ public class RectangleButton implements Button {
     private BitmapFont font;
     private String text;
     private String name;
+    private boolean goNext;
 
     public static Color Starknighttext = new Color(199 / 255f, 199 / 255f, 176 / 255f, 255 / 255f);
     public static Color outlineColor = new Color(40/ 255f, 40/ 255f, 41/ 255f, 1/ 255f);
@@ -30,7 +31,7 @@ public class RectangleButton implements Button {
         this.font = new BitmapFont(); // Default font
         this.font.getData().setScale(7); // Set font scale
         this.name = name;
-
+        this.goNext = false;
     }
 
     @Override
@@ -69,6 +70,16 @@ public class RectangleButton implements Button {
     public boolean isPressed(float touchX, float touchY) {
         // Check if touch coordinates are within the rectangle bounds
         return touchX >= x && touchX <= x + width && touchY >= y && touchY <= y + height;
+    }
+
+    @Override
+    public void setGoNext(boolean goNext) {
+        this.goNext = goNext;
+    }
+
+    @Override
+    public Boolean getGoNext(){
+        return this.goNext;
     }
 
     @Override

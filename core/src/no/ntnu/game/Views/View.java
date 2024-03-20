@@ -19,4 +19,5 @@ public abstract class View {
 
     // dispose method to prevent memory leaks
     public abstract void dispose();
+
 }

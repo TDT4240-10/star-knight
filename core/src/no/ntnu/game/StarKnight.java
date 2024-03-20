@@ -1,10 +1,14 @@
 package no.ntnu.game;
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Button.Button;
+import no.ntnu.game.Button.ButtonFactory;
+import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.GameViewManager;
 import no.ntnu.game.Views.TempMainMenu;
@@ -18,7 +22,7 @@ public class StarKnight extends Game {
 	private Button createRoomButton;
 	private Button joinRoomButton;
 	private SpriteBatch spriteBatch;
-//	private Button menubutton;
+	private Button playButton;
 	FirebaseInterface _FI;
 	private GameViewManager gvm;
 
@@ -50,6 +54,8 @@ public class StarKnight extends Game {
 		// _FI.SomeFunction();
 //		mainMenuScreen = new MainMenuScreen(spriteBatch);
 //		setScreen(mainMenuScreen);
+
+
 
 		gvm.push(new TempMainMenu(gvm));	// push the main menu screen to the stack
 	}

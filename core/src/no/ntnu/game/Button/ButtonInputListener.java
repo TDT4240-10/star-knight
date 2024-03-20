@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import java.util.Objects;
 
 import no.ntnu.game.Button.Button;
+import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 
 public class ButtonInputListener extends InputAdapter {
     private Button button;
@@ -42,6 +43,16 @@ public class ButtonInputListener extends InputAdapter {
                 }
                 break;
             // Add more cases for other buttons if needed
+            case "Play":
+                if (this.button.isPressed(touchX, touchY)) {
+
+                    // Handle button press for Play
+                    System.out.println("Play button pressed");
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    this.button.setGoNext(true);
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
             default:
                 break;
         }
@@ -60,7 +71,7 @@ public class ButtonInputListener extends InputAdapter {
         // Check if the touch is within the button bounds
         if (this.button.isPressed(touchX, touchY)) {
             // Handle button press
-            System.out.println("Button pressed: " + button);
+            System.out.println("Button let go: " + button);
 
             this.button.setColor(Starknight); // For example, change button color when pressed
             return true; // Indicate that the touch event is handled

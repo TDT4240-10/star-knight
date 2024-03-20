@@ -41,23 +41,22 @@ public class ButtonFactory {
         return SettingButton;
     }
 
-    public static Button createJoinRoomButton(float x, float y) {
-        Button joinRoomButton = new RectangleButton(x, y);
-        joinRoomButton.setName("JoinRoom");
-        joinRoomButton.setColor(Starknight);
-        joinRoomButton.setText("Join Room");
-        return joinRoomButton;
-    }
-
     public static Button createCreateRoomButton(float x, float y) {
-        Button createRoomButton = new RectangleButton(x, y);
+        Button createRoomButton = new CircleButton(x, y);
         createRoomButton.setName("CreateRoom");
         createRoomButton.setColor(Starknight);
         createRoomButton.setText("Create Room");
         return createRoomButton;
     }
 
-    // create play button
+    public static Button createJoinRoomButton(float x, float y) {
+        Button joinRoomButton = new CircleButton(x, y);
+        joinRoomButton.setName("JoinRoom");
+        joinRoomButton.setColor(Starknight);
+        joinRoomButton.setText("Join Room");
+        return joinRoomButton;
+    }
+
     public static Button createPlayButton(float x, float y) {
         Button playButton = new RectangleButton(x, y);
         playButton.setName("Play");
@@ -65,4 +64,5 @@ public class ButtonFactory {
         playButton.setText("Play");
         return playButton;
     }
+
 }

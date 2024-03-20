@@ -30,14 +30,14 @@ public class TempMainMenu extends View {
 
     @Override
     public void render(SpriteBatch sb) {
+        playButton = ButtonFactory.createPlayButton(300,700);
+
         // Create input listeners for buttons
         ButtonInputListener menuInputListener = new ButtonInputListener(playButton);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(menuInputListener);
         Gdx.input.setInputProcessor(inputMultiplexer);
-
-        playButton = ButtonFactory.createPlayButton(300,700);
 
         sb.begin();
 
@@ -57,14 +57,17 @@ public class TempMainMenu extends View {
 
         // Render the menu button
         playButton.render(shapeRenderer,spriteBatch);
+        shapeRenderer.end();
     }
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
+        // if the play button is pressed, go to the next screen
+        if (playButton.getGoNext()) {
+            System.out.println("im here");
+            gvm.set(new CreateOrJoinRoomScreen(gvm));
+            dispose();
+        }
     }
 
     @Override
