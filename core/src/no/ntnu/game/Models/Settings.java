@@ -3,16 +3,17 @@ package no.ntnu.game.Models;
 public class Settings {
     private static volatile Settings instance = null;
 
-    // TODO music and sound effects
     // TODO add player information
 
-    // Assumes we are going to be using the Sound class provided by LibGDX
+    // https://libgdx.com/wiki/audio/streaming-music
+    private float music;
     // https://libgdx.com/wiki/audio/sound-effects
-    private float volume;
+    private float sound;
 
     private Settings() {
-        // The volume starts out at full volume
-        volume = 1.0f;
+        // The music starts out at full music
+        music = 1.0f;
+        sound = 1.0f;
     }
 
     public static Settings getInstance() {
@@ -26,9 +27,23 @@ public class Settings {
         return instance;
     }
 
-    public void setVolume(float volume) {
-        if(volume >= 0f && volume <= 1.0f) {
-            this.volume = volume;
+    public float getMusic() {
+        return music;
+    }
+
+    public float getSound() {
+        return sound;
+    }
+
+    public void setMusic(float music) {
+        if(music >= 0f && music <= 1.0f) {
+            this.music = music;
+        }
+    }
+
+    public void setSound(float sound) {
+        if(sound >= 0f && sound <= 1.0f) {
+            this.sound = sound;
         }
     }
 }
