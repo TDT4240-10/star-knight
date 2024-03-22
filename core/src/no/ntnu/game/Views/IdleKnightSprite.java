@@ -12,6 +12,9 @@ public class IdleKnightSprite {
     private TextureRegion[] knightFrames;
     private Sprite knightSprite;
 
+    private int knightHeight;
+    private int knightWidth;
+
     private float stateTime;
     private float x, y; // Position of the sprite
 
@@ -68,8 +71,8 @@ public class IdleKnightSprite {
 
         // Draw the sprite onto the batch
         batch.begin();
-        int knightWidth = currentFrame.getRegionWidth() * 6;
-        int knightHeight = currentFrame.getRegionHeight() * 6;
+        knightWidth = currentFrame.getRegionWidth() * 6;
+        knightHeight = currentFrame.getRegionHeight() * 6;
         batch.draw(currentFrame, x, y, knightWidth, knightHeight);
         batch.end();
 
@@ -78,6 +81,17 @@ public class IdleKnightSprite {
     }
 
     // Additional methods for sprite animation, if needed
+    public void setBounds (float x, float y, float width, float height) {
+        knightSprite.setBounds(x, y, width, height);
+    }
+
+    public int getHeight() {
+        return knightHeight;
+    }
+
+    public int getWidth() {
+        return knightWidth;
+    }
 
     public void dispose() {
         // Dispose of the sprite's texture when no longer needed

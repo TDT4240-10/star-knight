@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Intersector;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
@@ -27,14 +27,19 @@ public class ActiveGame extends Screen {
     private IdleKnightSprite idleKnightSprite;
     private KnightController knightController;
 
+    private SpriteBatch batch;
+
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public ActiveGame(GameScreenManager gvm) {
+    public ActiveGame(GameScreenManager gvm, SpriteBatch batch) {
         super(gvm);
         //logo = new Texture("settings.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+        choppingKnightSprite = new ChoppingKnightSprite();
+        idleKnightSprite = new IdleKnightSprite();
+        knightController = new KnightController(batch);
 
 //        spriteBatch = new SpriteBatch();
     }
@@ -46,12 +51,11 @@ public class ActiveGame extends Screen {
         rightButton = ButtonFactory.createRightArrowButton(850, 250);
 
         //knightController = new KnightController(sb);
-        choppingKnightSprite = new ChoppingKnightSprite();
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController);
-        ButtonInputListener leftArrowInputListener = new ButtonInputListener(leftButton, gvm, knightController);
-        ButtonInputListener rightArrowInputListener = new ButtonInputListener(rightButton, gvm, knightController);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, batch);
+        ButtonInputListener leftArrowInputListener = new ButtonInputListener(leftButton, gvm, knightController, batch);
+        ButtonInputListener rightArrowInputListener = new ButtonInputListener(rightButton, gvm, knightController, batch);
 
 
         // Set input processors
@@ -84,15 +88,14 @@ public class ActiveGame extends Screen {
         leftButton.render(shapeRenderer, sb);
         rightButton.render(shapeRenderer, sb);
 
-//        knightController.setIdlePosition(-80, 500);
-//        knightController.renderIdleKnight(sb);
+        knightController.setIdlePosition(-80, 500);
+        knightController.renderIdleKnight(sb);
 
 //        knightController.setChoppingPosition(-80, 500);
 //        knightController.renderChoppingKnight(sb);
 
-
 //        choppingKnightSprite.setPosition(-80,500);
-        choppingKnightSprite.render(sb);
+//        choppingKnightSprite.render(sb);
 
         shapeRenderer.end();
     }

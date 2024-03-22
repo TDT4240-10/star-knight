@@ -42,10 +42,10 @@ public class MainMenuScreen extends Screen {
         tempPlayButton = ButtonFactory.createTempPlayButton(300,200);
 
         // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null);
-        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null);
-        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null);
-        ButtonInputListener temoPlayInputListener = new ButtonInputListener(tempPlayButton, gvm, null);
+        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, sb);
+        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null, sb);
+        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null, sb);
+        ButtonInputListener temoPlayInputListener = new ButtonInputListener(tempPlayButton, gvm, null, sb);
 
 
         // Set input processors

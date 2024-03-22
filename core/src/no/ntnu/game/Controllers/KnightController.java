@@ -15,7 +15,6 @@ public class KnightController {
     private KnightModel knight;
     private ChoppingKnightSprite choppingKnightSprite;
     private IdleKnightSprite idleKnightSprite;
-
     private SpriteBatch batch;
 
     // Constructor
@@ -42,21 +41,26 @@ public class KnightController {
         System.out.println("knight controller move right");
 
         knight.setDirection("right");
-        disposeIdleKnight();
+//        disposeIdleKnight();
 
-        setChoppingPosition(0, 500);
-        renderChoppingKnight(batch);
-        disposeChoppingKnight();
+//        setChoppingPosition(300, 500);
+//        renderChoppingKnight(batch);
+//        disposeChoppingKnight();
+//
+//        idleKnightSprite = new IdleKnightSprite();
+//        idleKnightSprite.setPosition(800,500);
+        idleKnightSprite.setBounds(800, 500, idleKnightSprite.getWidth() * 6, idleKnightSprite.getHeight() * 6); // Set bounds with scaled dimensions
 
-        idleKnightSprite = new IdleKnightSprite();
-        setIdlePosition(0, 500);
+//        setIdlePosition(800, 500);
         idleKnightSprite.flipDirection();
-        renderIdleKnight(batch);
+//        renderIdleKnight(batch);
     }
 
     public void moveLeft() {
         // switch knight direction and run chopping animation
         knight.setDirection("left");
+        idleKnightSprite.flipDirection();
+
     }
 
     // Getter methods to access knight attributes

@@ -46,7 +46,7 @@ public class GameLobbyScreen extends Screen {
         startGameButton = ButtonFactory.createStartGameButton(300, 700);
 
         // Create input listeners for buttons
-        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null);
+        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(startGameInputListener);

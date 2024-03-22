@@ -64,8 +64,8 @@ public class CreateOrJoinRoomScreen extends Screen {
         createRoomButton = ButtonFactory.createCreateRoomButton(300, 400);
 
         // Create input listeners for buttons
-        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm, null);
-        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm, null);
+        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm, null, sb);
+        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm, null, sb);
 
 
         // Set input processors

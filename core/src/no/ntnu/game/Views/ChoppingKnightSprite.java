@@ -38,7 +38,7 @@ public class ChoppingKnightSprite {
         knightFrames[4] = new TextureRegion(frame4);
         knightFrames[5] = new TextureRegion(frame5);
 
-        knightAnimation = new Animation<>(0.2f, knightFrames); // Frame duration 0.1 seconds
+        knightAnimation = new Animation<>(0.1f, knightFrames); // Frame duration 0.1 seconds
         knightSprite = new Sprite(knightAnimation.getKeyFrame(0));
 
     }
@@ -56,15 +56,16 @@ public class ChoppingKnightSprite {
 
 
     public void render(SpriteBatch batch) {
+        batch.begin();
         // Render the sprite on the screen
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = knightAnimation.getKeyFrame(stateTime, true);
-        System.out.println("render is called " + stateTime + currentFrame);
+//        System.out.println("render is called " + stateTime + currentFrame);
 
 
 
         // Draw the sprite onto the batch with scaling
-        batch.begin();
+
         int knightWidth = currentFrame.getRegionWidth() * 6; // Original width multiplied by scale factor
         int knightHeight = currentFrame.getRegionHeight() * 6; // Original height multiplied by scale factor
         knightSprite.setRegion(currentFrame);
@@ -73,8 +74,11 @@ public class ChoppingKnightSprite {
         batch.end();
     }
 
+    public void setBounds (float x, float y, float width, float height) {
+        knightSprite.setBounds(x, y, width, height);
+    }
 
-    // Additional methods for sprite animation, if needed
+        // Additional methods for sprite animation, if needed
 
     public void dispose() {
         // Dispose of the sprite's texture when no longer needed

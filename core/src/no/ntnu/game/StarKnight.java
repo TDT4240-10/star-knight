@@ -54,6 +54,6 @@ public class StarKnight extends Game {
 	@Override
 	public void dispose () {
 		super.dispose();
-
+		spriteBatch.dispose();
 	}
 }

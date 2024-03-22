@@ -3,6 +3,8 @@ package no.ntnu.game.Button;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sun.tools.javac.Main;
 
 import java.util.Objects;
@@ -22,14 +24,16 @@ public class ButtonInputListener extends InputAdapter {
     private Button button;
     private GameScreenManager gsm;
     private KnightController knightController;
+    private SpriteBatch batch;
 //    private IdleKnightSprite idleKnightSprite;
 //    private ChoppingKnightSprite choppingKnightSprite;
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
-    public ButtonInputListener(Button button, GameScreenManager gsm, KnightController knightController) {
+    public ButtonInputListener(Button button, GameScreenManager gsm, KnightController knightController, SpriteBatch batch) {
         this.button = button;
         this.gsm = gsm;
         this.knightController = knightController;
+        this.batch = batch;
 //        this.idleKnightSprite = idleKnightSprite;
 //        this.choppingKnightSprite = choppingKnightSprite;
     }
@@ -47,8 +51,10 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for LeftArrow
                     System.out.println("LeftArrow button pressed");
-                    this.button.setColor(Starknightdown); // For example, change button color when pressed
-                    return true; // Indicate that the touch event is handled
+                    if (Objects.equals(knightController.getDirection(), "right")) {
+                        // Run chopping animation
+                        knightController.moveLeft();
+                    }                    return true; // Indicate that the touch event is handled
                 }
                 break;
             case "RightArrow":
@@ -56,10 +62,10 @@ public class ButtonInputListener extends InputAdapter {
                     // Handle button press for RightArrow
                     System.out.println("RightArrow button pressed");
 
-//                    if (Objects.equals(knightController.getDirection(), "left")) {
-//                        // Run chopping animation
-//                        knightController.moveRight();
-//                    }
+                    if (Objects.equals(knightController.getDirection(), "left")) {
+                        // Run chopping animation
+                        knightController.moveRight();
+                    }
 
                     return true; // Indicate that the touch event is handled
                 }
@@ -124,7 +130,7 @@ public class ButtonInputListener extends InputAdapter {
             case "TempPlay":
                 if (this.button.isPressed(touchX, touchY)) {
                     System.out.println("Temp Play button pressed, should direct to game screen");
-                    gsm.set(new ActiveGame(gsm));
+                    gsm.set(new ActiveGame(gsm, batch));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
