@@ -91,6 +91,14 @@ public class ButtonFactory {
         return playButton;
     }
 
+    public static Button createTempPlayButton(float x, float y) {
+        Button playButton = new RectangleButton(x, y);
+        playButton.setName("TempPlay");
+        playButton.setColor(Starknight);
+        playButton.setText("Temp Play");
+        return playButton;
+    }
+
     // create start game button
     public static Button createStartGameButton(float x, float y) {
         Button startGameButton = new RectangleButton(x, y);

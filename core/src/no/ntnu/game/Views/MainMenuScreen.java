@@ -17,6 +17,8 @@ public class MainMenuScreen extends Screen {
     BitmapFont font; // Declare the font variable
 
     private Button playButton;
+    private Button tempPlayButton;
+
     private Button tutorialButton;
     private Button rectSettingsButton;
 
@@ -33,14 +35,18 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        playButton = ButtonFactory.createPlayButton(300,900);
-        tutorialButton = ButtonFactory.createTutorialButton(300,600);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,300);
+        playButton = ButtonFactory.createPlayButton(300,1100);
+        tutorialButton = ButtonFactory.createTutorialButton(300,800);
+        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,500);
+
+        tempPlayButton = ButtonFactory.createTempPlayButton(300,200);
 
         // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm);
-        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm);
-        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm);
+        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null);
+        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null);
+        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null);
+        ButtonInputListener temoPlayInputListener = new ButtonInputListener(tempPlayButton, gvm, null);
+
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -48,6 +54,7 @@ public class MainMenuScreen extends Screen {
         inputMultiplexer.addProcessor(menuInputListener);
         inputMultiplexer.addProcessor(tutorialInputListener);
         inputMultiplexer.addProcessor(settingsInputListener);
+        inputMultiplexer.addProcessor(temoPlayInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -70,6 +77,7 @@ public class MainMenuScreen extends Screen {
         playButton.render(shapeRenderer,sb);
         tutorialButton.render(shapeRenderer,sb);
         rectSettingsButton.render(shapeRenderer,sb);
+        tempPlayButton.render(shapeRenderer, sb);
 
         shapeRenderer.end();
     }

@@ -5,9 +5,15 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.sun.tools.javac.Main;
 
+import java.util.Objects;
+
+import no.ntnu.game.Controllers.KnightController;
+import no.ntnu.game.Views.ActiveGame;
+import no.ntnu.game.Views.ChoppingKnightSprite;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.GameLobbyScreen;
 import no.ntnu.game.Views.GameScreenManager;
+import no.ntnu.game.Views.IdleKnightSprite;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
 import no.ntnu.game.Views.TutorialScreen;
@@ -15,11 +21,17 @@ import no.ntnu.game.Views.TutorialScreen;
 public class ButtonInputListener extends InputAdapter {
     private Button button;
     private GameScreenManager gsm;
+    private KnightController knightController;
+//    private IdleKnightSprite idleKnightSprite;
+//    private ChoppingKnightSprite choppingKnightSprite;
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
-    public ButtonInputListener(Button button, GameScreenManager gsm) {
+    public ButtonInputListener(Button button, GameScreenManager gsm, KnightController knightController) {
         this.button = button;
         this.gsm = gsm;
+        this.knightController = knightController;
+//        this.idleKnightSprite = idleKnightSprite;
+//        this.choppingKnightSprite = choppingKnightSprite;
     }
 
 
@@ -43,7 +55,12 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for RightArrow
                     System.out.println("RightArrow button pressed");
-                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+
+//                    if (Objects.equals(knightController.getDirection(), "left")) {
+//                        // Run chopping animation
+//                        knightController.moveRight();
+//                    }
+
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -101,6 +118,13 @@ public class ButtonInputListener extends InputAdapter {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Exit to Main Menu button pressed, color set");
                     gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "TempPlay":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("Temp Play button pressed, should direct to game screen");
+                    gsm.set(new ActiveGame(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
