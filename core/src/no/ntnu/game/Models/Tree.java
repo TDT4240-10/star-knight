@@ -20,7 +20,7 @@ public class Tree {
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
-    private List<TreePart> trees;
+    public List<TreePart> trees;
     private String[] treesPossibility = {"none", "left", "right"};
     private Color trunkColor = new Color(0.647f, 0.455f, 0.208f, 1); // Brown color 1
 
@@ -80,8 +80,10 @@ public class Tree {
                 shapeRenderer.rect(centerX, centerY + i * height, width, height);
 
                 if (treePart.value.equals("left")) {
+                    treePart.setPos(centerX - stemWidth,centerY + i * height + height / 2);
                     shapeRenderer.rect(centerX - stemWidth, centerY + i * height + height / 2, stemWidth, stemHeight);
                 } else if (treePart.value.equals("right")) {
+                    treePart.setPos(centerX + width,centerY + i * height + height / 2);
                     shapeRenderer.rect(centerX + width, centerY + i * height + height / 2, stemWidth, stemHeight);
                 }
 
@@ -91,3 +93,4 @@ public class Tree {
 
         batch.end();
     }
+}

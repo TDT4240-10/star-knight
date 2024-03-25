@@ -1,5 +1,10 @@
-User
+
 package no.ntnu.game.Models;
+
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import org.w3c.dom.Text;
+
 /**
  * Powerup class to create a Powerup  for the game
  *
@@ -9,12 +14,13 @@ public class PowerUp {
     private String name;
     private int duration; // Duration of the power-up in milliseconds
     private boolean isActive;
-
+    public TextureRegion textureRegion;
     // Constructor
-    public PowerUp(String name, int duration) {
+    public PowerUp(String name, int duration, TextureRegion textureRegion) {
         this.name = name;
         this.duration = duration;
         this.isActive = false;
+        this.textureRegion = textureRegion;
     }
 
     // Getter for name

@@ -18,8 +18,9 @@ public class PowerUpFactory {
     }
     // A power will be created randomly
     public static PowerUp createPowerUp() {
+        loadTextures();
         Random random = new Random();
-        int randomIndex = random.nextInt(2) -1; // Adjust the range based on the number of power-up types
+        int randomIndex = random.nextInt(2) ; // Adjust the range based on the number of power-up types
 
         switch (randomIndex) {
             case 0:
@@ -44,9 +45,6 @@ public class PowerUpFactory {
 
     // Method to get the texture region for a specific type of power-up
     private static TextureRegion getTextureRegionForType(String type) {
-        // Logic to determine the texture region for each type
-        // This could involve calculating the coordinates of the sprite in the texture atlas
-        // For simplicity, let's assume each sprite has the same size (32x32) and is arranged in rows
         int index = getIndexForType(type); // Get the index of the sprite for this type
         int rows = 4;
         int spriteWidth = 32;

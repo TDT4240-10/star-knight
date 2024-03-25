@@ -17,7 +17,7 @@ public class TreeWithPowerUp extends Tree {
     private int width = 300;
     float simulatorWidth = Gdx.graphics.getWidth();
     float simulatorHeight = Gdx.graphics.getHeight();
-    
+    float centerX, centerY;
     public TreeWithPowerUp(SpriteBatch batch) {
         super(batch);
         this.batch = batch; // Initialize the SpriteBatch
@@ -30,9 +30,9 @@ public class TreeWithPowerUp extends Tree {
 
         // Add powerups to certain trees
         for (int i = 0; i < trees.size(); i++) {
-            if (i % 3 == 0) { // For example, add powerup to every third tree
+            if (i % 2 == 0) { // For example, add powerup to every 2nd tree so change this to change frequency
                 TreePart treePart = trees.get(i);
-                treePart.setPowerup(createPowerUp.createPowerUp());
+                treePart.setPowerup(PowerUpFactory.createPowerUp());
             }
         }
     }
@@ -40,19 +40,22 @@ public class TreeWithPowerUp extends Tree {
     @Override
     public void draw() {
         super.draw(); // Call the draw method of the superclass
-        float centerX = simulatorWidth / 2 - width / 2;
         int height = 250;
-        float centerY = simulatorHeight / 2 - (trees.size() * height) / 2; // Adjusted to center vertically
 
+        batch.begin();
         //TODO to draw the powerups ono the trees.
+        float minYPosition = 300; // adjust this with the tree to have no error
+
         for (int i = 0; i < trees.size(); i++) {
             TreePart treePart = trees.get(i);
-
-            if (treePart.powerup != null){
-                // Draw the textureRegion at position (x, y)
-                batch.draw(treePart.powerup.textureRegion, centerX, centerY);
+            centerX = treePart.x + 100;
+            centerY = treePart.y;
+            if (centerY > minYPosition) {
+                if (treePart.powerup != null) {
+                    // Draw the textureRegion at position (x, y)
+                    batch.draw(treePart.powerup.textureRegion, centerX, centerY, treePart.powerup.textureRegion.getRegionWidth() * 6, treePart.powerup.textureRegion.getRegionHeight() * 6);
+                }
             }
-
         }
         batch.end();
     }
