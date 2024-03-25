@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Button.Button;
+import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.GameScreenManager;
 import no.ntnu.game.Views.MainMenuScreen;
@@ -23,7 +24,7 @@ public class StarKnight extends Game {
 	private GameScreenManager gvm;
 
 	public StarKnight(FirebaseInterface FI) { _FI = FI; }
-
+	private TreeWithPowerUp tree;
 	@Override
 	public void create () {
 		gvm = new GameScreenManager();
@@ -35,7 +36,10 @@ public class StarKnight extends Game {
 //		mainMenuScreen = new MainMenuScreen(spriteBatch);
 //		setScreen(mainMenuScreen);
 
-		gvm.push(new MainMenuScreen(gvm));	// push the main menu screen to the stack
+		//gvm.push(new MainMenuScreen(gvm));	// push the main menu screen to the stack
+
+		tree = new TreeWithPowerUp(spriteBatch);
+		tree.init();
 	}
 
 	@Override
@@ -43,12 +47,14 @@ public class StarKnight extends Game {
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		gvm.update(Gdx.graphics.getDeltaTime()); // delta time is the time diff between one frame rendered and next frame rendered
-		gvm.render(spriteBatch);
+		//gvm.update(Gdx.graphics.getDeltaTime()); // delta time is the time diff between one frame rendered and next frame rendered
+		//gvm.render(spriteBatch);
 		// Render the left arrow button
 //		leftArrowButton.render(shapeRenderer ,  spriteBatch);
 		// Render the menu button
 //		menubutton.render(shapeRenderer,spriteBatch);
+
+		tree.draw();
 	}
 
 	@Override
