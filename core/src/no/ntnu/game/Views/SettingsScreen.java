@@ -7,6 +7,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
@@ -20,23 +24,59 @@ public class SettingsScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
+
+    private Stage stage;
+
+    private Skin skin;
+
+    private Slider musicSlider;
+
+    private Slider soundSlider;
+
     public SettingsScreen(GameScreenManager gvm) {
+
         super(gvm);
         logo = new Texture("settings.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 //        spriteBatch = new SpriteBatch();
+
+        stage = new Stage();
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        float sliderKnobHeight = 60.0f;
+
+        musicSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+
+        // Only need to change for one slider since they share the same knob
+        musicSlider.getStyle().knob.setMinHeight(sliderKnobHeight);
+
+        soundSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+
+        // Position of sliders
+        musicSlider.setPosition(300, 1050);
+        soundSlider.setPosition(300, 850);
+
+        // Width and height of sliders
+        musicSlider.setSize(500, sliderKnobHeight);
+        soundSlider.setSize(500,sliderKnobHeight);
+
+        stage.addActor(musicSlider);
+        stage.addActor(soundSlider);
+
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(300,900);
+        exitButton = ButtonFactory.createExitButton(300,400);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
 
         inputMultiplexer.addProcessor(exitInputListener);
 
@@ -62,6 +102,11 @@ public class SettingsScreen extends Screen {
         exitButton.render(shapeRenderer,sb);
 
         shapeRenderer.end();
+
+        // draw stage and music slider and sound effects slider
+        stage.act();
+        stage.draw();
+
     }
 
     @Override
@@ -79,5 +124,6 @@ public class SettingsScreen extends Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        stage.dispose(); // Dispose of the stage
     }
 }
