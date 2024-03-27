@@ -46,7 +46,7 @@ public class SettingsScreen extends Screen {
 
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        float sliderKnobHeight = 60.0f;
+        float sliderKnobHeight = 100.0f;
 
         musicSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
@@ -59,9 +59,9 @@ public class SettingsScreen extends Screen {
         musicSlider.setPosition(300, 1050);
         soundSlider.setPosition(300, 850);
 
-        // Width and height of sliders
-        musicSlider.setSize(500, sliderKnobHeight);
-        soundSlider.setSize(500,sliderKnobHeight);
+        // Width of sliders
+        musicSlider.setWidth(500);
+        soundSlider.setWidth(500);
 
         stage.addActor(musicSlider);
         stage.addActor(soundSlider);
