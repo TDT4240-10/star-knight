@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
+import no.ntnu.game.Controllers.SettingsController;
 
 public class SettingsScreen extends Screen {
     private Texture logo;
@@ -32,6 +34,8 @@ public class SettingsScreen extends Screen {
     private Slider musicSlider;
 
     private Slider soundSlider;
+
+    private SettingsController settingsController;
 
     public SettingsScreen(GameScreenManager gvm) {
 
@@ -62,10 +66,27 @@ public class SettingsScreen extends Screen {
         // Width of sliders
         musicSlider.setWidth(500);
         soundSlider.setWidth(500);
+        settingsController = new SettingsController();
+
+        musicSlider.setValue(settingsController.getMusic());
+        soundSlider.setValue(settingsController.getSound());
+
+        // The addListeners methods are AI generated code that has been somewhat modified
+        musicSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                settingsController.setMusic(musicSlider.getValue());
+            }
+        });
+        soundSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                settingsController.setSound(soundSlider.getValue());
+            }
+        });
 
         stage.addActor(musicSlider);
         stage.addActor(soundSlider);
-
     }
 
     @Override
@@ -74,6 +95,7 @@ public class SettingsScreen extends Screen {
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
+
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
