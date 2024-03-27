@@ -6,7 +6,7 @@ public class GameController {
 
     // When the game finish
     // Using notify like we planned would clash with a 'notify()' in 'java.lang.Object'
-    private void endNotification() {
+    private void notifyGameEnded() {
         // TODO
     }
 
