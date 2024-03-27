@@ -5,45 +5,37 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
-import no.ntnu.game.View.MainMenuScreen;
-import com.badlogic.gdx.InputMultiplexer;
+import no.ntnu.game.Views.CreateOrJoinRoomScreen;
+import no.ntnu.game.Views.GameScreenManager;
+import no.ntnu.game.Views.MainMenuScreen;
 
 
 public class StarKnight extends Game {
-	MainMenuScreen mainMenuScreen;
+	//	MainMenuScreen mainMenuScreen;
+	CreateOrJoinRoomScreen createOrJoinRoomScreen;
 	private ShapeRenderer shapeRenderer;
 	private Button leftArrowButton;
+	private Button createRoomButton;
+	private Button joinRoomButton;
 	private SpriteBatch spriteBatch;
-	private Button menubutton;
+	//	private Button menubutton;
 	FirebaseInterface _FI;
+	private GameScreenManager gvm;
 
 	public StarKnight(FirebaseInterface FI) { _FI = FI; }
+
 	@Override
 	public void create () {
-
+		gvm = new GameScreenManager();
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
-		// Create a left arrow button using the factory method this is where u specific the direction
-		leftArrowButton = ButtonFactory.createLeftArrowButton(200, 200);
-		menubutton = ButtonFactory.createMenuButton(300,1400,"Play");
-
-		// Create input listeners for buttons
-		ButtonInputListener leftArrowInputListener = new ButtonInputListener(leftArrowButton);
-		ButtonInputListener menuInputListener = new ButtonInputListener(menubutton);
-		// Set input processors
-		InputMultiplexer inputMultiplexer = new InputMultiplexer();
-		inputMultiplexer.addProcessor(leftArrowInputListener);
-		inputMultiplexer.addProcessor(menuInputListener);
-		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		// TODO: Initialize Database references
 		// _FI.SomeFunction();
-		mainMenuScreen = new MainMenuScreen(spriteBatch);
-		setScreen(mainMenuScreen);
+//		mainMenuScreen = new MainMenuScreen(spriteBatch);
+//		setScreen(mainMenuScreen);
 
-
+		gvm.push(new MainMenuScreen(gvm));	// push the main menu screen to the stack
 	}
 
 	@Override
@@ -51,18 +43,17 @@ public class StarKnight extends Game {
 		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		gvm.update(Gdx.graphics.getDeltaTime()); // delta time is the time diff between one frame rendered and next frame rendered
+		gvm.render(spriteBatch);
 		// Render the left arrow button
-		leftArrowButton.render(shapeRenderer ,  spriteBatch);
+//		leftArrowButton.render(shapeRenderer ,  spriteBatch);
 		// Render the menu button
-		menubutton.render(shapeRenderer,spriteBatch);
-		shapeRenderer.end();
-
-
+//		menubutton.render(shapeRenderer,spriteBatch);
 	}
 
 	@Override
 	public void dispose () {
-		shapeRenderer.dispose();
+		super.dispose();
 
 	}
 }

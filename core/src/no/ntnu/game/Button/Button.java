@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public interface Button {
 
+
     void render(ShapeRenderer shapeRenderer, SpriteBatch batch);
     boolean isPressed(float touchX, float touchY);
 
@@ -20,4 +21,8 @@ public interface Button {
     void setColor(Color color);
 
     void setText(String text);
+
+    void setName(String name);
+
+    String getName();
 }

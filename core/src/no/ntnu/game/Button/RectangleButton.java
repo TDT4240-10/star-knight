@@ -17,6 +17,8 @@ public class RectangleButton implements Button {
     private boolean isPressed;
     private BitmapFont font;
     private String text;
+    private String name;
+
     public static Color Starknighttext = new Color(199 / 255f, 199 / 255f, 176 / 255f, 255 / 255f);
     public static Color outlineColor = new Color(40/ 255f, 40/ 255f, 41/ 255f, 1/ 255f);
     public RectangleButton(float x, float y) {
@@ -27,6 +29,8 @@ public class RectangleButton implements Button {
         isPressed = false;
         this.font = new BitmapFont(); // Default font
         this.font.getData().setScale(7); // Set font scale
+        this.name = name;
+
     }
 
     @Override
@@ -81,5 +85,16 @@ public class RectangleButton implements Button {
     @Override
     public void setText(String text) {
         this.text = text;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+
+    }
+
+    @Override
+    public String getName(){
+        return this.name;
     }
 }
