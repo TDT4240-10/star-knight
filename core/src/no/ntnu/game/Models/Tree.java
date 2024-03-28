@@ -17,7 +17,6 @@ import java.util.List;
  * @author Jeff
  */
 public class Tree {
-    private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     public List<TreePart> trees;
@@ -35,11 +34,10 @@ public class Tree {
     private int minYPosition = 300; // adjust this for space for character
 
     //here creates the tree object which includes stage that is to render the tree.
-    public Tree(SpriteBatch batch) {
-        this.batch = batch;
+    public Tree() {
         float simulatorWidth = Gdx.graphics.getWidth();
         float simulatorHeight = Gdx.graphics.getHeight();
-        stage = new Stage(new FitViewport(simulatorWidth, simulatorHeight), batch);
+        stage = new Stage(new FitViewport(simulatorWidth, simulatorHeight));
         shapeRenderer = new ShapeRenderer();
         trees = new ArrayList<>();
     }
@@ -62,7 +60,7 @@ public class Tree {
     }
 
     //this is where how the trees are drawn.
-    public void draw() {
+    public void draw(SpriteBatch batch) {
 
         batch.begin();
         float centerX = stage.getWidth() / 2 - width / 2;

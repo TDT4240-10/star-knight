@@ -16,6 +16,8 @@ public class GameScreen extends Screen {
 
         gameController = new GameController();
 
+        tree = new TreeWithPowerUp();
+        tree.init();
     }
 
     @Override
@@ -30,9 +32,7 @@ public class GameScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        tree = new TreeWithPowerUp(sb);
-        tree.init();
-        tree.draw();
+        tree.draw(sb);
     }
 
     @Override

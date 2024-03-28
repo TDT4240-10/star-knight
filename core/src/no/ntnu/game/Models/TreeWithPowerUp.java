@@ -18,9 +18,8 @@ public class TreeWithPowerUp extends Tree {
     float simulatorWidth = Gdx.graphics.getWidth();
     float simulatorHeight = Gdx.graphics.getHeight();
     float centerX, centerY;
-    public TreeWithPowerUp(SpriteBatch batch) {
-        super(batch);
-        this.batch = batch; // Initialize the SpriteBatch
+    public TreeWithPowerUp() {
+        super();
     }
 
     // Override init method to include powerups
@@ -38,8 +37,8 @@ public class TreeWithPowerUp extends Tree {
     }
 
     @Override
-    public void draw() {
-        super.draw(); // Call the draw method of the superclass
+    public void draw(SpriteBatch batch) {
+        super.draw(batch); // Call the draw method of the superclass
         int height = 250;
 
         batch.begin();
