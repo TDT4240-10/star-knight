@@ -3,11 +3,11 @@ package no.ntnu.game.Button;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.sun.tools.javac.Main;
 
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.GameLobbyScreen;
 import no.ntnu.game.Views.GameScreenManager;
+import no.ntnu.game.Views.GameScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
 import no.ntnu.game.Views.TutorialScreen;
@@ -75,7 +75,7 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Start Game button pressed, color set");
-                    gsm.set(new MainMenuScreen(gsm));
+                    gsm.set(new GameScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
