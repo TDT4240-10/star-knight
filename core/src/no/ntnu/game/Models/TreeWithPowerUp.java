@@ -1,6 +1,7 @@
 package no.ntnu.game.Models;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Null;
 
@@ -18,6 +19,8 @@ public class TreeWithPowerUp extends Tree {
     float simulatorWidth = Gdx.graphics.getWidth();
     float simulatorHeight = Gdx.graphics.getHeight();
     float centerX, centerY;
+    private int powerUpFrequency;
+    private int countTowardsNextPowerUp;
     public TreeWithPowerUp() {
         super();
     }
@@ -27,9 +30,12 @@ public class TreeWithPowerUp extends Tree {
     public void init() {
         super.init(); // Call the init method of the superclass
 
+        powerUpFrequency = 2;
+        countTowardsNextPowerUp = 0;
+
         // Add powerups to certain trees
         for (int i = 0; i < trees.size(); i++) {
-            if (i % 2 == 0) { // For example, add powerup to every 2nd tree so change this to change frequency
+            if (i % powerUpFrequency == 0) { // For example, add powerup to every 2nd tree so change this to change frequency
                 TreePart treePart = trees.get(i);
                 treePart.setPowerup(PowerUpFactory.createPowerUp());
             }
@@ -57,5 +63,23 @@ public class TreeWithPowerUp extends Tree {
             }
         }
         batch.end();
+    }
+
+    @Override
+    public void createNewTrunk() {
+        if(powerUpFrequency != countTowardsNextPowerUp){
+            super.createNewTrunk();
+            countTowardsNextPowerUp += 1;
+        }
+        else {
+            String newTrunk = trees.get(trees.size() - 1).value.equals("left") ? "right" : "left";
+            Color color = (trees.get(trees.size() - 1).color.equals(trunkColor)) ? TreeColor1 : TreeColor2;
+
+            TreePart treePart = new TreePart(newTrunk, color);
+            treePart.setPowerup(PowerUpFactory.createPowerUp());
+            trees.add(treePart);
+            countTowardsNextPowerUp = 0;
+        }
+
     }
 }

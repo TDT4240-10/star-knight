@@ -21,11 +21,11 @@ public class Tree {
     private Stage stage;
     public List<TreePart> trees;
     private String[] treesPossibility = {"none", "left", "right"};
-    private Color trunkColor = new Color(0.647f, 0.455f, 0.208f, 1); // Brown color 1
+    protected Color trunkColor = new Color(0.647f, 0.455f, 0.208f, 1); // Brown color 1
 
-    private Color TreeColor1 = new Color(0.765f, 0.556f, 0.208f, 1); //tree color 1
+    protected Color TreeColor1 = new Color(0.765f, 0.556f, 0.208f, 1); //tree color 1
 
-    private Color TreeColor2 = new Color(0.8f, 0.556f, 0.208f, 1); //tree color 2
+    protected Color TreeColor2 = new Color(0.8f, 0.556f, 0.208f, 1); //tree color 2
 
     private int stemWidth = 300;
     private int stemHeight = 100;
@@ -50,6 +50,10 @@ public class Tree {
             Color color = (i % 2 == 0) ?TreeColor1 : TreeColor2;
             trees.add(new TreePart(newTrunk, color));
         }
+    }
+
+    public void chop(){
+        trees.remove(0);
     }
 
     // this function is used in the controller for the game to create new tree each time we chop one.

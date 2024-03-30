@@ -23,6 +23,8 @@ public class GameScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
 
+    private float temp = 0;
+
     public GameScreen(GameScreenManager gvm) {
         super(gvm);
 
@@ -42,6 +44,13 @@ public class GameScreen extends Screen {
     @Override
     public void update(float dt) {
 
+        temp += dt;
+        if(temp > 1) {
+
+            tree.chop();
+            tree.createNewTrunk();
+            temp = 0;
+        }
     }
 
     @Override
