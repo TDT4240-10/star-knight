@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import no.ntnu.game.firestore.GameRoom;
+import no.ntnu.game.firestore.Player;
+
 public class Game extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
@@ -15,9 +18,16 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		Player player = new Player("HOHOHO");
+		GameRoom room = new GameRoom(player);
+		_FI.joinRoom("PNMJ", player, new JoinRoomCallback() {
+			@Override
+			public void onCallback(GameRoom room) {
+				_FI.SerializeClass(room);
+				System.out.println("Joined room");
+			}
+		});
 
-		// TODO: Initialize Database references
-		// _FI.SomeFunction();
 	}
 
 	@Override

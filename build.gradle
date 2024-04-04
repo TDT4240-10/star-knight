@@ -48,6 +48,14 @@ project(":desktop") {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        // Import the BoM for the Firebase platform
+        implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+
+        // When using the BoM, you don't specify versions in Firebase library dependencies
+        // Add the dependency for the Realtime Database library
+        implementation("com.google.firebase:firebase-database")
+        // Declare the dependency for the Cloud Firestore library
+        implementation("com.google.firebase:firebase-firestore")
         
     }
 }
@@ -82,6 +90,14 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        // Import the BoM for the Firebase platform
+        implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+
+        // When using the BoM, you don't specify versions in Firebase library dependencies
+        // Add the dependency for the Realtime Database library
+        implementation("com.google.firebase:firebase-database")
+        // Declare the dependency for the Cloud Firestore library
+        implementation("com.google.firebase:firebase-firestore")
         
     }
 }
