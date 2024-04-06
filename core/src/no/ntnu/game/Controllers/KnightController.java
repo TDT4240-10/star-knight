@@ -1,6 +1,7 @@
 package no.ntnu.game.Controllers;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,20 +16,23 @@ public class KnightController {
     private KnightModel knight;
     private ChoppingKnightSprite choppingKnightSprite;
     private IdleKnightSprite idleKnightSprite;
-    private SpriteBatch batch;
+    private int idleX;
+    private int idleY;
+
+    private int phoneWidth;
+    private float animationDuration = 0.5f; // Example duration in seconds
+    private boolean choppingAnimationActive = false;
+    private float elapsedTime = 0;
+
 
     // Constructor
-    public KnightController(SpriteBatch batch) {
+    public KnightController(int idleX, int idleY) {
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
         knight.setDirection("left");
-        this.batch = batch;
-
-    }
-
-    public void setIdleKnightSpritePosition(int x, int y) {
-        idleKnightSprite.setPosition(x, y);
+        this.idleX = idleX;
+        this.idleY = idleY;
     }
 
     public void setChoppingKnightSpritePosition(int x, int y) {
@@ -36,31 +40,51 @@ public class KnightController {
     }
 
     // Methods to interact with the knight
-    public void moveRight() {
+    public void moveRight(SpriteBatch sb) {
         // switch knight direction and run chopping animation
-        System.out.println("knight controller move right");
-
         knight.setDirection("right");
-//        disposeIdleKnight();
-
-//        setChoppingPosition(300, 500);
-//        renderChoppingKnight(batch);
-//        disposeChoppingKnight();
-//
-//        idleKnightSprite = new IdleKnightSprite();
-//        idleKnightSprite.setPosition(800,500);
-        idleKnightSprite.setBounds(800, 500, idleKnightSprite.getWidth() * 6, idleKnightSprite.getHeight() * 6); // Set bounds with scaled dimensions
-
-//        setIdlePosition(800, 500);
+        idleKnightSprite.setPosition(-99999,-99999);
         idleKnightSprite.flipDirection();
-//        renderIdleKnight(batch);
+
+        phoneWidth = Gdx.graphics.getWidth();
+        idleX = phoneWidth / 2 + idleX;
+
+        choppingKnightSprite.setPosition(idleX, idleY);
+        choppingKnightSprite.flipDirection();
+
+        choppingAnimationActive = true;
+        elapsedTime = 0;
     }
 
     public void moveLeft() {
+
         // switch knight direction and run chopping animation
         knight.setDirection("left");
+        idleKnightSprite.setPosition(-99999,-99999);
         idleKnightSprite.flipDirection();
 
+        idleX = idleX - (phoneWidth / 2);
+
+        choppingKnightSprite.setPosition(idleX, idleY);
+        choppingKnightSprite.flipDirection();
+
+        choppingAnimationActive = true;
+        elapsedTime = 0;
+    }
+
+    public void update(float delta) {
+        if (choppingAnimationActive) {
+            elapsedTime += delta;
+            choppingKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
+
+            if (elapsedTime >= animationDuration) {
+                choppingAnimationActive = false;
+                elapsedTime = 0;
+
+                choppingKnightSprite.setPosition(-99999,-99999);
+                idleKnightSprite.setPosition(idleX, idleY);
+            }
+        }
     }
 
     // Getter methods to access knight attributes

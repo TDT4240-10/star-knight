@@ -27,8 +27,6 @@ public class ActiveGame extends Screen {
     private IdleKnightSprite idleKnightSprite;
     private KnightController knightController;
 
-    private SpriteBatch batch;
-
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
     public ActiveGame(GameScreenManager gvm, SpriteBatch batch) {
@@ -39,7 +37,12 @@ public class ActiveGame extends Screen {
         shapeRenderer = new ShapeRenderer();
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
-        knightController = new KnightController(batch);
+        knightController = new KnightController(-80, 500);
+
+        knightController.setIdlePosition(-80, 500);
+        knightController.setChoppingPosition(-99999, -99999);
+
+
 
 //        spriteBatch = new SpriteBatch();
     }
@@ -53,9 +56,9 @@ public class ActiveGame extends Screen {
         //knightController = new KnightController(sb);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, batch);
-        ButtonInputListener leftArrowInputListener = new ButtonInputListener(leftButton, gvm, knightController, batch);
-        ButtonInputListener rightArrowInputListener = new ButtonInputListener(rightButton, gvm, knightController, batch);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, sb);
+        ButtonInputListener leftArrowInputListener = new ButtonInputListener(leftButton, gvm, knightController, sb);
+        ButtonInputListener rightArrowInputListener = new ButtonInputListener(rightButton, gvm, knightController, sb);
 
 
         // Set input processors
@@ -88,8 +91,13 @@ public class ActiveGame extends Screen {
         leftButton.render(shapeRenderer, sb);
         rightButton.render(shapeRenderer, sb);
 
-        knightController.setIdlePosition(-80, 500);
+        knightController.update(Gdx.graphics.getDeltaTime());
+
+
         knightController.renderIdleKnight(sb);
+        knightController.renderChoppingKnight(sb);
+
+
 
 //        knightController.setChoppingPosition(-80, 500);
 //        knightController.renderChoppingKnight(sb);

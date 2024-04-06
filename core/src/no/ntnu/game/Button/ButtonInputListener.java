@@ -64,7 +64,7 @@ public class ButtonInputListener extends InputAdapter {
 
                     if (Objects.equals(knightController.getDirection(), "left")) {
                         // Run chopping animation
-                        knightController.moveRight();
+                        knightController.moveRight(batch);
                     }
 
                     return true; // Indicate that the touch event is handled

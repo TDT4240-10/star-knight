@@ -60,18 +60,15 @@ public class ChoppingKnightSprite {
         // Render the sprite on the screen
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = knightAnimation.getKeyFrame(stateTime, true);
-//        System.out.println("render is called " + stateTime + currentFrame);
-
-
 
         // Draw the sprite onto the batch with scaling
-
         int knightWidth = currentFrame.getRegionWidth() * 6; // Original width multiplied by scale factor
         int knightHeight = currentFrame.getRegionHeight() * 6; // Original height multiplied by scale factor
         knightSprite.setRegion(currentFrame);
         knightSprite.setBounds(x, y, knightWidth, knightHeight); // Set bounds with scaled dimensions
         knightSprite.draw(batch);
         batch.end();
+
     }
 
     public void setBounds (float x, float y, float width, float height) {
