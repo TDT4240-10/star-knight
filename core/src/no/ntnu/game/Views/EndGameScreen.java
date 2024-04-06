@@ -7,97 +7,77 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
-public class GameLobbyScreen extends Screen {
-    private Stage stage;
-    private TextField textField;
-    private Skin skin; // libGDX skins provide styling for UI widgets
-
-    private SpriteBatch batch;
-//    private ShapeRenderer shapeRenderer;
-
+public class EndGameScreen extends Screen {
     private Texture logo;
-
     BitmapFont font; // Declare the font variable
+
+    private Button exitButton;
+
     private ShapeRenderer shapeRenderer;
-    private SpriteBatch spriteBatch;
-
-    private Button startGameButton;
-
-    public GameLobbyScreen(GameScreenManager gvm) {
+    //    private SpriteBatch spriteBatch;
+    public EndGameScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("starknight_logo.png");
+        logo = new Texture("settings.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-
+//        spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        // display start game button at the bottom
-        startGameButton = ButtonFactory.createStartGameButton(300, 700);
+        exitButton = ButtonFactory.createExitButton(300,900);
 
         // Create input listeners for buttons
-        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(startGameInputListener);
+
+        inputMultiplexer.addProcessor(exitInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        // display logo
-        sb.begin();
+
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        // draw logo
+
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
+
+        sb.begin();
         sb.draw(logo, logoX, logoY);
-
-        // display room id and player list in the middle
-        font.setColor(0, 0, 0, 1);
-        font.draw(sb, "Room ID: 123456", 350, 1330);
-        font.draw(sb, "Players: ", 450, 1230);
-
         sb.end();
 
+        // Render the menu button
+        exitButton.render(shapeRenderer,sb);
 
-
-        // render start game button
-        startGameButton.render(shapeRenderer, sb);
         shapeRenderer.end();
-
-
     }
 
     @Override
     protected void handleInput() {
-
+        // if play button is pressed, go to CreateOrJoinRoomScreen
+//        if(playButton.isPressed()){
+//            gvm.set(new CreateOrJoinRoomScreen(gvm));
+//        }
     }
 
     @Override
     public void update(float dt) {
 
     }
-
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-        logo.dispose();
-        System.out.println("Game Lobby View Disposed");
-
     }
 }

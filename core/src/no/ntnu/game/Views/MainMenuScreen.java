@@ -22,7 +22,7 @@ public class MainMenuScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public MainMenuScreen(GameScreenManager gvm) {
+    public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
@@ -33,9 +33,10 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        playButton = ButtonFactory.createPlayButton(300,900);
-        tutorialButton = ButtonFactory.createTutorialButton(300,600);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,300);
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        playButton = ButtonFactory.createPlayButton(CENTER_BUTTON_X,900);
+        tutorialButton = ButtonFactory.createTutorialButton(CENTER_BUTTON_X,600);
+        rectSettingsButton = ButtonFactory.createRectSettingsButton(CENTER_BUTTON_X,300);
 
         // Create input listeners for buttons
         ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm);

@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
 
+import no.ntnu.game.Views.ChooseGameModeScreen;
+import no.ntnu.game.Views.CreateGameLobbyScreen;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
-import no.ntnu.game.Views.GameLobbyScreen;
-import no.ntnu.game.Views.GameScreenManager;
+//import no.ntnu.game.Views.GameLobbyScreen;
+import no.ntnu.game.Views.JoinGameLobbyScreen;
+import no.ntnu.game.Views.ScreenManager;
 import no.ntnu.game.Views.GameScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
@@ -14,10 +17,10 @@ import no.ntnu.game.Views.TutorialScreen;
 
 public class ButtonInputListener extends InputAdapter {
     private Button button;
-    private GameScreenManager gsm;
+    private ScreenManager gsm;
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
-    public ButtonInputListener(Button button, GameScreenManager gsm) {
+    public ButtonInputListener(Button button, ScreenManager gsm) {
         this.button = button;
         this.gsm = gsm;
     }
@@ -51,6 +54,8 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Starknightdown); // For example, change button color when pressed
                     System.out.println("Play button pressed, color set");
+                    // TODO start should bring you to the selection of game mode instead of GameScreen
+//                    gsm.set(new ChooseGameModeScreen(gsm));
                     gsm.set(new CreateOrJoinRoomScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
@@ -59,7 +64,7 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Join Room button pressed, color set");
-                    gsm.set(new GameLobbyScreen(gsm));
+                    gsm.set(new JoinGameLobbyScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -67,7 +72,8 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Create Room button pressed, color set");
-                    gsm.set(new GameLobbyScreen(gsm));
+                    // todo create lobby screen
+                    gsm.set(new CreateGameLobbyScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;

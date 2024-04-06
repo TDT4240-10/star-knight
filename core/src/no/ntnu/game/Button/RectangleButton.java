@@ -24,7 +24,7 @@ public class RectangleButton implements Button {
     public RectangleButton(float x, float y) {
         this.x = x;
         this.y = y;
-        this.width = 500; // Default width
+        this.width = 300; // Default width
         this.height = 200; // Default height
         isPressed = false;
         this.font = new BitmapFont(); // Default font
@@ -56,6 +56,13 @@ public class RectangleButton implements Button {
         font.setColor(Starknighttext); // Set font color
         GlyphLayout layout = new GlyphLayout(); // Used to calculate text width
         layout.setText(font, text); // Set text for button
+
+        // check if the text is too long for the button. if it is, scale it down into the rectangle
+        while (layout.width > width) {
+            font.getData().setScale(font.getData().scaleX - 0.1f);
+            layout.setText(font, text);
+        }
+
         // Calculate the position to center the text within the inner rectangle
         float textX = x + (width - layout.width) / 2f;
         float textY = y + (height + layout.height) / 2f;

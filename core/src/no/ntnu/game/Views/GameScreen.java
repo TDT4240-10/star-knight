@@ -25,7 +25,7 @@ public class GameScreen extends Screen {
 
     private float temp = 0;
 
-    public GameScreen(GameScreenManager gvm) {
+    public GameScreen(ScreenManager gvm) {
         super(gvm);
 
         gameController = new GameController();

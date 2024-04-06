@@ -7,18 +7,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-
-
-public class CreateOrJoinRoomScreen extends Screen {
-
+public class JoinGameLobbyScreen extends Screen {
     private Stage stage;
     private TextField textField;
     private Skin skin; // libGDX skins provide styling for UI widgets
@@ -27,58 +24,38 @@ public class CreateOrJoinRoomScreen extends Screen {
 //    private ShapeRenderer shapeRenderer;
 
     private Texture logo;
+    private Texture waitingForHostToStart;
 
     BitmapFont font; // Declare the font variable
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
 
-    private Button createRoomButton;
+    private Button exitButton;
 
-    private Button joinRoomButton;
-
-    // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
-    // there will be two buttons, one for creating a room and one for joining a room.
-
-    public CreateOrJoinRoomScreen(ScreenManager gvm) {
+    public JoinGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-
-        stage = new Stage();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-
-        // create text field
-        textField = new TextField("", skin);
-        textField.setPosition(300, 1050);
-        textField.setSize(500, 150);
-
-        stage.addActor(textField);
+        waitingForHostToStart = new Texture("waiting_for_host_to_start.png");
     }
-
-
 
     @Override
     public void render(SpriteBatch sb) {
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        joinRoomButton = ButtonFactory.createJoinRoomButton(CENTER_BUTTON_X, 700);
-        createRoomButton = ButtonFactory.createCreateRoomButton(CENTER_BUTTON_X, 400);
+
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 300);
 
         // Create input listeners for buttons
-        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm);
-        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm);
-
-
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
-
-        inputMultiplexer.addProcessor(createRoomInputListner);
-        inputMultiplexer.addProcessor(joinRoomInputListner);
+        inputMultiplexer.addProcessor(exitInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
+        // display logo
         sb.begin();
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -92,25 +69,44 @@ public class CreateOrJoinRoomScreen extends Screen {
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.draw(logo, logoX, logoY);
 
-        font.draw(sb, "Enter your unique room ID!", 300, 1000);
+        // display room id and player list in the middle
+        font.setColor(0, 0, 0, 1);
+        font.draw(sb, "Room ID: 123456", 350, 1330);
+        font.draw(sb, "Players: ", 450, 1230);
+
         sb.end();
 
-        // render both buttons
-        createRoomButton.render(shapeRenderer, sb);
-        joinRoomButton.render(shapeRenderer, sb);
-        shapeRenderer.end();
+        // render waiting for host to start
+        sb.begin();
+        float waitingForHostToStartWidth = waitingForHostToStart.getWidth();
+        float waitingForHostToStartHeight = waitingForHostToStart.getHeight();
 
-        // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        // Calculate the scale factor to fit the texture to the screen
+        float scale = Math.min(screenWidth / waitingForHostToStartWidth, screenHeight / waitingForHostToStartHeight);
+
+        // Calculate the new width and height of the texture
+        float newWidth = waitingForHostToStartWidth * scale * 0.95f;
+        float newHeight = waitingForHostToStartHeight * scale * 0.95f;
+
+        // Calculate the new position to center the texture on the screen
+        float waitingForHostToStartX = (screenWidth - newWidth) / 2;
+        float waitingForHostToStartY = (screenHeight - newHeight) * 0.27f;
+
+        // Draw the texture with the new size and position
+        sb.draw(waitingForHostToStart, waitingForHostToStartX, waitingForHostToStartY, newWidth, newHeight);
+        sb.end();
+
+        // render exit button
+        exitButton.render(shapeRenderer, sb);
     }
 
     @Override
     protected void handleInput() {
+
     }
 
     @Override
-    public void update(float dt){
+    public void update(float dt) {
 
     }
 
@@ -118,9 +114,7 @@ public class CreateOrJoinRoomScreen extends Screen {
     public void dispose() {
         shapeRenderer.dispose();
         logo.dispose();
-        stage.dispose(); // Dispose of the stage
-        System.out.println("Create or Join Room View Disposed");
+        System.out.println("Game Lobby View Disposed");
+
     }
-
-
 }

@@ -20,7 +20,7 @@ public class SettingsScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public SettingsScreen(GameScreenManager gvm) {
+    public SettingsScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("settings.png");
         font = new BitmapFont(); // Load the font
@@ -31,7 +31,8 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(300,900);
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,900);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
