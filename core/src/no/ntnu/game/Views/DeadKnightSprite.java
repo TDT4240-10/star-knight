@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * Dead Knight Sprite View class to render dead knight animation
+ *
+ * @author Han
+ */
 public class DeadKnightSprite {
     private Animation<TextureRegion> knightAnimation;
     private TextureRegion[] knightFrames;

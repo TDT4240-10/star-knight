@@ -12,6 +12,11 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
+/**
+ * Main Menu View class to render main menu screen
+ *
+ * @author Han
+ */
 public class MainMenuScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable

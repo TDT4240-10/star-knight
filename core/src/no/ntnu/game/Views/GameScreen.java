@@ -14,6 +14,11 @@ import no.ntnu.game.Controllers.GameController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.TreeWithPowerUp;
 
+/**
+ * Game Screen View class to render StarKnight game
+ *
+ * @author Han
+ */
 public class GameScreen extends Screen {
 
     private GameController gameController;

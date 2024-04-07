@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * Idle Knight Sprite View class to render idle knight animation
+ *
+ * @author Han
+ */
 public class IdleKnightSprite {
     private Animation<TextureRegion> knightAnimation;
     private TextureRegion[] knightFrames;
@@ -24,16 +29,16 @@ public class IdleKnightSprite {
         y = 0;
 
         // Load the textures from file
-        Texture frame0= new Texture("idle_frame0.png");
-        Texture frame1 = new Texture("idle_frame1.png");
-        Texture frame2 = new Texture("idle_frame2.png");
-        Texture frame3 = new Texture("idle_frame3.png");
-        Texture frame4 = new Texture("idle_frame4.png");
-        Texture frame5 = new Texture("idle_frame5.png");
-        Texture frame6 = new Texture("idle_frame5.png");
-        Texture frame7 = new Texture("idle_frame7.png");
-        Texture frame8 = new Texture("idle_frame8.png");
-        Texture frame9 = new Texture("idle_frame9.png");
+        Texture frame0= new Texture("idle_frames/idle_frame0.png");
+        Texture frame1 = new Texture("idle_frames/idle_frame1.png");
+        Texture frame2 = new Texture("idle_frames/idle_frame2.png");
+        Texture frame3 = new Texture("idle_frames/idle_frame3.png");
+        Texture frame4 = new Texture("idle_frames/idle_frame4.png");
+        Texture frame5 = new Texture("idle_frames/idle_frame5.png");
+        Texture frame6 = new Texture("idle_frames/idle_frame5.png");
+        Texture frame7 = new Texture("idle_frames/idle_frame7.png");
+        Texture frame8 = new Texture("idle_frames/idle_frame8.png");
+        Texture frame9 = new Texture("idle_frames/idle_frame9.png");
 
         knightFrames = new TextureRegion[10];
         knightFrames[0] = new TextureRegion(frame0);
