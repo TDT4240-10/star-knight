@@ -51,6 +51,9 @@ public class ButtonInputListener extends InputAdapter {
                         // Run chopping animation
                         knightController.moveLeft();
                     }
+                    else {
+                        knightController.stayLeft();
+                    }
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -61,7 +64,10 @@ public class ButtonInputListener extends InputAdapter {
 
                     if (Objects.equals(knightController.getDirection(), "left")) {
                         // Run chopping animation
-                        knightController.moveRight(batch);
+                        knightController.moveRight();
+                    }
+                    else {
+                        knightController.stayRight();
                     }
 
                     return true; // Indicate that the touch event is handled

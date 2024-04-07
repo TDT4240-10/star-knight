@@ -10,6 +10,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 /**
  * Tree class to create a tree with branch for the game
  * Should use the list of trees to remove the tree one by one when it chops **
@@ -26,6 +28,11 @@ public class Tree {
     protected Color TreeColor1 = new Color(0.765f, 0.556f, 0.208f, 1); //tree color 1
 
     protected Color TreeColor2 = new Color(0.8f, 0.556f, 0.208f, 1); //tree color 2
+
+    private Color[] colorPossibility = {TreeColor1, TreeColor2};
+
+    private String newTrunk;
+
 
     private int stemWidth = 300;
     private int stemHeight = 100;
@@ -44,11 +51,22 @@ public class Tree {
 
     //so it always initialise a basic number of tree and the color is either 1 or 2
     public void init() {
-        for (int i = 1; i <= starterTree; i++) {
+        trees.add(new TreePart("none", TreeColor1));
+        trees.add(new TreePart("none", TreeColor1));
+        trees.add(new TreePart("none", TreeColor1));
+        for (int i = 1; i <= starterTree - 3; i++) {
+            if (Objects.equals(trees.get(trees.size() - 1).getValue(), "left") ||
+                    Objects.equals(trees.get(trees.size() - 1).getValue(), "right")) {
+                newTrunk = "none";
+
+            }
+            else {
+                newTrunk = treesPossibility[MathUtils.random(2)];
+            }
             // the string is where we decide to have branch on left or right.
-            String newTrunk = treesPossibility[MathUtils.random(2)];
             Color color = (i % 2 == 0) ?TreeColor1 : TreeColor2;
             trees.add(new TreePart(newTrunk, color));
+
         }
     }
 
@@ -58,8 +76,20 @@ public class Tree {
 
     // this function is used in the controller for the game to create new tree each time we chop one.
     public void createNewTrunk() {
-        String newTrunk = trees.get(trees.size() - 1).value.equals("left") ? "right" : "left";
-        Color color = (trees.get(trees.size() - 1).color.equals(trunkColor)) ? TreeColor1 : TreeColor2;
+
+
+        if (Objects.equals(trees.get(trees.size() - 1).getValue(), "left") ||
+                Objects.equals(trees.get(trees.size() - 1).getValue(), "right")) {
+            newTrunk = "none";
+
+        }
+        else {
+            newTrunk = treesPossibility[MathUtils.random(2)];
+        }
+        Color color = colorPossibility[MathUtils.random(1)];
+
+//        String newTrunk = trees.get(trees.size() - 1).value.equals("left") ? "right" : "left";
+//        Color color = (trees.get(trees.size() - 1).color.equals(trunkColor)) ? TreeColor1 : TreeColor2;
         trees.add(new TreePart(newTrunk, color));
     }
 

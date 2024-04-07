@@ -22,7 +22,7 @@ public class EndGameScreen extends Screen {
     //    private SpriteBatch spriteBatch;
     public EndGameScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("settings.png");
+        logo = new Texture("lose.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
