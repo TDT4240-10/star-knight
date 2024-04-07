@@ -3,14 +3,11 @@ package no.ntnu.game.Button;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.sun.tools.javac.Main;
 
 import java.util.Objects;
 
 import no.ntnu.game.Controllers.KnightController;
-import no.ntnu.game.Views.ActiveGame;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.CreateGameLobbyScreen;
 import no.ntnu.game.Views.ScreenManager;
@@ -127,13 +124,6 @@ public class ButtonInputListener extends InputAdapter {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Exit to Main Menu button pressed, color set");
                     gsm.set(new MainMenuScreen(gsm));
-                    return true; // Indicate that the touch event is handled
-                }
-                break;
-            case "TempPlay":
-                if (this.button.isPressed(touchX, touchY)) {
-                    System.out.println("Temp Play button pressed, should direct to game screen");
-                    gsm.set(new ActiveGame(gsm, batch));
                     return true; // Indicate that the touch event is handled
                 }
                 break;

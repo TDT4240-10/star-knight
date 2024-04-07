@@ -17,7 +17,6 @@ public class MainMenuScreen extends Screen {
     BitmapFont font; // Declare the font variable
 
     private Button playButton;
-    private Button tempPlayButton;
 
     private Button tutorialButton;
     private Button rectSettingsButton;
@@ -40,7 +39,6 @@ public class MainMenuScreen extends Screen {
         tutorialButton = ButtonFactory.createTutorialButton(300,800);
         rectSettingsButton = ButtonFactory.createRectSettingsButton(300,500);
 
-        tempPlayButton = ButtonFactory.createTempPlayButton(300,200);
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
         playButton = ButtonFactory.createPlayButton(CENTER_BUTTON_X,900);
         tutorialButton = ButtonFactory.createTutorialButton(CENTER_BUTTON_X,600);
@@ -50,7 +48,6 @@ public class MainMenuScreen extends Screen {
         ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, sb);
         ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null, sb);
         ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null, sb);
-        ButtonInputListener tempPlayInputListener = new ButtonInputListener(tempPlayButton, gvm, null, sb);
 
 
         // Set input processors
@@ -59,7 +56,6 @@ public class MainMenuScreen extends Screen {
         inputMultiplexer.addProcessor(menuInputListener);
         inputMultiplexer.addProcessor(tutorialInputListener);
         inputMultiplexer.addProcessor(settingsInputListener);
-        inputMultiplexer.addProcessor(tempPlayInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -82,7 +78,6 @@ public class MainMenuScreen extends Screen {
         playButton.render(shapeRenderer,sb);
         tutorialButton.render(shapeRenderer,sb);
         rectSettingsButton.render(shapeRenderer,sb);
-        tempPlayButton.render(shapeRenderer, sb);
 
         shapeRenderer.end();
     }
