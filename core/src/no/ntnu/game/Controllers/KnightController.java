@@ -28,6 +28,8 @@ public class KnightController {
 
     private int phoneWidth;
     private float animationDuration = 0.5f; // Example duration in seconds
+
+    private float deathAnimationDuration = 0.8f;
     private boolean choppingAnimationActive = false;
     private boolean deathAnimationActive = false;
     private float elapsedTime = 0;
@@ -72,6 +74,8 @@ public class KnightController {
 
             choppingKnightSprite.setPosition(idleX, idleY);
             choppingKnightSprite.flipDirection();
+
+            deadKnightSprite.flipDirection();
 
             choppingAnimationActive = true;
             elapsedTime = 0;
@@ -122,6 +126,8 @@ public class KnightController {
 
             choppingKnightSprite.setPosition(idleX, idleY);
             choppingKnightSprite.flipDirection();
+
+            deadKnightSprite.flipDirection();
 
             choppingAnimationActive = true;
             elapsedTime = 0;
@@ -198,7 +204,7 @@ public class KnightController {
             elapsedTime += delta;
             deadKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
 
-            if (elapsedTime >= animationDuration) {
+            if (elapsedTime >= deathAnimationDuration) {
                 deathAnimationActive = false;
                 elapsedTime = 0;
                 return "lose";

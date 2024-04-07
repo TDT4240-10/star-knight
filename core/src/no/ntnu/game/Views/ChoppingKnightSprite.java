@@ -23,12 +23,12 @@ public class ChoppingKnightSprite {
         y = 0;
 
         // Load the textures from file
-        Texture frame0= new Texture("frame0.png");
-        Texture frame1 = new Texture("frame1.png");
-        Texture frame2 = new Texture("frame2.png");
-        Texture frame3 = new Texture("frame3.png");
-        Texture frame4 = new Texture("frame4.png");
-        Texture frame5 = new Texture("frame5.png");
+        Texture frame0= new Texture("chopping_frames/frame0.png");
+        Texture frame1 = new Texture("chopping_frames/frame1.png");
+        Texture frame2 = new Texture("chopping_frames/frame2.png");
+        Texture frame3 = new Texture("chopping_frames/frame3.png");
+        Texture frame4 = new Texture("chopping_frames/frame4.png");
+        Texture frame5 = new Texture("chopping_frames/frame5.png");
 
         knightFrames = new TextureRegion[6];
         knightFrames[0] = new TextureRegion(frame0);
