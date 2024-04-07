@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * Chopping Knight Sprite View class to render chopping knight animation
+ *
+ * @author Han
+ */
 public class ChoppingKnightSprite {
     private Animation<TextureRegion> knightAnimation;
     private TextureRegion[] knightFrames;

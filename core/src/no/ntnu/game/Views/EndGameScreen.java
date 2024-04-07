@@ -12,6 +12,11 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
+/**
+ * End Game Screen View class to render Lose screen
+ *
+ * @author Han
+ */
 public class EndGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable

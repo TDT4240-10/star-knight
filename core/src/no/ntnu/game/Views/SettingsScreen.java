@@ -12,6 +12,11 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
+/**
+ * Settings View class to render settings screen
+ *
+ * @author Han
+ */
 public class SettingsScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable

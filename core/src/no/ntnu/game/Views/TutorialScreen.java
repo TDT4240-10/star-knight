@@ -12,6 +12,11 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
+/**
+ * Tutorial View class to render tutorial screen
+ *
+ * @author Han
+ */
 public class TutorialScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable

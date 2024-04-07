@@ -17,6 +17,11 @@ import no.ntnu.game.Views.DeadKnightSprite;
 import no.ntnu.game.Views.IdleKnightSprite;
 import no.ntnu.game.Views.JoinGameLobbyScreen;
 
+/**
+ * KnightController class is the main controller class to handle knight sprites, tree and collision logic.
+ *
+ * @author Han
+ */
 public class KnightController {
     private KnightModel knight;
     private ChoppingKnightSprite choppingKnightSprite;
@@ -35,7 +40,7 @@ public class KnightController {
     private float elapsedTime = 0;
 
 
-    // Constructor
+    // Constructor with idle knight sprite X, Y coordinates and tree model attributes
     public KnightController(int idleX, int idleY, TreeWithPowerUp tree) {
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
@@ -48,11 +53,9 @@ public class KnightController {
         this.tree = tree;
     }
 
-    public void setChoppingKnightSpritePosition(int x, int y) {
-        choppingKnightSprite.setPosition(x, y);
-    }
-
     // Methods to interact with the knight
+
+    // moveRight() is used when knight's direction is left and right button is clicked
     public void moveRight() {
         knight.setDirection("right");
         phoneWidth = Gdx.graphics.getWidth();
@@ -83,6 +86,7 @@ public class KnightController {
 
     }
 
+    // stayRight() is used when knight's direction is right and right button is clicked
     public void stayRight() {
         knight.setDirection("right");
         TreePart lowestTreePart = tree.trees.get(2);
@@ -104,6 +108,7 @@ public class KnightController {
         }
     }
 
+    // moveLeft() is used when knight's direction is right and left button is clicked
     public void moveLeft() {
         knight.setDirection("left");
         idleX = idleX - (phoneWidth / 2);
@@ -134,6 +139,7 @@ public class KnightController {
         }
     }
 
+    // stayLeft() is used when knight's direction is left and left button is clicked
     public void stayLeft() {
         knight.setDirection("left");
         TreePart lowestTreePart = tree.trees.get(2);
@@ -155,24 +161,22 @@ public class KnightController {
         }
     }
 
-//    public void deathAnimation() {
-//        idleKnightSprite.setPosition(-99999,-99999);
-//
-//        deadKnightSprite.setPosition(idleX, idleY);
-//
-//        deathAnimationActive = true;
-//        elapsedTime = 0;
-//    }
-
-    // Function to move knight sprite, check for collision, chop tree and update new tree
+    // Update() function is the main function which handles game logic -
+        // knight sprites position,
+        // collision detection,
+        // chop tree function,
+        // to add a new tree after chopping
     public String update(float delta) {
+        // Get the current lowest tree part=
         TreePart lowestTreePart = tree.trees.get(2);
         System.out.println("lowest tree direction: " + lowestTreePart.getValue());
 
+        // Logic to run chopping knight animation
         if (choppingAnimationActive) {
             elapsedTime += delta;
             choppingKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
 
+            // Logic to end chopping knight animation, render idle knight again
             if (elapsedTime >= animationDuration) {
                 choppingAnimationActive = false;
                 elapsedTime = 0;
@@ -180,11 +184,12 @@ public class KnightController {
                 choppingKnightSprite.setPosition(-99999, -99999);
                 idleKnightSprite.setPosition(idleX, idleY);
 
+                // Logic to check for knight collision and chop tree
                 if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                     tree.chop();
                     tree.createNewTrunk();
 
-                    // Checking for collision after chop
+                    // Checking for next collision after chopping the tree
                     lowestTreePart = tree.trees.get(2);
                     if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                         System.out.println("chopped tree and died");
@@ -193,17 +198,16 @@ public class KnightController {
                         deathAnimationActive = true;
                         elapsedTime = 0;
                     }
-                    TreePart newTreePart = tree.trees.get(0);
-                    System.out.println("new tree direction: " + newTreePart.getValue());
-                    System.out.println("tree chopped");
                 }
             }
         }
 
+        // Logic to handle death knight animation
         if (deathAnimationActive) {
             elapsedTime += delta;
             deadKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
 
+            // End of death animation
             if (elapsedTime >= deathAnimationDuration) {
                 deathAnimationActive = false;
                 elapsedTime = 0;

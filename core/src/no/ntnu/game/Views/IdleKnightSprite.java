@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+/**
+ * Idle Knight Sprite View class to render idle knight animation
+ *
+ * @author Han
+ */
 public class IdleKnightSprite {
     private Animation<TextureRegion> knightAnimation;
     private TextureRegion[] knightFrames;

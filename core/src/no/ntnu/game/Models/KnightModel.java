@@ -1,5 +1,10 @@
 package no.ntnu.game.Models;
 
+/**
+ * Knight Model class to store Knight stats
+ *
+ * @author Han
+ */
 public class KnightModel {
     private int lives;
     private String direction;
