@@ -7,18 +7,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-
-
-public class CreateOrJoinRoomScreen extends Screen {
-
+public class CreateGameLobbyScreen extends Screen {
     private Stage stage;
     private TextField textField;
     private Skin skin; // libGDX skins provide styling for UI widgets
@@ -32,53 +29,42 @@ public class CreateOrJoinRoomScreen extends Screen {
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
 
-    private Button createRoomButton;
+    private Button startGameButton;
+    private Button lastKnightButton;
+    private Button fastestKnightButton;
+    private Button exitButton;
 
-    private Button joinRoomButton;
-
-    // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
-    // there will be two buttons, one for creating a room and one for joining a room.
-
-    public CreateOrJoinRoomScreen(ScreenManager gvm) {
+    public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-        stage = new Stage();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-
-        // create text field
-        textField = new TextField("", skin);
-        textField.setPosition(300, 1050);
-        textField.setSize(500, 150);
-
-        stage.addActor(textField);
     }
-
-
 
     @Override
     public void render(SpriteBatch sb) {
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        joinRoomButton = ButtonFactory.createJoinRoomButton(CENTER_BUTTON_X, 700);
-        createRoomButton = ButtonFactory.createCreateRoomButton(CENTER_BUTTON_X, 400);
+        startGameButton = ButtonFactory.createStartGameButton(CENTER_BUTTON_X, 0.15f * Gdx.graphics.getHeight());
+
+        // render last knight standing and fastest knight buttons side by side
+        lastKnightButton = ButtonFactory.createLastKnightButton(CENTER_BUTTON_X - 200, 0.27f * Gdx.graphics.getHeight());
+        fastestKnightButton = ButtonFactory.createFastestKnightButton(CENTER_BUTTON_X + 200, 0.27f * Gdx.graphics.getHeight());
+
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 0.03f * Gdx.graphics.getHeight());
 
         // Create input listeners for buttons
-        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm, null, sb);
-        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm, null, sb);
-
-
+        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, sb);
+        ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
-
-        inputMultiplexer.addProcessor(createRoomInputListner);
-        inputMultiplexer.addProcessor(joinRoomInputListner);
+        inputMultiplexer.addProcessor(startGameInputListener);
+        inputMultiplexer.addProcessor(exitGameInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
+        // display logo
         sb.begin();
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -92,25 +78,35 @@ public class CreateOrJoinRoomScreen extends Screen {
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.draw(logo, logoX, logoY);
 
-        font.draw(sb, "Enter your unique room ID!", 300, 1000);
+        // display room id and player list in the middle
+        font.setColor(0, 0, 0, 1);
+        font.draw(sb, "Room ID: 123456", 350, 1330);
+        font.draw(sb, "Players: ", 450, 1230);
+
         sb.end();
 
-        // render both buttons
-        createRoomButton.render(shapeRenderer, sb);
-        joinRoomButton.render(shapeRenderer, sb);
+        // render last knight standing and fastest knight buttons side by side
+        lastKnightButton.render(shapeRenderer, sb);
+        fastestKnightButton.render(shapeRenderer, sb);
+
+        // render start game button
+        startGameButton.render(shapeRenderer, sb);
+
+        // render exit button
+        exitButton.render(shapeRenderer, sb);
+
         shapeRenderer.end();
 
-        // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+
     }
 
     @Override
     protected void handleInput() {
+
     }
 
     @Override
-    public void update(float dt){
+    public void update(float dt) {
 
     }
 
@@ -118,9 +114,7 @@ public class CreateOrJoinRoomScreen extends Screen {
     public void dispose() {
         shapeRenderer.dispose();
         logo.dispose();
-        stage.dispose(); // Dispose of the stage
-        System.out.println("Create or Join Room View Disposed");
+        System.out.println("Game Lobby View Disposed");
+
     }
-
-
 }

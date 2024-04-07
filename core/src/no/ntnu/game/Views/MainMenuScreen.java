@@ -24,7 +24,7 @@ public class MainMenuScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public MainMenuScreen(GameScreenManager gvm) {
+    public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
@@ -35,17 +35,22 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
+
         playButton = ButtonFactory.createPlayButton(300,1100);
         tutorialButton = ButtonFactory.createTutorialButton(300,800);
         rectSettingsButton = ButtonFactory.createRectSettingsButton(300,500);
 
         tempPlayButton = ButtonFactory.createTempPlayButton(300,200);
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        playButton = ButtonFactory.createPlayButton(CENTER_BUTTON_X,900);
+        tutorialButton = ButtonFactory.createTutorialButton(CENTER_BUTTON_X,600);
+        rectSettingsButton = ButtonFactory.createRectSettingsButton(CENTER_BUTTON_X,300);
 
         // Create input listeners for buttons
         ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, sb);
         ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null, sb);
         ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null, sb);
-        ButtonInputListener temoPlayInputListener = new ButtonInputListener(tempPlayButton, gvm, null, sb);
+        ButtonInputListener tempPlayInputListener = new ButtonInputListener(tempPlayButton, gvm, null, sb);
 
 
         // Set input processors
@@ -54,7 +59,7 @@ public class MainMenuScreen extends Screen {
         inputMultiplexer.addProcessor(menuInputListener);
         inputMultiplexer.addProcessor(tutorialInputListener);
         inputMultiplexer.addProcessor(settingsInputListener);
-        inputMultiplexer.addProcessor(temoPlayInputListener);
+        inputMultiplexer.addProcessor(tempPlayInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 

@@ -15,7 +15,7 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
-public class GameLobbyScreen extends Screen {
+public class JoinGameLobbyScreen extends Screen {
     private Stage stage;
     private TextField textField;
     private Skin skin; // libGDX skins provide styling for UI widgets
@@ -24,32 +24,34 @@ public class GameLobbyScreen extends Screen {
 //    private ShapeRenderer shapeRenderer;
 
     private Texture logo;
+    private Texture waitingForHostToStart;
 
     BitmapFont font; // Declare the font variable
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
 
-    private Button startGameButton;
+    private Button exitButton;
 
-    public GameLobbyScreen(GameScreenManager gvm) {
+    public JoinGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-
+        waitingForHostToStart = new Texture("waiting_for_host_to_start.png");
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        // display start game button at the bottom
-        startGameButton = ButtonFactory.createStartGameButton(300, 700);
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 300);
 
         // Create input listeners for buttons
-        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(startGameInputListener);
+        inputMultiplexer.addProcessor(exitInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -74,13 +76,28 @@ public class GameLobbyScreen extends Screen {
 
         sb.end();
 
+        // render waiting for host to start
+        sb.begin();
+        float waitingForHostToStartWidth = waitingForHostToStart.getWidth();
+        float waitingForHostToStartHeight = waitingForHostToStart.getHeight();
 
+        // Calculate the scale factor to fit the texture to the screen
+        float scale = Math.min(screenWidth / waitingForHostToStartWidth, screenHeight / waitingForHostToStartHeight);
 
-        // render start game button
-        startGameButton.render(shapeRenderer, sb);
-        shapeRenderer.end();
+        // Calculate the new width and height of the texture
+        float newWidth = waitingForHostToStartWidth * scale * 0.95f;
+        float newHeight = waitingForHostToStartHeight * scale * 0.95f;
 
+        // Calculate the new position to center the texture on the screen
+        float waitingForHostToStartX = (screenWidth - newWidth) / 2;
+        float waitingForHostToStartY = (screenHeight - newHeight) * 0.27f;
 
+        // Draw the texture with the new size and position
+        sb.draw(waitingForHostToStart, waitingForHostToStartX, waitingForHostToStartY, newWidth, newHeight);
+        sb.end();
+
+        // render exit button
+        exitButton.render(shapeRenderer, sb);
     }
 
     @Override

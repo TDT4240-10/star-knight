@@ -29,7 +29,7 @@ public class ActiveGame extends Screen {
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public ActiveGame(GameScreenManager gvm, SpriteBatch batch) {
+    public ActiveGame(ScreenManager gvm, SpriteBatch batch) {
         super(gvm);
         //logo = new Texture("settings.png");
         font = new BitmapFont(); // Load the font

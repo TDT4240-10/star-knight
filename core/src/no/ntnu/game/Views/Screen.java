@@ -5,9 +5,9 @@ import com.badlogic.gdx.math.Vector3;
 
 public abstract class Screen {
     protected Vector3 mouse; // this is a protected xyz coordinate system
-    protected GameScreenManager gvm;
+    protected ScreenManager gvm;
 
-    protected Screen(GameScreenManager gvm) {
+    protected Screen(ScreenManager gvm) {
         this.gvm = gvm;
         mouse = new Vector3();
     }

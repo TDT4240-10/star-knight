@@ -3,9 +3,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Stack;
 
-public class GameScreenManager {
+public class ScreenManager {
     private Stack<Screen> screens;
-    public GameScreenManager() {
+    public ScreenManager() {
         screens = new Stack<Screen>();}
 
     public void push (Screen screen) {
