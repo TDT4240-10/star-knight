@@ -16,6 +16,7 @@ import no.ntnu.game.Views.ChoppingKnightSprite;
 import no.ntnu.game.Views.DeadKnightSprite;
 import no.ntnu.game.Views.IdleKnightSprite;
 import no.ntnu.game.Views.JoinGameLobbyScreen;
+import no.ntnu.game.Views.RunningKnightSprite;
 
 public class KnightController {
     private KnightModel knight;
@@ -266,5 +267,6 @@ public class KnightController {
     public void disposeChoppingKnight() {
         choppingKnightSprite.dispose();
     }
+
 }
 

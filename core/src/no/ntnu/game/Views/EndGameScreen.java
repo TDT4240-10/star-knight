@@ -19,6 +19,9 @@ public class EndGameScreen extends Screen {
     private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
+    private RunningKnightSprite runningKnightSprite;
+    private float knightX, knightY;
+    private float knightSpeed = 300; // Pixels per second
     //    private SpriteBatch spriteBatch;
     public EndGameScreen(ScreenManager gvm) {
         super(gvm);
@@ -26,12 +29,19 @@ public class EndGameScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+
+        runningKnightSprite = new RunningKnightSprite();
+
+        knightX = 0;
+        knightY = 900;
+
 //        spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(300,900);
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
@@ -41,7 +51,6 @@ public class EndGameScreen extends Screen {
         inputMultiplexer.addProcessor(exitInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
-
 
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -58,26 +67,37 @@ public class EndGameScreen extends Screen {
         sb.draw(logo, logoX, logoY);
         sb.end();
 
+
+        // to ensure the knight is moving at the same speed on all devices
+        float dt = Gdx.graphics.getDeltaTime();
+        update(dt);
+
+        runningKnightSprite.setPosition(knightX, knightY);
+        runningKnightSprite.render(sb);
+//        sb.end();
+
         // Render the menu button
         exitButton.render(shapeRenderer,sb);
-
         shapeRenderer.end();
+
     }
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
+
     }
 
     @Override
     public void update(float dt) {
-
+        knightX += knightSpeed * dt;
+        if (knightX > Gdx.graphics.getWidth()) {
+            knightX = -runningKnightSprite.getWidth();
+        }
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        runningKnightSprite.dispose();
     }
 }
