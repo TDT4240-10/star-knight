@@ -2,21 +2,16 @@ package no.ntnu.game.Controllers;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.Objects;
 
 import no.ntnu.game.Models.KnightModel;
-import no.ntnu.game.Models.Tree;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.ChoppingKnightSprite;
 import no.ntnu.game.Views.DeadKnightSprite;
 import no.ntnu.game.Views.IdleKnightSprite;
-import no.ntnu.game.Views.JoinGameLobbyScreen;
-import no.ntnu.game.Views.RunningKnightSprite;
 
 /**
  * KnightController class is the main controller class to handle knight sprites, tree and collision logic.

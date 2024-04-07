@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class RunningKnightSprite {
+public class LoseDeadKnightSprite {
     private Animation<TextureRegion> knightAnimation;
     private Texture spriteSheet;
     private float stateTime;
@@ -18,13 +18,13 @@ public class RunningKnightSprite {
     private int knightWidth;
     private float x, y; // Position of the sprite
 
-    public RunningKnightSprite() {
+    public LoseDeadKnightSprite() {
         // Initialize sprite position
         x = 0;
         y = 0;
 
         // Load the textures from file
-        spriteSheet = new Texture(Gdx.files.internal("running_sheet.png"));
+        spriteSheet = new Texture(Gdx.files.internal("lose_dead_sheet.png"));
         int frameWidth = spriteSheet.getWidth() / 10;
         int frameHeight = spriteSheet.getHeight();
         knightFrames = new TextureRegion[10];

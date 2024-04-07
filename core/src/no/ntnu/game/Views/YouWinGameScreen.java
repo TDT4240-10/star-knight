@@ -17,25 +17,25 @@ import no.ntnu.game.Button.ButtonInputListener;
  *
  * @author Han
  */
-public class EndGameScreen extends Screen {
+public class YouWinGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
     private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
-    private RunningKnightSprite runningKnightSprite;
+    private WinRunningKnightSprite winRunningKnightSprite;
     private float knightX, knightY;
     private float knightSpeed = 300; // Pixels per second
     //    private SpriteBatch spriteBatch;
-    public EndGameScreen(ScreenManager gvm) {
+    public YouWinGameScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("lose.png");
+        logo = new Texture("win.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-        runningKnightSprite = new RunningKnightSprite();
+        winRunningKnightSprite = new WinRunningKnightSprite();
 
         knightX = 0;
         knightY = 900;
@@ -77,8 +77,8 @@ public class EndGameScreen extends Screen {
         float dt = Gdx.graphics.getDeltaTime();
         update(dt);
 
-        runningKnightSprite.setPosition(knightX, knightY);
-        runningKnightSprite.render(sb);
+        winRunningKnightSprite.setPosition(knightX, knightY);
+        winRunningKnightSprite.render(sb);
 //        sb.end();
 
         // Render the menu button
@@ -96,13 +96,13 @@ public class EndGameScreen extends Screen {
     public void update(float dt) {
         knightX += knightSpeed * dt;
         if (knightX > Gdx.graphics.getWidth()) {
-            knightX = -runningKnightSprite.getWidth();
+            knightX = -winRunningKnightSprite.getWidth();
         }
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-        runningKnightSprite.dispose();
+        winRunningKnightSprite.dispose();
     }
 }
