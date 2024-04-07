@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
+import java.util.Random;
+
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
@@ -34,13 +36,23 @@ public class CreateGameLobbyScreen extends Screen {
     private Button fastestKnightButton;
     private Button exitButton;
 
+    // TODO link the room id with backend
+    private String roomID; // room id for the game lobby
+
     public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+        generateRoomID();
+    }
 
+    // Method to generate a random 6-digit room ID
+    private void generateRoomID() {
+        Random random = new Random();
+        int randomID = 100000 + random.nextInt(900000); // Random number between 100000 and 999999
+        roomID = String.valueOf(randomID);
     }
 
     @Override
@@ -80,7 +92,7 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
-        font.draw(sb, "Room ID: 123456", 350, 1330);
+        font.draw(sb, "Room ID: " + roomID, 350, 1330);
         font.draw(sb, "Players: ", 450, 1230);
 
         sb.end();
