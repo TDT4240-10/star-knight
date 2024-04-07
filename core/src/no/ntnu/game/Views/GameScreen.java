@@ -5,6 +5,8 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import java.util.Objects;
+
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
@@ -22,9 +24,10 @@ public class GameScreen extends Screen {
     private Button exitButton;
 
 
-    private TreeWithPowerUp tree;
+    private TreeWithPowerUp treeWithPowerUp;
     private ChoppingKnightSprite choppingKnightSprite;
     private IdleKnightSprite idleKnightSprite;
+    private DeadKnightSprite deadKnightSprite;
     private KnightController knightController;
 
     private ShapeRenderer shapeRenderer;
@@ -36,17 +39,20 @@ public class GameScreen extends Screen {
 
         gameController = new GameController();
 
-        tree = new TreeWithPowerUp();
-        tree.init();
+        treeWithPowerUp = new TreeWithPowerUp();
+        treeWithPowerUp.init();
 
         shapeRenderer = new ShapeRenderer();
 
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
-        knightController = new KnightController(-80, 500);
+        deadKnightSprite = new DeadKnightSprite();
+
+        knightController = new KnightController(-80, 500, treeWithPowerUp);
 
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
+        knightController.setDeadPosition(-99999, -99999);
     }
 
     @Override
@@ -57,13 +63,13 @@ public class GameScreen extends Screen {
     @Override
     public void update(float dt) {
 
-        temp += dt;
-        if(temp > 1) {
-
-            tree.chop();
-            tree.createNewTrunk();
-            temp = 0;
-        }
+//        temp += dt;
+//        if(temp > 1) {
+//
+//            tree.chop();
+//            tree.createNewTrunk();
+//            temp = 0;
+//        }
     }
 
     @Override
@@ -85,17 +91,20 @@ public class GameScreen extends Screen {
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-        tree.draw(sb);
+        treeWithPowerUp.draw(sb);
 
         exitButton.render(shapeRenderer,sb);
         leftButton.render(shapeRenderer,sb);
         rightButton.render(shapeRenderer,sb);
 
-        knightController.update(Gdx.graphics.getDeltaTime());
-
 
         knightController.renderIdleKnight(sb);
         knightController.renderChoppingKnight(sb);
+        knightController.renderDeadKnight(sb);
+
+        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
+            gvm.set(new EndGameScreen(gvm));
+        };
 
         shapeRenderer.end();
     }

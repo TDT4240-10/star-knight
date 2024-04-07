@@ -9,30 +9,41 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.Objects;
 
 import no.ntnu.game.Models.KnightModel;
+import no.ntnu.game.Models.Tree;
+import no.ntnu.game.Models.TreePart;
+import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.ChoppingKnightSprite;
+import no.ntnu.game.Views.DeadKnightSprite;
 import no.ntnu.game.Views.IdleKnightSprite;
+import no.ntnu.game.Views.JoinGameLobbyScreen;
 
 public class KnightController {
     private KnightModel knight;
     private ChoppingKnightSprite choppingKnightSprite;
     private IdleKnightSprite idleKnightSprite;
+    private DeadKnightSprite deadKnightSprite;
     private int idleX;
     private int idleY;
+    private TreeWithPowerUp tree;
 
     private int phoneWidth;
     private float animationDuration = 0.5f; // Example duration in seconds
     private boolean choppingAnimationActive = false;
+    private boolean deathAnimationActive = false;
     private float elapsedTime = 0;
 
 
     // Constructor
-    public KnightController(int idleX, int idleY) {
+    public KnightController(int idleX, int idleY, TreeWithPowerUp tree) {
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
+        deadKnightSprite = new DeadKnightSprite();
+
         knight.setDirection("left");
         this.idleX = idleX;
         this.idleY = idleY;
+        this.tree = tree;
     }
 
     public void setChoppingKnightSpritePosition(int x, int y) {
@@ -40,39 +51,118 @@ public class KnightController {
     }
 
     // Methods to interact with the knight
-    public void moveRight(SpriteBatch sb) {
-        // switch knight direction and run chopping animation
+    public void moveRight() {
         knight.setDirection("right");
-        idleKnightSprite.setPosition(-99999,-99999);
-        idleKnightSprite.flipDirection();
-
         phoneWidth = Gdx.graphics.getWidth();
         idleX = phoneWidth / 2 + idleX;
 
-        choppingKnightSprite.setPosition(idleX, idleY);
-        choppingKnightSprite.flipDirection();
+        TreePart lowestTreePart = tree.trees.get(2);
+        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+            idleKnightSprite.setPosition(-99999, -99999);
+            deadKnightSprite.setPosition(idleX, idleY);
+            deadKnightSprite.flipDirection();
+            deathAnimationActive = true;
+            elapsedTime = 0;
+        }
+        else {
+            // switch knight direction and run chopping animation
 
-        choppingAnimationActive = true;
-        elapsedTime = 0;
+            idleKnightSprite.setPosition(-99999,-99999);
+            idleKnightSprite.flipDirection();
+
+            choppingKnightSprite.setPosition(idleX, idleY);
+            choppingKnightSprite.flipDirection();
+
+            choppingAnimationActive = true;
+            elapsedTime = 0;
+        }
+
+    }
+
+    public void stayRight() {
+        knight.setDirection("right");
+        TreePart lowestTreePart = tree.trees.get(2);
+        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+            idleKnightSprite.setPosition(-99999, -99999);
+            deadKnightSprite.setPosition(idleX, idleY);
+            deathAnimationActive = true;
+            elapsedTime = 0;
+        }
+        else {
+            // switch knight direction and run chopping animation
+
+            idleKnightSprite.setPosition(-99999, -99999);
+
+            choppingKnightSprite.setPosition(idleX, idleY);
+
+            choppingAnimationActive = true;
+            elapsedTime = 0;
+        }
     }
 
     public void moveLeft() {
-
-        // switch knight direction and run chopping animation
         knight.setDirection("left");
-        idleKnightSprite.setPosition(-99999,-99999);
-        idleKnightSprite.flipDirection();
-
         idleX = idleX - (phoneWidth / 2);
 
-        choppingKnightSprite.setPosition(idleX, idleY);
-        choppingKnightSprite.flipDirection();
+        TreePart lowestTreePart = tree.trees.get(2);
+        System.out.println("move left, : " + lowestTreePart.getValue());
 
-        choppingAnimationActive = true;
-        elapsedTime = 0;
+        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+            idleKnightSprite.setPosition(-99999, -99999);
+            deadKnightSprite.setPosition(idleX, idleY);
+            deadKnightSprite.flipDirection();
+            deathAnimationActive = true;
+            elapsedTime = 0;
+        }
+        else {
+            // switch knight direction and run chopping animation
+
+            idleKnightSprite.setPosition(-99999, -99999);
+            idleKnightSprite.flipDirection();
+
+            choppingKnightSprite.setPosition(idleX, idleY);
+            choppingKnightSprite.flipDirection();
+
+            choppingAnimationActive = true;
+            elapsedTime = 0;
+        }
     }
 
-    public void update(float delta) {
+    public void stayLeft() {
+        knight.setDirection("left");
+        TreePart lowestTreePart = tree.trees.get(2);
+        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+            idleKnightSprite.setPosition(-99999, -99999);
+            deadKnightSprite.setPosition(idleX, idleY);
+            deathAnimationActive = true;
+            elapsedTime = 0;
+        }
+        else {
+            // switch knight direction and run chopping animation
+
+            idleKnightSprite.setPosition(-99999, -99999);
+
+            choppingKnightSprite.setPosition(idleX, idleY);
+
+            choppingAnimationActive = true;
+            elapsedTime = 0;
+        }
+    }
+
+//    public void deathAnimation() {
+//        idleKnightSprite.setPosition(-99999,-99999);
+//
+//        deadKnightSprite.setPosition(idleX, idleY);
+//
+//        deathAnimationActive = true;
+//        elapsedTime = 0;
+//    }
+
+    // Function to move knight sprite, check for collision, chop tree and update new tree
+    public String update(float delta) {
+        TreePart lowestTreePart = tree.trees.get(2);
+        System.out.println("lowest tree direction: " + lowestTreePart.getValue());
+
         if (choppingAnimationActive) {
             elapsedTime += delta;
             choppingKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
@@ -81,11 +171,43 @@ public class KnightController {
                 choppingAnimationActive = false;
                 elapsedTime = 0;
 
-                choppingKnightSprite.setPosition(-99999,-99999);
+                choppingKnightSprite.setPosition(-99999, -99999);
                 idleKnightSprite.setPosition(idleX, idleY);
+
+                if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                    tree.chop();
+                    tree.createNewTrunk();
+
+                    // Checking for collision after chop
+                    lowestTreePart = tree.trees.get(2);
+                    if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                        System.out.println("chopped tree and died");
+
+                        idleKnightSprite.setPosition(-99999, -99999);
+                        deathAnimationActive = true;
+                        elapsedTime = 0;
+                    }
+                    TreePart newTreePart = tree.trees.get(0);
+                    System.out.println("new tree direction: " + newTreePart.getValue());
+                    System.out.println("tree chopped");
+                }
             }
         }
+
+        if (deathAnimationActive) {
+            elapsedTime += delta;
+            deadKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
+
+            if (elapsedTime >= animationDuration) {
+                deathAnimationActive = false;
+                elapsedTime = 0;
+                return "lose";
+            }
+        }
+
+        return "continue";
     }
+
 
     // Getter methods to access knight attributes
     public int getLives() {
@@ -126,6 +248,15 @@ public class KnightController {
     public void renderChoppingKnight(SpriteBatch batch) {
 //        choppingKnightSprite.startAnimation();
         choppingKnightSprite.render(batch);
+    }
+
+    public void renderDeadKnight(SpriteBatch batch) {
+//        choppingKnightSprite.startAnimation();
+        deadKnightSprite.render(batch);
+    }
+
+    public void setDeadPosition(float x, float y) {
+        deadKnightSprite.setPosition(x, y);
     }
 
     public void disposeIdleKnight() {

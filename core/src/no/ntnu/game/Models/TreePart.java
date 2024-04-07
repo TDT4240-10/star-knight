@@ -6,7 +6,28 @@ public class TreePart {
             Color color;
             float x,y;
             PowerUp powerup;
-            public TreePart(String value , Color color){
+
+    public String getValue() {
+        return value;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public PowerUp getPowerup() {
+        return powerup;
+    }
+
+    public TreePart(String value , Color color){
 
             this.value = value;
             this.color = color;

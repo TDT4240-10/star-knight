@@ -3,7 +3,10 @@ package no.ntnu.game.Models;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Null;
+
+import java.util.Objects;
 
 /**
  * This is the tree that can have power-ups
@@ -21,6 +24,10 @@ public class TreeWithPowerUp extends Tree {
     float centerX, centerY;
     private int powerUpFrequency;
     private int countTowardsNextPowerUp;
+    private String newTrunk;
+    private String[] treesPossibility = {"none", "left", "right"};
+    private Color[] colorPossibility = {TreeColor1, TreeColor2};
+
     public TreeWithPowerUp() {
         super();
     }
@@ -72,11 +79,23 @@ public class TreeWithPowerUp extends Tree {
             countTowardsNextPowerUp += 1;
         }
         else {
-            String newTrunk = trees.get(trees.size() - 1).value.equals("left") ? "right" : "left";
-            Color color = (trees.get(trees.size() - 1).color.equals(trunkColor)) ? TreeColor1 : TreeColor2;
+//            String newTrunk = trees.get(trees.size() - 1).value.equals("left") ? "right" : "left";
+//            Color color = (trees.get(trees.size() - 1).color.equals(trunkColor)) ? TreeColor1 : TreeColor2;
+
+            if (Objects.equals(trees.get(trees.size() - 1).getValue(), "left") ||
+                Objects.equals(trees.get(trees.size() - 1).getValue(), "right")) {
+                newTrunk = "none";
+
+            }
+            else {
+                newTrunk = treesPossibility[MathUtils.random(2)];
+            }
+            Color color = colorPossibility[MathUtils.random(1)];
 
             TreePart treePart = new TreePart(newTrunk, color);
-            treePart.setPowerup(PowerUpFactory.createPowerUp());
+            if (!Objects.equals(newTrunk, "none")){
+                treePart.setPowerup(PowerUpFactory.createPowerUp());
+            }
             trees.add(treePart);
             countTowardsNextPowerUp = 0;
         }
