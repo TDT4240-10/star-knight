@@ -89,10 +89,6 @@ public class MainMenuScreen extends Screen {
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
     }
 
     @Override

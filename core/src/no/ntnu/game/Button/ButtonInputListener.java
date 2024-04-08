@@ -43,6 +43,15 @@ public class ButtonInputListener extends InputAdapter {
 
         // add the functionality of the buttons here
         switch(this.button.getName()) {
+            // log in case
+            case "Login":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    System.out.println("Login button pressed, color set");
+                    gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
             case "LeftArrow":
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for LeftArrow

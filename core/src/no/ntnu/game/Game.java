@@ -20,6 +20,10 @@ public class Game extends ApplicationAdapter {
 		img = new Texture("badlogic.jpg");
 		Player player = new Player("HOHOHO");
 		GameRoom room = new GameRoom(player);
+		// added deen
+		_FI.SerializeClass(room);
+		_FI.SerializeClass(player);
+		// this is how to add to the firebase database
 		_FI.joinRoom("PNMJ", player, new JoinRoomCallback() {
 			@Override
 			public void onCallback(GameRoom room) {

@@ -24,6 +24,14 @@ public class ButtonFactory {
         rightArrowButton.setText(">");
         return rightArrowButton;
     }
+
+    public static Button createLoginButton(float x, float y) {
+        Button loginButton = new RectangleButton(x, y);
+        loginButton.setName("Login");
+        loginButton.setColor(Starknight);
+        loginButton.setText("Login");
+        return loginButton;
+    }
     public static Button createSettingButton(float x, float y) {
         Button SettingButton = new CircleButton(x, y);
         SettingButton.setName("Setting");

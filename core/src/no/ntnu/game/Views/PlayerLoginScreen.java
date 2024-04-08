@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 
-public class CreateOrJoinRoomScreen extends Screen {
+public class PlayerLoginScreen extends Screen {
 
     private Stage stage;
     private TextField textField;
@@ -32,14 +32,12 @@ public class CreateOrJoinRoomScreen extends Screen {
     private ShapeRenderer shapeRenderer;
     private SpriteBatch spriteBatch;
 
-    private Button createRoomButton;
-
-    private Button joinRoomButton;
+    private Button loginButton;
 
     // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
     // there will be two buttons, one for creating a room and one for joining a room.
 
-    public CreateOrJoinRoomScreen(ScreenManager gvm) {
+    public PlayerLoginScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
@@ -62,19 +60,17 @@ public class CreateOrJoinRoomScreen extends Screen {
     @Override
     public void render(SpriteBatch sb) {
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        joinRoomButton = ButtonFactory.createJoinRoomButton(CENTER_BUTTON_X, 700);
-        createRoomButton = ButtonFactory.createCreateRoomButton(CENTER_BUTTON_X, 400);
+        loginButton = ButtonFactory.createLoginButton(CENTER_BUTTON_X, 700);
+
 
         // Create input listeners for buttons
-        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm, null, sb);
-        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm, null, sb);
+        ButtonInputListener loginInputListner = new ButtonInputListener(loginButton, gvm, null, sb);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
 
-        inputMultiplexer.addProcessor(createRoomInputListner);
-        inputMultiplexer.addProcessor(joinRoomInputListner);
+        inputMultiplexer.addProcessor(loginInputListner);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -91,12 +87,11 @@ public class CreateOrJoinRoomScreen extends Screen {
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.draw(logo, logoX, logoY);
 
-        font.draw(sb, "Enter your unique room ID!", 300, 1000);
+        font.draw(sb, "Enter your username!", 335, 1000);
         sb.end();
 
         // render both buttons
-        createRoomButton.render(shapeRenderer, sb);
-        joinRoomButton.render(shapeRenderer, sb);
+        loginButton.render(shapeRenderer, sb);
         shapeRenderer.end();
 
         // draw stage and text field

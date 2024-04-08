@@ -71,6 +71,7 @@ public class JoinGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
+        // todo get room id and player list from server
         font.draw(sb, "Room ID: 123456", 350, 1330);
         font.draw(sb, "Players: ", 450, 1230);
 
