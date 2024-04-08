@@ -123,5 +123,11 @@ public class ButtonFactory {
         lastKnightStandingButton.setText("Last Knight");
         return lastKnightStandingButton;
     }
+    public static Button createLoginButton(float x, float y) {
+        Button LoginButton = new RectangleButton(x, y);
+        LoginButton.setName("Login");
+        LoginButton.setText("Login");
+        return LoginButton;
+    }
 }
 

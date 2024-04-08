@@ -165,7 +165,13 @@ public class ButtonInputListener extends InputAdapter {
                 }
                 break;
             // Add more cases for other buttons if needed
-
+            case "Login":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("Login mode pressed, color set");
+                    gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
             default:
                 break;
         }
