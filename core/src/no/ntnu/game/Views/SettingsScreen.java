@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
-import no.ntnu.game.Controllers.SettingsController;
+import no.ntnu.game.Models.Settings;
 
 /**
  * Settings View class to render settings screen
@@ -40,7 +40,7 @@ public class SettingsScreen extends Screen {
 
     private Slider soundSlider;
 
-    private SettingsController settingsController;
+    private Settings settings;
 
     public SettingsScreen(ScreenManager gvm) {
         super(gvm);
@@ -70,22 +70,22 @@ public class SettingsScreen extends Screen {
         // Width of sliders
         musicSlider.setWidth(500);
         soundSlider.setWidth(500);
-        settingsController = new SettingsController();
+        settings = Settings.getInstance();
 
-        musicSlider.setValue(settingsController.getMusic());
-        soundSlider.setValue(settingsController.getSound());
+        musicSlider.setValue(settings.getMusic());
+        soundSlider.setValue(settings.getSound());
 
         // The addListeners methods are AI generated code that has been somewhat modified
         musicSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                settingsController.setMusic(musicSlider.getValue());
+                settings.setMusic(musicSlider.getValue());
             }
         });
         soundSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                settingsController.setSound(soundSlider.getValue());
+                settings.setSound(soundSlider.getValue());
             }
         });
 
