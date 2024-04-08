@@ -25,6 +25,8 @@ import no.ntnu.game.Models.Settings;
  */
 public class SettingsScreen extends Screen {
     private Texture logo;
+    private Texture musicText;
+    private Texture soundText;
     BitmapFont font; // Declare the font variable
 
     private Button exitButton;
@@ -45,6 +47,8 @@ public class SettingsScreen extends Screen {
     public SettingsScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("settings.png");
+        musicText = new Texture("music.png");
+        soundText = new Texture("sound.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
@@ -65,7 +69,7 @@ public class SettingsScreen extends Screen {
 
         // Position of sliders
         musicSlider.setPosition(300, 1050);
-        soundSlider.setPosition(300, 850);
+        soundSlider.setPosition(300, 700);
 
         // Width of sliders
         musicSlider.setWidth(500);
@@ -95,8 +99,8 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,900);
+        final float BOTTOM_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        exitButton = ButtonFactory.createExitButton(BOTTOM_BUTTON_X,200);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
@@ -120,8 +124,21 @@ public class SettingsScreen extends Screen {
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
+        float musicWidth = musicText.getWidth();
+        float musicHeight = musicText.getHeight();
+        float musicX = (screenWidth - musicWidth) / 2;
+        float musicY = (screenHeight) / 2 - musicHeight / 2;;
+
+        float soundWidth = soundText.getWidth();
+        float soundHeight = soundText.getHeight();
+        float soundX = (screenWidth - soundWidth) / 2;
+        float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;;
+
+
         sb.begin();
         sb.draw(logo, logoX, logoY);
+        sb.draw(musicText, musicX, musicY);
+        sb.draw(soundText, soundX, soundY);
         sb.end();
 
         // Render the menu button
