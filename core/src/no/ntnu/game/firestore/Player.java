@@ -7,7 +7,6 @@ public class Player extends FirebaseClass {
 
     public Integer highScore;
 
-
     public Player(String username) {
         this.username = username;
         this.highScore = 0;
@@ -16,4 +15,17 @@ public class Player extends FirebaseClass {
     public String getCollectionName() {
         return "players";
     }
+
+    // Getters and setters
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+//    public void setHighScore(Integer highScore) {
+//        this.highScore = highScore;
+//    }
 }

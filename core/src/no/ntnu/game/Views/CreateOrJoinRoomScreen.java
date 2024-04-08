@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -20,7 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 public class CreateOrJoinRoomScreen extends Screen {
 
     private Stage stage;
-    private TextField textField;
+    private TextField roomID;
     private Skin skin; // libGDX skins provide styling for UI widgets
 
     private SpriteBatch batch;
@@ -50,11 +51,11 @@ public class CreateOrJoinRoomScreen extends Screen {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         // create text field
-        textField = new TextField("", skin);
-        textField.setPosition(300, 1050);
-        textField.setSize(500, 150);
+        roomID = new TextField("", skin);
+        roomID.setPosition(300, 1050);
+        roomID.setSize(500, 150);
 
-        stage.addActor(textField);
+        stage.addActor(roomID);
     }
 
 
@@ -65,16 +66,22 @@ public class CreateOrJoinRoomScreen extends Screen {
         joinRoomButton = ButtonFactory.createJoinRoomButton(CENTER_BUTTON_X, 700);
         createRoomButton = ButtonFactory.createCreateRoomButton(CENTER_BUTTON_X, 400);
 
+        // to center the words
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font,"Enter a 4 letters unique room ID!");
+        float textWidth = layout.width;
+        final float CENTER_WORDS_X = (Gdx.graphics.getWidth() - textWidth) / 2;
+
         // Create input listeners for buttons
-        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm, null, sb);
-        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm, null, sb);
+        ButtonInputListener createRoomInputListener = new ButtonInputListener(createRoomButton, gvm, null, null, sb);
+        ButtonInputListener joinRoomInputListener = new ButtonInputListener(joinRoomButton, gvm, null, roomID, sb);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
 
-        inputMultiplexer.addProcessor(createRoomInputListner);
-        inputMultiplexer.addProcessor(joinRoomInputListner);
+        inputMultiplexer.addProcessor(createRoomInputListener);
+        inputMultiplexer.addProcessor(joinRoomInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -91,7 +98,7 @@ public class CreateOrJoinRoomScreen extends Screen {
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.draw(logo, logoX, logoY);
 
-        font.draw(sb, "Enter your unique room ID!", 300, 1000);
+        font.draw(sb, "Enter a 4 letters unique room ID!", CENTER_WORDS_X, 1000);
         sb.end();
 
         // render both buttons

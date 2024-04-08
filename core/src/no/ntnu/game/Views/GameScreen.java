@@ -84,9 +84,9 @@ public class GameScreen extends Screen {
         rightButton = ButtonFactory.createRightArrowButton(800,300);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, sb);
-        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, sb);
-        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, null,  sb);
+        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, null,  sb);
+        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, null,  sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 

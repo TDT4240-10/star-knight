@@ -19,4 +19,5 @@ public abstract class Screen {
 
     // dispose method to prevent memory leaks
     public abstract void dispose();
+
 }

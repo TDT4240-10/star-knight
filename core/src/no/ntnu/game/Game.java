@@ -18,19 +18,20 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		Player player = new Player("HOHOHO");
-		GameRoom room = new GameRoom(player);
+//		Player player = new Player("HOHOHO");
+//		Player player = new Player();
+//		GameRoom room = new GameRoom(player);
 		// added deen
-		_FI.SerializeClass(room);
-		_FI.SerializeClass(player);
+//		_FI.SerializeClass(room);
+//		_FI.SerializeClass(player);
 		// this is how to add to the firebase database
-		_FI.joinRoom("PNMJ", player, new JoinRoomCallback() {
-			@Override
-			public void onCallback(GameRoom room) {
-				_FI.SerializeClass(room);
-				System.out.println("Joined room");
-			}
-		});
+//		_FI.joinRoom("PNMJ", player, new JoinRoomCallback() {
+//			@Override
+//			public void onCallback(GameRoom room) {
+//				_FI.SerializeClass(room);
+//				System.out.println("Joined room");
+//			}
+//		});
 
 	}
 

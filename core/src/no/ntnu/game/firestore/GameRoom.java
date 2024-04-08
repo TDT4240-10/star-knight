@@ -23,7 +23,7 @@ public class GameRoom extends FirebaseClass {
         this.roomCode = generateRandomCode();
     }
 
-    private static String generateRandomCode() {
+    public static String generateRandomCode() {
         // Define alphabet
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

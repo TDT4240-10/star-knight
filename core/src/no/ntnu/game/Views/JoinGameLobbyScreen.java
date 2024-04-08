@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -31,6 +32,7 @@ public class JoinGameLobbyScreen extends Screen {
     private SpriteBatch spriteBatch;
 
     private Button exitButton;
+    private String joinRoomID;
 
     public JoinGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
@@ -39,16 +41,25 @@ public class JoinGameLobbyScreen extends Screen {
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
         waitingForHostToStart = new Texture("waiting_for_host_to_start.png");
+
+    }
+
+    public float calculateCenterX(String text, BitmapFont font) {
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, text);
+        float textWidth = layout.width;
+        return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
 
     @Override
     public void render(SpriteBatch sb) {
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-
+        final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + joinRoomID, font);
+        final float CENTER_PLAYERS_X = calculateCenterX("Players: ", font);
         exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 300);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(exitInputListener);
@@ -72,8 +83,8 @@ public class JoinGameLobbyScreen extends Screen {
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
         // todo get room id and player list from server
-        font.draw(sb, "Room ID: 123456", 350, 1330);
-        font.draw(sb, "Players: ", 450, 1230);
+        font.draw(sb, "Room ID: " + joinRoomID, CENTER_ROOMID_X, 1330);
+        font.draw(sb, "Players: ", CENTER_PLAYERS_X, 1230);
 
         sb.end();
 
@@ -117,5 +128,10 @@ public class JoinGameLobbyScreen extends Screen {
         logo.dispose();
         System.out.println("Game Lobby View Disposed");
 
+    }
+
+    // set roomID
+    public void setJoinRoomID(String roomID) {
+        this.joinRoomID = roomID;
     }
 }

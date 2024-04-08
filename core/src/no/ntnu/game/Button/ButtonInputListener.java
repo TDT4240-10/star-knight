@@ -8,14 +8,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Objects;
 
 import no.ntnu.game.Controllers.KnightController;
+import no.ntnu.game.FirebaseInterface;
+import no.ntnu.game.Models.PlayerModel;
+import no.ntnu.game.PlayerCallback;
+import no.ntnu.game.StarKnight;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.CreateGameLobbyScreen;
+import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;
 import no.ntnu.game.Views.JoinGameLobbyScreen;
 import no.ntnu.game.Views.GameScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
 import no.ntnu.game.Views.TutorialScreen;
+import no.ntnu.game.firestore.Player;
+
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public class ButtonInputListener extends InputAdapter {
     private Button button;
@@ -24,16 +32,19 @@ public class ButtonInputListener extends InputAdapter {
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
     private ScreenManager gsm;
     private KnightController knightController;
+    private TextField textField;
     private SpriteBatch batch;
+    public Player player;
 
-    public ButtonInputListener(Button button, ScreenManager gsm, KnightController knightController, SpriteBatch batch) {
+    private FirebaseInterface FI = StarKnight.getFirebaseInterface();
+
+    public ButtonInputListener(Button button, ScreenManager gsm, KnightController knightController, TextField textField, SpriteBatch batch) {
         this.button = button;
         this.gsm = gsm;
         this.knightController = knightController;
+        this.textField = textField;
         this.batch = batch;
     }
-
-
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -43,6 +54,31 @@ public class ButtonInputListener extends InputAdapter {
 
         // add the functionality of the buttons here
         switch(this.button.getName()) {
+            case "Login":
+                if (this.button.isPressed(touchX, touchY)) {
+                    String username = textField.getText();
+                    if (!username.isEmpty()) {
+                        // check if user exists
+                        FI.getPlayer(username, new PlayerCallback() {
+                            @Override
+                            public void onCallback(Player player) {
+                                if (player == null) {
+                                    // create new player
+                                    Player newPlayer = new Player(username);
+                                    FI.SerializeClass(newPlayer);
+                                    PlayerModel.setPlayer(newPlayer);
+                                }
+                            }
+                        });
+
+
+                    }
+
+                    System.out.println("Login mode pressed, color set, username: " + username);
+                    gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
             case "LeftArrow":
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for LeftArrow
@@ -85,6 +121,20 @@ public class ButtonInputListener extends InputAdapter {
                 break;
             case "JoinRoom":
                 if (this.button.isPressed(touchX, touchY)) {
+                    String joinRoomID = textField.getText();
+                    // check if roomID exists in firestore
+                    // if exists, get the room object
+                    // if not, stay on the same screen
+
+                    if (!joinRoomID.isEmpty()) {
+                        // todo deen join room
+                        // check if roomID exists in firestore
+                        // if exists, get the room object
+                        // if not, stay on the same screen
+                        System.out.println("Join Room button pressed, color set, roomID: " + joinRoomID);
+                        gsm.set(new JoinGameLobbyScreen(gsm));
+                    }
+
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Join Room button pressed, color set");
                     gsm.set(new JoinGameLobbyScreen(gsm));
@@ -95,7 +145,6 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Create Room button pressed, color set");
-                    // todo create lobby screen
                     gsm.set(new CreateGameLobbyScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
@@ -165,13 +214,7 @@ public class ButtonInputListener extends InputAdapter {
                 }
                 break;
             // Add more cases for other buttons if needed
-            case "Login":
-                if (this.button.isPressed(touchX, touchY)) {
-                    System.out.println("Login mode pressed, color set");
-                    gsm.set(new MainMenuScreen(gsm));
-                    return true; // Indicate that the touch event is handled
-                }
-                break;
+
             default:
                 break;
         }

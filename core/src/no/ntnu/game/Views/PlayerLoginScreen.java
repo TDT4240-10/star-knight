@@ -5,22 +5,28 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
+import no.ntnu.game.FirebaseInterface;
+import no.ntnu.game.firestore.Player;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 
 public class PlayerLoginScreen extends Screen {
-
+    public Player player;
     private Stage stage;
-    private TextField textField;
+    private TextField usernameField;
     private Skin skin; // libGDX skins provide styling for UI widgets
 
     private SpriteBatch batch;
@@ -33,11 +39,12 @@ public class PlayerLoginScreen extends Screen {
     private SpriteBatch spriteBatch;
 
     private Button loginButton;
+    private FirebaseInterface _FI;
 
     // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
     // there will be two buttons, one for creating a room and one for joining a room.
 
-    public PlayerLoginScreen(ScreenManager gvm) {
+    public PlayerLoginScreen(ScreenManager gvm, FirebaseInterface _FI) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
@@ -48,29 +55,35 @@ public class PlayerLoginScreen extends Screen {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         // create text field
-        textField = new TextField("", skin);
-        textField.setPosition(300, 1050);
-        textField.setSize(500, 150);
+        usernameField = new TextField("", skin);
+        usernameField.setPosition(300, 1050);
+        usernameField.setSize(500, 150);
 
-        stage.addActor(textField);
+        stage.addActor(usernameField);
+        this._FI = _FI;
     }
 
+    public float calculateCenterX(String text, BitmapFont font) {
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, text);
+        float textWidth = layout.width;
+        return (Gdx.graphics.getWidth() - textWidth) / 2;
+    }
 
 
     @Override
     public void render(SpriteBatch sb) {
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        final float CENTER_USERNAME_X = calculateCenterX("Enter your username!", font);
         loginButton = ButtonFactory.createLoginButton(CENTER_BUTTON_X, 700);
 
-
         // Create input listeners for buttons
-        ButtonInputListener loginInputListner = new ButtonInputListener(loginButton, gvm, null, sb);
+        ButtonInputListener loginInputListener = new ButtonInputListener(loginButton, gvm, null, usernameField, sb);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
-
-        inputMultiplexer.addProcessor(loginInputListner);
+        inputMultiplexer.addProcessor(loginInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -87,7 +100,7 @@ public class PlayerLoginScreen extends Screen {
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.draw(logo, logoX, logoY);
 
-        font.draw(sb, "Enter your username!", 335, 1000);
+        font.draw(sb, "Enter your username!", CENTER_USERNAME_X, 1000);
         sb.end();
 
         // render both buttons
@@ -116,5 +129,7 @@ public class PlayerLoginScreen extends Screen {
         System.out.println("Create or Join Room View Disposed");
     }
 
-
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }

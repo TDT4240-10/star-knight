@@ -26,4 +26,7 @@ public interface Button {
 
     String getName();
 
+    // addListener takes a ButtonInputListener as a parameter
+//    void addListener(ButtonInputListener listener);
+
 }

@@ -18,8 +18,7 @@ public class StarKnight extends Game {
 	private Button createRoomButton;
 	private Button joinRoomButton;
 	private SpriteBatch spriteBatch;
-	//	private Button menubutton;
-	FirebaseInterface _FI;
+	private static FirebaseInterface _FI;
 	private ScreenManager gvm;
 
 	public StarKnight(FirebaseInterface FI) { _FI = FI; }
@@ -32,13 +31,8 @@ public class StarKnight extends Game {
 
 		// TODO: Initialize Database references
 		// _FI.SomeFunction();
-//		mainMenuScreen = new MainMenuScreen(spriteBatch);
-//		setScreen(mainMenuScreen);
 
-		// deen, push the log in screen here instead of the main menu screen
-
-//		gvm.push(new MainMenuScreen(gvm));	// push the main menu screen to the stack
-		gvm.push(new PlayerLoginScreen(gvm));
+		gvm.push(new PlayerLoginScreen(gvm, _FI));
 
 		// tree = new TreeWithPowerUp(spriteBatch);
 		// tree.init();
@@ -63,5 +57,9 @@ public class StarKnight extends Game {
 	public void dispose () {
 		super.dispose();
 		spriteBatch.dispose();
+	}
+
+	public static FirebaseInterface getFirebaseInterface() {
+		return _FI;
 	}
 }

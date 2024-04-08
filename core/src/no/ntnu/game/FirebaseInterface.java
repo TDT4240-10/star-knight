@@ -18,5 +18,7 @@ public interface FirebaseInterface {
 
     void joinRoom(String code, Player player, JoinRoomCallback callback);
 
+
+
 }
 

@@ -40,7 +40,7 @@ public class TutorialScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,900);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm,  null, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
