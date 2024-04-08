@@ -67,6 +67,7 @@ public class ButtonInputListener extends InputAdapter {
                                     Player newPlayer = new Player(username);
                                     FI.SerializeClass(newPlayer);
                                     PlayerModel.setPlayer(newPlayer);
+                                    gsm.set(new MainMenuScreen(gsm));
                                 }
                             }
                         });
@@ -75,7 +76,6 @@ public class ButtonInputListener extends InputAdapter {
                     }
 
                     System.out.println("Login mode pressed, color set, username: " + username);
-                    gsm.set(new MainMenuScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;

@@ -30,16 +30,20 @@ public class MainMenuScreen extends Screen {
     private Button rectSettingsButton;
 
     private ShapeRenderer shapeRenderer;
+
+
     //    private SpriteBatch spriteBatch;
-//    private Player player;
-    private String username;
+    private Player player;
+
     public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-        username = PlayerModel.getPlayer().getUsername();
+        if (PlayerModel.getPlayer() != null) {
+            this.player  = PlayerModel.getPlayer();
+        }
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
@@ -54,7 +58,7 @@ public class MainMenuScreen extends Screen {
     public void render(SpriteBatch sb) {
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
         final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
-        final float CENTER_USERNAME_X = calculateCenterX(username, font);
+        final float CENTER_USERNAME_X = calculateCenterX(player.getUsername(), font);
 
         playButton = ButtonFactory.createPlayButton(300,1100);
         tutorialButton = ButtonFactory.createTutorialButton(300,800);
