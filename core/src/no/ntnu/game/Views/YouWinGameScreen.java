@@ -13,54 +13,47 @@ import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
 /**
- * Main Menu View class to render main menu screen
+ * End Game Screen View class to render Lose screen
  *
  * @author Han
  */
-public class MainMenuScreen extends Screen {
+public class YouWinGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
-    private Button playButton;
-
-    private Button tutorialButton;
-    private Button rectSettingsButton;
+    private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
+    private WinRunningKnightSprite winRunningKnightSprite;
+    private float knightX, knightY;
+    private float knightSpeed = 300; // Pixels per second
     //    private SpriteBatch spriteBatch;
-    public MainMenuScreen(ScreenManager gvm) {
+    public YouWinGameScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("starknight_logo.png");
+        logo = new Texture("win.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+
+        winRunningKnightSprite = new WinRunningKnightSprite();
+
+        knightX = 0;
+        knightY = 900;
+
 //        spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void render(SpriteBatch sb) {
-
-        playButton = ButtonFactory.createPlayButton(300,1100);
-        tutorialButton = ButtonFactory.createTutorialButton(300,800);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,500);
-
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        playButton = ButtonFactory.createPlayButton(CENTER_BUTTON_X,900);
-        tutorialButton = ButtonFactory.createTutorialButton(CENTER_BUTTON_X,600);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(CENTER_BUTTON_X,300);
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
 
         // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, sb);
-        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null, sb);
-        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null, sb);
-
-
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-        inputMultiplexer.addProcessor(menuInputListener);
-        inputMultiplexer.addProcessor(tutorialInputListener);
-        inputMultiplexer.addProcessor(settingsInputListener);
+        inputMultiplexer.addProcessor(exitInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -79,28 +72,37 @@ public class MainMenuScreen extends Screen {
         sb.draw(logo, logoX, logoY);
         sb.end();
 
-        // Render the menu button
-        playButton.render(shapeRenderer,sb);
-        tutorialButton.render(shapeRenderer,sb);
-        rectSettingsButton.render(shapeRenderer,sb);
 
+        // to ensure the knight is moving at the same speed on all devices
+        float dt = Gdx.graphics.getDeltaTime();
+        update(dt);
+
+        winRunningKnightSprite.setPosition(knightX, knightY);
+        winRunningKnightSprite.render(sb);
+//        sb.end();
+
+        // Render the menu button
+        exitButton.render(shapeRenderer,sb);
         shapeRenderer.end();
+
     }
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
+
     }
 
     @Override
     public void update(float dt) {
-
+        knightX += knightSpeed * dt;
+        if (knightX > Gdx.graphics.getWidth()) {
+            knightX = -winRunningKnightSprite.getWidth();
+        }
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        winRunningKnightSprite.dispose();
     }
 }

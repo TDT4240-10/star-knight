@@ -33,12 +33,13 @@ public class CreateOrJoinRoomScreen extends Screen {
     private SpriteBatch spriteBatch;
 
     private Button createRoomButton;
+
     private Button joinRoomButton;
 
     // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
     // there will be two buttons, one for creating a room and one for joining a room.
 
-    public CreateOrJoinRoomScreen(GameScreenManager gvm) {
+    public CreateOrJoinRoomScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
@@ -60,12 +61,13 @@ public class CreateOrJoinRoomScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        joinRoomButton = ButtonFactory.createJoinRoomButton(300, 700);
-        createRoomButton = ButtonFactory.createCreateRoomButton(300, 400);
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        joinRoomButton = ButtonFactory.createJoinRoomButton(CENTER_BUTTON_X, 700);
+        createRoomButton = ButtonFactory.createCreateRoomButton(CENTER_BUTTON_X, 400);
 
         // Create input listeners for buttons
-        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm);
-        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm);
+        ButtonInputListener createRoomInputListner = new ButtonInputListener(createRoomButton, gvm, null, sb);
+        ButtonInputListener joinRoomInputListner = new ButtonInputListener(joinRoomButton, gvm, null, sb);
 
 
         // Set input processors

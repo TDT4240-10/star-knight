@@ -3,24 +3,36 @@ package no.ntnu.game.Button;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.sun.tools.javac.Main;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.Objects;
+
+import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
-import no.ntnu.game.Views.GameLobbyScreen;
-import no.ntnu.game.Views.GameScreenManager;
+import no.ntnu.game.Views.CreateGameLobbyScreen;
+import no.ntnu.game.Views.ScreenManager;
+import no.ntnu.game.Views.JoinGameLobbyScreen;
+import no.ntnu.game.Views.GameScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
 import no.ntnu.game.Views.TutorialScreen;
 
 public class ButtonInputListener extends InputAdapter {
     private Button button;
-    private GameScreenManager gsm;
+
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
-    public ButtonInputListener(Button button, GameScreenManager gsm) {
+    private ScreenManager gsm;
+    private KnightController knightController;
+    private SpriteBatch batch;
+
+    public ButtonInputListener(Button button, ScreenManager gsm, KnightController knightController, SpriteBatch batch) {
         this.button = button;
         this.gsm = gsm;
+        this.knightController = knightController;
+        this.batch = batch;
     }
+
 
 
     @Override
@@ -35,7 +47,13 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for LeftArrow
                     System.out.println("LeftArrow button pressed");
-                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    if (Objects.equals(knightController.getDirection(), "right")) {
+                        // Run chopping animation
+                        knightController.moveLeft();
+                    }
+                    else {
+                        knightController.stayLeft();
+                    }
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -43,7 +61,15 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for RightArrow
                     System.out.println("RightArrow button pressed");
-                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+
+                    if (Objects.equals(knightController.getDirection(), "left")) {
+                        // Run chopping animation
+                        knightController.moveRight();
+                    }
+                    else {
+                        knightController.stayRight();
+                    }
+
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -51,6 +77,8 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Starknightdown); // For example, change button color when pressed
                     System.out.println("Play button pressed, color set");
+                    // TODO start should bring you to the selection of game mode instead of GameScreen
+//                    gsm.set(new ChooseGameModeScreen(gsm));
                     gsm.set(new CreateOrJoinRoomScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
@@ -59,7 +87,7 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Join Room button pressed, color set");
-                    gsm.set(new GameLobbyScreen(gsm));
+                    gsm.set(new JoinGameLobbyScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -67,7 +95,8 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Create Room button pressed, color set");
-                    gsm.set(new GameLobbyScreen(gsm));
+                    // todo create lobby screen
+                    gsm.set(new CreateGameLobbyScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -75,7 +104,7 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Start Game button pressed, color set");
-                    gsm.set(new MainMenuScreen(gsm));
+                    gsm.set(new GameScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;

@@ -18,6 +18,11 @@ import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.SettingsController;
 
+/**
+ * Settings View class to render settings screen
+ *
+ * @author Han
+ */
 public class SettingsScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
@@ -37,8 +42,7 @@ public class SettingsScreen extends Screen {
 
     private SettingsController settingsController;
 
-    public SettingsScreen(GameScreenManager gvm) {
-
+    public SettingsScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("settings.png");
         font = new BitmapFont(); // Load the font
@@ -91,11 +95,11 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(300,400);
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,900);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
-
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
