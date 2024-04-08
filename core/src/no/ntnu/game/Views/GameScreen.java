@@ -108,8 +108,8 @@ public class GameScreen extends Screen {
         knightController.renderDeadKnight(sb);
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new YouWinGameScreen(gvm));
-//            gvm.set(new YouLoseGameScreen(gvm));
+//            gvm.set(new YouWinGameScreen(gvm));
+            gvm.set(new YouLoseGameScreen(gvm));
         };
 
         shapeRenderer.end();
