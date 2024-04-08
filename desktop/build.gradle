@@ -1,4 +1,7 @@
 sourceCompatibility = 1.8
+dependencies {
+    implementation 'com.google.firebase:firebase-firestore:24.10.3'
+}
 sourceSets.main.java.srcDirs = [ "src/" ]
 sourceSets.main.resources.srcDirs = ["../assets"]
 
