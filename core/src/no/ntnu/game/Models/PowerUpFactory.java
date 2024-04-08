@@ -2,6 +2,7 @@ package no.ntnu.game.Models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Null;
 
 import java.util.Random;
 
@@ -20,7 +21,7 @@ public class PowerUpFactory {
     public static PowerUp createPowerUp() {
         loadTextures();
         Random random = new Random();
-        int randomIndex = random.nextInt(2) ; // Adjust the range based on the number of power-up types
+        int randomIndex = random.nextInt(2) - 1; // Adjust the range based on the number of power-up types
 
         switch (randomIndex) {
             case 0:
@@ -29,18 +30,18 @@ public class PowerUpFactory {
                 return createShieldPowerUp();
             // Add cases for other types of PowerUps as needed
             default:
-                return createLivesPowerUp(); // Default to speed power-up
+                return  null; // Default to speed power-up
         }
     }
 
     // Method to create a Extra lives PowerUp
-    private static PowerUp createLivesPowerUp() {
+    public static PowerUp createLivesPowerUp() {
         return new PowerUp("heart", 2000,getTextureRegionForType("heart")); // Example duration: 5000 milliseconds
     }
 
     // Method to create a Shield PowerUp
-    private static PowerUp createShieldPowerUp() {
-        return new PowerUp("Shield", 5000,getTextureRegionForType("shield")); // Example duration: 10000 milliseconds
+    public static PowerUp createShieldPowerUp() {
+        return new PowerUp("shield", 5000,getTextureRegionForType("shield")); // Example duration: 10000 milliseconds
     }
 
     // Method to get the texture region for a specific type of power-up

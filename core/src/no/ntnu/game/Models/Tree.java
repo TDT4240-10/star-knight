@@ -38,7 +38,7 @@ public class Tree {
     private int stemHeight = 100;
     private int starterTree = 10;// change this to affect how many trees we start with
     private int width = 300;
-    private int minYPosition = 300; // adjust this for space for character
+    private int minYPosition = 200; // adjust this for space for character
 
     //here creates the tree object which includes stage that is to render the tree.
     public Tree() {
@@ -54,7 +54,7 @@ public class Tree {
         trees.add(new TreePart("none", TreeColor1));
         trees.add(new TreePart("none", TreeColor1));
         trees.add(new TreePart("none", TreeColor1));
-        for (int i = 1; i <= starterTree - 3; i++) {
+        for (int i = 0; i <= starterTree - 3; i++) {
             if (Objects.equals(trees.get(trees.size() - 1).getValue(), "left") ||
                     Objects.equals(trees.get(trees.size() - 1).getValue(), "right")) {
                 newTrunk = "none";
@@ -99,29 +99,33 @@ public class Tree {
         batch.begin();
         float centerX = stage.getWidth() / 2 - width / 2;
         int height = 250;
-        float centerY = stage.getHeight() / 2 - (trees.size() * height) / 2; // Adjusted to center vertically
+        float centerY = minYPosition; // Adjusted to center vertically
 
         for (int i = 0; i < trees.size(); i++) {
             TreePart treePart = trees.get(i);
 
             // Only draw the tree if its y position is above the minYPosition
-            if (centerY + i * height > minYPosition) {
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            // Translate the ShapeRenderer to start from a fixed y-coordinate
 
-                shapeRenderer.setColor(treePart.color);
-                shapeRenderer.rect(centerX, centerY + i * height, width, height);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.identity();
 
-                if (treePart.value.equals("left")) {
-                    treePart.setPos(centerX - stemWidth,centerY + i * height + height / 2);
-                    shapeRenderer.rect(centerX - stemWidth, centerY + i * height + height / 2, stemWidth, stemHeight);
-                } else if (treePart.value.equals("right")) {
-                    treePart.setPos(centerX + width,centerY + i * height + height / 2);
-                    shapeRenderer.rect(centerX + width, centerY + i * height + height / 2, stemWidth, stemHeight);
-                }
+            shapeRenderer.translate(0, minYPosition, 0); // Adjust the value as per your needs
 
-                shapeRenderer.end();
+            shapeRenderer.setColor(treePart.color);
+            shapeRenderer.rect(centerX, centerY + i * height, width, height);
+
+            if (treePart.value.equals("left")) {
+                treePart.setPos(centerX - stemWidth,centerY +stemWidth/2+ i * height + height / 2 );
+                shapeRenderer.rect(centerX - stemWidth, centerY + i * height + height / 2, stemWidth, stemHeight);
+            } else if (treePart.value.equals("right")) {
+                treePart.setPos(centerX + width,centerY+stemWidth/2 + i * height + height / 2);
+                shapeRenderer.rect(centerX + width, centerY + i * height + height / 2, stemWidth, stemHeight);
             }
-        }
+
+            shapeRenderer.end();
+            }
+
 
         batch.end();
     }

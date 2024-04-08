@@ -36,7 +36,14 @@ public class EndGameScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(300,900);
+        float logoWidth = logo.getWidth();
+        float logoHeight = logo.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float logoX = (screenWidth - logoWidth) / 2;
+        float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
+
+        exitButton = ButtonFactory.createExitButton(screenWidth/2 - 150,screenHeight/2 - 100);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
@@ -47,17 +54,9 @@ public class EndGameScreen extends Screen {
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-        float logoX = (screenWidth - logoWidth) / 2;
-        float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
         sb.begin();
         sb.draw(logo, logoX, logoY);

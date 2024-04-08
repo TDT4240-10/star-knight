@@ -25,7 +25,7 @@ public class CircleButton implements Button {
     public CircleButton(float x, float y) {
         this.x = x;
         this.y = y;
-        this.radius = 150;
+        this.radius = 100;
         this.text = "test"; // Default text
         this.font = new BitmapFont(); // Default font
         this.font.getData().setScale(8); // Set scale factor to 2 (doubles the size)

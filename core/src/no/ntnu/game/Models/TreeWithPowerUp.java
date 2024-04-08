@@ -44,7 +44,8 @@ public class TreeWithPowerUp extends Tree {
         for (int i = 0; i < trees.size(); i++) {
             if (i % powerUpFrequency == 0) { // For example, add powerup to every 2nd tree so change this to change frequency
                 TreePart treePart = trees.get(i);
-                treePart.setPowerup(PowerUpFactory.createPowerUp());
+                if (!Objects.equals(treePart.value, "none")){
+                treePart.setPowerup(PowerUpFactory.createPowerUp());}
             }
         }
     }
@@ -56,18 +57,17 @@ public class TreeWithPowerUp extends Tree {
 
         batch.begin();
         //TODO to draw the powerups ono the trees.
-        float minYPosition = 300; // adjust this with the tree to have no error
+        float minYPosition = 200; // adjust this with the tree to have no error
 
         for (int i = 0; i < trees.size(); i++) {
             TreePart treePart = trees.get(i);
             centerX = treePart.x + 100;
             centerY = treePart.y;
-            if (centerY > minYPosition) {
-                if (treePart.powerup != null) {
-                    // Draw the textureRegion at position (x, y)
-                    batch.draw(treePart.powerup.textureRegion, centerX, centerY, treePart.powerup.textureRegion.getRegionWidth() * 6, treePart.powerup.textureRegion.getRegionHeight() * 6);
-                }
+            if (treePart.powerup != null) {
+                // Draw the textureRegion at position (x, y)
+                batch.draw(treePart.powerup.textureRegion, centerX, centerY, treePart.powerup.textureRegion.getRegionWidth() * 6, treePart.powerup.textureRegion.getRegionHeight() * 6);
             }
+
         }
         batch.end();
     }
@@ -82,6 +82,7 @@ public class TreeWithPowerUp extends Tree {
 //            String newTrunk = trees.get(trees.size() - 1).value.equals("left") ? "right" : "left";
 //            Color color = (trees.get(trees.size() - 1).color.equals(trunkColor)) ? TreeColor1 : TreeColor2;
 
+            // If top-most branch is left or right, new branch added should be none
             if (Objects.equals(trees.get(trees.size() - 1).getValue(), "left") ||
                 Objects.equals(trees.get(trees.size() - 1).getValue(), "right")) {
                 newTrunk = "none";

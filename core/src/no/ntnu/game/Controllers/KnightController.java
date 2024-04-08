@@ -9,6 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.Objects;
 
 import no.ntnu.game.Models.KnightModel;
+import no.ntnu.game.Models.PowerUp;
+import no.ntnu.game.Models.PowerUpFactory;
+import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.Tree;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
@@ -38,19 +41,95 @@ public class KnightController {
     private boolean choppingAnimationActive = false;
     private boolean deathAnimationActive = false;
     private float elapsedTime = 0;
+    private TimeLimitBar timeLimitBar;
+    private float maxTimeLimit;
+    private float timeToAdd = 0.5f;
+
+    // Power Ups
+    private PowerUp life1;
+    private PowerUp life2;
+    private PowerUp life3;
+
+    private float powerUpY = 30;
+    private float powerUpX1;
+    private float powerUpX2;
+    private float powerUpX3;
+    private boolean life1Active = false;
+    private boolean life2Active = false;
+    private boolean life3Active = false;
+
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes
-    public KnightController(int idleX, int idleY, TreeWithPowerUp tree) {
+    public KnightController(int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
+        life1 = PowerUpFactory.createLivesPowerUp();
+        life2 = PowerUpFactory.createLivesPowerUp();
+        life3 = PowerUpFactory.createLivesPowerUp();
+
+        life1.setPosition(-99999, -99999);
+        life2.setPosition(-99999, -99999);
+        life3.setPosition(-99999, -99999);
+
         knight.setDirection("left");
         this.idleX = idleX;
         this.idleY = idleY;
         this.tree = tree;
+        this.timeLimitBar = timeLimitBar;
+        this.maxTimeLimit = maxTimeLimit;
+
+        // Set Power Up position
+        System.out.println(life1.textureRegion.getRegionWidth());
+        powerUpX1 = Gdx.graphics.getWidth() - life1.textureRegion.getRegionWidth() - 200;
+        powerUpX2 = powerUpX1 - life1.textureRegion.getRegionWidth() - 200;
+        powerUpX3 = powerUpX2 - life1.textureRegion.getRegionWidth() - 200;
+    }
+
+    public void getLife1() {
+        life1.setPosition(powerUpX1, powerUpY);
+        life1Active = true;
+        System.out.println("set life 1 pos");
+    }
+
+    public void getLife2() {
+        life2.setPosition(powerUpX2, powerUpY);
+        life2Active = true;
+    }
+
+    public void getLife3() {
+        life3.setPosition(powerUpX3, powerUpY);
+        life3Active = true;
+    }
+
+    public void checkPowerUp() {
+        PowerUp powerUp = tree.trees.get(0).getPowerup();
+        if (Objects.equals(powerUp, null)) {
+            System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
+            System.out.println("chopped tree with no powerup");
+        }
+        else {
+            if (Objects.equals(powerUp.getName(), "heart")) {
+                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
+                System.out.println("chopped tree with heart");
+                if (life2Active) {
+                    getLife3();
+                }
+                else if (life1Active){
+                    getLife2();
+                }
+                else {
+                    getLife1();
+                }
+            } else if (Objects.equals(powerUp.getName(), "shield")) {
+                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
+                System.out.println("chopped tree with shield");
+            }
+        }
+
     }
 
     // Methods to interact with the knight
@@ -61,7 +140,9 @@ public class KnightController {
         phoneWidth = Gdx.graphics.getWidth();
         idleX = phoneWidth / 2 + idleX;
 
-        TreePart lowestTreePart = tree.trees.get(2);
+        TreePart lowestTreePart = tree.trees.get(0);
+        System.out.println("move right, tree is: " + lowestTreePart.getValue());
+
         if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
             idleKnightSprite.setPosition(-99999, -99999);
             deadKnightSprite.setPosition(idleX, idleY);
@@ -82,6 +163,9 @@ public class KnightController {
 
             choppingAnimationActive = true;
             elapsedTime = 0;
+            timeLimitBar.addTime(timeToAdd);
+
+            checkPowerUp();
         }
 
     }
@@ -89,7 +173,9 @@ public class KnightController {
     // stayRight() is used when knight's direction is right and right button is clicked
     public void stayRight() {
         knight.setDirection("right");
-        TreePart lowestTreePart = tree.trees.get(2);
+        TreePart lowestTreePart = tree.trees.get(0);
+        System.out.println("stay right, tree is: " + lowestTreePart.getValue());
+
         if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
             idleKnightSprite.setPosition(-99999, -99999);
             deadKnightSprite.setPosition(idleX, idleY);
@@ -105,6 +191,10 @@ public class KnightController {
 
             choppingAnimationActive = true;
             elapsedTime = 0;
+
+            timeLimitBar.addTime(timeToAdd);
+
+            checkPowerUp();
         }
     }
 
@@ -113,8 +203,8 @@ public class KnightController {
         knight.setDirection("left");
         idleX = idleX - (phoneWidth / 2);
 
-        TreePart lowestTreePart = tree.trees.get(2);
-        System.out.println("move left, : " + lowestTreePart.getValue());
+        TreePart lowestTreePart = tree.trees.get(0);
+        System.out.println("move left, tree is: " + lowestTreePart.getValue());
 
         if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
             idleKnightSprite.setPosition(-99999, -99999);
@@ -136,13 +226,19 @@ public class KnightController {
 
             choppingAnimationActive = true;
             elapsedTime = 0;
+
+            timeLimitBar.addTime(timeToAdd);
+
+            checkPowerUp();
         }
     }
 
     // stayLeft() is used when knight's direction is left and left button is clicked
     public void stayLeft() {
         knight.setDirection("left");
-        TreePart lowestTreePart = tree.trees.get(2);
+        TreePart lowestTreePart = tree.trees.get(0);
+        System.out.println("stay left, tree is: " + lowestTreePart.getValue());
+
         if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
             idleKnightSprite.setPosition(-99999, -99999);
             deadKnightSprite.setPosition(idleX, idleY);
@@ -158,6 +254,10 @@ public class KnightController {
 
             choppingAnimationActive = true;
             elapsedTime = 0;
+
+            timeLimitBar.addTime(timeToAdd);
+
+            checkPowerUp();
         }
     }
 
@@ -168,9 +268,14 @@ public class KnightController {
         // to add a new tree after chopping
     public String update(float delta) {
         // Get the current lowest tree part=
-        TreePart lowestTreePart = tree.trees.get(2);
-        System.out.println("lowest tree direction: " + lowestTreePart.getValue());
-
+        TreePart lowestTreePart = tree.trees.get(0);
+        if (lowestTreePart.getPowerup() != null){
+            String powerUp = lowestTreePart.getPowerup().getName();
+            System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", " + powerUp);
+        }
+        else{
+            System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", no powerup");
+        }
         // Logic to run chopping knight animation
         if (choppingAnimationActive) {
             elapsedTime += delta;
@@ -190,7 +295,7 @@ public class KnightController {
                     tree.createNewTrunk();
 
                     // Checking for next collision after chopping the tree
-                    lowestTreePart = tree.trees.get(2);
+                    lowestTreePart = tree.trees.get(0);
                     if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                         System.out.println("chopped tree and died");
 
@@ -263,6 +368,18 @@ public class KnightController {
     public void renderDeadKnight(SpriteBatch batch) {
 //        choppingKnightSprite.startAnimation();
         deadKnightSprite.render(batch);
+    }
+
+    public void renderLife1(SpriteBatch batch) {
+        life1.render(batch);
+    }
+
+    public void renderLife2(SpriteBatch batch) {
+        life2.render(batch);
+    }
+
+    public void renderLife3(SpriteBatch batch) {
+        life3.render(batch);
     }
 
     public void setDeadPosition(float x, float y) {
