@@ -20,6 +20,8 @@ public class CircleButton implements Button {
 
     private String name;
     // this color scheme is for all text in the game
+    public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
+
     public static Color Starknighttext = new Color(199 / 255f, 199 / 255f, 176 / 255f, 255 / 255f);
     public static Color outlineColor = new Color(40/ 255f, 40/ 255f, 41/ 255f, 1/ 255f);
     public CircleButton(float x, float y) {
@@ -30,6 +32,7 @@ public class CircleButton implements Button {
         this.font = new BitmapFont(); // Default font
         this.font.getData().setScale(8); // Set scale factor to 2 (doubles the size)
         this.name = name;
+        this.color = Starknight;
 
     }
 
@@ -68,6 +71,10 @@ public class CircleButton implements Button {
     public void setColor(Color color) {
         this.color = color;
 
+    }
+    @Override
+    public Color getColor() {
+        return this.color ;
     }
 
     @Override

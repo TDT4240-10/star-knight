@@ -24,14 +24,6 @@ public class ButtonFactory {
         rightArrowButton.setText(">");
         return rightArrowButton;
     }
-
-    public static Button createLoginButton(float x, float y) {
-        Button loginButton = new RectangleButton(x, y);
-        loginButton.setName("Login");
-        loginButton.setColor(Starknight);
-        loginButton.setText("Login");
-        return loginButton;
-    }
     public static Button createSettingButton(float x, float y) {
         Button SettingButton = new CircleButton(x, y);
         SettingButton.setName("Setting");
@@ -120,7 +112,6 @@ public class ButtonFactory {
     public static Button createFastestKnightButton(float x, float y) {
         Button fastestKnightButton = new RectangleButton(x, y);
         fastestKnightButton.setName("FastestKnight");
-        fastestKnightButton.setColor(Starknight);
         fastestKnightButton.setText("Fastest Knight");
         return fastestKnightButton;
     }
@@ -129,8 +120,8 @@ public class ButtonFactory {
     public static Button createLastKnightButton(float x, float y) {
         Button lastKnightStandingButton = new RectangleButton(x, y);
         lastKnightStandingButton.setName("LastKnight");
-        lastKnightStandingButton.setColor(Starknight);
         lastKnightStandingButton.setText("Last Knight");
         return lastKnightStandingButton;
     }
 }
+
