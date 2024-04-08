@@ -29,13 +29,17 @@ public class MainMenuScreen extends Screen {
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
     public MainMenuScreen(ScreenManager gvm) {
-
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 //        spriteBatch = new SpriteBatch();
+    }
+
+    @Override
+    public void render(SpriteBatch sb) {
+
         playButton = ButtonFactory.createPlayButton(300,1100);
         tutorialButton = ButtonFactory.createTutorialButton(300,800);
         rectSettingsButton = ButtonFactory.createRectSettingsButton(300,500);
@@ -44,12 +48,6 @@ public class MainMenuScreen extends Screen {
         playButton = ButtonFactory.createPlayButton(CENTER_BUTTON_X,900);
         tutorialButton = ButtonFactory.createTutorialButton(CENTER_BUTTON_X,600);
         rectSettingsButton = ButtonFactory.createRectSettingsButton(CENTER_BUTTON_X,300);
-    }
-
-    @Override
-    public void render(SpriteBatch sb) {
-
-
 
         // Create input listeners for buttons
         ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, sb);

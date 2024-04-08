@@ -120,6 +120,7 @@ public class ButtonFactory {
     public static Button createFastestKnightButton(float x, float y) {
         Button fastestKnightButton = new RectangleButton(x, y);
         fastestKnightButton.setName("FastestKnight");
+        fastestKnightButton.setColor(Starknight);
         fastestKnightButton.setText("Fastest Knight");
         return fastestKnightButton;
     }
@@ -128,6 +129,7 @@ public class ButtonFactory {
     public static Button createLastKnightButton(float x, float y) {
         Button lastKnightStandingButton = new RectangleButton(x, y);
         lastKnightStandingButton.setName("LastKnight");
+        lastKnightStandingButton.setColor(Starknight);
         lastKnightStandingButton.setText("Last Knight");
         return lastKnightStandingButton;
     }

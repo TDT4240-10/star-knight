@@ -35,7 +35,6 @@ public class CreateGameLobbyScreen extends Screen {
     private Button lastKnightButton;
     private Button fastestKnightButton;
     private Button exitButton;
-    final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
 
     // TODO link the room id with backend
     private String roomID; // room id for the game lobby
@@ -46,9 +45,6 @@ public class CreateGameLobbyScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-        // render last knight standing and fastest knight buttons side by side
-        lastKnightButton = ButtonFactory.createLastKnightButton(CENTER_BUTTON_X - 200, 0.27f * Gdx.graphics.getHeight());
-        fastestKnightButton = ButtonFactory.createFastestKnightButton(CENTER_BUTTON_X + 200, 0.27f * Gdx.graphics.getHeight());
         generateRoomID();
     }
 
@@ -61,24 +57,22 @@ public class CreateGameLobbyScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
         startGameButton = ButtonFactory.createStartGameButton(CENTER_BUTTON_X, 0.15f * Gdx.graphics.getHeight());
 
-
+        // render last knight standing and fastest knight buttons side by side
+        lastKnightButton = ButtonFactory.createLastKnightButton(CENTER_BUTTON_X - 200, 0.27f * Gdx.graphics.getHeight());
+        fastestKnightButton = ButtonFactory.createFastestKnightButton(CENTER_BUTTON_X + 200, 0.27f * Gdx.graphics.getHeight());
 
         exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 0.03f * Gdx.graphics.getHeight());
 
         // Create input listeners for buttons
         ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, sb);
         ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
-        ButtonInputListener lastKnightListener = new ButtonInputListener(lastKnightButton, gvm, null, sb);
-        ButtonInputListener fastestKnightListener = new ButtonInputListener(fastestKnightButton, gvm, null, sb);
-
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(startGameInputListener);
         inputMultiplexer.addProcessor(exitGameInputListener);
-        inputMultiplexer.addProcessor(lastKnightListener);
-        inputMultiplexer.addProcessor(fastestKnightListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
