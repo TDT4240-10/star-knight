@@ -19,10 +19,11 @@ public interface Button {
     void dispose();
 
     void setColor(Color color);
-
+    Color getColor();
     void setText(String text);
 
     void setName(String name);
 
     String getName();
+
 }
