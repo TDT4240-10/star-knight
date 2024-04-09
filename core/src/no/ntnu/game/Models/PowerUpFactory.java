@@ -46,6 +46,7 @@ public class PowerUpFactory {
 
     // Method to get the texture region for a specific type of power-up
     private static TextureRegion getTextureRegionForType(String type) {
+        loadTextures();
         int index = getIndexForType(type); // Get the index of the sprite for this type
         int rows = 4;
         int spriteWidth = 32;

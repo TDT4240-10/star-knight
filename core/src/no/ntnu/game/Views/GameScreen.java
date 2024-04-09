@@ -16,6 +16,7 @@ import no.ntnu.game.Controllers.GameController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
+import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.TreeWithPowerUp;
 
@@ -55,6 +56,8 @@ public class GameScreen extends Screen {
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
+
+    private Score score;
 
 
     public GameScreen(ScreenManager gvm) {
@@ -144,6 +147,8 @@ public class GameScreen extends Screen {
         knightController.renderLife1(sb);
         knightController.renderLife2(sb);
         knightController.renderLife3(sb);
+
+        knightController.renderScore(sb);
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
             gvm.set(new EndGameScreen(gvm));

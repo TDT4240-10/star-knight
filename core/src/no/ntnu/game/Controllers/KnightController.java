@@ -11,6 +11,7 @@ import java.util.Objects;
 import no.ntnu.game.Models.KnightModel;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
+import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.Tree;
 import no.ntnu.game.Models.TreePart;
@@ -43,7 +44,7 @@ public class KnightController {
     private float elapsedTime = 0;
     private TimeLimitBar timeLimitBar;
     private float maxTimeLimit;
-    private float timeToAdd = 0.5f;
+    private float timeToAdd = 0.8f;
 
     // Power Ups
     private PowerUp life1;
@@ -57,6 +58,10 @@ public class KnightController {
     private boolean life1Active = false;
     private boolean life2Active = false;
     private boolean life3Active = false;
+
+    private PowerUpFactory powerUpFactory;
+
+    private Score scoreCounter;
 
 
 
@@ -87,6 +92,8 @@ public class KnightController {
         powerUpX1 = Gdx.graphics.getWidth() - life1.textureRegion.getRegionWidth() - 200;
         powerUpX2 = powerUpX1 - life1.textureRegion.getRegionWidth() - 200;
         powerUpX3 = powerUpX2 - life1.textureRegion.getRegionWidth() - 200;
+
+        scoreCounter = new Score();
     }
 
     public void getLife1() {
@@ -293,6 +300,7 @@ public class KnightController {
                 if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                     tree.chop();
                     tree.createNewTrunk();
+                    scoreCounter.incrementScore(1);
 
                     // Checking for next collision after chopping the tree
                     lowestTreePart = tree.trees.get(0);
@@ -380,6 +388,10 @@ public class KnightController {
 
     public void renderLife3(SpriteBatch batch) {
         life3.render(batch);
+    }
+
+    public void renderScore(SpriteBatch batch) {
+        scoreCounter.render(batch);
     }
 
     public void setDeadPosition(float x, float y) {
