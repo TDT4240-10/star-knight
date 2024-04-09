@@ -49,9 +49,9 @@ public class GameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 4f;
+    private float timeLimit = 6f;
 
-    private float initialTime = 4f;
+    private float initialTime = 6f;
 
     private PowerUp life1;
     private PowerUp life2;
@@ -151,7 +151,7 @@ public class GameScreen extends Screen {
         knightController.renderScore(sb);
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new YouWinGameScreen(gvm));
+            gvm.set(new YouLoseGameScreen(gvm));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };
 

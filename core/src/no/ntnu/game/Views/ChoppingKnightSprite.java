@@ -43,7 +43,7 @@ public class ChoppingKnightSprite {
         knightFrames[4] = new TextureRegion(frame4);
         knightFrames[5] = new TextureRegion(frame5);
 
-        knightAnimation = new Animation<>(0.1f, knightFrames); // Frame duration 0.1 seconds
+        knightAnimation = new Animation<>(0.02f, knightFrames); // Frame duration 0.1 seconds
         knightSprite = new Sprite(knightAnimation.getKeyFrame(0));
 
     }
