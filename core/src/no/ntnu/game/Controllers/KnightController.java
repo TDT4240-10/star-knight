@@ -28,6 +28,7 @@ import no.ntnu.game.Views.IdleKnightSprite;
  */
 public class KnightController {
     private KnightModel knight;
+    private String gamemode;
     private ChoppingKnightSprite choppingKnightSprite;
     private IdleKnightSprite idleKnightSprite;
     private DeadKnightSprite deadKnightSprite;
@@ -72,7 +73,9 @@ public class KnightController {
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes
-    public KnightController(int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
+    public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
+        this.gamemode = gamemode;
+
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
@@ -209,7 +212,10 @@ public class KnightController {
 
             choppingAnimationActive = true;
             elapsedTime = 0;
-            timeLimitBar.addTime(timeToAdd);
+
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
 
             checkPowerUp();
         }
@@ -241,8 +247,9 @@ public class KnightController {
             choppingAnimationActive = true;
             elapsedTime = 0;
 
-            timeLimitBar.addTime(timeToAdd);
-
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
             checkPowerUp();
         }
     }
@@ -275,8 +282,9 @@ public class KnightController {
             choppingAnimationActive = true;
             elapsedTime = 0;
 
-            timeLimitBar.addTime(timeToAdd);
-
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
             checkPowerUp();
         }
     }
@@ -306,8 +314,9 @@ public class KnightController {
             choppingAnimationActive = true;
             elapsedTime = 0;
 
-            timeLimitBar.addTime(timeToAdd);
-
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
             checkPowerUp();
         }
     }

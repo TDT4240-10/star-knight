@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -25,7 +24,7 @@ import no.ntnu.game.Models.TreeWithPowerUp;
  *
  * @author Han
  */
-public class GameScreen extends Screen {
+public class FastestKnightGameScreen extends Screen {
 
     private GameController gameController;
 
@@ -49,9 +48,9 @@ public class GameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 6f;
+    private float timeLimit = 30f;
 
-    private float initialTime = 6f;
+    private float initialTime = 30f;
 
     private PowerUp life1;
     private PowerUp life2;
@@ -60,7 +59,7 @@ public class GameScreen extends Screen {
     private Score score;
 
 
-    public GameScreen(ScreenManager gvm) {
+    public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
         powerUpTextLogo = new Texture("power_ups.png");
 
@@ -77,7 +76,7 @@ public class GameScreen extends Screen {
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
-        knightController = new KnightController(-80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
+        knightController = new KnightController("fastest_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
