@@ -13,7 +13,6 @@ import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
-import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.Tree;
 import no.ntnu.game.Models.Settings;
 import no.ntnu.game.Models.TreePart;
@@ -29,6 +28,7 @@ import no.ntnu.game.Views.IdleKnightSprite;
  */
 public class KnightController {
     private KnightModel knight;
+    private String gamemode;
     private ChoppingKnightSprite choppingKnightSprite;
     private IdleKnightSprite idleKnightSprite;
     private DeadKnightSprite deadKnightSprite;
@@ -68,15 +68,14 @@ public class KnightController {
     private PowerUpFactory powerUpFactory;
 
     private Score scoreCounter;
-    private Timer timer;
     private Settings settings;
     private Sound chopSoundEffect;
-    public GameModeController gameModeController;
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes
-    public KnightController(int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
-        gameModeController = GameModeController.getInstance();
+    public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
+        this.gamemode = gamemode;
+
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
@@ -109,7 +108,6 @@ public class KnightController {
         powerUpX3 = powerUpX2 - life1.textureRegion.getRegionWidth() - 200;
 
         scoreCounter = new Score();
-        timer = new Timer();
     }
 
     public void getLife1() {
@@ -214,7 +212,10 @@ public class KnightController {
 
             choppingAnimationActive = true;
             elapsedTime = 0;
-            timeLimitBar.addTime(timeToAdd);
+
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
 
             checkPowerUp();
         }
@@ -246,8 +247,9 @@ public class KnightController {
             choppingAnimationActive = true;
             elapsedTime = 0;
 
-            timeLimitBar.addTime(timeToAdd);
-
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
             checkPowerUp();
         }
     }
@@ -280,8 +282,9 @@ public class KnightController {
             choppingAnimationActive = true;
             elapsedTime = 0;
 
-            timeLimitBar.addTime(timeToAdd);
-
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
             checkPowerUp();
         }
     }
@@ -311,8 +314,9 @@ public class KnightController {
             choppingAnimationActive = true;
             elapsedTime = 0;
 
-            timeLimitBar.addTime(timeToAdd);
-
+            if (Objects.equals(gamemode, "last_knight")) {
+                timeLimitBar.addTime(timeToAdd);
+            }
             checkPowerUp();
         }
     }
@@ -355,13 +359,7 @@ public class KnightController {
                 if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                     tree.chop();
                     tree.createNewTrunk();
-
-                    if (gameModeController.isLastKnightMode()) {
-                        scoreCounter.incrementScore(1);
-                    }
-                    else if (gameModeController.isFastestKnightMode()) {
-                        scoreCounter.decrementScore(1);
-                    }
+                    scoreCounter.incrementScore(1);
 
                     // Checking for next collision after chopping the tree
                     lowestTreePart = tree.trees.get(0);
@@ -487,10 +485,6 @@ public class KnightController {
     public void renderScore(SpriteBatch batch) {
         scoreCounter.render(batch);
     }
-
-//    public void renderTimeElapsed(SpriteBatch batch) {
-//        timer.render(batch);
-//    }
 
     public void setDeadPosition(float x, float y) {
         deadKnightSprite.setPosition(x, y);
