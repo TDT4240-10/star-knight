@@ -2,6 +2,7 @@ package no.ntnu.game.Controllers;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -33,6 +34,7 @@ public class KnightController {
     private float animationDuration = 0.5f; // Example duration in seconds
 
     private float deathAnimationDuration = 0.8f;
+    private Music backgroundMusic;
     private boolean choppingAnimationActive = false;
     private boolean deathAnimationActive = false;
     private boolean playChopSound = true;
@@ -53,8 +55,14 @@ public class KnightController {
         this.idleX = idleX;
         this.idleY = idleY;
         this.tree = tree;
+        this.tree = tree;
 
         settings = Settings.getInstance();
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("HinaCC0_011_Fallen_leaves(chosic.com).mp3"));
+        backgroundMusic.setVolume(settings.getMusic());
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
 
         chopSoundEffect = Gdx.audio.newSound(Gdx.files.internal("audio_cut.wav"));
     }
@@ -209,6 +217,7 @@ public class KnightController {
                         idleKnightSprite.setPosition(-99999, -99999);
                         deathAnimationActive = true;
                         elapsedTime = 0;
+                        this.stopMusic();
                     }
                 }
             }
@@ -291,6 +300,12 @@ public class KnightController {
     public void disposeChoppingKnight() {
         choppingKnightSprite.dispose();
     }
+
+    public void stopMusic() {
+        if(backgroundMusic.isPlaying()) {
+            backgroundMusic.stop();
+        }
+    };
 
 }
 

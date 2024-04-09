@@ -129,6 +129,9 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Exit to Main Menu button pressed, color set");
+                    if(knightController != null){
+                        knightController.stopMusic();
+                    }
                     gsm.set(new MainMenuScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
