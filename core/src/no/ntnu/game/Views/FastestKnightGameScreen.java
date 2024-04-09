@@ -34,6 +34,7 @@ public class FastestKnightGameScreen extends Screen {
 
     private Button rightButton;
     private Button exitButton;
+    private int player_score;
 
 
     private TreeWithPowerUp treeWithPowerUp;
@@ -98,7 +99,7 @@ public class FastestKnightGameScreen extends Screen {
         // Update the time limit
         timeLimitBar.updateTime(dt);
         if (timeLimitBar.isTimeUp()) {
-            gvm.set(new YouLoseGameScreen(gvm));
+            gvm.set(new FastestKnightEndGameScreen(gvm, player_score));
         }
     }
 
@@ -147,10 +148,10 @@ public class FastestKnightGameScreen extends Screen {
         knightController.renderLife2(sb);
         knightController.renderLife3(sb);
 
-        knightController.renderScore(sb);
+        player_score = knightController.renderScore(sb);
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new YouLoseGameScreen(gvm));
+            gvm.set(new FastestKnightEndGameScreen(gvm, player_score));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };
 

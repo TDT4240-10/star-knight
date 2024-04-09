@@ -482,8 +482,9 @@ public class KnightController {
         life3.render(batch);
     }
 
-    public void renderScore(SpriteBatch batch) {
+    public int renderScore(SpriteBatch batch) {
         scoreCounter.render(batch);
+        return scoreCounter.getScore();
     }
 
     public void setDeadPosition(float x, float y) {
@@ -499,8 +500,10 @@ public class KnightController {
     }
 
     public void stopMusic() {
-        if(backgroundMusic.isPlaying()) {
-            backgroundMusic.stop();
+        if (backgroundMusic != null) {
+            if(backgroundMusic.isPlaying()) {
+                backgroundMusic.stop();
+            }
         }
     };
 
