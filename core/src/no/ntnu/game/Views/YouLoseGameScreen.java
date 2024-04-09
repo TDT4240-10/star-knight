@@ -15,7 +15,7 @@ import no.ntnu.game.Button.ButtonInputListener;
 /**
  * End Game Screen View class to render Lose screen
  *
- * @author Han
+ * @author Deen
  */
 public class YouLoseGameScreen extends Screen {
     private Texture logo;
