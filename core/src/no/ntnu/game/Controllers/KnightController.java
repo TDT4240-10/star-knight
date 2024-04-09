@@ -2,9 +2,9 @@ package no.ntnu.game.Controllers;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.Objects;
 
@@ -14,12 +14,12 @@ import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.Tree;
+import no.ntnu.game.Models.Settings;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.ChoppingKnightSprite;
 import no.ntnu.game.Views.DeadKnightSprite;
 import no.ntnu.game.Views.IdleKnightSprite;
-import no.ntnu.game.Views.JoinGameLobbyScreen;
 
 /**
  * KnightController class is the main controller class to handle knight sprites, tree and collision logic.
@@ -39,8 +39,10 @@ public class KnightController {
     private float animationDuration = 0.5f; // Example duration in seconds
 
     private float deathAnimationDuration = 0.8f;
+    private Music backgroundMusic;
     private boolean choppingAnimationActive = false;
     private boolean deathAnimationActive = false;
+    private boolean playChopSound = true;
     private float elapsedTime = 0;
     private TimeLimitBar timeLimitBar;
     private float maxTimeLimit;
@@ -62,7 +64,8 @@ public class KnightController {
     private PowerUpFactory powerUpFactory;
 
     private Score scoreCounter;
-
+    private Settings settings;
+    private Sound chopSoundEffect;
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes
@@ -137,6 +140,16 @@ public class KnightController {
             }
         }
 
+        this.tree = tree;
+
+        settings = Settings.getInstance();
+
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("HinaCC0_011_Fallen_leaves(chosic.com).mp3"));
+        backgroundMusic.setVolume(settings.getMusic());
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
+
+        chopSoundEffect = Gdx.audio.newSound(Gdx.files.internal("audio_cut.wav"));
     }
 
     // Methods to interact with the knight
@@ -285,6 +298,12 @@ public class KnightController {
         }
         // Logic to run chopping knight animation
         if (choppingAnimationActive) {
+
+            if(playChopSound){
+                chopSoundEffect.play(settings.getSound());
+                playChopSound = false;
+            }
+            
             elapsedTime += delta;
             choppingKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
 
@@ -310,9 +329,13 @@ public class KnightController {
                         idleKnightSprite.setPosition(-99999, -99999);
                         deathAnimationActive = true;
                         elapsedTime = 0;
+                        this.stopMusic();
                     }
                 }
             }
+        }
+        else {
+            playChopSound = true;
         }
 
         // Logic to handle death knight animation
@@ -405,5 +428,12 @@ public class KnightController {
     public void disposeChoppingKnight() {
         choppingKnightSprite.dispose();
     }
+
+    public void stopMusic() {
+        if(backgroundMusic.isPlaying()) {
+            backgroundMusic.stop();
+        }
+    };
+
 }
 

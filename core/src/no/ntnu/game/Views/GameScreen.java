@@ -99,7 +99,7 @@ public class GameScreen extends Screen {
         // Update the time limit
         timeLimitBar.updateTime(dt);
         if (timeLimitBar.isTimeUp()) {
-            gvm.set(new EndGameScreen(gvm));
+            gvm.set(new YouLoseGameScreen(gvm));
         }
     }
 
@@ -151,7 +151,8 @@ public class GameScreen extends Screen {
         knightController.renderScore(sb);
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new EndGameScreen(gvm));
+            gvm.set(new YouWinGameScreen(gvm));
+//            gvm.set(new YouLoseGameScreen(gvm));
         };
 
         shapeRenderer.end();
