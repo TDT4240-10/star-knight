@@ -2,11 +2,13 @@ package no.ntnu.game.Controllers;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Objects;
 
 import no.ntnu.game.Models.KnightModel;
+import no.ntnu.game.Models.Settings;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.ChoppingKnightSprite;
@@ -33,7 +35,11 @@ public class KnightController {
     private float deathAnimationDuration = 0.8f;
     private boolean choppingAnimationActive = false;
     private boolean deathAnimationActive = false;
+    private boolean playChopSound = true;
     private float elapsedTime = 0;
+    private Settings settings;
+    private Sound chopSoundEffect;
+
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes
@@ -47,6 +53,10 @@ public class KnightController {
         this.idleX = idleX;
         this.idleY = idleY;
         this.tree = tree;
+
+        settings = Settings.getInstance();
+
+        chopSoundEffect = Gdx.audio.newSound(Gdx.files.internal("audio_cut.wav"));
     }
 
     // Methods to interact with the knight
@@ -169,6 +179,12 @@ public class KnightController {
 
         // Logic to run chopping knight animation
         if (choppingAnimationActive) {
+
+            if(playChopSound){
+                chopSoundEffect.play(settings.getSound());
+                playChopSound = false;
+            }
+            
             elapsedTime += delta;
             choppingKnightSprite.setPosition(idleX + 0.1f * elapsedTime, idleY);
 
@@ -196,6 +212,9 @@ public class KnightController {
                     }
                 }
             }
+        }
+        else {
+            playChopSound = true;
         }
 
         // Logic to handle death knight animation
