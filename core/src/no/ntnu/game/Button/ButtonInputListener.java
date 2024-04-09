@@ -8,13 +8,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Objects;
 
 import no.ntnu.game.Controllers.KnightController;
+import no.ntnu.game.Views.ChooseGameModeScreen;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.CreateGameLobbyScreen;
+import no.ntnu.game.Views.FastestKnightGameScreen;
 import no.ntnu.game.Views.ScreenManager;
 import no.ntnu.game.Views.JoinGameLobbyScreen;
 import no.ntnu.game.Views.LastKnightGameScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
+import no.ntnu.game.Views.SingleOrMultiplayerScreen;
 import no.ntnu.game.Views.TutorialScreen;
 
 public class ButtonInputListener extends InputAdapter {
@@ -79,7 +82,7 @@ public class ButtonInputListener extends InputAdapter {
                     System.out.println("Play button pressed, color set");
                     // TODO start should bring you to the selection of game mode instead of GameScreen
 //                    gsm.set(new ChooseGameModeScreen(gsm));
-                    gsm.set(new CreateOrJoinRoomScreen(gsm));
+                    gsm.set(new SingleOrMultiplayerScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -104,7 +107,7 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Start Game button pressed, color set");
-                    gsm.set(new LastKnightGameScreen(gsm));
+                    gsm.set(new FastestKnightGameScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -133,6 +136,20 @@ public class ButtonInputListener extends InputAdapter {
                         knightController.stopMusic();
                     }
                     gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "Solo":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("Singleplayer button pressed");
+                    gsm.set(new CreateGameLobbyScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "Online":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("Multiplayer button pressed");
+                    gsm.set(new CreateOrJoinRoomScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;

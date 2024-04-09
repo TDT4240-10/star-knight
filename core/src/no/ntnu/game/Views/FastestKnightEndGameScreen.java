@@ -17,7 +17,7 @@ import no.ntnu.game.Button.ButtonInputListener;
  *
  * @author Han
  */
-public class YouLoseGameScreen extends Screen {
+public class FastestKnightEndGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
@@ -27,10 +27,11 @@ public class YouLoseGameScreen extends Screen {
     private LoseDeadKnightSprite loseDeadKnightSprite;
     private float knightX, knightY;
     private float knightSpeed = 300; // Pixels per second
+    private int player_score;
     //    private SpriteBatch spriteBatch;
-    public YouLoseGameScreen(ScreenManager gvm) {
+    public FastestKnightEndGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
-        logo = new Texture("lose.png");
+        logo = new Texture("your_score.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
@@ -39,6 +40,7 @@ public class YouLoseGameScreen extends Screen {
 
         knightX = 300;
         knightY = 900;
+        this.player_score = player_score;
 //        spriteBatch = new SpriteBatch();
     }
 
@@ -70,8 +72,15 @@ public class YouLoseGameScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
-        sb.end();
 
+
+        // Calculate the position to center the text on the screen
+        font.getData().setScale(10f);
+        float x = (Gdx.graphics.getWidth() - font.getXHeight()) / 2; // Assuming average glyph width
+        float y = logoY - 100; // Center vertically
+        font.draw(sb, String.valueOf(player_score), x, y);
+
+        sb.end();
 
         // to ensure the knight is moving at the same speed on all devices
         float dt = Gdx.graphics.getDeltaTime();
