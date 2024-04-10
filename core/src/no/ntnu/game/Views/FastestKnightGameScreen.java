@@ -37,10 +37,10 @@ public class FastestKnightGameScreen extends Screen {
 
     private Texture powerUpTextLogo;
 
-    private Button leftButton;
+    private final Button leftButton;
 
-    private Button rightButton;
-    private Button exitButton;
+    private final Button rightButton;
+    private final Button exitButton;
     private int player_score;
 
 
@@ -65,8 +65,8 @@ public class FastestKnightGameScreen extends Screen {
     private PowerUp life3;
 
     private Score score;
-    private Stage stage;
-    private BitmapFont font;
+    private final Stage stage;
+    private final BitmapFont font;
 
 
     public FastestKnightGameScreen(ScreenManager gvm) {
@@ -74,6 +74,8 @@ public class FastestKnightGameScreen extends Screen {
         font = new BitmapFont(); // Assuming you have a font for rendering text
 
         powerUpTextLogo = new Texture("power_ups.png");
+
+        stage = new Stage();
 
         gameController = new GameController();
 
@@ -104,6 +106,7 @@ public class FastestKnightGameScreen extends Screen {
         // Create buttons
         CircleButtonFactory circleButtonFactory = new CircleButtonFactory();
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
+
         leftButton = circleButtonFactory.createButton("<", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -153,7 +156,6 @@ public class FastestKnightGameScreen extends Screen {
         exitButton.setSize(300,250);
 
         // Create the stage for the buttons
-        stage = new Stage();
         stage.addActor(leftButton);
         stage.addActor(rightButton);
         stage.addActor(exitButton);

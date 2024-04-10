@@ -39,6 +39,7 @@ public class LastKnightEndGameScreen extends Screen {
     public LastKnightEndGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
         logo = new Texture("your_score.png");
+        stage = new Stage();
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
@@ -60,7 +61,6 @@ public class LastKnightEndGameScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
-        stage = new Stage();
         stage.addActor(exitButton);
 
 

@@ -39,6 +39,7 @@ public class SingleOrMultiplayerScreen extends Screen {
     public SingleOrMultiplayerScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
+        stage = new Stage();
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
@@ -80,7 +81,6 @@ public class SingleOrMultiplayerScreen extends Screen {
 
 
         // Create the stage for the buttons
-        stage = new Stage();
         stage.addActor(singleplayerButton);
         stage.addActor(multiplayerButton);
         stage.addActor(exitButton);
@@ -94,30 +94,6 @@ public class SingleOrMultiplayerScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-
-//        singlePlayerButton = ButtonFactory.createPlayButton(300,1100);
-//        multiPlayerButton = ButtonFactory.createTutorialButton(300,800);
-//        exitButton = ButtonFactory.createRectSettingsButton(300,500);
-
-//        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-//        singleplayerButton = ButtonFactory.createMenuButton(CENTER_BUTTON_X,900, "Solo");
-//        multiplayerButton = ButtonFactory.createMenuButton(CENTER_BUTTON_X,600, "Online");
-//        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,300);
-//
-//        // Create input listeners for buttons
-//        ButtonInputListener singleplayerInputListener = new ButtonInputListener(singleplayerButton, gvm, null, sb);
-//        ButtonInputListener multiplayerInputListener = new ButtonInputListener(multiplayerButton, gvm, null, sb);
-//        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
-//
-//
-//        // Set input processors
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//
-//        inputMultiplexer.addProcessor(singleplayerInputListener);
-//        inputMultiplexer.addProcessor(multiplayerInputListener);
-//        inputMultiplexer.addProcessor(exitInputListener);
-//
-//        Gdx.input.setInputProcessor(inputMultiplexer);
 
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -133,11 +109,6 @@ public class SingleOrMultiplayerScreen extends Screen {
         sb.begin();
         sb.draw(logo, logoX, logoY);
         sb.end();
-
-        // Render the menu button
-//        singleplayerButton.render(shapeRenderer,sb);
-//        multiplayerButton.render(shapeRenderer,sb);
-//        exitButton.render(shapeRenderer,sb);
 
         shapeRenderer.end();
 
