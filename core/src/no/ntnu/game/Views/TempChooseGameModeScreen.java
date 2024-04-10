@@ -13,10 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import java.util.Random;
 
-import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
-
 public class TempChooseGameModeScreen extends Screen {
     private Stage stage;
     private TextField textField;
