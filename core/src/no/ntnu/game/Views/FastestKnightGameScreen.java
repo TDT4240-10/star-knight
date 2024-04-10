@@ -1,6 +1,8 @@
 package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -160,6 +162,27 @@ public class FastestKnightGameScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
+
+        // Adding left and right keystrokes to move the Knight
+        Gdx.input.setInputProcessor(new InputAdapter() {
+            @Override
+            public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.LEFT) {
+                    if (Objects.equals(knightController.getDirection(), "right")) {
+                        knightController.moveLeft();
+                    } else {
+                        knightController.stayLeft();
+                    }
+                } else if (keycode == Input.Keys.RIGHT) {
+                    if (Objects.equals(knightController.getDirection(), "left")) {
+                        knightController.moveRight();
+                    } else {
+                        knightController.stayRight();
+                    }
+                }
+                return true; // Indicate that the key event is handled
+            }
+        });
 
     }
 
