@@ -84,15 +84,22 @@ public class CreateGameLobbyScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
-                if (currentMode == null) {
-                    // do nothing
+                switch (currentMode) {
+                    case FASTEST_KNIGHT:
+                        gvm.set(new FastestKnightGameScreen(gvm));
+                        System.out.println("Starting Fastest Knight game...");
+                        break;
+                    case LAST_KNIGHT:
+                        gvm.set(new LastKnightGameScreen(gvm));
+                        System.out.println("Starting Last Knight game...");
+                        break;
+                    default:
+                        System.out.println("No game mode selected");
+//                            gsm.set(new GameScreen(gsm));
+                        // Possibly show an error or prompt to select a game mode
+                        break;
                 }
-
-                if (currentMode.equals(GameModeController.GameMode.FASTEST_KNIGHT)) {
-                    gvm.set(new FastestKnightGameScreen(gvm));
-                } else {
-                    gvm.set(new LastKnightGameScreen(gvm));
-                }
+//                    gsm.set(new GameScreen(gsm));
                 return true;
             }
         });
