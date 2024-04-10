@@ -75,19 +75,6 @@ public class LastKnightEndGameScreen extends Screen {
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
-//        exitButton = ButtonFactory.createExitButton(screenWidth/2 - 150,screenHeight/2 - 100);
-//        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-//        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
-//
-//        // Create input listeners for buttons
-//        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
-//        // Set input processors
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//
-//        inputMultiplexer.addProcessor(exitInputListener);
-//
-//        Gdx.input.setInputProcessor(inputMultiplexer);
-
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -110,10 +97,7 @@ public class LastKnightEndGameScreen extends Screen {
 
         loseDeadKnightSprite.setPosition(knightX, knightY);
         loseDeadKnightSprite.render(sb);
-//        sb.end();
 
-        // Render the menu button
-//        exitButton.render(shapeRenderer,sb);
         shapeRenderer.end();
 
         // draw stage and text field

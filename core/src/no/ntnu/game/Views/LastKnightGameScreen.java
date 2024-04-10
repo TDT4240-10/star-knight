@@ -178,35 +178,7 @@ public class LastKnightGameScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        // Adjust offsets as needed
-
-
-        // Calculate the XY-coordinates for the right button
-//        float rightButtonX = Gdx.graphics.getWidth() - 2 * 150 - x_offset;
-//        leftButton = ButtonFactory.createLeftArrowButton(x_offset + 150, x_offset + 150 + y_offset);
-//        rightButton = ButtonFactory.createRightArrowButton(rightButtonX + 150, x_offset + 150 + y_offset);
-//
-//        // Calculate the XY-coordinates for the exit button
-//        float exitButtonX = Gdx.graphics.getWidth() - 300 - x_offset; // Adjust the offset as needed
-//        float exitButtonY = Gdx.graphics.getHeight() - 200 - x_offset; // Adjust the offset as needed
-//        exitButton = ButtonFactory.createExitButton(exitButtonX, exitButtonY);
-
-        // Create input listeners for buttons
-//        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, sb);
-//        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, sb);
-//        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, sb);
-//        // Set input processors
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//
-//        inputMultiplexer.addProcessor(exitInputListener);
-//        inputMultiplexer.addProcessor(leftInputListener);
-//        inputMultiplexer.addProcessor(rightInputListener);
-
         treeWithPowerUp.draw(sb);
-
-//        exitButton.render(shapeRenderer,sb);
-//        leftButton.render(shapeRenderer,sb);
-//        rightButton.render(shapeRenderer,sb);
 
         timeLimitBar.render(shapeRenderer);
 
