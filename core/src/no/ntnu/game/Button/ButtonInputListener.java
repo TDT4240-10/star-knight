@@ -18,6 +18,7 @@ import no.ntnu.game.Views.LastKnightGameScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
 import no.ntnu.game.Views.SingleOrMultiplayerScreen;
+import no.ntnu.game.Views.TempChooseGameModeScreen;
 import no.ntnu.game.Views.TutorialScreen;
 
 public class ButtonInputListener extends InputAdapter {
@@ -142,7 +143,7 @@ public class ButtonInputListener extends InputAdapter {
             case "Solo":
                 if (this.button.isPressed(touchX, touchY)) {
                     System.out.println("Singleplayer button pressed");
-                    gsm.set(new CreateGameLobbyScreen(gsm));
+                    gsm.set(new TempChooseGameModeScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
@@ -150,6 +151,20 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     System.out.println("Multiplayer button pressed");
                     gsm.set(new CreateOrJoinRoomScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "SoloFastestKnight":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("Singleplayer Fastest Knight button pressed");
+                    gsm.set(new FastestKnightGameScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "SoloLastKnight":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("Singleplayer Last Knight button pressed");
+                    gsm.set(new LastKnightGameScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
