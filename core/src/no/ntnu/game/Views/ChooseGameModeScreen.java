@@ -34,7 +34,7 @@ public class ChooseGameModeScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(300,900);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm,  null, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
