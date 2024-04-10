@@ -114,11 +114,11 @@ public class FastestKnightGameScreen extends Screen {
                 return true; // Indicate that the touch event is handled
             }
         });
-        leftButton.setPosition(x_offset + 150, x_offset + 150 + y_offset);
+        leftButton.setPosition(x_offset, x_offset + y_offset);
         leftButton.setSize(200,200);
 
         // Create buttons
-        float rightButtonX = Gdx.graphics.getWidth() - 2 * 150 - x_offset;
+        float rightButtonX = Gdx.graphics.getWidth() - 200 - x_offset;
 
         rightButton = circleButtonFactory.createButton(">", new InputListener() {
             @Override
@@ -133,7 +133,7 @@ public class FastestKnightGameScreen extends Screen {
                 return true; // Indicate that the touch event is handled
             }
         });
-        rightButton.setPosition(rightButtonX + 150, x_offset + 150 + y_offset);
+        rightButton.setPosition(rightButtonX, x_offset + y_offset);
         rightButton.setSize(200,200);
 
         // Create buttons

@@ -51,19 +51,8 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
         shapeRenderer = new ShapeRenderer();
         generateRoomID();
 
-        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        fastestKnightButton = rectButtonFactory.createButton("Fastest Knight", new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gvm.set(new FastestKnightGameScreen(gvm));
-                return true; // Indicate that the touch event is handled
-            }
-        });
-        fastestKnightButton.setSize(350, 200); // Set the size of the button
-        fastestKnightButton.setPosition(CENTER_BUTTON_X + 200, 0.27f * Gdx.graphics.getHeight());
 
         lastKnightButton = rectButtonFactory.createButton("Last Knight", new InputListener() {
             @Override
@@ -73,8 +62,18 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             }
         });
 
-        lastKnightButton.setSize(350, 200); // Set the size of the button
-        lastKnightButton.setPosition(CENTER_BUTTON_X - 200, 0.27f * Gdx.graphics.getHeight());
+        lastKnightButton.setSize(600, 200); // Set the size of the button
+        lastKnightButton.setPosition( (float) Gdx.graphics.getWidth() / 2 - 300, 800);
+
+        fastestKnightButton = rectButtonFactory.createButton("Fastest Knight", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.set(new FastestKnightGameScreen(gvm));
+                return true; // Indicate that the touch event is handled
+            }
+        });
+        fastestKnightButton.setSize(600, 200); // Set the size of the button
+        fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 300, 550);
 
         exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
@@ -85,7 +84,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
         });
 
         exitButton.setSize(350, 200); // Set the size of the button
-        exitButton.setPosition(CENTER_BUTTON_X, 0.15f * Gdx.graphics.getHeight());
+        exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
 
         // Create the stage for the buttons
