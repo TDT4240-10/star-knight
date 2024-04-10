@@ -23,7 +23,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  *
  * @author Han
  */
-public class FastestKnightEndGameScreen extends Screen {
+public class LastKnightEndGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
@@ -36,7 +36,7 @@ public class FastestKnightEndGameScreen extends Screen {
     private int player_score;
     private Stage stage;
     //    private SpriteBatch spriteBatch;
-    public FastestKnightEndGameScreen(ScreenManager gvm, int player_score) {
+    public LastKnightEndGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
         logo = new Texture("your_score.png");
         font = new BitmapFont(); // Load the font

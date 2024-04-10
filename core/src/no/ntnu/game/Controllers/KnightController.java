@@ -486,8 +486,7 @@ public class KnightController {
         life3.render(batch);
     }
 
-    public int renderScore(SpriteBatch batch) {
-        scoreCounter.render(batch);
+    public int getScore() {
         return scoreCounter.getScore();
     }
 
