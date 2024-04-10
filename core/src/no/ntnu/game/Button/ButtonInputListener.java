@@ -145,15 +145,6 @@ public class ButtonInputListener extends InputAdapter {
                 }
                 break;
             
-            case "RectSettings":
-                if (this.button.isPressed(touchX, touchY)) {
-                    this.button.setColor(Color.GREEN); // For example, change button color when pressed
-                    System.out.println("Settings button pressed, color set");
-                    gsm.push(new SettingsScreen(gsm));
-                    return true; // Indicate that the touch event is handled
-                }
-                break;
-            
             case "ExitToMainMenu":
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
@@ -223,15 +214,6 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
-            
-            case "FastestKnight":
-                if (this.button.isPressed(touchX, touchY)) {
-                    // if game mode is not fastest knight, set the color to down
-                    if(!GameModeController.getInstance().isFastestKnightMode())
-                    {
-                        gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
-                    }
-                    return true;
 
             case "RectSettings":
                 if (this.button.isPressed(touchX, touchY)) {
@@ -240,15 +222,6 @@ public class ButtonInputListener extends InputAdapter {
                     gsm.push(new SettingsScreen(gsm));
                     return true; // Indicate that the touch event is handled
 
-                }
-                break;
-                  
-            case "LastKnight":
-                if (this.button.isPressed(touchX, touchY)) {
-                    this.button.setColor(Starknightdown); // For example, change button color when pressed
-                    System.out.println("Exit to Main Menu button pressed, color set");
-                    gsm.set(new MainMenuScreen(gsm));
-                    return true; // Indicate that the touch event is handled
                 }
                 break;
                   
@@ -268,22 +241,15 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
-                  
             case "LastKnight":
                 if (this.button.isPressed(touchX, touchY)) {
-                    if(this.button.getColor() == Starknightdown)
-                    {
-                        System.out.println("LastKnight2 mode pressed, color set");
-
-                        this.button.setColor(Starknight); // For example, change button color when pressed
-                        return true; // Indicate that the touch event is handled
-
-                    }
                     this.button.setColor(Starknightdown); // For example, change button color when pressed
-                    System.out.println("LastKnight mode pressed, color set");
+                    System.out.println("Exit to Main Menu button pressed, color set");
+                    gsm.set(new MainMenuScreen(gsm));
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+
             // Add more cases for other buttons if needed
 
             default:
