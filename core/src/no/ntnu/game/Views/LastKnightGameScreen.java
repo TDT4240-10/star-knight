@@ -3,6 +3,7 @@ package no.ntnu.game.Views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -56,20 +57,24 @@ public class LastKnightGameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 99999f;
+    private float timeLimit = 6f;
 
-    private float initialTime = 99999f;
+    private float initialTime = 6f;
 
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
 
-    private Score score;
+    private int score;
+
+    private BitmapFont font;
 
     private Stage stage;
 
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
+        font = new BitmapFont(); // Assuming you have a font for rendering text
+
         powerUpTextLogo = new Texture("power_ups.png");
 
         gameController = new GameController();
@@ -173,7 +178,7 @@ public class LastKnightGameScreen extends Screen {
         // Update the time limit
         timeLimitBar.updateTime(dt);
         if (timeLimitBar.isTimeUp()) {
-            gvm.set(new YouLoseGameScreen(gvm));
+            gvm.set(new LastKnightEndGameScreen(gvm, score));
         }
     }
 
@@ -219,10 +224,10 @@ public class LastKnightGameScreen extends Screen {
         knightController.renderLife2(sb);
         knightController.renderLife3(sb);
 
-        knightController.renderScore(sb);
+        score = knightController.getScore();
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new YouLoseGameScreen(gvm));
+            gvm.set(new LastKnightEndGameScreen(gvm, score));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };
 
@@ -230,6 +235,13 @@ public class LastKnightGameScreen extends Screen {
 
         sb.begin();
         sb.draw(powerUpTextLogo, 30, 80);
+
+        // Calculate the position to center the text on the screen
+        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
+        float y = Gdx.graphics.getHeight() - 500; // Center vertically
+        font.getData().setScale(4f);
+        font.draw(sb, "Score: " + score, x, y);
+
         sb.end();
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));

@@ -3,6 +3,7 @@ package no.ntnu.game.Views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -65,11 +66,13 @@ public class FastestKnightGameScreen extends Screen {
 
     private Score score;
     private Stage stage;
-
+    private BitmapFont font;
 
 
     public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
+        font = new BitmapFont(); // Assuming you have a font for rendering text
+
         powerUpTextLogo = new Texture("power_ups.png");
 
         gameController = new GameController();
@@ -172,7 +175,7 @@ public class FastestKnightGameScreen extends Screen {
         // Update the time limit
         timeLimitBar.updateTime(dt);
         if (timeLimitBar.isTimeUp()) {
-            gvm.set(new FastestKnightEndGameScreen(gvm, player_score));
+            gvm.set(new LastKnightEndGameScreen(gvm, player_score));
         }
     }
 
@@ -221,10 +224,10 @@ public class FastestKnightGameScreen extends Screen {
         knightController.renderLife2(sb);
         knightController.renderLife3(sb);
 
-        player_score = knightController.renderScore(sb);
+        player_score = knightController.getScore();
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new FastestKnightEndGameScreen(gvm, player_score));
+            gvm.set(new LastKnightEndGameScreen(gvm, player_score));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };
 
@@ -232,6 +235,11 @@ public class FastestKnightGameScreen extends Screen {
 
         sb.begin();
         sb.draw(powerUpTextLogo, 30, 80);
+
+        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
+        float y = Gdx.graphics.getHeight() - 500; // Center vertically
+        font.getData().setScale(4f);
+        font.draw(sb, "Score: " + player_score, x, y);
         sb.end();
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
