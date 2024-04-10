@@ -103,7 +103,7 @@ public class SettingsScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(BOTTOM_BUTTON_X,200);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first

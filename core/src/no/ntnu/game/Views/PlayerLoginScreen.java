@@ -13,7 +13,7 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.FirebaseInterface;
-//import no.ntnu.game.firestore.Player;
+import no.ntnu.game.firestore.Player;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 
 public class PlayerLoginScreen extends Screen {
-//    public Player player;
+    public Player player;
     private Stage stage;
     private TextField usernameField;
     private Skin skin; // libGDX skins provide styling for UI widgets
@@ -78,7 +78,7 @@ public class PlayerLoginScreen extends Screen {
         loginButton = ButtonFactory.createLoginButton(CENTER_BUTTON_X, 700);
 
         // Create input listeners for buttons
-        ButtonInputListener loginInputListener = new ButtonInputListener(loginButton, gvm, null, sb);
+        ButtonInputListener loginInputListener = new ButtonInputListener(loginButton, gvm, null, usernameField, sb);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -129,7 +129,7 @@ public class PlayerLoginScreen extends Screen {
         System.out.println("Create or Join Room View Disposed");
     }
 
-//    public void setPlayer(Player player) {
-//        this.player = player;
-//    }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }

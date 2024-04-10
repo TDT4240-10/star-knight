@@ -19,8 +19,8 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameModeController;
-//import no.ntnu.game.firestore.GameRoom;
-//import no.ntnu.game.firestore.Player;
+import no.ntnu.game.firestore.GameRoom;
+import no.ntnu.game.firestore.Player;
 
 public class CreateGameLobbyScreen extends Screen {
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
@@ -48,7 +48,7 @@ public class CreateGameLobbyScreen extends Screen {
 
     // TODO link the room id with backend
     private String roomID; // room id for the game lobby
-//    private GameRoom gameRoom; // game room object
+    private GameRoom gameRoom; // game room object
     private final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
 
     public CreateGameLobbyScreen(ScreenManager gvm) {
@@ -63,8 +63,7 @@ public class CreateGameLobbyScreen extends Screen {
 
         // todo deen
         // gameRoom = new GameRoom();  // where to get players??
-
-//        roomID = gameRoom.getRoomCode();
+        roomID = gameRoom.getRoomCode();
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
@@ -85,10 +84,11 @@ public class CreateGameLobbyScreen extends Screen {
         updateButtonColors();
 
         // Create input listeners for buttons
-        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm,  null, sb);
-        ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm,  null,  sb);
-        ButtonInputListener lastKnightListener = new ButtonInputListener(lastKnightButton, gvm,   null, sb);
-        ButtonInputListener fastestKnightListener = new ButtonInputListener(fastestKnightButton, gvm,  null, sb);
+        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, null, sb);
+        ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, null,  sb);
+        ButtonInputListener lastKnightListener = new ButtonInputListener(lastKnightButton, gvm, null,  null, sb);
+        ButtonInputListener fastestKnightListener = new ButtonInputListener(fastestKnightButton, gvm, null, null, sb);
+
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -172,6 +172,3 @@ public class CreateGameLobbyScreen extends Screen {
     }
 
 }
-
-
-

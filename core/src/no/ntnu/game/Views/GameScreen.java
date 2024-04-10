@@ -133,9 +133,9 @@ public class GameScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(exitButtonX, exitButtonY);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, sb);
-        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, sb);
-        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, null,  sb);
+        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, null,  sb);
+        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, null,  sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
@@ -169,8 +169,8 @@ public class GameScreen extends Screen {
 //        }
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new YouWinGameScreen(gvm));
-//            gvm.set(new YouLoseGameScreen(gvm));
+//            gvm.set(new YouWinGameScreen(gvm));
+            gvm.set(new YouLoseGameScreen(gvm));
         };
 
         shapeRenderer.end();

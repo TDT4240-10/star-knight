@@ -10,14 +10,22 @@ import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.Controllers.KnightController;
+import no.ntnu.game.FirebaseInterface;
+import no.ntnu.game.Models.PlayerModel;
+import no.ntnu.game.PlayerCallback;
+import no.ntnu.game.StarKnight;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.CreateGameLobbyScreen;
+import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;
 import no.ntnu.game.Views.JoinGameLobbyScreen;
 import no.ntnu.game.Views.GameScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.SettingsScreen;
 import no.ntnu.game.Views.TutorialScreen;
+import no.ntnu.game.firestore.Player;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.sun.tools.javac.Main;
 import no.ntnu.game.Views.YouLoseGameScreen;
 import no.ntnu.game.Views.YouWinGameScreen;
 
@@ -29,18 +37,21 @@ public class ButtonInputListener extends InputAdapter {
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
     private ScreenManager gsm;
     private KnightController knightController;
+    private TextField textField;
     private SpriteBatch batch;
+    public Player player;
 
-    public ButtonInputListener(Button button, ScreenManager gsm, KnightController knightController, SpriteBatch batch) {
+    private FirebaseInterface FI = StarKnight.getFirebaseInterface();
+
+    public ButtonInputListener(Button button, ScreenManager gsm, KnightController knightController, TextField textField, SpriteBatch batch) {
         this.button = button;
         this.gsm = gsm;
         this.knightController = knightController;
+        this.textField = textField;
         this.batch = batch;
 
         this.gameModeController = GameModeController.getInstance();
     }
-
-
 
     @Override
     // touchDown is when user is clicking the screen. one can also hold down on the screen and touchDown is activated.
@@ -53,12 +64,34 @@ public class ButtonInputListener extends InputAdapter {
         switch(this.button.getName()) {
             case "Login":
                 if (this.button.isPressed(touchX, touchY)) {
-                    this.button.setColor(Starknightdown); // For example, change button color when pressed
-                    System.out.println("Login button pressed, color set");
-                    gsm.set(new MainMenuScreen(gsm));
+                    String username = textField.getText();
+                    if (!username.isEmpty()) {
+                        FI.getPlayer(username, new PlayerCallback() {
+                            @Override
+                            public void onCallback(Player player) {
+                                if (player == null) {
+                                    // create new player
+                                    Player newPlayer = new Player(username);
+                                    FI.SerializeClass(newPlayer);
+                                    PlayerModel.setPlayer(newPlayer);
+                                } else {
+                                    PlayerModel.setPlayer(player);
+                                }
+                                Gdx.app.postRunnable(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        gsm.set(new MainMenuScreen(gsm));
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    System.out.println("Login mode pressed, color set, username: " + username);
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "LeftArrow":
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for LeftArrow
@@ -73,6 +106,7 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "RightArrow":
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for RightArrow
@@ -89,6 +123,7 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "Play":
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Starknightdown); // For example, change button color when pressed
@@ -109,6 +144,7 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "RectSettings":
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
@@ -117,6 +153,7 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "ExitToMainMenu":
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
@@ -128,21 +165,22 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "JoinRoom":
                 if (this.button.isPressed(touchX, touchY)) {
-//                    String joinRoomID = textField.getText();
+                    String joinRoomID = textField.getText();
+
                     // check if roomID exists in firestore
                     // if exists, get the room object
                     // if not, stay on the same screen
-
-//                    if (!joinRoomID.isEmpty()) {
-//                        // todo deen join room
-//                        // check if roomID exists in firestore
-//                        // if exists, get the room object
-//                        // if not, stay on the same screen
-//                        System.out.println("Join Room button pressed, color set, roomID: " + joinRoomID);
-//                        gsm.set(new JoinGameLobbyScreen(gsm));
-//                    }
+                    if (!joinRoomID.isEmpty()) {
+                        // todo deen join room
+                        // check if roomID exists in firestore
+                        // if exists, get the room object
+                        // if not, stay on the same screen
+                        System.out.println("Join Room button pressed, color set, roomID: " + joinRoomID);
+                        gsm.set(new JoinGameLobbyScreen(gsm));
+                    }
 
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
                     System.out.println("Join Room button pressed, color set");
@@ -160,6 +198,7 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "StartGame":
                 if (this.button.isPressed(touchX, touchY)) {
                     this.button.setColor(Color.GREEN); // For example, change button color when pressed
@@ -184,6 +223,7 @@ public class ButtonInputListener extends InputAdapter {
                     return true; // Indicate that the touch event is handled
                 }
                 break;
+            
             case "FastestKnight":
                 if (this.button.isPressed(touchX, touchY)) {
                     // if game mode is not fastest knight, set the color to down
@@ -193,21 +233,59 @@ public class ButtonInputListener extends InputAdapter {
                     }
                     return true;
 
-                    // set game mode in game mode controller to FastestKnight
-//                    gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
+            case "RectSettings":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    System.out.println("Settings button pressed, color set");
+                    gsm.push(new SettingsScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+
                 }
                 break;
+                  
             case "LastKnight":
                 if (this.button.isPressed(touchX, touchY)) {
-
-                    if(!GameModeController.getInstance().isLastKnightMode())
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    System.out.println("Exit to Main Menu button pressed, color set");
+                    gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+                  
+            case "FastestKnight":
+                if (this.button.isPressed(touchX, touchY)) {
+                    if(this.button.getColor() == Starknightdown)
                     {
-                        gameModeController.setGameMode(GameModeController.GameMode.LAST_KNIGHT);
+                        System.out.println("FastestKnight2 mode pressed, color set");
+
+                        this.button.setColor(Starknight); // For example, change button color when pressed
+                        return true; // Indicate that the touch event is handled
+
                     }
-                    return true;
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    System.out.println("FastestKnight mode pressed, color set");
+
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+                  
+            case "LastKnight":
+                if (this.button.isPressed(touchX, touchY)) {
+                    if(this.button.getColor() == Starknightdown)
+                    {
+                        System.out.println("LastKnight2 mode pressed, color set");
+
+                        this.button.setColor(Starknight); // For example, change button color when pressed
+                        return true; // Indicate that the touch event is handled
+
+                    }
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    System.out.println("LastKnight mode pressed, color set");
+                    return true; // Indicate that the touch event is handled
                 }
                 break;
             // Add more cases for other buttons if needed
+
             default:
                 break;
         }
@@ -226,7 +304,32 @@ public class ButtonInputListener extends InputAdapter {
 
         // Handle button press
         System.out.println("Button pressed: " + button);
+        switch(this.button.getName()) {
 
+            case "FastestKnight":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("FastestKnight mode pressed, color set");
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            case "LastKnight":
+                if (this.button.isPressed(touchX, touchY)) {
+                    System.out.println("LastKnight mode pressed, color set");
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
+            // Add more cases for other buttons if needed
+
+            default:
+                if (this.button.isPressed(touchX, touchY)) {
+
+                    this.button.setColor(Starknight); // For example, change button color when pressed
+                    return true;
+                    // Indicate that the touch event is handled
+                }
+                break;
+
+        }
 
         switch(this.button.getName()) {
             case "FastestKnight":
