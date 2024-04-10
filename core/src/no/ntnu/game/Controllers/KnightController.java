@@ -76,6 +76,7 @@ public class KnightController {
     public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
         this.gamemode = gamemode;
 
+        gameModeController = GameModeController.getInstance();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();

@@ -49,7 +49,9 @@ public class LastKnightGameScreen extends Screen {
     private float temp = 0;
 
     private float timeLimit = 6f;
+    private float timeLimit = 6f;
 
+    private float initialTime = 6f;
     private float initialTime = 6f;
 
     private PowerUp life1;
@@ -59,6 +61,7 @@ public class LastKnightGameScreen extends Screen {
     private Score score;
 
 
+    public LastKnightGameScreen(ScreenManager gvm) {
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
         powerUpTextLogo = new Texture("power_ups.png");
@@ -76,6 +79,7 @@ public class LastKnightGameScreen extends Screen {
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
+        knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
         knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
