@@ -15,7 +15,7 @@ import no.ntnu.game.Button.ButtonInputListener;
 /**
  * End Game Screen View class to render Lose screen
  *
- * @author Han
+ * @author Deen
  */
 public class YouLoseGameScreen extends Screen {
     private Texture logo;
@@ -52,8 +52,9 @@ public class YouLoseGameScreen extends Screen {
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
-        exitButton = ButtonFactory.createExitButton(screenWidth/2 - 150,screenHeight/2 - 100);
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
+
 //        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
 
         // Create input listeners for buttons
@@ -95,10 +96,6 @@ public class YouLoseGameScreen extends Screen {
 
     @Override
     public void update(float dt) {
-//        knightX += knightSpeed * dt;
-//        if (knightX > Gdx.graphics.getWidth()) {
-//            knightX = -runningKnightSprite.getWidth();
-//        }
     }
 
     @Override

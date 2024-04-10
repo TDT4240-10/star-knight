@@ -18,6 +18,8 @@ public class RectangleButton implements Button {
     private BitmapFont font;
     private String text;
     private String name;
+    public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
+    public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
 
     public static Color Starknighttext = new Color(199 / 255f, 199 / 255f, 176 / 255f, 255 / 255f);
     public static Color outlineColor = new Color(40/ 255f, 40/ 255f, 41/ 255f, 1/ 255f);
@@ -30,6 +32,7 @@ public class RectangleButton implements Button {
         this.font = new BitmapFont(); // Default font
         this.font.getData().setScale(7); // Set font scale
         this.name = name;
+        this.setColor(Starknight);
 
     }
 
@@ -99,9 +102,18 @@ public class RectangleButton implements Button {
         this.name = name;
 
     }
+    @Override
+    public Color getColor() {
+        return this.color ;
+    }
 
     @Override
     public String getName(){
         return this.name;
+    }
+
+    // reset colour to default
+    public void resetColor() {
+        this.color = Starknight;
     }
 }

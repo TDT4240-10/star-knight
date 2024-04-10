@@ -13,9 +13,9 @@ import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
 /**
- * End Game Screen View class to render Lose screen
+ * End Game Screen View class to render Win screen
  *
- * @author Han
+ * @author Deen
  */
 public class YouWinGameScreen extends Screen {
     private Texture logo;
