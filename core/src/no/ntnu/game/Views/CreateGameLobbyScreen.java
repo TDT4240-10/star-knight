@@ -74,7 +74,7 @@ public class CreateGameLobbyScreen extends Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
                 if (currentMode != null) {
-                    gvm.set(new GameScreen(gvm));
+                    gvm.set(new ChooseGameModeScreen(gvm));
                 }
                 return true;
             }

@@ -13,6 +13,7 @@ import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
+import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.Tree;
 import no.ntnu.game.Models.Settings;
 import no.ntnu.game.Models.TreePart;
@@ -68,8 +69,10 @@ public class KnightController {
     private PowerUpFactory powerUpFactory;
 
     private Score scoreCounter;
+    private Timer timer;
     private Settings settings;
     private Sound chopSoundEffect;
+    public GameModeController gameModeController;
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes

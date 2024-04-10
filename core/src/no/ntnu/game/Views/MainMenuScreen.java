@@ -54,7 +54,7 @@ public class MainMenuScreen extends Screen {
         playButton = rectButtonFactory.createButton("Play", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gvm.set(new CreateOrJoinRoomScreen(gvm));
+                gvm.set(new SingleOrMultiplayerScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
         });
