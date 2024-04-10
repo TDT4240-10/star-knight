@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import java.util.Objects;
 
-//import no.ntnu.game.Button.Button;
-//import no.ntnu.game.Button.ButtonFactory;
-//import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
@@ -37,10 +34,10 @@ public class FastestKnightGameScreen extends Screen {
 
     private Texture powerUpTextLogo;
 
-    private Button leftButton;
+    private final Button leftButton;
 
-    private Button rightButton;
-    private Button exitButton;
+    private final Button rightButton;
+    private final Button exitButton;
     private int player_score;
 
 
@@ -65,8 +62,8 @@ public class FastestKnightGameScreen extends Screen {
     private PowerUp life3;
 
     private Score score;
-    private Stage stage;
-    private BitmapFont font;
+    private final Stage stage;
+    private final BitmapFont font;
 
 
     public FastestKnightGameScreen(ScreenManager gvm) {
@@ -74,6 +71,8 @@ public class FastestKnightGameScreen extends Screen {
         font = new BitmapFont(); // Assuming you have a font for rendering text
 
         powerUpTextLogo = new Texture("power_ups.png");
+
+        stage = new Stage();
 
         gameController = new GameController();
 
@@ -104,6 +103,7 @@ public class FastestKnightGameScreen extends Screen {
         // Create buttons
         CircleButtonFactory circleButtonFactory = new CircleButtonFactory();
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
+
         leftButton = circleButtonFactory.createButton("<", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -153,7 +153,6 @@ public class FastestKnightGameScreen extends Screen {
         exitButton.setSize(300,250);
 
         // Create the stage for the buttons
-        stage = new Stage();
         stage.addActor(leftButton);
         stage.addActor(rightButton);
         stage.addActor(exitButton);
@@ -181,38 +180,7 @@ public class FastestKnightGameScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        // Adjust offsets as needed
-//        float x_offset = 80;
-//        float y_offset = 100;
-//
-//        // Calculate the XY-coordinates for the right button
-//        float rightButtonX = Gdx.graphics.getWidth() - 2 * 150 - x_offset;
-//        leftButton = ButtonFactory.createLeftArrowButton(x_offset + 150, x_offset + 150 + y_offset);
-//        rightButton = ButtonFactory.createRightArrowButton(rightButtonX + 150, x_offset + 150 + y_offset);
-//
-//        // Calculate the XY-coordinates for the exit button
-//        float exitButtonX = Gdx.graphics.getWidth() - 300 - x_offset; // Adjust the offset as needed
-//        float exitButtonY = Gdx.graphics.getHeight() - 200 - x_offset; // Adjust the offset as needed
-//        exitButton = ButtonFactory.createExitButton(exitButtonX, exitButtonY);
-//
-//        // Create input listeners for buttons
-//        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, sb);
-//        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, sb);
-//        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, sb);
-//        // Set input processors
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//
-//        inputMultiplexer.addProcessor(exitInputListener);
-//        inputMultiplexer.addProcessor(leftInputListener);
-//        inputMultiplexer.addProcessor(rightInputListener);
-//
-//        Gdx.input.setInputProcessor(inputMultiplexer);
-
         treeWithPowerUp.draw(sb);
-
-//        exitButton.render(shapeRenderer,sb);
-//        leftButton.render(shapeRenderer,sb);
-//        rightButton.render(shapeRenderer,sb);
 
         timeLimitBar.render(shapeRenderer);
 

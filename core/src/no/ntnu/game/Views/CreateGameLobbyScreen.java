@@ -73,8 +73,14 @@ public class CreateGameLobbyScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
-                if (currentMode != null) {
-                    gvm.set(new ChooseGameModeScreen(gvm));
+                if (currentMode == null) {
+                    return false;
+                }
+
+                if (currentMode.equals(GameModeController.GameMode.FASTEST_KNIGHT)) {
+                    gvm.set(new FastestKnightGameScreen(gvm));
+                } else {
+                    gvm.set(new LastKnightGameScreen(gvm));
                 }
                 return true;
             }

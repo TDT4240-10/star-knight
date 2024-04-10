@@ -18,10 +18,6 @@ import java.util.Random;
 
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
-//import no.ntnu.game.Button.Button;
-//import no.ntnu.game.Button.ButtonFactory;
-//import no.ntnu.game.Button.ButtonInputListener;
-
 public class SinglePlayerChooseGameModeScreen extends Screen {
     private Stage stage;
     private TextField textField;
@@ -63,7 +59,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
         });
 
         lastKnightButton.setSize(600, 200); // Set the size of the button
-        lastKnightButton.setPosition( (float) Gdx.graphics.getWidth() / 2 - 300, 800);
+        lastKnightButton.setPosition( (float) Gdx.graphics.getWidth() / 2 - 300, 550);
 
         fastestKnightButton = rectButtonFactory.createButton("Fastest Knight", new InputListener() {
             @Override
@@ -73,7 +69,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             }
         });
         fastestKnightButton.setSize(600, 200); // Set the size of the button
-        fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 300, 550);
+        fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 300, 800);
 
         exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
@@ -109,29 +105,6 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-//        startGameButton = ButtonFactory.createStartGameButton(CENTER_BUTTON_X, 0.15f * Gdx.graphics.getHeight());
-//        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 0.03f * Gdx.graphics.getHeight());
-//
-//        // render last knight standing and fastest knight buttons side by side
-//        lastKnightButton = ButtonFactory.createSingleplayerLastKnightButton(CENTER_BUTTON_X - 200, 0.27f * Gdx.graphics.getHeight());
-//        fastestKnightButton = ButtonFactory.createSingleplayerFastestKnightButton(CENTER_BUTTON_X + 200, 0.27f * Gdx.graphics.getHeight());
-//
-//        // Create input listeners for buttons
-//        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, sb);
-//        ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
-//
-//        ButtonInputListener fastestKnightInputListener = new ButtonInputListener(fastestKnightButton, gvm, null, sb);
-//        ButtonInputListener lastKnightInputListener = new ButtonInputListener(lastKnightButton, gvm, null, sb);
-//
-//        // Set input processors
-//        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-//        inputMultiplexer.addProcessor(startGameInputListener);
-//        inputMultiplexer.addProcessor(exitGameInputListener);
-//        inputMultiplexer.addProcessor(fastestKnightInputListener);
-//        inputMultiplexer.addProcessor(lastKnightInputListener);
-//
-//        Gdx.input.setInputProcessor(inputMultiplexer);
-
         // display logo
         sb.begin();
         // Clear the screen with grey color
@@ -148,22 +121,10 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
 
         sb.end();
 
-        // render last knight standing and fastest knight buttons side by side
-//        lastKnightButton.render(shapeRenderer, sb);
-//        fastestKnightButton.render(shapeRenderer, sb);
-//
-//        // render start game button
-//        startGameButton.render(shapeRenderer, sb);
-//
-//        // render exit button
-//        exitButton.render(shapeRenderer, sb);
-
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 
         shapeRenderer.end();
-
-
     }
 
     @Override
