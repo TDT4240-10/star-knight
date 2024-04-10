@@ -6,7 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
+/**
+ * Animation of lost Knight dead in the center of the screen
+ *
+ * @author Deen
+ */
 public class LoseDeadKnightSprite {
     private Animation<TextureRegion> knightAnimation;
     private Texture spriteSheet;

@@ -128,8 +128,9 @@ public class ButtonFactory {
 
     public static Button createFastestKnightButton(float x, float y) {
         Button fastestKnightButton = new RectangleButton(x, y);
-        fastestKnightButton.setName("MultiFastestKnight");
+        fastestKnightButton.setName("FastestKnight");
         fastestKnightButton.setColor(Starknight);
+//        fastestKnightButton.setName("FastestKnight");
         fastestKnightButton.setText("Fastest Knight");
         return fastestKnightButton;
     }
@@ -137,9 +138,30 @@ public class ButtonFactory {
     // create last knight standing button
     public static Button createLastKnightButton(float x, float y) {
         Button lastKnightStandingButton = new RectangleButton(x, y);
-        lastKnightStandingButton.setName("MultiLastKnight");
+        lastKnightStandingButton.setName("LastKnight");
         lastKnightStandingButton.setColor(Starknight);
+        lastKnightStandingButton.setName("LastKnight");
         lastKnightStandingButton.setText("Last Knight");
         return lastKnightStandingButton;
     }
+
+    public static Button createLoginButton(float x, float y) {
+        Button LoginButton = new RectangleButton(x, y);
+        LoginButton.setName("Login");
+        LoginButton.setText("Login");
+        return LoginButton;
+    }
 }
+
+
+
+    // create login button
+    // public static Button createLoginButton(float x, float y) {
+    //    Button loginButton = new RectangleButton(x, y);
+    //    loginButton.setName("Login");
+    //    loginButton.setColor(Starknight);
+    //    loginButton.setText("Login");
+     //   return loginButton;
+   // }
+//}
+

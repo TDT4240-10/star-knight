@@ -2,7 +2,11 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-
+/**
+ * Abstract class for Screen. All screens in the game will extend this class.
+ *
+ * @author Deen
+ */
 public abstract class Screen {
     protected Vector3 mouse; // this is a protected xyz coordinate system
     protected ScreenManager gvm;
@@ -19,4 +23,5 @@ public abstract class Screen {
 
     // dispose method to prevent memory leaks
     public abstract void dispose();
+
 }

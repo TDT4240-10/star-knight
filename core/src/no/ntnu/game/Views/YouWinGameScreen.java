@@ -13,9 +13,9 @@ import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
 /**
- * End Game Screen View class to render Lose screen
+ * End Game Screen View class to render Win screen
  *
- * @author Han
+ * @author Deen
  */
 public class YouWinGameScreen extends Screen {
     private Texture logo;
@@ -49,7 +49,7 @@ public class YouWinGameScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm,  null, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 

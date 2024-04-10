@@ -1,16 +1,21 @@
 package no.ntnu.game.Views;
 
+
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
+import no.ntnu.game.Models.PlayerModel;
+import no.ntnu.game.firestore.Player;
 
 /**
  * Main Menu View class to render main menu screen
@@ -27,32 +32,44 @@ public class MainMenuScreen extends Screen {
     private Button rectSettingsButton;
 
     private ShapeRenderer shapeRenderer;
-    //    private SpriteBatch spriteBatch;
+
+    private Player player;
+
     public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-//        spriteBatch = new SpriteBatch();
+        player = PlayerModel.getPlayer();
     }
+
+    public float calculateCenterX(String text, BitmapFont font) {
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, text);
+        float textWidth = layout.width;
+        return (Gdx.graphics.getWidth() - textWidth) / 2;
+    }
+
 
     @Override
     public void render(SpriteBatch sb) {
+        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
+        final float CENTER_USERNAME_X = calculateCenterX(player.getUsername(), font);
 
         playButton = ButtonFactory.createPlayButton(300,1100);
         tutorialButton = ButtonFactory.createTutorialButton(300,800);
         rectSettingsButton = ButtonFactory.createRectSettingsButton(300,500);
 
-        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
         playButton = ButtonFactory.createPlayButton(CENTER_BUTTON_X,900);
         tutorialButton = ButtonFactory.createTutorialButton(CENTER_BUTTON_X,600);
         rectSettingsButton = ButtonFactory.createRectSettingsButton(CENTER_BUTTON_X,300);
 
         // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, sb);
-        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null, sb);
-        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null, sb);
+        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, null, sb);
+        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null, null, sb);
+        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null, null,  sb);
 
 
         // Set input processors
@@ -77,6 +94,8 @@ public class MainMenuScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
+        font.draw(sb, player.getUsername(), CENTER_USERNAME_X, 1200);
+        font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);
         sb.end();
 
         // Render the menu button
@@ -89,10 +108,6 @@ public class MainMenuScreen extends Screen {
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
     }
 
     @Override

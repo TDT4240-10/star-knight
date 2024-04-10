@@ -50,9 +50,9 @@ public class SingleOrMultiplayerScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,300);
 
         // Create input listeners for buttons
-        ButtonInputListener singleplayerInputListener = new ButtonInputListener(singleplayerButton, gvm, null, sb);
-        ButtonInputListener multiplayerInputListener = new ButtonInputListener(multiplayerButton, gvm, null, sb);
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
+        ButtonInputListener singleplayerInputListener = new ButtonInputListener(singleplayerButton, gvm, null, null, sb);
+        ButtonInputListener multiplayerInputListener = new ButtonInputListener(multiplayerButton, gvm, null,  null, sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null,  null, sb);
 
 
         // Set input processors
