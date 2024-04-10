@@ -173,23 +173,23 @@ public class CreateGameLobbyScreen extends Screen {
 
     }
 
-    private void updateButtonColors() {
-        GameModeController gameModeController = GameModeController.getInstance();
-
-        if (gameModeController.isLastKnightMode()) {
-            lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button
-            fastestKnightButton.setColor(Starknight); // Reset FastestKnight button
-            startGameButton.setColor(green); // Highlight StartGame button
-        } else if (gameModeController.isFastestKnightMode()) {
-            fastestKnightButton.setColor(Starknightdown); // Highlight FastestKnight button
-            lastKnightButton.setColor(Starknight); // Reset LastKnight button
-            startGameButton.setColor(green); // Highlight StartGame button
-        } else {
-            // Optional: Reset both buttons if no mode is selected
-            fastestKnightButton.setColor(Starknight);
-            lastKnightButton.setColor(Starknight);
-            startGameButton.setColor(red); // Disable StartGame button
-        }
-    }
+//    private void updateButtonColors() {
+//        GameModeController gameModeController = GameModeController.getInstance();
+//
+//        if (gameModeController.isLastKnightMode()) {
+//            lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button
+//            fastestKnightButton.setColor(Starknight); // Reset FastestKnight button
+//            startGameButton.setColor(green); // Highlight StartGame button
+//        } else if (gameModeController.isFastestKnightMode()) {
+//            fastestKnightButton.setColor(Starknightdown); // Highlight FastestKnight button
+//            lastKnightButton.setColor(Starknight); // Reset LastKnight button
+//            startGameButton.setColor(green); // Highlight StartGame button
+//        } else {
+//            // Optional: Reset both buttons if no mode is selected
+//            fastestKnightButton.setColor(Starknight);
+//            lastKnightButton.setColor(Starknight);
+//            startGameButton.setColor(red); // Disable StartGame button
+//        }
+//    }
 
 }

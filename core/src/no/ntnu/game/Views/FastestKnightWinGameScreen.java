@@ -19,31 +19,34 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  *
  * @author Han
  */
-public class FastestKnightEndGameScreen extends Screen {
+public class FastestKnightWinGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
     private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
-    private LoseDeadKnightSprite loseDeadKnightSprite;
+//    private LoseDeadKnightSprite loseDeadKnightSprite;
+    private WinRunningKnightSprite winRunningKnightSprite;
     private float knightX, knightY;
-    private float knightSpeed = 300; // Pixels per second
+    private float knightSpeed = 400; // Pixels per second
     private float time_elapsed;
     private Stage stage;
     //    private SpriteBatch spriteBatch;
-    public FastestKnightEndGameScreen(ScreenManager gvm, float time_elapsed) {
+    public FastestKnightWinGameScreen(ScreenManager gvm, float time_elapsed) {
         super(gvm);
-        logo = new Texture("time_taken.png");
+        logo = new Texture("you_cleared.png");
         stage = new Stage();
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-        loseDeadKnightSprite = new LoseDeadKnightSprite();
+//        loseDeadKnightSprite = new LoseDeadKnightSprite();
+        winRunningKnightSprite = new WinRunningKnightSprite();
 
-        knightX = 300;
+        knightX = 0;
         knightY = 900;
+
         this.time_elapsed = time_elapsed;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -92,12 +95,17 @@ public class FastestKnightEndGameScreen extends Screen {
 
         sb.end();
 
+//        loseDeadKnightSprite.setPosition(knightX, knightY);
+//        loseDeadKnightSprite.render(sb);
+
         // to ensure the knight is moving at the same speed on all devices
         float dt = Gdx.graphics.getDeltaTime();
         update(dt);
 
-        loseDeadKnightSprite.setPosition(knightX, knightY);
-        loseDeadKnightSprite.render(sb);
+        winRunningKnightSprite.setPosition(knightX, knightY);
+        winRunningKnightSprite.render(sb);
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
 
         shapeRenderer.end();
 
@@ -114,13 +122,16 @@ public class FastestKnightEndGameScreen extends Screen {
 
     @Override
     public void update(float dt) {
-
+        knightX += knightSpeed * dt;
+        if (knightX > Gdx.graphics.getWidth()) {
+            knightX = -winRunningKnightSprite.getWidth();
+        }
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-//        runningKnightSprite.dispose();
+        winRunningKnightSprite.dispose();
     }
 
     @Override

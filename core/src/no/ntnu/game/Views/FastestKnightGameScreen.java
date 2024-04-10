@@ -17,8 +17,6 @@ import no.ntnu.game.Controllers.GameController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
-import no.ntnu.game.Models.Score;
-import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.factory.button.CircleButtonFactory;
@@ -63,7 +61,7 @@ public class FastestKnightGameScreen extends Screen {
     private PowerUp life2;
     private PowerUp life3;
 
-    private Score score;
+//    private Score score;
     private final Stage stage;
     private final BitmapFont font;
     private Timer timer;
@@ -78,8 +76,6 @@ public class FastestKnightGameScreen extends Screen {
         stage = new Stage();
 
         gameController = new GameController();
-
-//        timeLimitBar = new TimeLimitBar(initialTime, timeLimit, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 50f);
 
         treeWithPowerUp = new TreeWithPowerUp();
         treeWithPowerUp.init();
@@ -196,13 +192,17 @@ public class FastestKnightGameScreen extends Screen {
         knightController.renderLife3(sb);
 
         player_score = knightController.getScore();
+//        player_score = 1234;
 
-        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
+        if ((player_score == 0)) {
             // stop timer
             timer.stop();
-            gvm.set(new FastestKnightEndGameScreen(gvm, timer.getElapsedTime()));
-//            gvm.set(new YouLoseGameScreen(gvm));
-        };
+            gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
+        } else if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){
+            // stop timer
+            timer.stop();
+            gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
+        }
 
         shapeRenderer.end();
 

@@ -80,7 +80,7 @@ public class KnightController {
 
         gameModeController = GameModeController.getInstance();
 
-        scoreCounter = new Score();
+        scoreCounter = new Score(this.gameModeController);
 //        timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
@@ -365,7 +365,14 @@ public class KnightController {
                 if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                     tree.chop();
                     tree.createNewTrunk();
-                    scoreCounter.incrementScore(1);
+
+                    // if game mode is last knight standing, increment score, else if game mode is fastest knight, decrement score
+                    if (Objects.equals(gamemode, "last_knight")) {
+                        scoreCounter.incrementScore(1);
+                    }
+                    else if (Objects.equals(gamemode, "fastest_knight")) {
+                        scoreCounter.decrementScore(1);
+                    }
 
                     // Checking for next collision after chopping the tree
                     lowestTreePart = tree.trees.get(0);

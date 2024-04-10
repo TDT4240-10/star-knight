@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import java.util.Random;
 
+import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 public class SinglePlayerChooseGameModeScreen extends Screen {
@@ -35,6 +36,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     private Button lastKnightButton;
     private Button fastestKnightButton;
     private Button exitButton;
+    private GameModeController gameModeController = GameModeController.getInstance();
 
     // TODO link the room id with backend
     private String roomID; // room id for the game lobby
@@ -53,6 +55,8 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
         lastKnightButton = rectButtonFactory.createButton("Last Knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // set game mode to last knight
+                gameModeController.setGameMode(GameModeController.GameMode.LAST_KNIGHT);
                 gvm.push(new LastKnightGameScreen(gvm));
                 return true;
             }
@@ -64,6 +68,8 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
         fastestKnightButton = rectButtonFactory.createButton("Fastest Knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                // set game mode to fastest knight
+                gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
                 gvm.set(new FastestKnightGameScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
