@@ -13,9 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import java.util.Objects;
 
-//import no.ntnu.game.Button.Button;
-//import no.ntnu.game.Button.ButtonFactory;
-//import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;

@@ -11,18 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import org.w3c.dom.css.Rect;
-
 import java.util.Objects;
 
-//import no.ntnu.game.Button.Button;
-//import no.ntnu.game.Button.ButtonFactory;
-//import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
-import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.factory.button.CircleButtonFactory;

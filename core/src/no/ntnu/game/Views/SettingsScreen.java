@@ -150,7 +150,6 @@ public class SettingsScreen extends Screen {
         // draw stage and music slider and sound effects slider
         stage.act();
         stage.draw();
-
     }
 
     @Override

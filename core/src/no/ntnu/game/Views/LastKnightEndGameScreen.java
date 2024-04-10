@@ -14,10 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
-//import no.ntnu.game.Button.Button;
-//import no.ntnu.game.Button.ButtonFactory;
-//import no.ntnu.game.Button.ButtonInputListener;
-
 /**
  * End Game Screen View class to render Lose screen
  *

@@ -1,7 +1,5 @@
 package no.ntnu.game.Views;
 
-
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
