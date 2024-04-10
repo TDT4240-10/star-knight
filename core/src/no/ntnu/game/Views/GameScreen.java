@@ -2,6 +2,7 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,11 +14,13 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameController;
+import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
+import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 
 /**
@@ -26,6 +29,7 @@ import no.ntnu.game.Models.TreeWithPowerUp;
  * @author Han
  */
 public class GameScreen extends Screen {
+    private BitmapFont font;
 
     private GameController gameController;
 
@@ -59,9 +63,14 @@ public class GameScreen extends Screen {
 
     private Score score;
 
+//    private Timer timer = new Timer();
+    public GameModeController gameModeController;
 
     public GameScreen(ScreenManager gvm) {
         super(gvm);
+
+        gameModeController = GameModeController.getInstance();
+
         powerUpTextLogo = new Texture("power_ups.png");
 
         gameController = new GameController();
@@ -86,7 +95,6 @@ public class GameScreen extends Screen {
         life1 = PowerUpFactory.createLivesPowerUp();
         life2 = PowerUpFactory.createLivesPowerUp();
         life3 = PowerUpFactory.createLivesPowerUp();
-
     }
 
     @Override
@@ -101,6 +109,11 @@ public class GameScreen extends Screen {
         if (timeLimitBar.isTimeUp()) {
             gvm.set(new YouLoseGameScreen(gvm));
         }
+
+//        Update timer in fastest knight mode
+//        if(gameModeController.isLastKnightMode()) {
+//            timer.getInstance().update(dt);
+//        }
     }
 
     @Override
@@ -149,6 +162,11 @@ public class GameScreen extends Screen {
         knightController.renderLife3(sb);
 
         knightController.renderScore(sb);
+
+        // render timer in fastest knight mode
+//        if(gameModeController.isFastestKnightMode()) {
+//            // render timer in fastest knight mode
+//        }
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
             gvm.set(new YouWinGameScreen(gvm));

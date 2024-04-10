@@ -51,6 +51,14 @@ public class ButtonInputListener extends InputAdapter {
 
         // add the functionality of the buttons here
         switch(this.button.getName()) {
+            case "Login":
+                if (this.button.isPressed(touchX, touchY)) {
+                    this.button.setColor(Starknightdown); // For example, change button color when pressed
+                    System.out.println("Login button pressed, color set");
+                    gsm.set(new MainMenuScreen(gsm));
+                    return true; // Indicate that the touch event is handled
+                }
+                break;
             case "LeftArrow":
                 if (this.button.isPressed(touchX, touchY)) {
                     // Handle button press for LeftArrow
@@ -159,20 +167,16 @@ public class ButtonInputListener extends InputAdapter {
                     GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
                     switch (currentMode) {
                         case FASTEST_KNIGHT:
-                            // todo Load the FastestKnight game screen
-                            // temp load win screen
-                            gsm.set(new YouWinGameScreen(gsm));
+                            gsm.set(new GameScreen(gsm));
                             System.out.println("Starting Fastest Knight game...");
                             break;
                         case LAST_KNIGHT:
-                            // todo Load the LastKnight game screen
-                            // temp load lose screen
-                            gsm.set(new YouLoseGameScreen(gsm));
+                            gsm.set(new GameScreen(gsm));
                             System.out.println("Starting Last Knight game...");
                             break;
                         default:
                             System.out.println("No game mode selected");
-                            gsm.set(new GameScreen(gsm));
+//                            gsm.set(new GameScreen(gsm));
                             // Possibly show an error or prompt to select a game mode
                             break;
                     }

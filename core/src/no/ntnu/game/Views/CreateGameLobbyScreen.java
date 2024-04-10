@@ -25,6 +25,8 @@ import no.ntnu.game.Controllers.GameModeController;
 public class CreateGameLobbyScreen extends Screen {
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
+    public static Color green = new Color(0 / 255f, 255 / 255f, 0 / 255f, 255 / 255f);
+    public static Color red = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
     private Stage stage;
     private TextField textField;
     private Skin skin; // libGDX skins provide styling for UI widgets
@@ -156,13 +158,16 @@ public class CreateGameLobbyScreen extends Screen {
         if (gameModeController.isLastKnightMode()) {
             lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button
             fastestKnightButton.setColor(Starknight); // Reset FastestKnight button
+            startGameButton.setColor(green); // Highlight StartGame button
         } else if (gameModeController.isFastestKnightMode()) {
             fastestKnightButton.setColor(Starknightdown); // Highlight FastestKnight button
             lastKnightButton.setColor(Starknight); // Reset LastKnight button
+            startGameButton.setColor(green); // Highlight StartGame button
         } else {
             // Optional: Reset both buttons if no mode is selected
             fastestKnightButton.setColor(Starknight);
             lastKnightButton.setColor(Starknight);
+            startGameButton.setColor(red); // Disable StartGame button
         }
     }
 

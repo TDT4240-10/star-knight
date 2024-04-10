@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
+import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;
 import no.ntnu.game.Views.MainMenuScreen;
 
@@ -35,7 +36,7 @@ public class StarKnight extends Game {
 //		mainMenuScreen = new MainMenuScreen(spriteBatch);
 //		setScreen(mainMenuScreen);
 
-		gvm.push(new MainMenuScreen(gvm));	// push the main menu screen to the stack
+		gvm.push(new PlayerLoginScreen(gvm));	// push the main menu screen to the stack
 
 		// tree = new TreeWithPowerUp(spriteBatch);
 		// tree.init();
