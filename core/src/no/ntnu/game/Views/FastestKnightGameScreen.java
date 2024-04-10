@@ -19,6 +19,7 @@ import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
+import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
@@ -29,6 +30,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class FastestKnightGameScreen extends Screen {
+//    private float elapsedTime = 0;
 
     private GameController gameController;
 
@@ -49,7 +51,7 @@ public class FastestKnightGameScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
 
-    private TimeLimitBar timeLimitBar;
+//    private TimeLimitBar timeLimitBar;
 
     private float temp = 0;
 
@@ -64,10 +66,11 @@ public class FastestKnightGameScreen extends Screen {
     private Score score;
     private final Stage stage;
     private final BitmapFont font;
-
+    private Timer timer;
 
     public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
+        timer = new Timer();
         font = new BitmapFont(); // Assuming you have a font for rendering text
 
         powerUpTextLogo = new Texture("power_ups.png");
@@ -76,7 +79,7 @@ public class FastestKnightGameScreen extends Screen {
 
         gameController = new GameController();
 
-        timeLimitBar = new TimeLimitBar(initialTime, timeLimit, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 50f);
+//        timeLimitBar = new TimeLimitBar(initialTime, timeLimit, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 50f);
 
         treeWithPowerUp = new TreeWithPowerUp();
         treeWithPowerUp.init();
@@ -87,7 +90,7 @@ public class FastestKnightGameScreen extends Screen {
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
-        knightController = new KnightController("fastest_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
+        knightController = new KnightController("fastest_knight", -80, 500, treeWithPowerUp, null, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
@@ -166,23 +169,23 @@ public class FastestKnightGameScreen extends Screen {
 
     @Override
     protected void handleInput() {
-
+        // when touched either buttons, start timer
+        if (Gdx.input.justTouched()) {
+            timer.start();
+        }
     }
 
     @Override
     public void update(float dt) {
-        // Update the time limit
-        timeLimitBar.updateTime(dt);
-        if (timeLimitBar.isTimeUp()) {
-            gvm.set(new LastKnightEndGameScreen(gvm, player_score));
-        }
+        // Update the elapsed time
+        timer.update(dt);
     }
 
     @Override
     public void render(SpriteBatch sb) {
         treeWithPowerUp.draw(sb);
 
-        timeLimitBar.render(shapeRenderer);
+//        timeLimitBar.render(shapeRenderer);
 
         knightController.renderIdleKnight(sb);
         knightController.renderChoppingKnight(sb);
@@ -195,7 +198,9 @@ public class FastestKnightGameScreen extends Screen {
         player_score = knightController.getScore();
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            gvm.set(new LastKnightEndGameScreen(gvm, player_score));
+            // stop timer
+            timer.stop();
+            gvm.set(new FastestKnightEndGameScreen(gvm, timer.getElapsedTime()));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };
 
@@ -204,14 +209,25 @@ public class FastestKnightGameScreen extends Screen {
         sb.begin();
         sb.draw(powerUpTextLogo, 30, 80);
 
-        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
+        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2 - 80; // Assuming average glyph width
         float y = Gdx.graphics.getHeight() - 500; // Center vertically
+        float timer_y = Gdx.graphics.getHeight() - 300; // Center vertically
         font.getData().setScale(4f);
-        font.draw(sb, "Score: " + player_score, x, y);
+        font.draw(sb, "Trees to cut: " + player_score, x, y);
+        font.draw(sb, "Time: " + formatTime(timer.getElapsedTime()), x, timer_y);
+        // print out the time that user has taken
+        // implement a count up timer
         sb.end();
-
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+    }
+
+    // method to format time in HH:MM:SS format
+    private String formatTime(float time) {
+        int hours = (int) (time / 3600);
+        int minutes = (int) ((time % 3600) / 60);
+        int seconds = (int) (time % 60);
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     @Override
