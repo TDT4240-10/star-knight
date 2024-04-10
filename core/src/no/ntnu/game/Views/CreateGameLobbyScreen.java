@@ -109,6 +109,7 @@ public class CreateGameLobbyScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
         Gdx.input.setInputProcessor(inputMultiplexer);
+
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
