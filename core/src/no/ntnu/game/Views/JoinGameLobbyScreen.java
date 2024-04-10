@@ -15,7 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
-
+/**
+ * Join Game Lobby View class to render join game lobby screen
+ *
+ * @author Deen
+ */
 public class JoinGameLobbyScreen extends Screen {
     private Stage stage;
     private TextField textField;

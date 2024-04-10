@@ -2,6 +2,7 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,10 +18,15 @@ import java.util.Random;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
+import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.Player;
 
 public class CreateGameLobbyScreen extends Screen {
+    public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
+    public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
+    public static Color green = new Color(0 / 255f, 255 / 255f, 0 / 255f, 255 / 255f);
+    public static Color red = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
     private Stage stage;
     private TextField textField;
     private Skin skin; // libGDX skins provide styling for UI widgets
@@ -57,7 +63,6 @@ public class CreateGameLobbyScreen extends Screen {
 
         // todo deen
         // gameRoom = new GameRoom();  // where to get players??
-
         roomID = gameRoom.getRoomCode();
     }
 
@@ -74,14 +79,16 @@ public class CreateGameLobbyScreen extends Screen {
         final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomID, font);
         final float CENTER_PLAYERS_X = calculateCenterX("Players: ", font);
         startGameButton = ButtonFactory.createStartGameButton(CENTER_BUTTON_X, 0.15f * Gdx.graphics.getHeight());
-
         exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 0.03f * Gdx.graphics.getHeight());
+
+        updateButtonColors();
 
         // Create input listeners for buttons
         ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, null, sb);
         ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, null,  sb);
         ButtonInputListener lastKnightListener = new ButtonInputListener(lastKnightButton, gvm, null,  null, sb);
         ButtonInputListener fastestKnightListener = new ButtonInputListener(fastestKnightButton, gvm, null, null, sb);
+
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -130,7 +137,6 @@ public class CreateGameLobbyScreen extends Screen {
 
     @Override
     protected void handleInput() {
-
     }
 
     @Override
@@ -145,6 +151,24 @@ public class CreateGameLobbyScreen extends Screen {
         System.out.println("Game Lobby View Disposed");
 
     }
+
+    private void updateButtonColors() {
+        GameModeController gameModeController = GameModeController.getInstance();
+
+        if (gameModeController.isLastKnightMode()) {
+            lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button
+            fastestKnightButton.setColor(Starknight); // Reset FastestKnight button
+            startGameButton.setColor(green); // Highlight StartGame button
+        } else if (gameModeController.isFastestKnightMode()) {
+            fastestKnightButton.setColor(Starknightdown); // Highlight FastestKnight button
+            lastKnightButton.setColor(Starknight); // Reset LastKnight button
+            startGameButton.setColor(green); // Highlight StartGame button
+        } else {
+            // Optional: Reset both buttons if no mode is selected
+            fastestKnightButton.setColor(Starknight);
+            lastKnightButton.setColor(Starknight);
+            startGameButton.setColor(red); // Disable StartGame button
+        }
+    }
+
 }
-
-

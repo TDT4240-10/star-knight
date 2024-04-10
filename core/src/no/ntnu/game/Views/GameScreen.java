@@ -2,6 +2,9 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -11,7 +14,13 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameController;
+import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.Controllers.KnightController;
+import no.ntnu.game.Models.PowerUp;
+import no.ntnu.game.Models.PowerUpFactory;
+import no.ntnu.game.Models.Score;
+import no.ntnu.game.Models.TimeLimitBar;
+import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 
 /**
@@ -20,8 +29,11 @@ import no.ntnu.game.Models.TreeWithPowerUp;
  * @author Han
  */
 public class GameScreen extends Screen {
+    private BitmapFont font;
 
     private GameController gameController;
+
+    private Texture powerUpTextLogo;
 
     private Button leftButton;
 
@@ -37,12 +49,33 @@ public class GameScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
 
+    private TimeLimitBar timeLimitBar;
+
     private float temp = 0;
+
+    private float timeLimit = 4f;
+
+    private float initialTime = 4f;
+
+    private PowerUp life1;
+    private PowerUp life2;
+    private PowerUp life3;
+
+    private Score score;
+
+//    private Timer timer = new Timer();
+    public GameModeController gameModeController;
 
     public GameScreen(ScreenManager gvm) {
         super(gvm);
 
+        gameModeController = GameModeController.getInstance();
+
+        powerUpTextLogo = new Texture("power_ups.png");
+
         gameController = new GameController();
+
+        timeLimitBar = new TimeLimitBar(initialTime, timeLimit, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 50f);
 
         treeWithPowerUp = new TreeWithPowerUp();
         treeWithPowerUp.init();
@@ -53,11 +86,15 @@ public class GameScreen extends Screen {
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
-        knightController = new KnightController(-80, 500, treeWithPowerUp);
+        knightController = new KnightController(-80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
         knightController.setDeadPosition(-99999, -99999);
+
+        life1 = PowerUpFactory.createLivesPowerUp();
+        life2 = PowerUpFactory.createLivesPowerUp();
+        life3 = PowerUpFactory.createLivesPowerUp();
     }
 
     @Override
@@ -67,21 +104,33 @@ public class GameScreen extends Screen {
 
     @Override
     public void update(float dt) {
+        // Update the time limit
+        timeLimitBar.updateTime(dt);
+        if (timeLimitBar.isTimeUp()) {
+            gvm.set(new YouLoseGameScreen(gvm));
+        }
 
-//        temp += dt;
-//        if(temp > 1) {
-//
-//            tree.chop();
-//            tree.createNewTrunk();
-//            temp = 0;
+//        Update timer in fastest knight mode
+//        if(gameModeController.isLastKnightMode()) {
+//            timer.getInstance().update(dt);
 //        }
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(500,1950);
-        leftButton = ButtonFactory.createLeftArrowButton(200,300);
-        rightButton = ButtonFactory.createRightArrowButton(800,300);
+        // Adjust offsets as needed
+        float x_offset = 80;
+        float y_offset = 100;
+
+        // Calculate the XY-coordinates for the right button
+        float rightButtonX = Gdx.graphics.getWidth() - 2 * 150 - x_offset;
+        leftButton = ButtonFactory.createLeftArrowButton(x_offset + 150, x_offset + 150 + y_offset);
+        rightButton = ButtonFactory.createRightArrowButton(rightButtonX + 150, x_offset + 150 + y_offset);
+
+        // Calculate the XY-coordinates for the exit button
+        float exitButtonX = Gdx.graphics.getWidth() - 300 - x_offset; // Adjust the offset as needed
+        float exitButtonY = Gdx.graphics.getHeight() - 200 - x_offset; // Adjust the offset as needed
+        exitButton = ButtonFactory.createExitButton(exitButtonX, exitButtonY);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, null,  sb);
@@ -102,10 +151,22 @@ public class GameScreen extends Screen {
         leftButton.render(shapeRenderer,sb);
         rightButton.render(shapeRenderer,sb);
 
+        timeLimitBar.render(shapeRenderer);
 
         knightController.renderIdleKnight(sb);
         knightController.renderChoppingKnight(sb);
         knightController.renderDeadKnight(sb);
+
+        knightController.renderLife1(sb);
+        knightController.renderLife2(sb);
+        knightController.renderLife3(sb);
+
+        knightController.renderScore(sb);
+
+        // render timer in fastest knight mode
+//        if(gameModeController.isFastestKnightMode()) {
+//            // render timer in fastest knight mode
+//        }
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
 //            gvm.set(new YouWinGameScreen(gvm));
@@ -113,6 +174,10 @@ public class GameScreen extends Screen {
         };
 
         shapeRenderer.end();
+
+        sb.begin();
+        sb.draw(powerUpTextLogo, 30, 80);
+        sb.end();
     }
 
     @Override

@@ -11,8 +11,9 @@ public class Settings {
     private float sound;
 
     private Settings() {
-        // The music starts out at full music
+        // The music starts out at full volume
         music = 1.0f;
+        // The sound effects starts out at full volume
         sound = 1.0f;
     }
 

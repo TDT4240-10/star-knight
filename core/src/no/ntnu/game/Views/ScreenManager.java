@@ -3,7 +3,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.EmptyStackException;
 import java.util.Stack;
-
+/**
+ * A class to manage the screens in the game. Methods to push, set, update and render screens.
+ *
+ * @author Deen
+ */
 public class ScreenManager {
     private Stack<Screen> screens;
     public ScreenManager() {

@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
+import no.ntnu.game.Views.PlayerLoginScreen;
+import no.ntnu.game.Views.ScreenManager;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;

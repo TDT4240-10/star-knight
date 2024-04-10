@@ -123,6 +123,7 @@ public class ButtonFactory {
         lastKnightStandingButton.setText("Last Knight");
         return lastKnightStandingButton;
     }
+
     public static Button createLoginButton(float x, float y) {
         Button LoginButton = new RectangleButton(x, y);
         LoginButton.setName("Login");
@@ -130,4 +131,16 @@ public class ButtonFactory {
         return LoginButton;
     }
 }
+
+
+
+    // create login button
+    // public static Button createLoginButton(float x, float y) {
+    //    Button loginButton = new RectangleButton(x, y);
+    //    loginButton.setName("Login");
+    //    loginButton.setColor(Starknight);
+    //    loginButton.setText("Login");
+     //   return loginButton;
+   // }
+//}
 
