@@ -3,7 +3,8 @@
 {
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
     "default-font": {
-      "file": "default.fnt"
+      "file": "default.fnt",
+      "size": 20
     }
   },
   "com.badlogic.gdx.graphics.Color": {
@@ -30,6 +31,12 @@
       "b": 0,
       "g": 0,
       "r": 0
+    },
+    "starknight": {
+      "r": 61,
+      "g": 63,
+      "b": 65,
+      "a": 255
     }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable": {

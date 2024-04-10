@@ -7,16 +7,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
+import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 public class ChooseGameModeScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
     private Button exitButton;
+
+    private Stage stage;
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
@@ -26,23 +30,29 @@ public class ChooseGameModeScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-//        spriteBatch = new SpriteBatch();
+        RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
+        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.set(new MainMenuScreen(gvm));
+                return true; // Indicate that the touch event is handled
+            }
+        });
+        exitButton.setSize(350, 200); // Set the size of the button
+        exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
+
+        stage = new Stage();
+        stage.addActor(exitButton);
+
+
+        // Set input processors
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(300,900);
-
-        // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm,  null, null, sb);
-        // Set input processors
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-
-        inputMultiplexer.addProcessor(exitInputListener);
-
-        Gdx.input.setInputProcessor(inputMultiplexer);
-
-
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -58,10 +68,9 @@ public class ChooseGameModeScreen extends Screen {
         sb.draw(logo, logoX, logoY);
         sb.end();
 
-        // Render the menu button
-        exitButton.render(shapeRenderer,sb);
-
-        shapeRenderer.end();
+        // draw stage and text field
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
     }
 
     @Override
