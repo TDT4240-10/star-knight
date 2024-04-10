@@ -8,15 +8,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Models.Settings;
+import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * Settings View class to render settings screen
@@ -52,6 +53,7 @@ public class SettingsScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+        RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
 //        spriteBatch = new SpriteBatch();
 
         stage = new Stage();
@@ -93,25 +95,28 @@ public class SettingsScreen extends Screen {
             }
         });
 
+        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.set(new MainMenuScreen(gvm));
+                return true; // Indicate that the touch event is handled
+            }
+        });
+        exitButton.setSize(350, 200); // Set the size of the button
+        exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
+
         stage.addActor(musicSlider);
         stage.addActor(soundSlider);
+        stage.addActor(exitButton);
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        final float BOTTOM_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        exitButton = ButtonFactory.createExitButton(BOTTOM_BUTTON_X,200);
-
-        // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, null, sb);
-        // Set input processors
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
-
-        inputMultiplexer.addProcessor(exitInputListener);
-
-        Gdx.input.setInputProcessor(inputMultiplexer);
-
 
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -141,10 +146,6 @@ public class SettingsScreen extends Screen {
         sb.draw(soundText, soundX, soundY);
         sb.end();
 
-        // Render the menu button
-        exitButton.render(shapeRenderer,sb);
-
-        shapeRenderer.end();
 
         // draw stage and music slider and sound effects slider
         stage.act();

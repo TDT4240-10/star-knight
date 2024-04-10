@@ -8,13 +8,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import no.ntnu.game.factory.button.RectangleButtonFactory;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
 /**
  * Join Game Lobby View class to render join game lobby screen
  *
@@ -44,7 +45,28 @@ public class JoinGameLobbyScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+
+        RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
+        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.set(new MainMenuScreen(gvm));
+                return true; // Indicate that the touch event is handled
+            }
+        });
+
+        exitButton.setSize(350, 200); // Set the size of the button
+        exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
+
+        stage = new Stage();
+        stage.addActor(exitButton);
+
+
         waitingForHostToStart = new Texture("waiting_for_host_to_start.png");
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
     }
 
@@ -57,18 +79,9 @@ public class JoinGameLobbyScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
         final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + joinRoomID, font);
         final float CENTER_PLAYERS_X = calculateCenterX("Players: ", font);
-        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 300);
 
-        // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, null, sb);
-        // Set input processors
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(exitInputListener);
-
-        Gdx.input.setInputProcessor(inputMultiplexer);
 
         // display logo
         sb.begin();
@@ -112,8 +125,9 @@ public class JoinGameLobbyScreen extends Screen {
         sb.draw(waitingForHostToStart, waitingForHostToStartX, waitingForHostToStartY, newWidth, newHeight);
         sb.end();
 
-        // render exit button
-        exitButton.render(shapeRenderer, sb);
+        // draw stage and text field
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
     }
 
     @Override

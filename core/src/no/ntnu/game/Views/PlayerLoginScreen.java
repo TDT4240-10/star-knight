@@ -9,14 +9,20 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
+
 import no.ntnu.game.FirebaseInterface;
+import no.ntnu.game.Models.PlayerModel;
+import no.ntnu.game.PlayerCallback;
+import no.ntnu.game.StarKnight;
+import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.factory.textfield.TextFieldFactory;
 import no.ntnu.game.firestore.Player;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -46,21 +52,52 @@ public class PlayerLoginScreen extends Screen {
 
     public PlayerLoginScreen(ScreenManager gvm) {
         super(gvm);
+        _FI = StarKnight.getFirebaseInterface();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-
-        stage = new Stage();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        RectangleButtonFactory rectangleButtonFactory = new RectangleButtonFactory();
+        TextFieldFactory textFieldFactory = new TextFieldFactory();
+        loginButton = rectangleButtonFactory.createButton("Login", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                String username = usernameField.getText();
+                if (!username.isEmpty()) {
+                    _FI.getPlayer(username, new PlayerCallback() {
+                        @Override
+                        public void onCallback(Player player) {
+                            if (player == null) {
+                                // create new player
+                                Player newPlayer = new Player(username);
+                                _FI.SerializeClass(newPlayer);
+                                PlayerModel.setPlayer(newPlayer);
+                            } else {
+                                PlayerModel.setPlayer(player);
+                            }
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    gvm.set(new MainMenuScreen(gvm));
+                                }
+                            });
+                        }
+                    });
+                }
+                return true;
+            }
+        });
+        loginButton.setSize(350, 200); // Set the size of the button
+        loginButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 700);
 
         // create text field
-        usernameField = new TextField("", skin);
-        usernameField.setPosition(300, 1050);
+        usernameField = textFieldFactory.createTextfield("");
+        usernameField.setPosition((float) Gdx.graphics.getWidth() / 2 - 250, 1050);
         usernameField.setSize(500, 150);
 
+        stage = new Stage();
         stage.addActor(usernameField);
-        this._FI = _FI;
+        stage.addActor(loginButton);
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
@@ -73,17 +110,12 @@ public class PlayerLoginScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
         final float CENTER_USERNAME_X = calculateCenterX("Enter your username!", font);
-        loginButton = ButtonFactory.createLoginButton(CENTER_BUTTON_X, 700);
 
-        // Create input listeners for buttons
-        ButtonInputListener loginInputListener = new ButtonInputListener(loginButton, gvm, null, usernameField, sb);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
-        inputMultiplexer.addProcessor(loginInputListener);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -104,7 +136,6 @@ public class PlayerLoginScreen extends Screen {
         sb.end();
 
         // render both buttons
-        loginButton.render(shapeRenderer, sb);
         shapeRenderer.end();
 
         // draw stage and text field

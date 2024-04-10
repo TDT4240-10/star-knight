@@ -120,9 +120,9 @@ public class FastestKnightGameScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(exitButtonX, exitButtonY);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController,  null,sb);
-        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController,  null,sb);
-        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController,  null,sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, sb);
+        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, sb);
+        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 

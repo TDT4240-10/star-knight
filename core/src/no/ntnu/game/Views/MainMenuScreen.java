@@ -10,11 +10,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
+
 import no.ntnu.game.Models.PlayerModel;
+import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.firestore.Player;
 
 /**
@@ -29,19 +32,69 @@ public class MainMenuScreen extends Screen {
     private Button playButton;
 
     private Button tutorialButton;
-    private Button rectSettingsButton;
+    private Button settingsButton;
 
     private ShapeRenderer shapeRenderer;
+    private Stage stage;
 
     private Player player;
 
     public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
+
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
         player = PlayerModel.getPlayer();
+
+
+        // Create buttons
+        RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
+        playButton = rectButtonFactory.createButton("Play", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.set(new CreateOrJoinRoomScreen(gvm));
+                return true; // Indicate that the touch event is handled
+            }
+        });
+        playButton.setSize(350, 200); // Set the size of the button
+        playButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 800);
+
+        tutorialButton = rectButtonFactory.createButton("Tutorial", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.push(new TutorialScreen(gvm));
+                return true;
+            }
+        });
+
+        tutorialButton.setSize(350, 200); // Set the size of the button
+        tutorialButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 550);
+
+        settingsButton = rectButtonFactory.createButton("Settings", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.set(new SettingsScreen(gvm));
+                return true;
+            }
+        });
+
+        settingsButton.setSize(350, 200); // Set the size of the button
+        settingsButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
+
+
+        // Create the stage for the buttons
+        stage = new Stage();
+        stage.addActor(playButton);
+        stage.addActor(tutorialButton);
+        stage.addActor(settingsButton);
+
+        // Set input processors
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage);
+        Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
+
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
@@ -54,32 +107,9 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
         final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
         final float CENTER_USERNAME_X = calculateCenterX(player.getUsername(), font);
 
-        playButton = ButtonFactory.createPlayButton(300,1100);
-        tutorialButton = ButtonFactory.createTutorialButton(300,800);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(300,500);
-
-        playButton = ButtonFactory.createPlayButton(CENTER_BUTTON_X,900);
-        tutorialButton = ButtonFactory.createTutorialButton(CENTER_BUTTON_X,600);
-        rectSettingsButton = ButtonFactory.createRectSettingsButton(CENTER_BUTTON_X,300);
-
-        // Create input listeners for buttons
-        ButtonInputListener menuInputListener = new ButtonInputListener(playButton, gvm, null, null, sb);
-        ButtonInputListener tutorialInputListener = new ButtonInputListener(tutorialButton, gvm, null, null, sb);
-        ButtonInputListener settingsInputListener = new ButtonInputListener(rectSettingsButton, gvm, null, null,  sb);
-
-
-        // Set input processors
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-
-        inputMultiplexer.addProcessor(menuInputListener);
-        inputMultiplexer.addProcessor(tutorialInputListener);
-        inputMultiplexer.addProcessor(settingsInputListener);
-
-        Gdx.input.setInputProcessor(inputMultiplexer);
 
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
@@ -98,12 +128,9 @@ public class MainMenuScreen extends Screen {
         font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);
         sb.end();
 
-        // Render the menu button
-        playButton.render(shapeRenderer,sb);
-        tutorialButton.render(shapeRenderer,sb);
-        rectSettingsButton.render(shapeRenderer,sb);
-
-        shapeRenderer.end();
+        // draw stage and text field
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
     }
 
     @Override

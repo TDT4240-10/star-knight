@@ -9,61 +9,100 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import java.util.Random;
-
-import no.ntnu.game.Button.Button;
-import no.ntnu.game.Button.ButtonFactory;
-import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameModeController;
-import no.ntnu.game.firestore.GameRoom;
-import no.ntnu.game.firestore.Player;
+import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 public class CreateGameLobbyScreen extends Screen {
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
     public static Color green = new Color(0 / 255f, 255 / 255f, 0 / 255f, 255 / 255f);
     public static Color red = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
-    private Stage stage;
-    private TextField textField;
-    private Skin skin; // libGDX skins provide styling for UI widgets
 
-    private SpriteBatch batch;
-//    private ShapeRenderer shapeRenderer;
 
     private Texture logo;
 
     BitmapFont font; // Declare the font variable
     private ShapeRenderer shapeRenderer;
-    private SpriteBatch spriteBatch;
 
     private Button startGameButton;
     private Button lastKnightButton;
     private Button fastestKnightButton;
     private Button exitButton;
-
-
-    // TODO link the room id with backend
-    private String roomID; // room id for the game lobby
-    private GameRoom gameRoom; // game room object
-    private final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+    private GameModeController gameModeController;
+    private Stage stage;
 
     public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
+        gameModeController = new GameModeController();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-        // render last knight standing and fastest knight buttons side by side
-        lastKnightButton = ButtonFactory.createLastKnightButton(CENTER_BUTTON_X - 200, 0.27f * Gdx.graphics.getHeight());
-        fastestKnightButton = ButtonFactory.createFastestKnightButton(CENTER_BUTTON_X + 200, 0.27f * Gdx.graphics.getHeight());
+        stage = new Stage();
+        RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
 
-        // todo deen
-        // gameRoom = new GameRoom();  // where to get players??
-//        roomID = gameRoom.getRoomCode();
+        lastKnightButton = rectButtonFactory.createButton("Last knight", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameModeController.setGameMode(GameModeController.GameMode.LAST_KNIGHT);
+                return true; // Indicate that the touch event is handled
+
+            }
+        });
+
+        lastKnightButton.setSize(400, 200);
+        lastKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 + 50, 800);
+        fastestKnightButton = rectButtonFactory.createButton("Fast knight", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
+                return true; // Indicate that the touch event is handled
+
+            }
+        });
+
+        fastestKnightButton.setSize(400, 200);
+        fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 450, 800);
+
+        startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
+                if (currentMode != null) {
+                    gvm.set(new GameScreen(gvm));
+                }
+                return true;
+            }
+        });
+
+        startGameButton.setSize(350, 200);
+        startGameButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 550);
+
+        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gvm.set(new MainMenuScreen(gvm));
+                return true; // Indicate that the touch event is handled
+            }
+        });
+
+        exitButton.setSize(350, 200); // Set the size of the button
+        exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
+
+        stage.addActor(fastestKnightButton);
+        stage.addActor(lastKnightButton);
+        stage.addActor(startGameButton);
+        stage.addActor(exitButton);
+
+        // Set input processors
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
@@ -76,28 +115,9 @@ public class CreateGameLobbyScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomID, font);
+        final float CENTER_ROOMID_X = calculateCenterX("Room ID: ", font);
         final float CENTER_PLAYERS_X = calculateCenterX("Players: ", font);
-        startGameButton = ButtonFactory.createStartGameButton(CENTER_BUTTON_X, 0.15f * Gdx.graphics.getHeight());
-        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X, 0.03f * Gdx.graphics.getHeight());
 
-        updateButtonColors();
-
-        // Create input listeners for buttons
-        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, null, sb);
-        ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, null,  sb);
-        ButtonInputListener lastKnightListener = new ButtonInputListener(lastKnightButton, gvm, null,  null, sb);
-        ButtonInputListener fastestKnightListener = new ButtonInputListener(fastestKnightButton, gvm, null, null, sb);
-
-
-        // Set input processors
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(startGameInputListener);
-        inputMultiplexer.addProcessor(exitGameInputListener);
-        inputMultiplexer.addProcessor(lastKnightListener);
-        inputMultiplexer.addProcessor(fastestKnightListener);
-
-        Gdx.input.setInputProcessor(inputMultiplexer);
 
         // display logo
         sb.begin();
@@ -115,24 +135,13 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
-        font.draw(sb, "Room ID: " + roomID, CENTER_ROOMID_X, 1330);
+        font.draw(sb, "Room ID: ", CENTER_ROOMID_X, 1330);
         font.draw(sb, "Players: ", CENTER_PLAYERS_X, 1230);
 
         sb.end();
 
-        // render last knight standing and fastest knight buttons side by side
-        lastKnightButton.render(shapeRenderer, sb);
-        fastestKnightButton.render(shapeRenderer, sb);
-
-        // render start game button
-        startGameButton.render(shapeRenderer, sb);
-
-        // render exit button
-        exitButton.render(shapeRenderer, sb);
-
-        shapeRenderer.end();
-
-
+        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        stage.draw();
     }
 
     @Override

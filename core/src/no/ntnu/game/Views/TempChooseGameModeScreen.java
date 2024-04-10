@@ -66,11 +66,11 @@ public class TempChooseGameModeScreen extends Screen {
         fastestKnightButton = ButtonFactory.createSingleplayerFastestKnightButton(CENTER_BUTTON_X + 200, 0.27f * Gdx.graphics.getHeight());
 
         // Create input listeners for buttons
-        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, null, sb);
-        ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, null, sb);
+        ButtonInputListener startGameInputListener = new ButtonInputListener(startGameButton, gvm, null, sb);
+        ButtonInputListener exitGameInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
 
-        ButtonInputListener fastestKnightInputListener = new ButtonInputListener(fastestKnightButton, gvm, null, null, sb);
-        ButtonInputListener lastKnightInputListener = new ButtonInputListener(lastKnightButton, gvm, null, null, sb);
+        ButtonInputListener fastestKnightInputListener = new ButtonInputListener(fastestKnightButton, gvm, null, sb);
+        ButtonInputListener lastKnightInputListener = new ButtonInputListener(lastKnightButton, gvm, null, sb);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();

@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import no.ntnu.game.Button.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;
@@ -15,12 +16,6 @@ import no.ntnu.game.firestore.Player;
 
 
 public class StarKnight extends Game {
-	//	MainMenuScreen mainMenuScreen;
-	CreateOrJoinRoomScreen createOrJoinRoomScreen;
-	private ShapeRenderer shapeRenderer;
-	private Button leftArrowButton;
-	private Button createRoomButton;
-	private Button joinRoomButton;
 	private SpriteBatch spriteBatch;
 	private static FirebaseInterface _FI;
 	private ScreenManager gvm;
@@ -30,7 +25,6 @@ public class StarKnight extends Game {
 	@Override
 	public void create () {
 		gvm = new ScreenManager();
-		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
 
 		gvm.push(new PlayerLoginScreen(gvm));

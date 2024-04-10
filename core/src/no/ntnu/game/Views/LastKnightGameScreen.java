@@ -2,8 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,13 +12,11 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameController;
-import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
-import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 
 /**
@@ -29,7 +25,6 @@ import no.ntnu.game.Models.TreeWithPowerUp;
  * @author Han
  */
 public class LastKnightGameScreen extends Screen {
-    private BitmapFont font;
 
     private GameController gameController;
 
@@ -54,7 +49,9 @@ public class LastKnightGameScreen extends Screen {
     private float temp = 0;
 
     private float timeLimit = 6f;
+    private float timeLimit = 6f;
 
+    private float initialTime = 6f;
     private float initialTime = 6f;
 
     private PowerUp life1;
@@ -63,14 +60,10 @@ public class LastKnightGameScreen extends Screen {
 
     private Score score;
 
-//    private Timer timer = new Timer();
-    public GameModeController gameModeController;
 
     public LastKnightGameScreen(ScreenManager gvm) {
+    public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
-
-        gameModeController = GameModeController.getInstance();
-
         powerUpTextLogo = new Texture("power_ups.png");
 
         gameController = new GameController();
@@ -87,6 +80,7 @@ public class LastKnightGameScreen extends Screen {
         deadKnightSprite = new DeadKnightSprite();
 
         knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
+        knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
@@ -95,6 +89,7 @@ public class LastKnightGameScreen extends Screen {
         life1 = PowerUpFactory.createLivesPowerUp();
         life2 = PowerUpFactory.createLivesPowerUp();
         life3 = PowerUpFactory.createLivesPowerUp();
+
     }
 
     @Override
@@ -109,11 +104,6 @@ public class LastKnightGameScreen extends Screen {
         if (timeLimitBar.isTimeUp()) {
             gvm.set(new YouLoseGameScreen(gvm));
         }
-
-//        Update timer in fastest knight mode
-//        if(gameModeController.isLastKnightMode()) {
-//            timer.getInstance().update(dt);
-//        }
     }
 
     @Override
@@ -133,9 +123,9 @@ public class LastKnightGameScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(exitButtonX, exitButtonY);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, null,  sb);
-        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, null,  sb);
-        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, null,  sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, sb);
+        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, sb);
+        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
@@ -163,15 +153,9 @@ public class LastKnightGameScreen extends Screen {
 
         knightController.renderScore(sb);
 
-        // render timer in fastest knight mode
-//        if(gameModeController.isFastestKnightMode()) {
-//            // render timer in fastest knight mode
-//        }
-
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
             gvm.set(new YouLoseGameScreen(gvm));
 //            gvm.set(new YouLoseGameScreen(gvm));
-//            gvm.set(new YouWinGameScreen(gvm));
         };
 
         shapeRenderer.end();
