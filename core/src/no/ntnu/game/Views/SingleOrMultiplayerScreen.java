@@ -128,4 +128,9 @@ public class SingleOrMultiplayerScreen extends Screen {
     public void dispose() {
         shapeRenderer.dispose();
     }
+
+    @Override
+    public void create(){
+
+    }
 }

@@ -138,6 +138,11 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     }
 
     @Override
+    public void create(){
+
+    }
+
+    @Override
     public void dispose() {
         shapeRenderer.dispose();
         logo.dispose();

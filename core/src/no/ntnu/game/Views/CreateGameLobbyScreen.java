@@ -168,6 +168,11 @@ public class CreateGameLobbyScreen extends Screen {
 
     }
 
+    @Override
+    public void create(){
+
+    }
+
     private void updateButtonColors() {
         GameModeController gameModeController = GameModeController.getInstance();
 

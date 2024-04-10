@@ -148,6 +148,11 @@ public class JoinGameLobbyScreen extends Screen {
 
     }
 
+    @Override
+    public void create(){
+
+    }
+
     // set roomID
     public void setJoinRoomID(String roomID) {
         this.joinRoomID = roomID;

@@ -218,4 +218,9 @@ public class LastKnightGameScreen extends Screen {
     public void dispose() {
         shapeRenderer.dispose();
     }
+
+    @Override
+    public void create(){
+
+    }
 }
