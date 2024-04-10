@@ -79,7 +79,6 @@ public class KnightController {
         this.gamemode = gamemode;
 
         gameModeController = GameModeController.getInstance();
-
         scoreCounter = new Score(this.gameModeController);
 //        timer = new Timer();
         knight = new KnightModel(1);
@@ -371,6 +370,7 @@ public class KnightController {
                         scoreCounter.incrementScore(1);
                     }
                     else if (Objects.equals(gamemode, "fastest_knight")) {
+                        System.out.println("fastest knight found, decrement score");
                         scoreCounter.decrementScore(1);
                     }
 

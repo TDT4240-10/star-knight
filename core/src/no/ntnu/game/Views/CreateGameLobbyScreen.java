@@ -18,10 +18,8 @@ import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 public class CreateGameLobbyScreen extends Screen {
-    public static Color Starknight = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color Starknightdown = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
     public static Color green = new Color(0 / 255f, 255 / 255f, 0 / 255f, 255 / 255f);
-    public static Color red = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
     public static Color grey = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
     public static Color white = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
 
@@ -39,7 +37,7 @@ public class CreateGameLobbyScreen extends Screen {
 
     public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
-        gameModeController = new GameModeController();
+        gameModeController = GameModeController.getInstance();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
