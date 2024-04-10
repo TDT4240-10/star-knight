@@ -1,5 +1,7 @@
 package no.ntnu.game.Views;
 
+
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
@@ -31,8 +33,6 @@ public class MainMenuScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
 
-
-    //    private SpriteBatch spriteBatch;
     private Player player;
 
     public MainMenuScreen(ScreenManager gvm) {
@@ -41,9 +41,7 @@ public class MainMenuScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-        if (PlayerModel.getPlayer() != null) {
-            this.player  = PlayerModel.getPlayer();
-        }
+        player = PlayerModel.getPlayer();
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
@@ -96,8 +94,8 @@ public class MainMenuScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
-        font.draw(sb, username, CENTER_USERNAME_X, 1200);
-        font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1200);
+        font.draw(sb, player.getUsername(), CENTER_USERNAME_X, 1200);
+        font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);
         sb.end();
 
         // Render the menu button

@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Views.CreateOrJoinRoomScreen;
+import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;
+import no.ntnu.game.firestore.Player;
 
 
 public class StarKnight extends Game {
@@ -29,13 +31,7 @@ public class StarKnight extends Game {
 		shapeRenderer = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
 
-		// TODO: Initialize Database references
-		// _FI.SomeFunction();
-
-		gvm.push(new PlayerLoginScreen(gvm, _FI));
-
-		// tree = new TreeWithPowerUp(spriteBatch);
-		// tree.init();
+		gvm.push(new PlayerLoginScreen(gvm));
 	}
 
 	@Override
@@ -45,12 +41,7 @@ public class StarKnight extends Game {
 
 		gvm.update(Gdx.graphics.getDeltaTime()); // delta time is the time diff between one frame rendered and next frame rendered
 		gvm.render(spriteBatch);
-		// Render the left arrow button
-//		leftArrowButton.render(shapeRenderer ,  spriteBatch);
-		// Render the menu button
-//		menubutton.render(shapeRenderer,spriteBatch);
 
-		// tree.draw();
 	}
 
 	@Override
@@ -60,6 +51,10 @@ public class StarKnight extends Game {
 	}
 
 	public static FirebaseInterface getFirebaseInterface() {
-		return _FI;
+		if (_FI != null) {
+			return _FI;
+		} else {
+			throw new NullPointerException("Firebaseinterface is not present");
+		}
 	}
 }

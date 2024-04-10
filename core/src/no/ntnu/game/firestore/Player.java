@@ -7,6 +7,8 @@ public class Player extends FirebaseClass {
 
     public Integer highScore;
 
+    public Player() {};
+
     public Player(String username) {
         this.username = username;
         this.highScore = 0;

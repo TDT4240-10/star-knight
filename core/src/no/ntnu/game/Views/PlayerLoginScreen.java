@@ -39,12 +39,11 @@ public class PlayerLoginScreen extends Screen {
     private SpriteBatch spriteBatch;
 
     private Button loginButton;
-    private FirebaseInterface _FI;
 
     // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
     // there will be two buttons, one for creating a room and one for joining a room.
 
-    public PlayerLoginScreen(ScreenManager gvm, FirebaseInterface _FI) {
+    public PlayerLoginScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
@@ -60,7 +59,6 @@ public class PlayerLoginScreen extends Screen {
         usernameField.setSize(500, 150);
 
         stage.addActor(usernameField);
-        this._FI = _FI;
     }
 
     public float calculateCenterX(String text, BitmapFont font) {

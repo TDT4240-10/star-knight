@@ -2,13 +2,16 @@ package no.ntnu.game;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import no.ntnu.game.firestore.GameRoom;
@@ -31,11 +34,17 @@ public class AndroidFirebase implements FirebaseInterface {
     public String SerializeClass(FirebaseClass object) {
         String collection = object.getCollectionName();
         if (object.getDocumentId() == null) {
-            return firestore.collection(collection).add(object).getResult().toString();
+           Task<DocumentReference> task = firestore.collection(collection).add(object);
+           task.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+               @Override
+               public void onSuccess(DocumentReference documentReference) {
+                   object.setDocumentId(documentReference.getId());
+               }
+           });
         } else {
             firestore.collection(collection).document(object.getDocumentId()).set(object);
         }
-       return "";
+        return "";
     }
 
     @Override
@@ -43,20 +52,22 @@ public class AndroidFirebase implements FirebaseInterface {
         // Create a query
         CollectionReference collectionRef = firestore.collection("players");
         Query query = collectionRef.whereEqualTo("username", username);
-
-        // Execute the query asynchronously
         query.get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        // Iterate through the documents
-                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            // Handle each document
-                             Player player = documentSnapshot.toObject(Player.class);
-                             assert player != null;
-                             player.setDocumentId(documentSnapshot.getId());
-                             callback.onCallback(player);
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        Player player = null;
+                        if (task.isSuccessful()) {
+                            // Iterate through the documents
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                // Handle each document
+                                player = documentSnapshot.toObject(Player.class);
+                                player.setDocumentId(documentSnapshot.getId());
+                                break;
+                            }
                         }
+                        callback.onCallback(player);
+
                     }
                 });
     }

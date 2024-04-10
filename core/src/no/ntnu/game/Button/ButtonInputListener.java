@@ -24,6 +24,7 @@ import no.ntnu.game.Views.TutorialScreen;
 import no.ntnu.game.firestore.Player;
 
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.sun.tools.javac.Main;
 
 public class ButtonInputListener extends InputAdapter {
     private Button button;
@@ -58,7 +59,6 @@ public class ButtonInputListener extends InputAdapter {
                 if (this.button.isPressed(touchX, touchY)) {
                     String username = textField.getText();
                     if (!username.isEmpty()) {
-                        // check if user exists
                         FI.getPlayer(username, new PlayerCallback() {
                             @Override
                             public void onCallback(Player player) {
@@ -67,8 +67,15 @@ public class ButtonInputListener extends InputAdapter {
                                     Player newPlayer = new Player(username);
                                     FI.SerializeClass(newPlayer);
                                     PlayerModel.setPlayer(newPlayer);
-                                    gsm.set(new MainMenuScreen(gsm));
+                                } else {
+                                    PlayerModel.setPlayer(player);
                                 }
+                                Gdx.app.postRunnable(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        gsm.set(new MainMenuScreen(gsm));
+                                    }
+                                });
                             }
                         });
 
