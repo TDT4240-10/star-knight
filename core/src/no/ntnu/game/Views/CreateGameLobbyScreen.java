@@ -18,11 +18,12 @@ import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 public class CreateGameLobbyScreen extends Screen {
-    public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
-    public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
+    public static Color Starknight = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
+    public static Color Starknightdown = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
     public static Color green = new Color(0 / 255f, 255 / 255f, 0 / 255f, 255 / 255f);
     public static Color red = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
-
+    public static Color grey = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
+    public static Color white = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
 
     private Texture logo;
 
@@ -50,22 +51,32 @@ public class CreateGameLobbyScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameModeController.setGameMode(GameModeController.GameMode.LAST_KNIGHT);
+                // print out the current colour of the button
+                System.out.println(lastKnightButton.getColor());
+                // set colour of button to indicate it is selected
+                lastKnightButton.setColor(Starknightdown);
+                fastestKnightButton.setColor(white);
+                startGameButton.setColor(green);
                 return true; // Indicate that the touch event is handled
 
             }
         });
-
+        lastKnightButton.setColor(white);
         lastKnightButton.setSize(400, 200);
         lastKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 + 50, 800);
         fastestKnightButton = rectButtonFactory.createButton("Fast knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
+                // set colour of button to indicate it is selected
+                fastestKnightButton.setColor(Starknightdown);
+                lastKnightButton.setColor(white);
+                startGameButton.setColor(green);
                 return true; // Indicate that the touch event is handled
 
             }
         });
-
+        fastestKnightButton.setColor(white);
         fastestKnightButton.setSize(400, 200);
         fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 450, 800);
 
@@ -73,15 +84,22 @@ public class CreateGameLobbyScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
-                if (currentMode == null) {
-                    return false;
+                switch (currentMode) {
+                    case FASTEST_KNIGHT:
+                        gvm.set(new FastestKnightGameScreen(gvm));
+                        System.out.println("Starting Fastest Knight game...");
+                        break;
+                    case LAST_KNIGHT:
+                        gvm.set(new LastKnightGameScreen(gvm));
+                        System.out.println("Starting Last Knight game...");
+                        break;
+                    default:
+                        System.out.println("No game mode selected");
+//                            gsm.set(new GameScreen(gsm));
+                        // Possibly show an error or prompt to select a game mode
+                        break;
                 }
-
-                if (currentMode.equals(GameModeController.GameMode.FASTEST_KNIGHT)) {
-                    gvm.set(new FastestKnightGameScreen(gvm));
-                } else {
-                    gvm.set(new LastKnightGameScreen(gvm));
-                }
+//                    gsm.set(new GameScreen(gsm));
                 return true;
             }
         });
