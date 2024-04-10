@@ -48,31 +48,6 @@ public class Score {
         return score;
     }
 
-    // getter for treesToChop
-//    public int getTreesToChop() {
-//        return treesToChop;
-//    }
-
     public void render(SpriteBatch batch) {
-        // if game mode is last knight standing, render score
-//        if (gameModeController.isLastKnightMode()) {
-//            batch.begin();
-//            // Calculate the position to center the text on the screen
-//            float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
-//            float y = Gdx.graphics.getHeight() - 500; // Center vertically
-//            font.getData().setScale(4f);
-////            font.draw(batch, "Score: " + getScore(), x, y);
-//            batch.end();
-//        }
-//        // if game mode is fastest knight
-//        else if (gameModeController.isFastestKnightMode()) {
-//            batch.begin();
-//            // Calculate the position to center the text on the screen
-//            float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
-//            float y = Gdx.graphics.getHeight() - 500; // Center vertically
-//            font.getData().setScale(4f);
-////            font.draw(batch, "Score: " + getScore(), x, y);
-//            batch.end();
-//        }
     }
 }
