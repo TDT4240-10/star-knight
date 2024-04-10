@@ -62,7 +62,8 @@ public class MainMenuScreen extends Screen {
         tutorialButton = rectButtonFactory.createButton("Tutorial", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gvm.push(new TutorialScreen(gvm));
+//                gvm.push(new TutorialScreen(gvm));
+                gvm.push(new Tutorial1aScreen(gvm));
                 return true;
             }
         });
@@ -142,5 +143,9 @@ public class MainMenuScreen extends Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+    }
+    @Override
+    public void create(){
+
     }
 }

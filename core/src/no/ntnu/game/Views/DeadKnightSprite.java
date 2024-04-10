@@ -104,5 +104,6 @@ public class DeadKnightSprite {
             frame.getTexture().dispose();
         }
     }
+
 }
 

@@ -157,7 +157,14 @@ public class PlayerLoginScreen extends Screen {
         System.out.println("Create or Join Room View Disposed");
     }
 
+    @Override
+    public void create(){
+
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
+
+
 }

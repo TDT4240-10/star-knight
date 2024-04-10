@@ -2,6 +2,7 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,6 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.video.VideoPlayer;
+import com.badlogic.gdx.video.VideoPlayerCreator;
+
+import java.io.FileNotFoundException;
 
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
@@ -21,6 +27,8 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class TutorialScreen extends Screen {
+    private VideoPlayer videoPlayer;
+    SpriteBatch batch;
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
@@ -35,6 +43,7 @@ public class TutorialScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
         exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
@@ -44,8 +53,8 @@ public class TutorialScreen extends Screen {
             }
         });
         exitButton.setSize(350, 200); // Set the size of the button
-        exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
-
+        exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 100);
+//
         stage = new Stage();
         stage.addActor(exitButton);
         // Set input processors
@@ -54,7 +63,10 @@ public class TutorialScreen extends Screen {
         inputMultiplexer.addProcessor(stage);
 
         Gdx.input.setInputProcessor(inputMultiplexer);
+    }
 
+    @Override
+    public void create () {
     }
 
     @Override
@@ -73,6 +85,17 @@ public class TutorialScreen extends Screen {
         sb.begin();
         sb.draw(logo, logoX, logoY);
         sb.end();
+//
+//        if (videoPlayer != null) {
+//            videoPlayer.update();
+//            Texture frame = videoPlayer.getTexture();
+//            if (frame != null) {
+//                batch.begin();
+//                // Adjust the drawing coordinates and size as needed
+//                batch.draw(frame, 300, 300, Gdx.graphics.getWidth() - 600, Gdx.graphics.getHeight() - 600);
+//                batch.end();
+//            }
+//        }
 
         stage.act();
         stage.draw();
@@ -80,10 +103,6 @@ public class TutorialScreen extends Screen {
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
     }
 
     @Override
@@ -92,6 +111,14 @@ public class TutorialScreen extends Screen {
     }
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+//        if (videoPlayer != null) {
+//            videoPlayer.dispose();
+//        }
+        if (batch != null) {
+            batch.dispose();
+        }
+        if (shapeRenderer != null) {
+            shapeRenderer.dispose();
+        }
     }
 }

@@ -169,4 +169,9 @@ public class SettingsScreen extends Screen {
         shapeRenderer.dispose();
         stage.dispose(); // Dispose of the stage
     }
+
+    @Override
+    public void create(){
+
+    }
 }

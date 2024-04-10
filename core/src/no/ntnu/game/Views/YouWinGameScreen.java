@@ -113,4 +113,9 @@ public class YouWinGameScreen extends Screen {
         shapeRenderer.dispose();
         winRunningKnightSprite.dispose();
     }
+
+    @Override
+    public void create(){
+
+    }
 }

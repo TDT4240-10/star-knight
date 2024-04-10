@@ -13,9 +13,8 @@ import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
-import no.ntnu.game.Models.Timer;
-import no.ntnu.game.Models.Tree;
 import no.ntnu.game.Models.Settings;
+import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.ChoppingKnightSprite;
@@ -69,7 +68,7 @@ public class KnightController {
     private PowerUpFactory powerUpFactory;
 
     private Score scoreCounter;
-    private Timer timer;
+//    private Timer timer;
     private Settings settings;
     private Sound chopSoundEffect;
     public GameModeController gameModeController;
@@ -80,6 +79,9 @@ public class KnightController {
         this.gamemode = gamemode;
 
         gameModeController = GameModeController.getInstance();
+
+        scoreCounter = new Score(this.gameModeController);
+//        timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
@@ -111,7 +113,7 @@ public class KnightController {
         powerUpX2 = powerUpX1 - life1.textureRegion.getRegionWidth() - 200;
         powerUpX3 = powerUpX2 - life1.textureRegion.getRegionWidth() - 200;
 
-        scoreCounter = new Score();
+
     }
 
     public void getLife1() {
@@ -363,7 +365,14 @@ public class KnightController {
                 if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                     tree.chop();
                     tree.createNewTrunk();
-                    scoreCounter.incrementScore(1);
+
+                    // if game mode is last knight standing, increment score, else if game mode is fastest knight, decrement score
+                    if (Objects.equals(gamemode, "last_knight")) {
+                        scoreCounter.incrementScore(1);
+                    }
+                    else if (Objects.equals(gamemode, "fastest_knight")) {
+                        scoreCounter.decrementScore(1);
+                    }
 
                     // Checking for next collision after chopping the tree
                     lowestTreePart = tree.trees.get(0);

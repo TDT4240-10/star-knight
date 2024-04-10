@@ -104,5 +104,6 @@ public class IdleKnightSprite {
             frame.getTexture().dispose();
         }
     }
+
 }
 
