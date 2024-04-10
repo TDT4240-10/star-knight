@@ -109,9 +109,28 @@ public class ButtonFactory {
     }
 
     // create fastest knight button
+    public static Button createSingleplayerFastestKnightButton(float x, float y) {
+        Button fastestKnightButton = new RectangleButton(x, y);
+        fastestKnightButton.setName("SoloFastestKnight");
+        fastestKnightButton.setColor(Starknight);
+        fastestKnightButton.setText("Fastest Knight");
+        return fastestKnightButton;
+    }
+
+    // create last knight standing button
+    public static Button createSingleplayerLastKnightButton(float x, float y) {
+        Button lastKnightStandingButton = new RectangleButton(x, y);
+        lastKnightStandingButton.setName("SoloLastKnight");
+        lastKnightStandingButton.setColor(Starknight);
+        lastKnightStandingButton.setText("Last Knight");
+        return lastKnightStandingButton;
+    }
+
     public static Button createFastestKnightButton(float x, float y) {
         Button fastestKnightButton = new RectangleButton(x, y);
         fastestKnightButton.setName("FastestKnight");
+        fastestKnightButton.setColor(Starknight);
+//        fastestKnightButton.setName("FastestKnight");
         fastestKnightButton.setText("Fastest Knight");
         return fastestKnightButton;
     }
@@ -119,6 +138,8 @@ public class ButtonFactory {
     // create last knight standing button
     public static Button createLastKnightButton(float x, float y) {
         Button lastKnightStandingButton = new RectangleButton(x, y);
+        lastKnightStandingButton.setName("LastKnight");
+        lastKnightStandingButton.setColor(Starknight);
         lastKnightStandingButton.setName("LastKnight");
         lastKnightStandingButton.setText("Last Knight");
         return lastKnightStandingButton;

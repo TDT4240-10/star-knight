@@ -2,8 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -14,13 +12,11 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 import no.ntnu.game.Controllers.GameController;
-import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
-import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 
 /**
@@ -28,8 +24,7 @@ import no.ntnu.game.Models.TreeWithPowerUp;
  *
  * @author Han
  */
-public class GameScreen extends Screen {
-    private BitmapFont font;
+public class FastestKnightGameScreen extends Screen {
 
     private GameController gameController;
 
@@ -39,6 +34,7 @@ public class GameScreen extends Screen {
 
     private Button rightButton;
     private Button exitButton;
+    private int player_score;
 
 
     private TreeWithPowerUp treeWithPowerUp;
@@ -53,9 +49,9 @@ public class GameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 4f;
+    private float timeLimit = 30f;
 
-    private float initialTime = 4f;
+    private float initialTime = 30f;
 
     private PowerUp life1;
     private PowerUp life2;
@@ -63,14 +59,9 @@ public class GameScreen extends Screen {
 
     private Score score;
 
-//    private Timer timer = new Timer();
-    public GameModeController gameModeController;
 
-    public GameScreen(ScreenManager gvm) {
+    public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
-
-        gameModeController = GameModeController.getInstance();
-
         powerUpTextLogo = new Texture("power_ups.png");
 
         gameController = new GameController();
@@ -86,7 +77,7 @@ public class GameScreen extends Screen {
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
-        knightController = new KnightController(-80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
+        knightController = new KnightController("fastest_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
@@ -95,6 +86,7 @@ public class GameScreen extends Screen {
         life1 = PowerUpFactory.createLivesPowerUp();
         life2 = PowerUpFactory.createLivesPowerUp();
         life3 = PowerUpFactory.createLivesPowerUp();
+
     }
 
     @Override
@@ -107,13 +99,8 @@ public class GameScreen extends Screen {
         // Update the time limit
         timeLimitBar.updateTime(dt);
         if (timeLimitBar.isTimeUp()) {
-            gvm.set(new YouLoseGameScreen(gvm));
+            gvm.set(new FastestKnightEndGameScreen(gvm, player_score));
         }
-
-//        Update timer in fastest knight mode
-//        if(gameModeController.isLastKnightMode()) {
-//            timer.getInstance().update(dt);
-//        }
     }
 
     @Override
@@ -133,9 +120,9 @@ public class GameScreen extends Screen {
         exitButton = ButtonFactory.createExitButton(exitButtonX, exitButtonY);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController, null,  sb);
-        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController, null,  sb);
-        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController, null,  sb);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, knightController,  null,sb);
+        ButtonInputListener leftInputListener = new ButtonInputListener(leftButton, gvm, knightController,  null,sb);
+        ButtonInputListener rightInputListener = new ButtonInputListener(rightButton, gvm, knightController,  null,sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
@@ -161,16 +148,11 @@ public class GameScreen extends Screen {
         knightController.renderLife2(sb);
         knightController.renderLife3(sb);
 
-        knightController.renderScore(sb);
-
-        // render timer in fastest knight mode
-//        if(gameModeController.isFastestKnightMode()) {
-//            // render timer in fastest knight mode
-//        }
+        player_score = knightController.renderScore(sb);
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-//            gvm.set(new YouWinGameScreen(gvm));
-            gvm.set(new YouLoseGameScreen(gvm));
+            gvm.set(new FastestKnightEndGameScreen(gvm, player_score));
+//            gvm.set(new YouLoseGameScreen(gvm));
         };
 
         shapeRenderer.end();

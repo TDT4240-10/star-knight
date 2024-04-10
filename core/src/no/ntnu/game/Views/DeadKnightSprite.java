@@ -52,7 +52,7 @@ public class DeadKnightSprite {
         knightFrames[8] = new TextureRegion(frame8);
         knightFrames[9] = new TextureRegion(frame9);
 
-        knightAnimation = new Animation<>(0.1f, knightFrames); // Frame duration 0.1 seconds
+        knightAnimation = new Animation<>(0.03f, knightFrames); // Frame duration 0.1 seconds
         knightSprite = new Sprite(knightAnimation.getKeyFrame(0));
 
 
