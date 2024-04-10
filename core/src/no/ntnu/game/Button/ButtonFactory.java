@@ -91,6 +91,14 @@ public class ButtonFactory {
         return playButton;
     }
 
+    public static Button createTempPlayButton(float x, float y) {
+        Button playButton = new RectangleButton(x, y);
+        playButton.setName("TempPlay");
+        playButton.setColor(Starknight);
+        playButton.setText("Temp Play");
+        return playButton;
+    }
+
     // create start game button
     public static Button createStartGameButton(float x, float y) {
         Button startGameButton = new RectangleButton(x, y);
@@ -98,5 +106,32 @@ public class ButtonFactory {
         startGameButton.setColor(Starknight);
         startGameButton.setText("Start");
         return startGameButton;
+    }
+
+    // create fastest knight button
+    public static Button createFastestKnightButton(float x, float y) {
+        Button fastestKnightButton = new RectangleButton(x, y);
+        fastestKnightButton.setName("FastestKnight");
+        fastestKnightButton.setColor(Starknight);
+        fastestKnightButton.setText("Fastest Knight");
+        return fastestKnightButton;
+    }
+
+    // create last knight standing button
+    public static Button createLastKnightButton(float x, float y) {
+        Button lastKnightStandingButton = new RectangleButton(x, y);
+        lastKnightStandingButton.setName("LastKnight");
+        lastKnightStandingButton.setColor(Starknight);
+        lastKnightStandingButton.setText("Last Knight");
+        return lastKnightStandingButton;
+    }
+
+    // create login button
+    public static Button createLoginButton(float x, float y) {
+        Button loginButton = new RectangleButton(x, y);
+        loginButton.setName("Login");
+        loginButton.setColor(Starknight);
+        loginButton.setText("Login");
+        return loginButton;
     }
 }

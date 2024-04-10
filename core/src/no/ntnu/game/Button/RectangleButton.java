@@ -18,18 +18,21 @@ public class RectangleButton implements Button {
     private BitmapFont font;
     private String text;
     private String name;
+    public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
+    public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
 
     public static Color Starknighttext = new Color(199 / 255f, 199 / 255f, 176 / 255f, 255 / 255f);
     public static Color outlineColor = new Color(40/ 255f, 40/ 255f, 41/ 255f, 1/ 255f);
     public RectangleButton(float x, float y) {
         this.x = x;
         this.y = y;
-        this.width = 500; // Default width
+        this.width = 300; // Default width
         this.height = 200; // Default height
         isPressed = false;
         this.font = new BitmapFont(); // Default font
         this.font.getData().setScale(7); // Set font scale
         this.name = name;
+        this.setColor(Starknight);
 
     }
 
@@ -56,6 +59,13 @@ public class RectangleButton implements Button {
         font.setColor(Starknighttext); // Set font color
         GlyphLayout layout = new GlyphLayout(); // Used to calculate text width
         layout.setText(font, text); // Set text for button
+
+        // check if the text is too long for the button. if it is, scale it down into the rectangle
+        while (layout.width > width) {
+            font.getData().setScale(font.getData().scaleX - 0.1f);
+            layout.setText(font, text);
+        }
+
         // Calculate the position to center the text within the inner rectangle
         float textX = x + (width - layout.width) / 2f;
         float textY = y + (height + layout.height) / 2f;
@@ -92,9 +102,18 @@ public class RectangleButton implements Button {
         this.name = name;
 
     }
+    @Override
+    public Color getColor() {
+        return this.color ;
+    }
 
     @Override
     public String getName(){
         return this.name;
+    }
+
+    // reset colour to default
+    public void resetColor() {
+        this.color = Starknight;
     }
 }

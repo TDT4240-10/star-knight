@@ -13,31 +13,49 @@ import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
 /**
- * Tutorial View class to render tutorial screen
+ * End Game Screen View class to render Lose screen
  *
  * @author Deen
  */
-public class TutorialScreen extends Screen {
+public class YouLoseGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
     private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
+    private LoseDeadKnightSprite loseDeadKnightSprite;
+    private float knightX, knightY;
+    private float knightSpeed = 300; // Pixels per second
     //    private SpriteBatch spriteBatch;
-    public TutorialScreen(ScreenManager gvm) {
+    public YouLoseGameScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("tutorial.png");
+        logo = new Texture("lose.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
+
+        loseDeadKnightSprite = new LoseDeadKnightSprite();
+
+        knightX = 300;
+        knightY = 900;
+
 //        spriteBatch = new SpriteBatch();
     }
 
     @Override
     public void render(SpriteBatch sb) {
+        float logoWidth = logo.getWidth();
+        float logoHeight = logo.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float logoX = (screenWidth - logoWidth) / 2;
+        float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
+
         final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,900);
+        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
+
+//        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,600);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
@@ -48,42 +66,41 @@ public class TutorialScreen extends Screen {
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
-
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-        float logoX = (screenWidth - logoWidth) / 2;
-        float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
         sb.end();
 
+
+        // to ensure the knight is moving at the same speed on all devices
+        float dt = Gdx.graphics.getDeltaTime();
+        update(dt);
+
+        loseDeadKnightSprite.setPosition(knightX, knightY);
+        loseDeadKnightSprite.render(sb);
+//        sb.end();
+
         // Render the menu button
         exitButton.render(shapeRenderer,sb);
-
         shapeRenderer.end();
+
     }
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
+
     }
 
     @Override
     public void update(float dt) {
-
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+//        runningKnightSprite.dispose();
     }
 }

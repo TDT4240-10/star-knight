@@ -7,36 +7,106 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
+import no.ntnu.game.Models.Settings;
 
+/**
+ * Settings View class to render settings screen
+ *
+ * @author Han
+ */
 public class SettingsScreen extends Screen {
     private Texture logo;
+    private Texture musicText;
+    private Texture soundText;
     BitmapFont font; // Declare the font variable
 
     private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public SettingsScreen(GameScreenManager gvm) {
+
+    private Stage stage;
+
+    private Skin skin;
+
+    private Slider musicSlider;
+
+    private Slider soundSlider;
+
+    private Settings settings;
+
+    public SettingsScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("settings.png");
+        musicText = new Texture("music.png");
+        soundText = new Texture("sound.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 //        spriteBatch = new SpriteBatch();
+
+        stage = new Stage();
+
+        skin = new Skin(Gdx.files.internal("uiskin.json"));
+
+        float sliderKnobHeight = 100.0f;
+
+        musicSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+
+        // Only need to change for one slider since they share the same knob
+        musicSlider.getStyle().knob.setMinHeight(sliderKnobHeight);
+
+        soundSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+
+        // Position of sliders
+        musicSlider.setPosition(300, 1050);
+        soundSlider.setPosition(300, 700);
+
+        // Width of sliders
+        musicSlider.setWidth(500);
+        soundSlider.setWidth(500);
+        settings = Settings.getInstance();
+
+        musicSlider.setValue(settings.getMusic());
+        soundSlider.setValue(settings.getSound());
+
+        // The addListeners methods are AI generated code that has been somewhat modified
+        musicSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                settings.setMusic(musicSlider.getValue());
+            }
+        });
+        soundSlider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                settings.setSound(soundSlider.getValue());
+            }
+        });
+
+        stage.addActor(musicSlider);
+        stage.addActor(soundSlider);
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        exitButton = ButtonFactory.createExitButton(300,900);
+        final float BOTTOM_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
+        exitButton = ButtonFactory.createExitButton(BOTTOM_BUTTON_X,200);
 
         // Create input listeners for buttons
-        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm);
+        ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
 
         inputMultiplexer.addProcessor(exitInputListener);
 
@@ -54,14 +124,32 @@ public class SettingsScreen extends Screen {
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
+        float musicWidth = musicText.getWidth();
+        float musicHeight = musicText.getHeight();
+        float musicX = (screenWidth - musicWidth) / 2;
+        float musicY = (screenHeight) / 2 - musicHeight / 2;;
+
+        float soundWidth = soundText.getWidth();
+        float soundHeight = soundText.getHeight();
+        float soundX = (screenWidth - soundWidth) / 2;
+        float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;;
+
+
         sb.begin();
         sb.draw(logo, logoX, logoY);
+        sb.draw(musicText, musicX, musicY);
+        sb.draw(soundText, soundX, soundY);
         sb.end();
 
         // Render the menu button
         exitButton.render(shapeRenderer,sb);
 
         shapeRenderer.end();
+
+        // draw stage and music slider and sound effects slider
+        stage.act();
+        stage.draw();
+
     }
 
     @Override
@@ -79,5 +167,6 @@ public class SettingsScreen extends Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        stage.dispose(); // Dispose of the stage
     }
 }

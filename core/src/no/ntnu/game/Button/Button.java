@@ -19,10 +19,14 @@ public interface Button {
     void dispose();
 
     void setColor(Color color);
-
+    Color getColor();
     void setText(String text);
 
     void setName(String name);
 
     String getName();
+
+    // addListener takes a ButtonInputListener as a parameter
+//    void addListener(ButtonInputListener listener);
+
 }

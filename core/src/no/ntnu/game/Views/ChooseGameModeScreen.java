@@ -12,12 +12,7 @@ import no.ntnu.game.Button.Button;
 import no.ntnu.game.Button.ButtonFactory;
 import no.ntnu.game.Button.ButtonInputListener;
 
-/**
- * Tutorial View class to render tutorial screen
- *
- * @author Deen
- */
-public class TutorialScreen extends Screen {
+public class ChooseGameModeScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
@@ -25,9 +20,9 @@ public class TutorialScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
-    public TutorialScreen(ScreenManager gvm) {
+    public ChooseGameModeScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("tutorial.png");
+        logo = new Texture("game_mode.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
@@ -36,8 +31,7 @@ public class TutorialScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_BUTTON_X = 0.5f * Gdx.graphics.getWidth() - 150;
-        exitButton = ButtonFactory.createExitButton(CENTER_BUTTON_X,900);
+        exitButton = ButtonFactory.createExitButton(300,900);
 
         // Create input listeners for buttons
         ButtonInputListener exitInputListener = new ButtonInputListener(exitButton, gvm, null, sb);
