@@ -19,7 +19,7 @@ import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
- * Main Menu View class to render main menu screen
+ * Tutorial 1a Screen, first screen for controls tutorial
  *
  * @author Deen
  */
@@ -30,17 +30,14 @@ public class Tutorial1aScreen extends Screen {
 
     private Button forwardButton;
 
-    //    private Button backwardButton;
     private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
     private Stage stage;
-    private PlayerController playerController;
 
 
     public Tutorial1aScreen(ScreenManager gvm) {
         super(gvm);
-//        playerController = PlayerController.getPlayerController();
         logo = new Texture("goal.png");
         text = new Texture("goal_text.jpg");
         font = new BitmapFont(); // Load the font

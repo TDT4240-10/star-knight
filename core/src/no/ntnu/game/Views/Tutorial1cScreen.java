@@ -24,9 +24,9 @@ import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
- * Main Menu View class to render main menu screen
+ * Tutorial 1c Screen, third screen for controls tutorial, with video
  *
- * @author Han
+ * @author Deen
  */
 public class Tutorial1cScreen extends Screen {
     private VideoPlayer videoPlayer;
@@ -45,7 +45,6 @@ public class Tutorial1cScreen extends Screen {
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-//        CircleButtonFactory circleButtonFactory = new CircleButtonFactory();
         forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
