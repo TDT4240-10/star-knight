@@ -23,14 +23,12 @@ public class PowerUpFactory {
     public static PowerUp createPowerUp() {
         loadTextures();
         Random random = new Random();
-        int randomIndex = random.nextInt(3) - 1; // Adjust the range based on the number of power-up types
+        int randomIndex = random.nextInt(2); // Adjust the range based on the number of power-up types
 
         switch (randomIndex) {
             case 0:
                 return createLivesPowerUp();
             case 1:
-                return createShieldPowerUp();
-            case 2:
                 return createDoublePoints();
             // Add cases for other types of PowerUps as needed
             default:
