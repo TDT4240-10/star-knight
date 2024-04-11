@@ -24,9 +24,9 @@ import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
- * Main Menu View class to render main menu screen
+ * Tutorial 1b Screen, second screen for controls tutorial, with video
  *
- * @author Han
+ * @author Deen
  */
 public class Tutorial1bScreen extends Screen {
     private VideoPlayer videoPlayer;
@@ -38,9 +38,7 @@ public class Tutorial1bScreen extends Screen {
     private Button backwardButton;
     private Button exitButton;
 
-    private ShapeRenderer shapeRenderer;
     private Stage stage;
-    private PlayerController playerController;
 
 
     public Tutorial1bScreen(ScreenManager gvm) {

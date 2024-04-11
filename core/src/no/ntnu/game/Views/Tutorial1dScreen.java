@@ -19,9 +19,9 @@ import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
- * Main Menu View class to render main menu screen
+ * Tutorial 1d Screen, fourth screen for controls tutorial
  *
- * @author Han
+ * @author Deen
  */
 public class Tutorial1dScreen extends Screen {
     private Texture powerUp;
@@ -36,7 +36,6 @@ public class Tutorial1dScreen extends Screen {
 
     public Tutorial1dScreen(ScreenManager gvm) {
         super(gvm);
-//        playerController = PlayerController.getPlayerController();
         powerUp = new Texture("power_up_tutorial.png");
 
         font = new BitmapFont(); // Load the font

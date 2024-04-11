@@ -19,7 +19,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 
 /**
- * Tutorial View class to render tutorial screen
+ * Game Mode Tutorial Screen, tutorial for the different game modes with video
  *
  * @author Deen
  */

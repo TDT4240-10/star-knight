@@ -18,9 +18,9 @@ import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
- * Main Menu View class to render main menu screen
+ * For users to select which tutorial/ explanation they want to see
  *
- * @author Han
+ * @author Deen
  */
 public class SelectTutorialScreen extends Screen {
     private Texture logo;
@@ -44,9 +44,6 @@ public class SelectTutorialScreen extends Screen {
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-
-
-
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
         gameModeButton = rectButtonFactory.createButton("Game Modes", new InputListener() {
@@ -63,7 +60,6 @@ public class SelectTutorialScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1aScreen(gvm));
-//                gvm.push(new SelectTutorialScreen(gvm));
                 return true;
             }
         });
@@ -82,7 +78,6 @@ public class SelectTutorialScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition(centerButtonX(exitButton), 300);
 
-
         // Create the stage for the buttons
         stage = new Stage();
         stage.addActor(gameModeButton);
@@ -96,13 +91,6 @@ public class SelectTutorialScreen extends Screen {
 
     }
 
-    public float calculateCenterX(String text, BitmapFont font) {
-        GlyphLayout layout = new GlyphLayout();
-        layout.setText(font, text);
-        float textWidth = layout.width;
-        return (Gdx.graphics.getWidth() - textWidth) / 2;
-    }
-
     public float centerButtonX(Button button) {
         return (Gdx.graphics.getWidth() - button.getWidth()) / 2;
     }
@@ -110,10 +98,6 @@ public class SelectTutorialScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
-        final float CENTER_USERNAME_X = calculateCenterX(playerController.getPlayer().getUsername(), font);
-
-
         // Clear the screen with grey color
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -127,8 +111,6 @@ public class SelectTutorialScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
-//        font.draw(sb, playerController.getPlayer().getUsername(), CENTER_USERNAME_X, 1200);
-//        font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);
         sb.end();
 
         // draw stage and text field
