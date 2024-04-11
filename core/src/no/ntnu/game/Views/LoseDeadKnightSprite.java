@@ -87,5 +87,7 @@ public class LoseDeadKnightSprite {
             frame.getTexture().dispose();
         }
     }
+
+
 }
 

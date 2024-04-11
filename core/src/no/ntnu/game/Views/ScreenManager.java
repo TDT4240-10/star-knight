@@ -19,15 +19,25 @@ public class ScreenManager {
     public void push (Screen screen) {
         screens.push(screen);}
 
-    public void set(Screen screen) {
-        if (screens.empty()) {
-            screens.push(screen);
-        } else {
-            screens.pop().dispose();
-            screens.push(screen);
-        }
+//    public void set(Screen screen) {
+//        if (screens.empty()) {
+//            screens.push(screen);
+//            screen.create();
+//        } else {
+//            screens.pop().dispose();
+//            screens.push(screen);
+//        }
+//
+//    }
 
+    public void set(Screen screen) {
+        if (!screens.isEmpty()) {
+            screens.pop().dispose(); // Dispose the current screen
+        }
+        screens.push(screen);
+        screen.create(); // Initialize the new screen here, regardless of stack's previous state
     }
+
 
     public void update(float dt) {
         try {

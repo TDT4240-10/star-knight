@@ -115,4 +115,9 @@ public class YouLoseGameScreen extends Screen {
         shapeRenderer.dispose();
 //        runningKnightSprite.dispose();
     }
+
+    @Override
+    public void create(){
+
+    }
 }

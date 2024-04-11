@@ -22,11 +22,10 @@ import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.Player;
 
 public class CreateGameLobbyScreen extends Screen {
-    public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
-    public static Color Starknight = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
+    public static Color Starknightdown = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
     public static Color green = new Color(0 / 255f, 255 / 255f, 0 / 255f, 255 / 255f);
-    public static Color red = new Color(255 / 255f, 0 / 255f, 0 / 255f, 255 / 255f);
-
+    public static Color grey = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
+    public static Color white = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
 
     private Texture logo;
 
@@ -58,7 +57,7 @@ public class CreateGameLobbyScreen extends Screen {
 
             }
         });
-
+        lastKnightButton.setColor(white);
         lastKnightButton.setSize(400, 200);
         lastKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 + 50, 800);
         fastestKnightButton = rectButtonFactory.createButton("Fast knight", new InputListener() {
@@ -69,7 +68,7 @@ public class CreateGameLobbyScreen extends Screen {
 
             }
         });
-
+        fastestKnightButton.setColor(white);
         fastestKnightButton.setSize(400, 200);
         fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 450, 800);
 
@@ -113,6 +112,7 @@ public class CreateGameLobbyScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
         Gdx.input.setInputProcessor(inputMultiplexer);
+
     }
 
     public float calculateCenterX(String text, BitmapFont font) {

@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
@@ -29,6 +30,7 @@ public class SingleOrMultiplayerScreen extends Screen {
     private Button exitButton;
     private Stage stage;
 
+    public GameModeController gameModeController;
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
@@ -46,6 +48,9 @@ public class SingleOrMultiplayerScreen extends Screen {
         singleplayerButton = rectButtonFactory.createButton("Solo", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameModeController = GameModeController.getInstance();
+                gameModeController.resetGameMode();
+                System.out.println(gameModeController.getCurrentGameMode());
                 gvm.set(new SinglePlayerChooseGameModeScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -56,6 +61,10 @@ public class SingleOrMultiplayerScreen extends Screen {
         multiplayerButton = rectButtonFactory.createButton("Online", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameModeController = GameModeController.getInstance();
+                gameModeController.resetGameMode();
+                // print the game mode
+                System.out.println(gameModeController.getCurrentGameMode());
                 gvm.push(new CreateOrJoinRoomScreen(gvm));
                 return true;
             }
@@ -127,5 +136,10 @@ public class SingleOrMultiplayerScreen extends Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+    }
+
+    @Override
+    public void create(){
+
     }
 }

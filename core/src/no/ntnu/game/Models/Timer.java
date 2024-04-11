@@ -1,65 +1,48 @@
 package no.ntnu.game.Models;
 
+import com.badlogic.gdx.utils.TimeUtils;
+
 public class Timer {
-    private static Timer instance; // Singleton instance
-//    private BitmapFont font;
-    private float elapsedTime;
     private boolean running;
+    private float elapsedTime;
+    private long startTime;
 
     public Timer() {
-        elapsedTime = 0;
         running = false;
-    }
-
-    // Static method to get the instance
-    public static Timer getInstance() {
-        if (instance == null) {
-            instance = new Timer();
-        }
-        return instance;
+        elapsedTime = 0;
+        startTime = 0;
     }
 
     public void start() {
-        running = true;
+        if (!running) {
+            startTime = TimeUtils.millis();
+            running = true;
+        }
     }
 
-    public void pause() {
-        running = false;
+    public void stop() {
+        if (running) {
+            elapsedTime += (TimeUtils.millis() - startTime) / 1000f; // Convert milliseconds to seconds
+            running = false;
+        }
     }
 
     public void reset() {
         elapsedTime = 0;
-    }
-
-    // Optionally, continue from where you left off
-    public void resume() {
-        running = true;
+        startTime = 0;
+        running = false;
     }
 
     public float getElapsedTime() {
-        return elapsedTime;
+        if (running) {
+            return elapsedTime + (TimeUtils.millis() - startTime) / 1000f;
+        } else {
+            return elapsedTime;
+        }
     }
 
-    // Returns the elapsed time formatted as a MM:SS string
-    public String getFormattedTime() {
-        int minutes = (int) (elapsedTime / 60);
-        int seconds = (int) (elapsedTime % 60);
-        return String.format("%02d:%02d", minutes, seconds);
+    public void update(float dt) {
+        // Update the elapsed time
+        elapsedTime += dt;
     }
-
-//    public void update(float deltaTime) {
-//        if (running) {
-//            elapsedTime += deltaTime;
-//        }
-//    }
-
-
-//    public void render(SpriteBatch sb) {
-//        sb.begin();
-//        font.draw(sb, "Time: " + getFormattedTime(), 100, Gdx.graphics.getHeight() - 700); // Adjust position as needed
-//        sb.end();
-//    }
 }
-
-
-

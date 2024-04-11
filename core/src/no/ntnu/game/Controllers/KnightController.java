@@ -13,9 +13,8 @@ import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
-import no.ntnu.game.Models.Timer;
-import no.ntnu.game.Models.Tree;
 import no.ntnu.game.Models.Settings;
+import com.badlogic.gdx.utils.Timer;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.ChoppingKnightSprite;
@@ -57,19 +56,21 @@ public class KnightController {
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
+    private PowerUp doublepoints;
 
     private float powerUpY = 30;
     private float powerUpX1;
     private float powerUpX2;
     private float powerUpX3;
+    private float time;
     private boolean life1Active = false;
     private boolean life2Active = false;
     private boolean life3Active = false;
-
+    private boolean DoubleActive = false;
     private PowerUpFactory powerUpFactory;
 
     private Score scoreCounter;
-    private Timer timer;
+    //    private Timer timer;
     private Settings settings;
     private Sound chopSoundEffect;
     public GameRoomController gameRoomController;
@@ -79,6 +80,8 @@ public class KnightController {
     public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
         this.gamemode = gamemode;
         gameRoomController = GameRoomController.getInstance();
+        scoreCounter = new Score(this.gameRoomController);
+//        timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
@@ -91,7 +94,7 @@ public class KnightController {
         life1.setPosition(-99999, -99999);
         life2.setPosition(-99999, -99999);
         life3.setPosition(-99999, -99999);
-
+        doublepoints = PowerUpFactory.createDoublePoints();
         phoneWidth = Gdx.graphics.getWidth();
 
         knight.setDirection("left");
@@ -110,7 +113,7 @@ public class KnightController {
         powerUpX2 = powerUpX1 - life1.textureRegion.getRegionWidth() - 200;
         powerUpX3 = powerUpX2 - life1.textureRegion.getRegionWidth() - 200;
 
-        scoreCounter = new Score();
+
     }
 
     public void getLife1() {
@@ -128,6 +131,20 @@ public class KnightController {
         life3.setPosition(powerUpX3, powerUpY);
         life3Active = true;
     }
+
+    public void getDouble(final PowerUp powerUp) {
+        // Set DoubleActive to true
+        DoubleActive = true;
+
+        // Schedule a task to set DoubleActive to false after the duration
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                DoubleActive = false; // Reset DoubleActive to false after duration
+            }
+        }, powerUp.getDuration() / 1000f); // Duration needs to be in seconds, so divide by 1000
+    }
+
 
     public void checkPowerUp() {
         PowerUp powerUp = tree.trees.get(0).getPowerup();
@@ -153,6 +170,12 @@ public class KnightController {
             } else if (Objects.equals(powerUp.getName(), "shield")) {
                 System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
                 System.out.println("chopped tree with shield");
+            }
+            else if (Objects.equals(powerUp.getName(), "double")) {
+                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
+                System.out.println("chopped tree with double");
+                // Adding double points
+                getDouble(powerUp);
             }
         }
 
@@ -325,10 +348,10 @@ public class KnightController {
     }
 
     // Update() function is the main function which handles game logic -
-        // knight sprites position,
-        // collision detection,
-        // chop tree function,
-        // to add a new tree after chopping
+    // knight sprites position,
+    // collision detection,
+    // chop tree function,
+    // to add a new tree after chopping
     public String update(float delta) {
         // Get the current lowest tree part=
         TreePart lowestTreePart = tree.trees.get(0);
@@ -346,7 +369,7 @@ public class KnightController {
                 chopSoundEffect.play(settings.getSound());
                 playChopSound = false;
             }
-            
+
             elapsedTime += delta;
             choppingKnightSprite.setPosition(currentKnightX + 0.1f * elapsedTime, knightY);
 
@@ -362,7 +385,27 @@ public class KnightController {
                 if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
                     tree.chop();
                     tree.createNewTrunk();
-                    scoreCounter.incrementScore(1);
+
+                    // if game mode is last knight standing, increment score, else if game mode is fastest knight, decrement score
+                    if (Objects.equals(gamemode, "last_knight")) {
+                        if(DoubleActive) {
+                            scoreCounter.incrementScore(2);
+
+                        }
+                        else{
+                            scoreCounter.incrementScore(1);
+                        }
+                    }
+                    else if (Objects.equals(gamemode, "fastest_knight")) {
+                        System.out.println("fastest knight found, decrement score");
+                        if(DoubleActive) {
+                            scoreCounter.decrementScore(2);
+
+                        }
+                        else{
+                            scoreCounter.decrementScore(1);
+                        }
+                    }
 
                     // Checking for next collision after chopping the tree
                     lowestTreePart = tree.trees.get(0);
@@ -424,7 +467,7 @@ public class KnightController {
         if (Objects.equals(knight.getDirection(), "left")) {
             return "right";
         }
-       return "left";
+        return "left";
     }
 
     // Getter methods to access knight attributes
@@ -510,4 +553,5 @@ public class KnightController {
     };
 
 }
+
 

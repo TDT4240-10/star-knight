@@ -1,5 +1,4 @@
 package no.ntnu.game.Models;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,6 +7,7 @@ import no.ntnu.game.Controllers.GameRoomController;
 
 public class Score {
     private int score;
+//    private int treesToChop;
     private BitmapFont font;
     public GameRoomController gameRoomController;
 
@@ -25,6 +25,8 @@ public class Score {
         // Initialize score to 0 if game mode is fastest knight
         else if (gameRoomController.isFastestKnightMode()) {
             score = 30;
+            // print out score set to 30
+            System.out.println("Score has been set to: " + score);
         }
 
     }
@@ -41,6 +43,8 @@ public class Score {
 
     // Getter for score
     public int getScore() {
+        // print this is your score
+        System.out.println("LOLOLOL This is your score: " + score);
         return score;
     }
 

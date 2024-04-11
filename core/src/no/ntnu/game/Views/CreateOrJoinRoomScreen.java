@@ -170,5 +170,8 @@ public class CreateOrJoinRoomScreen extends Screen {
         System.out.println("Create or Join Room View Disposed");
     }
 
+    @Override
+    public void create(){
 
+    }
 }
