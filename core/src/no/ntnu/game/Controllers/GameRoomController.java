@@ -9,6 +9,11 @@ import no.ntnu.game.firestore.Player;
 public class GameRoomController {
 
 
+    public enum GameType {
+        LOCAL, ONLINE
+    }
+
+    private GameType gameType;
     private static GameRoomController instance;
     private GameRoom room;
 
@@ -74,12 +79,20 @@ public class GameRoomController {
         });
     }
 
+    public void createSoloRoom() {
+        this.room = new GameRoom();
+        this.gameType = GameType.LOCAL;
+    }
+
     public GameRoom getGameRoom() {
         return this.room;
     }
 
     public void setGameMode(GameRoom.GameMode gameMode) {
+        if (this.room == null) return;
         this.room.setGameMode(gameMode);
+
+        if (gameType.equals(GameType.LOCAL)) return;
         fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
@@ -90,6 +103,8 @@ public class GameRoomController {
 
     public void setGameStatus(GameRoom.GameStatus status) {
         this.room.setGameStatus(status);
+
+        if (gameType.equals(GameType.LOCAL)) return;
         fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
@@ -111,5 +126,11 @@ public class GameRoomController {
     public boolean isLastKnightMode() {
         return this.room.getGameMode() == GameRoom.GameMode.LAST_KNIGHT;
 
+    }
+
+    public void resetGameMode() {
+        if (room != null) {
+            room.setGameMode(GameRoom.GameMode.NONE);
+        }
     }
 }

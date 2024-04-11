@@ -80,7 +80,7 @@ public class KnightController {
     public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
         this.gamemode = gamemode;
         gameRoomController = GameRoomController.getInstance();
-        scoreCounter = new Score(this.gameRoomController);
+        scoreCounter = new Score();
 //        timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
