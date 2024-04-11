@@ -50,7 +50,9 @@ public class KnightController {
     private float elapsedTime = 0;
     private TimeLimitBar timeLimitBar;
     private float maxTimeLimit;
-    private float timeToAdd = 1f;
+
+    // Adjust time to add for LastKnight, when knight successfully chops a tree branch
+    private float timeToAdd = 0.8f;
 
     // Power Ups
     private PowerUp life1;
@@ -431,9 +433,8 @@ public class KnightController {
 
         // Logic to handle death knight animation
         if (deathAnimationActive) {
-            if (!life1Active) {
-                playerDied = true;
-            }
+
+            playerDied = true;
 
             elapsedTime += delta;
             deadKnightSprite.setPosition(currentKnightX + 0.1f * elapsedTime, knightY);
@@ -444,16 +445,19 @@ public class KnightController {
                 elapsedTime = 0;
 
                 if (life1Active) {
+                    playerDied = false;
                     System.out.println("collision, remove 1 life");
                     removePowerUp();
                     String oppositeDirection = getKnightOppositeDirection();
                     knight.setDirection(oppositeDirection);
                     if (Objects.equals(oppositeDirection, "left")) {
                         idleKnightSprite.setPosition(knightLeftX, knightY);
+                        deadKnightSprite.setPosition(-99999, -99999);
                         currentKnightX = knightLeftX;
                     }
                     else{
                         idleKnightSprite.setPosition(knightRightX, knightY);
+                        deadKnightSprite.setPosition(-99999, -99999);
                         currentKnightX = knightRightX;
                     }
 
@@ -461,7 +465,7 @@ public class KnightController {
                     choppingKnightSprite.flipDirection();
                     deadKnightSprite.flipDirection();
 
-                    deadKnightSprite.setPosition(-99999, -99999);
+
                     return "continue";
                 }
 
