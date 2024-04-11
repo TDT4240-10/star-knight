@@ -73,15 +73,14 @@ public class KnightController {
     //    private Timer timer;
     private Settings settings;
     private Sound chopSoundEffect;
-    public GameModeController gameModeController;
+    public GameRoomController gameRoomController;
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes
     public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
         this.gamemode = gamemode;
-
-        gameModeController = GameModeController.getInstance();
-        scoreCounter = new Score(this.gameModeController);
+        gameRoomController = GameRoomController.getInstance();
+        scoreCounter = new Score(this.gameRoomController);
 //        timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();

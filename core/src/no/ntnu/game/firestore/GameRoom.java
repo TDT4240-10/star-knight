@@ -4,23 +4,36 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Future;
+import java.util.UUID;
 
-import no.ntnu.game.FirebaseClass;
-import no.ntnu.game.FirebaseInterface;
+import no.ntnu.game.Controllers.GameRoomController;
 
 public class GameRoom extends FirebaseClass {
+    public enum GameMode {
+        NONE, FASTEST_KNIGHT, LAST_KNIGHT
+    }
+
+    public enum GameStatus {
+        CREATED, LOBBY, PLAYING, COMPLETE
+    }
     private String roomCode;
+
+    private GameMode currentGameMode;
     private List<Player> players;
     private Date createdAt;
-    private String status;
+    private GameStatus status;
+
+
+
+    public GameRoom() {};
 
     public GameRoom(Player creatingPlayer) {
         players = new ArrayList<>();
         this.players.add(creatingPlayer);
         this.createdAt = new Date();
-        this.status = "lobby";
+        this.status = GameStatus.CREATED;
         this.roomCode = generateRandomCode();
+        this.setDocumentId(UUID.randomUUID().toString());
     }
 
     public static String generateRandomCode() {
@@ -47,7 +60,7 @@ public class GameRoom extends FirebaseClass {
         this.players.add(player);
     }
 
-    public String getStatus() {
+    public GameStatus getStatus() {
         return status;
     }
 
@@ -63,8 +76,16 @@ public class GameRoom extends FirebaseClass {
         return this.players;
     }
 
-    @Override
-    public String getCollectionName() {
-        return "game_rooms";
+    public GameMode getGameMode() {
+        return this.currentGameMode;
     }
+
+    public void setGameMode(GameMode mode) {
+        this.currentGameMode = mode;
+    }
+
+    public void setGameStatus(GameStatus status) {
+        this.status = status;
+    }
+
 }

@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 
+import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.Models.PlayerModel;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.firestore.Player;
@@ -34,17 +35,16 @@ public class MainMenuScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     private Stage stage;
+    private PlayerController playerController;
 
-    private Player player;
 
     public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
-
+        playerController = PlayerController.getPlayerController();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-        player = PlayerModel.getPlayer();
 
 
         // Create buttons
@@ -107,7 +107,7 @@ public class MainMenuScreen extends Screen {
     @Override
     public void render(SpriteBatch sb) {
         final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
-        final float CENTER_USERNAME_X = calculateCenterX(player.getUsername(), font);
+        final float CENTER_USERNAME_X = calculateCenterX(playerController.getPlayer().getUsername(), font);
 
 
         // Clear the screen with grey color
@@ -123,7 +123,7 @@ public class MainMenuScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
-        font.draw(sb, player.getUsername(), CENTER_USERNAME_X, 1200);
+        font.draw(sb, playerController.getPlayer().getUsername(), CENTER_USERNAME_X, 1200);
         font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);
         sb.end();
 

@@ -14,8 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import no.ntnu.game.Controllers.GameModeController;
+import java.util.List;
+
+import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.GameRoom;
+import no.ntnu.game.firestore.Player;
 
 public class CreateGameLobbyScreen extends Screen {
     public static Color Starknightdown = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
@@ -32,12 +36,12 @@ public class CreateGameLobbyScreen extends Screen {
     private Button lastKnightButton;
     private Button fastestKnightButton;
     private Button exitButton;
-    private GameModeController gameModeController;
+    private GameRoomController gameRoomController;
     private Stage stage;
 
     public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
-        gameModeController = GameModeController.getInstance();
+        gameRoomController = GameRoomController.getInstance();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
@@ -48,13 +52,7 @@ public class CreateGameLobbyScreen extends Screen {
         lastKnightButton = rectButtonFactory.createButton("Last knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameModeController.setGameMode(GameModeController.GameMode.LAST_KNIGHT);
-                // print out the current colour of the button
-                System.out.println(lastKnightButton.getColor());
-                // set colour of button to indicate it is selected
-                lastKnightButton.setColor(Starknightdown);
-                fastestKnightButton.setColor(white);
-                startGameButton.setColor(green);
+                gameRoomController.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
                 return true; // Indicate that the touch event is handled
 
             }
@@ -65,11 +63,7 @@ public class CreateGameLobbyScreen extends Screen {
         fastestKnightButton = rectButtonFactory.createButton("Fast knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
-                // set colour of button to indicate it is selected
-                fastestKnightButton.setColor(Starknightdown);
-                lastKnightButton.setColor(white);
-                startGameButton.setColor(green);
+                gameRoomController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
                 return true; // Indicate that the touch event is handled
 
             }
@@ -81,23 +75,16 @@ public class CreateGameLobbyScreen extends Screen {
         startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
-                switch (currentMode) {
-                    case FASTEST_KNIGHT:
-                        gvm.set(new FastestKnightGameScreen(gvm));
-                        System.out.println("Starting Fastest Knight game...");
-                        break;
-                    case LAST_KNIGHT:
-                        gvm.set(new LastKnightGameScreen(gvm));
-                        System.out.println("Starting Last Knight game...");
-                        break;
-                    default:
-                        System.out.println("No game mode selected");
-//                            gsm.set(new GameScreen(gsm));
-                        // Possibly show an error or prompt to select a game mode
-                        break;
+                GameRoom.GameMode currentMode = gameRoomController.getCurrentGameMode();
+                if (currentMode == null) {
+                    return false;
                 }
-//                    gsm.set(new GameScreen(gsm));
+
+                if (currentMode.equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
+                    gvm.set(new FastestKnightGameScreen(gvm));
+                } else { gvm.set(new LastKnightGameScreen(gvm));
+                }
+                gameRoomController.setGameStatus(GameRoom.GameStatus.PLAYING);
                 return true;
             }
         });
@@ -135,12 +122,27 @@ public class CreateGameLobbyScreen extends Screen {
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
 
+    private String createUsernamesString() {
+        List<Player> players = gameRoomController.getGameRoom().getPlayers();
+        StringBuilder usernameBuilder = new StringBuilder();
+        for (Player player : players) {
+            if (usernameBuilder.length() > 0) {
+                usernameBuilder.append(", ");
+            }
+            usernameBuilder.append(player.getUsername());
+        }
+
+        return usernameBuilder.toString();
+    }
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_ROOMID_X = calculateCenterX("Room ID: ", font);
-        final float CENTER_PLAYERS_X = calculateCenterX("Players: ", font);
-
+        String usernames = createUsernamesString();
+        String roomCode = gameRoomController.getGameRoom().getRoomCode();
+        GameRoom.GameMode gameMode = gameRoomController.getCurrentGameMode();
+        final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomCode, font);
+        final float CENTER_PLAYERS_X = calculateCenterX("Players: " + usernames, font);
+        final float CENTER_GAME_MODE = calculateCenterX("Game mode: " + gameMode, font);
 
         // display logo
         sb.begin();
@@ -158,10 +160,12 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
-        font.draw(sb, "Room ID: ", CENTER_ROOMID_X, 1330);
-        font.draw(sb, "Players: ", CENTER_PLAYERS_X, 1230);
+        font.draw(sb, "Room ID: " + roomCode, CENTER_ROOMID_X, 1330);
+        font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
+        font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
 
         sb.end();
+
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
@@ -184,28 +188,23 @@ public class CreateGameLobbyScreen extends Screen {
 
     }
 
-    @Override
-    public void create(){
+    private void updateButtonColors() {
+        GameRoomController gameModeController = GameRoomController.getInstance();
 
+        if (gameModeController.isLastKnightMode()) {
+            lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button
+            fastestKnightButton.setColor(Starknight); // Reset FastestKnight button
+            startGameButton.setColor(green); // Highlight StartGame button
+        } else if (gameModeController.isFastestKnightMode()) {
+            fastestKnightButton.setColor(Starknightdown); // Highlight FastestKnight button
+            lastKnightButton.setColor(Starknight); // Reset LastKnight button
+            startGameButton.setColor(green); // Highlight StartGame button
+        } else {
+            // Optional: Reset both buttons if no mode is selected
+            fastestKnightButton.setColor(Starknight);
+            lastKnightButton.setColor(Starknight);
+            startGameButton.setColor(red); // Disable StartGame button
+        }
     }
-
-//    private void updateButtonColors() {
-//        GameModeController gameModeController = GameModeController.getInstance();
-//
-//        if (gameModeController.isLastKnightMode()) {
-//            lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button
-//            fastestKnightButton.setColor(Starknight); // Reset FastestKnight button
-//            startGameButton.setColor(green); // Highlight StartGame button
-//        } else if (gameModeController.isFastestKnightMode()) {
-//            fastestKnightButton.setColor(Starknightdown); // Highlight FastestKnight button
-//            lastKnightButton.setColor(Starknight); // Reset LastKnight button
-//            startGameButton.setColor(green); // Highlight StartGame button
-//        } else {
-//            // Optional: Reset both buttons if no mode is selected
-//            fastestKnightButton.setColor(Starknight);
-//            lastKnightButton.setColor(Starknight);
-//            startGameButton.setColor(red); // Disable StartGame button
-//        }
-//    }
 
 }

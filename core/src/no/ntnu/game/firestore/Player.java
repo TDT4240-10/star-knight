@@ -1,24 +1,20 @@
 package no.ntnu.game.firestore;
 
-import no.ntnu.game.FirebaseClass;
+import java.util.UUID;
 
 public class Player extends FirebaseClass {
-    public String username;
 
-    public Integer highScore;
+    private String username;
+    private Integer highScore;
 
     public Player() {};
 
     public Player(String username) {
         this.username = username;
         this.highScore = 0;
+        this.setDocumentId(UUID.randomUUID().toString());
     }
 
-    public String getCollectionName() {
-        return "players";
-    }
-
-    // Getters and setters
     public String getUsername() {
         return username;
     }
@@ -27,7 +23,11 @@ public class Player extends FirebaseClass {
         this.username = username;
     }
 
-//    public void setHighScore(Integer highScore) {
-//        this.highScore = highScore;
-//    }
+    public Integer getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(Integer highScore) {
+        this.highScore = highScore;
+    }
 }
