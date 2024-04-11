@@ -1,26 +1,28 @@
 package no.ntnu.game.firestore;
 
+import com.badlogic.gdx.Game;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Future;
-
-import no.ntnu.game.FirebaseClass;
-import no.ntnu.game.FirebaseInterface;
+import java.util.UUID;
 
 public class GameRoom extends FirebaseClass {
     private String roomCode;
-    private List<Player> players;
+    private List<String> players;
     private Date createdAt;
     private String status;
 
+    public GameRoom() {};
+
     public GameRoom(Player creatingPlayer) {
         players = new ArrayList<>();
-        this.players.add(creatingPlayer);
+        this.players.add(creatingPlayer.getDocumentId());
         this.createdAt = new Date();
         this.status = "lobby";
         this.roomCode = generateRandomCode();
+        this.setDocumentId(UUID.randomUUID().toString());
     }
 
     public static String generateRandomCode() {
@@ -44,7 +46,7 @@ public class GameRoom extends FirebaseClass {
     }
 
     public void addPlayer(Player player) {
-        this.players.add(player);
+        this.players.add(player.getDocumentId());
     }
 
     public String getStatus() {
@@ -59,12 +61,8 @@ public class GameRoom extends FirebaseClass {
         return roomCode;
     }
 
-    public List<Player> getPlayers() {
+    public List<String> getPlayers() {
         return this.players;
     }
 
-    @Override
-    public String getCollectionName() {
-        return "game_rooms";
-    }
 }

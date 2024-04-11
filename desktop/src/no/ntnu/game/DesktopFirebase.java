@@ -1,5 +1,7 @@
 package no.ntnu.game;
 
+import no.ntnu.game.callback.FirebaseCallback;
+import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.Player;
 
 /**
@@ -11,22 +13,30 @@ import no.ntnu.game.firestore.Player;
  */
 public class DesktopFirebase implements FirebaseInterface {
 
-    @Override
-    public void SomeFunction() {}
 
     @Override
-    public String SerializeClass(FirebaseClass object) {
-
-        return null;
-    }
-
-    @Override
-    public void getPlayer(String username, PlayerCallback callback) {
+    public void savePlayer(Player player) {
 
     }
 
     @Override
-    public void joinRoom(String code, Player player, JoinRoomCallback callback) {
+    public void getPlayer(String username, FirebaseCallback<Player> callback) {
+
+    }
+
+    @Override
+    public void getRoomByCode(String code, FirebaseCallback<GameRoom> callback) {
+
+    }
+
+    @Override
+    public void saveRoom(GameRoom room, FirebaseCallback<GameRoom> callback) {
+
+    }
+
+
+    @Override
+    public void createRoomListener(GameRoom room, FirebaseCallback<GameRoom> callback) {
 
     }
 }

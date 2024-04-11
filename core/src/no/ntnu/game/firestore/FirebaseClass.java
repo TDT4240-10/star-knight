@@ -1,9 +1,10 @@
-package no.ntnu.game;
+package no.ntnu.game.firestore;
 
-public abstract class FirebaseClass {
+import no.ntnu.game.FirebaseCompatible;
+
+public abstract class FirebaseClass implements FirebaseCompatible {
     private String documentId;
-    private String collectionName;
-    public abstract String getCollectionName();
+
     public String getDocumentId() {
         return this.documentId;
     }

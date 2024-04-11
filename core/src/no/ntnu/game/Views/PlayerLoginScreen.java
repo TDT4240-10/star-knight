@@ -10,10 +10,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 
-import no.ntnu.game.FirebaseInterface;
-import no.ntnu.game.Models.PlayerModel;
-import no.ntnu.game.PlayerCallback;
-import no.ntnu.game.StarKnight;
+import no.ntnu.game.Controllers.PlayerController;
+import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.factory.textfield.TextFieldFactory;
 import no.ntnu.game.firestore.Player;
@@ -42,14 +40,14 @@ public class PlayerLoginScreen extends Screen {
     private SpriteBatch spriteBatch;
 
     private Button loginButton;
-    private FirebaseInterface _FI;
 
+    private PlayerController playerController;
     // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
     // there will be two buttons, one for creating a room and one for joining a room.
 
     public PlayerLoginScreen(ScreenManager gvm) {
         super(gvm);
-        _FI = StarKnight.getFirebaseInterface();
+        playerController = PlayerController.getPlayerController();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
@@ -61,17 +59,9 @@ public class PlayerLoginScreen extends Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String username = usernameField.getText();
                 if (!username.isEmpty()) {
-                    _FI.getPlayer(username, new PlayerCallback() {
+                    playerController.signInPlayer(username, new FirebaseCallback<Player>() {
                         @Override
                         public void onCallback(Player player) {
-                            if (player == null) {
-                                // create new player
-                                Player newPlayer = new Player(username);
-                                _FI.SerializeClass(newPlayer);
-                                PlayerModel.setPlayer(newPlayer);
-                            } else {
-                                PlayerModel.setPlayer(player);
-                            }
                             Gdx.app.postRunnable(new Runnable() {
                                 @Override
                                 public void run() {

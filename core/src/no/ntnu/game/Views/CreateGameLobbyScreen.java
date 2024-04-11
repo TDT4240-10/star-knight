@@ -14,7 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import java.util.List;
+
 import no.ntnu.game.Controllers.GameModeController;
+import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 public class CreateGameLobbyScreen extends Screen {
@@ -34,11 +37,13 @@ public class CreateGameLobbyScreen extends Screen {
     private Button fastestKnightButton;
     private Button exitButton;
     private GameModeController gameModeController;
+    private GameRoomController gameRoomController;
     private Stage stage;
 
     public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
         gameModeController = new GameModeController();
+        gameRoomController = GameRoomController.getInstance();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
@@ -121,9 +126,10 @@ public class CreateGameLobbyScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_ROOMID_X = calculateCenterX("Room ID: ", font);
-        final float CENTER_PLAYERS_X = calculateCenterX("Players: ", font);
-
+        String roomCode = gameRoomController.getGameRoom().getRoomCode();
+        List<String> players = gameRoomController.getGameRoom().getPlayers();
+        final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomCode, font);
+        final float CENTER_PLAYERS_X = calculateCenterX("Players: " + players.toString(), font);
 
         // display logo
         sb.begin();
@@ -141,8 +147,8 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
-        font.draw(sb, "Room ID: ", CENTER_ROOMID_X, 1330);
-        font.draw(sb, "Players: ", CENTER_PLAYERS_X, 1230);
+        font.draw(sb, "Room ID: " + roomCode, CENTER_ROOMID_X, 1330);
+        font.draw(sb, "Players: " + players.toString(), CENTER_PLAYERS_X, 1230);
 
         sb.end();
 
