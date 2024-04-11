@@ -1,7 +1,5 @@
 package no.ntnu.game.Views;
 
-import androidx.annotation.RequiresApi;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
@@ -17,12 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.Player;
 
 public class CreateGameLobbyScreen extends Screen {
@@ -41,13 +37,11 @@ public class CreateGameLobbyScreen extends Screen {
     private Button lastKnightButton;
     private Button fastestKnightButton;
     private Button exitButton;
-    private GameModeController gameModeController;
     private GameRoomController gameRoomController;
     private Stage stage;
 
     public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
-        gameModeController = new GameModeController();
         gameRoomController = GameRoomController.getInstance();
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
@@ -59,7 +53,7 @@ public class CreateGameLobbyScreen extends Screen {
         lastKnightButton = rectButtonFactory.createButton("Last knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameModeController.setGameMode(GameModeController.GameMode.LAST_KNIGHT);
+                gameRoomController.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
                 return true; // Indicate that the touch event is handled
 
             }
@@ -70,7 +64,7 @@ public class CreateGameLobbyScreen extends Screen {
         fastestKnightButton = rectButtonFactory.createButton("Fast knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
+                gameRoomController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
                 return true; // Indicate that the touch event is handled
 
             }
@@ -82,16 +76,16 @@ public class CreateGameLobbyScreen extends Screen {
         startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                GameModeController.GameMode currentMode = gameModeController.getCurrentGameMode();
+                GameRoom.GameMode currentMode = gameRoomController.getCurrentGameMode();
                 if (currentMode == null) {
                     return false;
                 }
 
-                if (currentMode.equals(GameModeController.GameMode.FASTEST_KNIGHT)) {
+                if (currentMode.equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
                     gvm.set(new FastestKnightGameScreen(gvm));
-                } else {
-                    gvm.set(new LastKnightGameScreen(gvm));
+                } else { gvm.set(new LastKnightGameScreen(gvm));
                 }
+                gameRoomController.setGameStatus(GameRoom.GameStatus.PLAYING);
                 return true;
             }
         });
@@ -145,8 +139,10 @@ public class CreateGameLobbyScreen extends Screen {
     public void render(SpriteBatch sb) {
         String usernames = createUsernamesString();
         String roomCode = gameRoomController.getGameRoom().getRoomCode();
+        GameRoom.GameMode gameMode = gameRoomController.getCurrentGameMode();
         final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomCode, font);
         final float CENTER_PLAYERS_X = calculateCenterX("Players: " + usernames, font);
+        final float CENTER_GAME_MODE = calculateCenterX("Game mode: " + gameMode, font);
 
         // display logo
         sb.begin();
@@ -166,8 +162,10 @@ public class CreateGameLobbyScreen extends Screen {
         font.setColor(0, 0, 0, 1);
         font.draw(sb, "Room ID: " + roomCode, CENTER_ROOMID_X, 1330);
         font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
+        font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
 
         sb.end();
+
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
@@ -191,7 +189,7 @@ public class CreateGameLobbyScreen extends Screen {
     }
 
     private void updateButtonColors() {
-        GameModeController gameModeController = GameModeController.getInstance();
+        GameRoomController gameModeController = GameRoomController.getInstance();
 
         if (gameModeController.isLastKnightMode()) {
             lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button

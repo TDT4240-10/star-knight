@@ -4,26 +4,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import no.ntnu.game.Controllers.GameModeController;
+import no.ntnu.game.Controllers.GameRoomController;
 
 public class Score {
     private int score;
     private BitmapFont font;
-    public GameModeController gameModeController;
+    public GameRoomController gameRoomController;
 
     // Constructor
     public Score() {
-        gameModeController = GameModeController.getInstance();
+        gameRoomController = GameRoomController.getInstance();
 
         font = new BitmapFont(); // Assuming you have a font for rendering text
 
         // Initialize score to 0 if game mode is last knight standing
-        if (gameModeController.isLastKnightMode()) {
+        if (gameRoomController.isLastKnightMode()) {
             score = 0;
         }
 
         // Initialize score to 0 if game mode is fastest knight
-        else if (gameModeController.isFastestKnightMode()) {
+        else if (gameRoomController.isFastestKnightMode()) {
             score = 30;
         }
 
@@ -46,7 +46,7 @@ public class Score {
 
     public void render(SpriteBatch batch) {
         // if game mode is last knight standing, render score
-        if (gameModeController.isLastKnightMode()) {
+        if (gameRoomController.isLastKnightMode()) {
             batch.begin();
             // Calculate the position to center the text on the screen
             float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
@@ -56,7 +56,7 @@ public class Score {
             batch.end();
         }
         // if game mode is fastest knight
-        else if (gameModeController.isFastestKnightMode()) {
+        else if (gameRoomController.isFastestKnightMode()) {
             batch.begin();
             // Calculate the position to center the text on the screen
             float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
