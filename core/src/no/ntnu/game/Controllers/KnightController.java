@@ -52,7 +52,7 @@ public class KnightController {
     private float maxTimeLimit;
 
     // Adjust time to add for LastKnight, when knight successfully chops a tree branch
-    private float timeToAdd = 0.8f;
+    private float timeToAdd = 0.2f;
 
     // Power Ups
     private PowerUp life1;
