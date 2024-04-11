@@ -53,10 +53,9 @@ public class LastKnightGameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 6f;
+    private float timeLimit = 2f;
 
-    private float initialTime = 6f;
-
+    private float initialTime = 2f;
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
