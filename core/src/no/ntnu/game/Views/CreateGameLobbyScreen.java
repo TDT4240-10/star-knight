@@ -1,5 +1,7 @@
 package no.ntnu.game.Views;
 
+import androidx.annotation.RequiresApi;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
@@ -15,10 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import no.ntnu.game.Controllers.GameModeController;
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.Player;
 
 public class CreateGameLobbyScreen extends Screen {
     public static Color Starknightdown = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
@@ -123,13 +128,25 @@ public class CreateGameLobbyScreen extends Screen {
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
 
+    private String createUsernamesString() {
+        List<Player> players = gameRoomController.getGameRoom().getPlayers();
+        StringBuilder usernameBuilder = new StringBuilder();
+        for (Player player : players) {
+            if (usernameBuilder.length() > 0) {
+                usernameBuilder.append(", ");
+            }
+            usernameBuilder.append(player.getUsername());
+        }
+
+        return usernameBuilder.toString();
+    }
 
     @Override
     public void render(SpriteBatch sb) {
+        String usernames = createUsernamesString();
         String roomCode = gameRoomController.getGameRoom().getRoomCode();
-        List<String> players = gameRoomController.getGameRoom().getPlayers();
         final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomCode, font);
-        final float CENTER_PLAYERS_X = calculateCenterX("Players: " + players.toString(), font);
+        final float CENTER_PLAYERS_X = calculateCenterX("Players: " + usernames, font);
 
         // display logo
         sb.begin();
@@ -148,7 +165,7 @@ public class CreateGameLobbyScreen extends Screen {
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
         font.draw(sb, "Room ID: " + roomCode, CENTER_ROOMID_X, 1330);
-        font.draw(sb, "Players: " + players.toString(), CENTER_PLAYERS_X, 1230);
+        font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
 
         sb.end();
 

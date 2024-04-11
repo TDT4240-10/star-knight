@@ -4,13 +4,15 @@ import com.badlogic.gdx.Game;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 public class GameRoom extends FirebaseClass {
     private String roomCode;
-    private List<String> players;
+    private List<Player> players;
     private Date createdAt;
     private String status;
 
@@ -18,7 +20,7 @@ public class GameRoom extends FirebaseClass {
 
     public GameRoom(Player creatingPlayer) {
         players = new ArrayList<>();
-        this.players.add(creatingPlayer.getDocumentId());
+        this.players.add(creatingPlayer);
         this.createdAt = new Date();
         this.status = "lobby";
         this.roomCode = generateRandomCode();
@@ -46,7 +48,7 @@ public class GameRoom extends FirebaseClass {
     }
 
     public void addPlayer(Player player) {
-        this.players.add(player.getDocumentId());
+        this.players.add(player);
     }
 
     public String getStatus() {
@@ -61,7 +63,7 @@ public class GameRoom extends FirebaseClass {
         return roomCode;
     }
 
-    public List<String> getPlayers() {
+    public List<Player> getPlayers() {
         return this.players;
     }
 
