@@ -51,7 +51,8 @@ public class KnightController {
     private TimeLimitBar timeLimitBar;
     private float maxTimeLimit;
 
-    // Adjust time to add for LastKnight, when knight successfully chops a tree branch
+    // Adjust the time to add for LastKnight, when knight successfully chops a tree branch here
+    // Lower = more difficult, Higher time = easier
     private float timeToAdd = 0.2f;
 
     // Power Ups
