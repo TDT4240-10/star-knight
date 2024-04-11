@@ -67,6 +67,7 @@ public class KnightController {
     private boolean life2Active = false;
     private boolean life3Active = false;
     private boolean DoubleActive = false;
+    private boolean playerDied = false;
     private PowerUpFactory powerUpFactory;
 
     private Score scoreCounter;
@@ -210,140 +211,144 @@ public class KnightController {
 
     // moveRight() is used when knight's direction is left and right button is clicked
     public void moveRight() {
-        knight.setDirection("right");
-        choppingKnightSprite.flipDirection();
-        idleKnightSprite.flipDirection();
-        deadKnightSprite.flipDirection();
+        if (!playerDied) {
+            knight.setDirection("right");
+            choppingKnightSprite.flipDirection();
+            idleKnightSprite.flipDirection();
+            deadKnightSprite.flipDirection();
 
-        TreePart lowestTreePart = tree.trees.get(0);
-        System.out.println("move right, tree is: " + lowestTreePart.getValue());
+            TreePart lowestTreePart = tree.trees.get(0);
+            System.out.println("move right, tree is: " + lowestTreePart.getValue());
 
-        // If knight in same direction as branch -> collision
-        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-            idleKnightSprite.setPosition(-99999, -99999);
-            deadKnightSprite.setPosition(knightRightX, knightY);
-            currentKnightX = knightRightX;
+            // If knight in same direction as branch -> collision
+            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightRightX, knightY);
+                currentKnightX = knightRightX;
 
-            deathAnimationActive = true;
-            elapsedTime = 0;
-        }
-
-        // If knight in opposite direction as branch -> no collision
-        else {
-            // switch knight direction and run chopping animation
-
-            idleKnightSprite.setPosition(-99999,-99999);
-            choppingKnightSprite.setPosition(knightRightX, knightY);
-            currentKnightX = knightRightX;
-
-            choppingAnimationActive = true;
-            elapsedTime = 0;
-
-            if (Objects.equals(gamemode, "last_knight")) {
-                timeLimitBar.addTime(timeToAdd);
+                deathAnimationActive = true;
+                elapsedTime = 0;
             }
 
-            checkPowerUp();
-        }
+            // If knight in opposite direction as branch -> no collision
+            else {
+                // switch knight direction and run chopping animation
 
+                idleKnightSprite.setPosition(-99999, -99999);
+                choppingKnightSprite.setPosition(knightRightX, knightY);
+                currentKnightX = knightRightX;
+
+                choppingAnimationActive = true;
+                elapsedTime = 0;
+
+                if (Objects.equals(gamemode, "last_knight")) {
+                    timeLimitBar.addTime(timeToAdd);
+                }
+
+                checkPowerUp();
+            }
+        }
     }
 
     // stayRight() is used when knight's direction is right and right button is clicked
     public void stayRight() {
-        knight.setDirection("right");
-        TreePart lowestTreePart = tree.trees.get(0);
-        System.out.println("stay right, tree is: " + lowestTreePart.getValue());
+        if (!playerDied) {
+            knight.setDirection("right");
+            TreePart lowestTreePart = tree.trees.get(0);
+            System.out.println("stay right, tree is: " + lowestTreePart.getValue());
 
-        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-            idleKnightSprite.setPosition(-99999, -99999);
-            deadKnightSprite.setPosition(knightRightX, knightY);
-            currentKnightX = knightRightX;
+            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightRightX, knightY);
+                currentKnightX = knightRightX;
 
-            deathAnimationActive = true;
-            elapsedTime = 0;
-        }
-        else {
-            // switch knight direction and run chopping animation
+                deathAnimationActive = true;
+                elapsedTime = 0;
+            } else {
+                // switch knight direction and run chopping animation
 
-            idleKnightSprite.setPosition(-99999, -99999);
+                idleKnightSprite.setPosition(-99999, -99999);
 
-            choppingKnightSprite.setPosition(knightRightX, knightY);
-            currentKnightX = knightRightX;
+                choppingKnightSprite.setPosition(knightRightX, knightY);
+                currentKnightX = knightRightX;
 
-            choppingAnimationActive = true;
-            elapsedTime = 0;
+                choppingAnimationActive = true;
+                elapsedTime = 0;
 
-            if (Objects.equals(gamemode, "last_knight")) {
-                timeLimitBar.addTime(timeToAdd);
+                if (Objects.equals(gamemode, "last_knight")) {
+                    timeLimitBar.addTime(timeToAdd);
+                }
+                checkPowerUp();
             }
-            checkPowerUp();
         }
     }
 
     // moveLeft() is used when knight's direction is right and left button is clicked
     public void moveLeft() {
-        knight.setDirection("left");
-        choppingKnightSprite.flipDirection();
-        idleKnightSprite.flipDirection();
-        deadKnightSprite.flipDirection();
+        if (!playerDied) {
+            knight.setDirection("left");
+            choppingKnightSprite.flipDirection();
+            idleKnightSprite.flipDirection();
+            deadKnightSprite.flipDirection();
 
-        TreePart lowestTreePart = tree.trees.get(0);
-        System.out.println("move left, tree is: " + lowestTreePart.getValue());
+            TreePart lowestTreePart = tree.trees.get(0);
+            System.out.println("move left, tree is: " + lowestTreePart.getValue());
 
-        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-            idleKnightSprite.setPosition(-99999, -99999);
-            deadKnightSprite.setPosition(knightLeftX, knightY);
-            currentKnightX = knightLeftX;
+            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightLeftX, knightY);
+                currentKnightX = knightLeftX;
 
-            deathAnimationActive = true;
-            elapsedTime = 0;
-        }
-        else {
-            // switch knight direction and run chopping animation
+                deathAnimationActive = true;
+                elapsedTime = 0;
+            } else {
+                // switch knight direction and run chopping animation
 
-            idleKnightSprite.setPosition(-99999, -99999);
-            choppingKnightSprite.setPosition(knightLeftX, knightY);
-            currentKnightX = knightLeftX;
+                idleKnightSprite.setPosition(-99999, -99999);
+                choppingKnightSprite.setPosition(knightLeftX, knightY);
+                currentKnightX = knightLeftX;
 
-            choppingAnimationActive = true;
-            elapsedTime = 0;
+                choppingAnimationActive = true;
+                elapsedTime = 0;
 
-            if (Objects.equals(gamemode, "last_knight")) {
-                timeLimitBar.addTime(timeToAdd);
+                if (Objects.equals(gamemode, "last_knight")) {
+                    timeLimitBar.addTime(timeToAdd);
+                }
+                checkPowerUp();
             }
-            checkPowerUp();
         }
     }
 
     // stayLeft() is used when knight's direction is left and left button is clicked
     public void stayLeft() {
-        knight.setDirection("left");
-        TreePart lowestTreePart = tree.trees.get(0);
-        System.out.println("stay left, tree is: " + lowestTreePart.getValue());
+        if (!playerDied) {
+            knight.setDirection("left");
+            TreePart lowestTreePart = tree.trees.get(0);
+            System.out.println("stay left, tree is: " + lowestTreePart.getValue());
 
-        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-            idleKnightSprite.setPosition(-99999, -99999);
-            deadKnightSprite.setPosition(knightLeftX, knightY);
-            currentKnightX = knightLeftX;
+            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightLeftX, knightY);
+                currentKnightX = knightLeftX;
 
-            deathAnimationActive = true;
-            elapsedTime = 0;
-        }
-        else {
-            // switch knight direction and run chopping animation
+                deathAnimationActive = true;
+                elapsedTime = 0;
+            } else {
+                // switch knight direction and run chopping animation
 
-            idleKnightSprite.setPosition(-99999, -99999);
+                idleKnightSprite.setPosition(-99999, -99999);
 
-            choppingKnightSprite.setPosition(knightLeftX, knightY);
-            currentKnightX = knightLeftX;
+                choppingKnightSprite.setPosition(knightLeftX, knightY);
+                currentKnightX = knightLeftX;
 
-            choppingAnimationActive = true;
-            elapsedTime = 0;
+                choppingAnimationActive = true;
+                elapsedTime = 0;
 
-            if (Objects.equals(gamemode, "last_knight")) {
-                timeLimitBar.addTime(timeToAdd);
+                if (Objects.equals(gamemode, "last_knight")) {
+                    timeLimitBar.addTime(timeToAdd);
+                }
+                checkPowerUp();
             }
-            checkPowerUp();
         }
     }
 
@@ -426,6 +431,10 @@ public class KnightController {
 
         // Logic to handle death knight animation
         if (deathAnimationActive) {
+            if (!life1Active) {
+                playerDied = true;
+            }
+
             elapsedTime += delta;
             deadKnightSprite.setPosition(currentKnightX + 0.1f * elapsedTime, knightY);
 
