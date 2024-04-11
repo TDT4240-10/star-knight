@@ -13,6 +13,10 @@ public class GameState {
         return this.score;
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public void decrementScore(int amount) {
         this.score = score - amount;
     }

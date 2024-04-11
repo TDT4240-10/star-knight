@@ -10,49 +10,33 @@ public class Score {
 
     private BitmapFont font;
     public GameRoomController gameRoomController;
-    private int soloScore = 0;
 
     // Constructor
     public Score() {
         gameRoomController = GameRoomController.getInstance();
-
         font = new BitmapFont(); // Assuming you have a font for rendering text
     }
 
     // Method to increment score
     public void incrementScore(int amount) {
         GameRoomController.Actor actor = gameRoomController.getRoomActor();
-        GameRoomController.RoomType roomType = gameRoomController.getRoomType();
 
-        if (roomType.equals(GameRoomController.RoomType.SOLO)) {
-            this.soloScore = this.soloScore + amount;
+        if (actor.equals(GameRoomController.Actor.CREATING)) {
+           gameRoomController.incrementCreatingPlayerScore(amount);
         } else {
-            if (actor.equals(GameRoomController.Actor.CREATING)) {
-               gameRoomController.getGameRoom().incrementCreatingPlayerScore(amount);
-            } else {
-                gameRoomController.getGameRoom().incrementJoiningPlayerScore(amount);
-            }
+            gameRoomController.incrementJoiningPlayerScore(amount);
         }
     }
 
     // Method to decrement score
     public void decrementScore(int amount) {
         GameRoomController.Actor actor = gameRoomController.getRoomActor();
-        GameRoomController.RoomType roomType = gameRoomController.getRoomType();
 
-        if (roomType.equals(GameRoomController.RoomType.SOLO)) {
-            this.soloScore = this.soloScore - amount;
+        if (actor.equals(GameRoomController.Actor.CREATING)) {
+            gameRoomController.decrementCreatingPlayerScore(amount);
         } else {
-            if (actor.equals(GameRoomController.Actor.CREATING)) {
-                gameRoomController.getGameRoom().decrementCreatingPlayerScore(amount);
-            } else {
-                gameRoomController.getGameRoom().decrementJoiningPlayerScore(amount);
-            }
+            gameRoomController.decrementJoiningPlayerScore(amount);
         }
-    }
-
-    public int getSoloScore() {
-        return this.soloScore;
     }
 
 
@@ -76,24 +60,16 @@ public class Score {
 
     public void render(SpriteBatch batch) {
         // if game mode is last knight standing, render score
-        if (gameRoomController.isLastKnightMode()) {
-            batch.begin();
-            // Calculate the position to center the text on the screen
-            float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
-            float y = Gdx.graphics.getHeight() - 500; // Center vertically
-            font.getData().setScale(4f);
-            font.draw(batch, "Score: " + getSoloScore(), x, y);
-            batch.end();
+        batch.begin();
+        // Calculate the position to center the text on the screen
+        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
+        float y = Gdx.graphics.getHeight() - 500; // Center vertically
+        font.getData().setScale(4f);
+        font.draw(batch, "Score: " + getLocalPlayerScore(), x, y);
+        if (gameRoomController.getRoomType().equals(GameRoomController.RoomType.ONLINE)) {
+            font.draw(batch, "Opponent: " + getRemotePlayerScore(), x, y - 40);
         }
-        // if game mode is fastest knight
-        else if (gameRoomController.isFastestKnightMode()) {
-            batch.begin();
-            // Calculate the position to center the text on the screen
-            float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
-            float y = Gdx.graphics.getHeight() - 500; // Center vertically
-            font.getData().setScale(4f);
-            font.draw(batch, "Score: " + getSoloScore(), x, y);
-            batch.end();
-        }
+        batch.end();
     }
+
 }

@@ -39,8 +39,6 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     private Button exitButton;
     private GameRoomController gameModeController = GameRoomController.getInstance();
 
-    // TODO link the room id with backend
-    private String roomID; // room id for the game lobby
 
     public SinglePlayerChooseGameModeScreen(ScreenManager gvm) {
         super(gvm);
@@ -72,7 +70,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
                 // set game mode to fastest knight
                 gameModeController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
                 gvm.set(new FastestKnightGameScreen(gvm));
-                return true; // Indicate that the touch event is handled
+                return true;
             }
         });
         fastestKnightButton.setSize(600, 200); // Set the size of the button
@@ -107,7 +105,6 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     private void generateRoomID() {
         Random random = new Random();
         int randomID = 100000 + random.nextInt(900000); // Random number between 100000 and 999999
-        roomID = String.valueOf(randomID);
     }
 
     @Override

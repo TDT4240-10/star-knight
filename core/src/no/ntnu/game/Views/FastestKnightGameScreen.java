@@ -1,5 +1,6 @@
 package no.ntnu.game.Views;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameController;
+import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
@@ -32,7 +34,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 public class FastestKnightGameScreen extends Screen {
 //    private float elapsedTime = 0;
 
-    private GameController gameController;
+    private GameRoomController gameRoomController;
 
     private Texture powerUpTextLogo;
 
@@ -70,6 +72,7 @@ public class FastestKnightGameScreen extends Screen {
 
     public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
+        gameRoomController = GameRoomController.getInstance();
         timer = new Timer();
         font = new BitmapFont(); // Assuming you have a font for rendering text
 
@@ -77,7 +80,6 @@ public class FastestKnightGameScreen extends Screen {
 
         stage = new Stage();
 
-        gameController = new GameController();
 
         treeWithPowerUp = new TreeWithPowerUp();
         treeWithPowerUp.init();
@@ -220,10 +222,12 @@ public class FastestKnightGameScreen extends Screen {
         if ((player_score == 0)) {
             // stop timer
             timer.stop();
+            gameRoomController.gameOver();
             gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
         } else if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){
             // stop timer
             timer.stop();
+            gameRoomController.gameOver();
             gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
         }
 

@@ -37,6 +37,8 @@ public class GameRoom extends FirebaseClass {
         this.status = GameStatus.CREATED;
         this.roomCode = generateRandomCode();
         this.setDocumentId(UUID.randomUUID().toString());
+        creatingPlayerState = new GameState();
+        joiningPlayerState = new GameState();
     }
 
     public static String generateRandomCode() {
@@ -88,6 +90,16 @@ public class GameRoom extends FirebaseClass {
     }
 
     public void setGameMode(GameMode mode) {
+        if (mode == null) {
+            return;
+        }
+        if (mode.equals(GameMode.FASTEST_KNIGHT)) {
+            this.joiningPlayerState.setScore(30);
+            this.creatingPlayerState.setScore(30);
+        } else {
+            this.creatingPlayerState.setScore(0);
+            this.joiningPlayerState.setScore(0);
+        }
         this.currentGameMode = mode;
     }
 
@@ -97,22 +109,6 @@ public class GameRoom extends FirebaseClass {
 
     public GameState getCreatingPlayerState() {
         return creatingPlayerState;
-    }
-
-    public void incrementCreatingPlayerScore(int amount) {
-        this.creatingPlayerState.incrementScore(amount);
-    }
-
-    public void incrementJoiningPlayerScore(int amount) {
-        this.joiningPlayerState.incrementScore(amount);
-    }
-
-    public void decrementCreatingPlayerScore(int amount) {
-        this.creatingPlayerState.decrementScore(amount);
-    }
-
-    public void decrementJoiningPlayerScore(int amount) {
-        this.joiningPlayerState.decrementScore(amount);
     }
 
     public void setCreatingPlayerState(GameState creatingPlayerState) {

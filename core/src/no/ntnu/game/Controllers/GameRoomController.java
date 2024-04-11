@@ -51,6 +51,35 @@ public class GameRoomController {
         return instance;
     }
 
+    private void stateChanged() {
+        fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
+            @Override
+            public void onCallback(GameRoom result) {
+                System.out.println("Updated room");
+            }
+        });
+    }
+
+    public void createSoloRoom(Player player) {
+        createGameRoom(player, new FirebaseCallback<GameRoom>() {
+            @Override
+            public void onCallback(GameRoom result) {
+                roomType = RoomType.SOLO;
+            }
+        });
+    }
+
+    public void createOnlineRoom(Player player, FirebaseCallback<GameRoom> callback) {
+        createGameRoom(player, new FirebaseCallback<GameRoom>() {
+            @Override
+            public void onCallback(GameRoom result) {
+                createRoomListener();
+                roomType = RoomType.ONLINE;
+                callback.onCallback(result);
+            }
+        });
+    }
+
     private void createRoomListener() {
         fi.createRoomListener(room, new FirebaseCallback<GameRoom>() {
             @Override
@@ -92,7 +121,6 @@ public class GameRoomController {
             public void onCallback(GameRoom result) {
                 room = result;
                 roomActor = Actor.CREATING;
-                createRoomListener();
                 callback.onCallback(result);
             }
         });
@@ -104,12 +132,7 @@ public class GameRoomController {
 
     public void setGameMode(GameRoom.GameMode gameMode) {
         this.room.setGameMode(gameMode);
-        fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-
-            }
-        });
+        stateChanged();
     }
 
     public void resetGameMode() {
@@ -120,12 +143,7 @@ public class GameRoomController {
 
     public void setGameStatus(GameRoom.GameStatus status) {
         this.room.setGameStatus(status);
-        fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-
-            }
-        });
+        stateChanged();
     }
 
     // Method to get the current game mode
@@ -142,4 +160,42 @@ public class GameRoomController {
         return this.room.getGameMode() == GameRoom.GameMode.LAST_KNIGHT;
 
     }
+    public void incrementCreatingPlayerScore(int amount) {
+        stateChanged();
+        this.room.getCreatingPlayerState().incrementScore(amount);
+    }
+
+    public void incrementJoiningPlayerScore(int amount) {
+        stateChanged();
+        this.room.getJoiningPlayerState().incrementScore(amount);
+    }
+
+    public void decrementCreatingPlayerScore(int amount) {
+        stateChanged();
+        this.room.getCreatingPlayerState().decrementScore(amount);
+    }
+
+    public void decrementJoiningPlayerScore(int amount) {
+        stateChanged();
+        this.room.getJoiningPlayerState().decrementScore(amount);
+    }
+
+    public void gameOver() {
+        if (room.getGameMode().equals(GameRoom.GameMode.LAST_KNIGHT)) {
+            if (room.getCreatingPlayerState().getScore() > room.getCreatingPlayer().getHighScore()) {
+                room.getCreatingPlayer().setHighScore(room.getCreatingPlayerState().getScore());
+                fi.savePlayer(room.getCreatingPlayer());
+            }
+            if (roomType.equals(RoomType.ONLINE)) {
+                if (room.getJoiningPlayerState().getScore() > room.getJoiningPlayer().getHighScore()) {
+                    room.getJoiningPlayer().setHighScore(room.getJoiningPlayerState().getScore());
+                    fi.savePlayer(room.getJoiningPlayer());
+                }
+            }
+        } else {
+            // TODO Add logic for saving fastest time to 30 to player model.
+        }
+
+    }
+
 }

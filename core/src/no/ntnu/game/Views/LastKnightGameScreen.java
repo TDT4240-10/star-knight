@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameController;
+import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
@@ -31,7 +32,6 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  */
 public class LastKnightGameScreen extends Screen {
 
-    private GameController gameController;
 
     private Texture powerUpTextLogo;
 
@@ -66,6 +66,7 @@ public class LastKnightGameScreen extends Screen {
     private BitmapFont font;
 
     private Stage stage;
+    private GameRoomController gameRoomController;
 
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
@@ -73,7 +74,7 @@ public class LastKnightGameScreen extends Screen {
 
         powerUpTextLogo = new Texture("power_ups.png");
 
-        gameController = new GameController();
+        gameRoomController = GameRoomController.getInstance();
 
         timeLimitBar = new TimeLimitBar(initialTime, timeLimit, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 50f);
 
@@ -215,6 +216,7 @@ public class LastKnightGameScreen extends Screen {
         score = knightController.getScore();
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
+            gameRoomController.gameOver();
             gvm.set(new LastKnightEndGameScreen(gvm, score));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };

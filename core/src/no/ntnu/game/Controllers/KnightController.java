@@ -529,7 +529,7 @@ public class KnightController {
     }
 
     public int getScore() {
-        return scoreCounter.getSoloScore();
+        return scoreCounter.getLocalPlayerScore();
     }
 
     public void setDeadPosition(float x, float y) {

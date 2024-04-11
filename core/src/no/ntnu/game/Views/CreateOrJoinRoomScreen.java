@@ -85,7 +85,7 @@ public class CreateOrJoinRoomScreen extends Screen {
         createRoomButton = rectButtonFactory.createButton("Create", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameRoomController.createGameRoom(playerController.getPlayer(), new FirebaseCallback<GameRoom>() {
+                gameRoomController.createOnlineRoom(playerController.getPlayer(), new FirebaseCallback<GameRoom>() {
                     @Override
                     public void onCallback(GameRoom result) {
                         if (result != null) {

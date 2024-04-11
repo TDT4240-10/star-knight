@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.Controllers.GameRoomController;
+import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
@@ -31,12 +32,14 @@ public class SingleOrMultiplayerScreen extends Screen {
     private Stage stage;
 
     public GameRoomController gameRoomController;
+    private PlayerController playerController;
 
     private ShapeRenderer shapeRenderer;
     //    private SpriteBatch spriteBatch;
     public SingleOrMultiplayerScreen(ScreenManager gvm) {
         super(gvm);
         gameRoomController = GameRoomController.getInstance();
+        playerController = PlayerController.getPlayerController();
         logo = new Texture("starknight_logo.png");
         stage = new Stage();
         font = new BitmapFont(); // Load the font
@@ -50,6 +53,7 @@ public class SingleOrMultiplayerScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameRoomController.resetGameMode();
+                gameRoomController.createSoloRoom(playerController.getPlayer());
                 gvm.set(new SinglePlayerChooseGameModeScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
