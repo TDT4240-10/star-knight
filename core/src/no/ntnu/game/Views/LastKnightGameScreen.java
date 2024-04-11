@@ -39,7 +39,7 @@ public class LastKnightGameScreen extends Screen {
 
     private Button rightButton;
     private Button exitButton;
-
+    private boolean gameStart = false;
 
     private TreeWithPowerUp treeWithPowerUp;
     private ChoppingKnightSprite choppingKnightSprite;
@@ -53,9 +53,9 @@ public class LastKnightGameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 2f;
+    private float timeLimit = 3f;
 
-    private float initialTime = 2f;
+    private float initialTime = 3f;
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
@@ -106,6 +106,8 @@ public class LastKnightGameScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                gvm.set(new CreateOrJoinRoomScreen(gvm));
+                gameStart = true;
+
                 if (Objects.equals(knightController.getDirection(), "right")) {
                     // Run chopping animation
                     knightController.moveLeft();
@@ -125,6 +127,8 @@ public class LastKnightGameScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (Objects.equals(knightController.getDirection(), "left")) {
+                    gameStart = true;
+
                     // Run chopping animation
                     knightController.moveRight();
                 }
@@ -165,6 +169,8 @@ public class LastKnightGameScreen extends Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
+                gameStart = true;
+
                 if (keycode == Input.Keys.LEFT) {
                     if (Objects.equals(knightController.getDirection(), "right")) {
                         knightController.moveLeft();
@@ -191,9 +197,11 @@ public class LastKnightGameScreen extends Screen {
     @Override
     public void update(float dt) {
         // Update the time limit
-        timeLimitBar.updateTime(dt);
-        if (timeLimitBar.isTimeUp()) {
-            gvm.set(new LastKnightEndGameScreen(gvm, score));
+        if (gameStart) {
+            timeLimitBar.updateTime(dt);
+            if (timeLimitBar.isTimeUp()) {
+                gvm.set(new LastKnightEndGameScreen(gvm, score));
+            }
         }
     }
 
