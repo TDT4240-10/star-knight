@@ -12,15 +12,37 @@ public class GameRoomController {
     private static GameRoomController instance;
     private GameRoom room;
 
+    public enum Actor {
+        JOINING, CREATING
+    }
+
+    public enum RoomType {
+        SOLO, ONLINE
+    }
+
+    private RoomType roomType;
+
+    private Actor roomActor;
+
 
 
     private final FirebaseInterface fi;
 
     private GameRoomController() {
         fi = StarKnight.getFirebaseInterface();
+    };
+
+    public Actor getRoomActor() {
+        return this.roomActor;
     }
 
-    ;
+    public RoomType getRoomType() {
+        return this.roomType;
+    }
+
+    public void setRoomType(RoomType type) {
+        this.roomType = type;
+    }
 
     public static GameRoomController getInstance() {
         if (instance == null) {
@@ -45,7 +67,8 @@ public class GameRoomController {
             @Override
             public void onCallback(GameRoom result) {
                 if (result != null) {
-                    result.addPlayer(player);
+                    result.addJoiningPlayer(player);
+                    roomActor = Actor.JOINING;
                     result.setGameStatus(GameRoom.GameStatus.LOBBY);
                     room = result;
                     fi.saveRoom(result, new FirebaseCallback<GameRoom>() {
@@ -68,6 +91,7 @@ public class GameRoomController {
             @Override
             public void onCallback(GameRoom result) {
                 room = result;
+                roomActor = Actor.CREATING;
                 createRoomListener();
                 callback.onCallback(result);
             }
@@ -86,6 +110,12 @@ public class GameRoomController {
 
             }
         });
+    }
+
+    public void resetGameMode() {
+        if (this.room != null) {
+            this.room.setGameMode(GameRoom.GameMode.NONE);
+        }
     }
 
     public void setGameStatus(GameRoom.GameStatus status) {

@@ -16,8 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 import java.util.Random;
 
-import no.ntnu.game.Controllers.GameModeController;
+import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.GameRoom;
 
 public class SinglePlayerChooseGameModeScreen extends Screen {
     private Stage stage;
@@ -36,7 +37,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     private Button lastKnightButton;
     private Button fastestKnightButton;
     private Button exitButton;
-    private GameModeController gameModeController = GameModeController.getInstance();
+    private GameRoomController gameModeController = GameRoomController.getInstance();
 
     // TODO link the room id with backend
     private String roomID; // room id for the game lobby
@@ -56,7 +57,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to last knight
-                gameModeController.setGameMode(GameModeController.GameMode.LAST_KNIGHT);
+                gameModeController.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
                 gvm.push(new LastKnightGameScreen(gvm));
                 return true;
             }
@@ -69,7 +70,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to fastest knight
-                gameModeController.setGameMode(GameModeController.GameMode.FASTEST_KNIGHT);
+                gameModeController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
                 gvm.set(new FastestKnightGameScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }

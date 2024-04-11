@@ -19,7 +19,11 @@ public class GameRoom extends FirebaseClass {
     private String roomCode;
 
     private GameMode currentGameMode;
-    private List<Player> players;
+    private Player creatingPlayer;
+    private Player joiningPlayer;
+
+    private GameState creatingPlayerState;
+    private GameState joiningPlayerState;
     private Date createdAt;
     private GameStatus status;
 
@@ -28,9 +32,8 @@ public class GameRoom extends FirebaseClass {
     public GameRoom() {};
 
     public GameRoom(Player creatingPlayer) {
-        players = new ArrayList<>();
-        this.players.add(creatingPlayer);
         this.createdAt = new Date();
+        this.creatingPlayer = creatingPlayer;
         this.status = GameStatus.CREATED;
         this.roomCode = generateRandomCode();
         this.setDocumentId(UUID.randomUUID().toString());
@@ -56,8 +59,8 @@ public class GameRoom extends FirebaseClass {
         return sb.toString();
     }
 
-    public void addPlayer(Player player) {
-        this.players.add(player);
+    public void addJoiningPlayer(Player player) {
+        this.joiningPlayer = player;
     }
 
     public GameStatus getStatus() {
@@ -72,8 +75,12 @@ public class GameRoom extends FirebaseClass {
         return roomCode;
     }
 
-    public List<Player> getPlayers() {
-        return this.players;
+    public Player getCreatingPlayer() {
+        return this.creatingPlayer;
+    }
+
+    public Player getJoiningPlayer() {
+        return this.joiningPlayer;
     }
 
     public GameMode getGameMode() {
@@ -88,4 +95,35 @@ public class GameRoom extends FirebaseClass {
         this.status = status;
     }
 
+    public GameState getCreatingPlayerState() {
+        return creatingPlayerState;
+    }
+
+    public void incrementCreatingPlayerScore(int amount) {
+        this.creatingPlayerState.incrementScore(amount);
+    }
+
+    public void incrementJoiningPlayerScore(int amount) {
+        this.joiningPlayerState.incrementScore(amount);
+    }
+
+    public void decrementCreatingPlayerScore(int amount) {
+        this.creatingPlayerState.decrementScore(amount);
+    }
+
+    public void decrementJoiningPlayerScore(int amount) {
+        this.joiningPlayerState.decrementScore(amount);
+    }
+
+    public void setCreatingPlayerState(GameState creatingPlayerState) {
+        this.creatingPlayerState = creatingPlayerState;
+    }
+
+    public GameState getJoiningPlayerState() {
+        return joiningPlayerState;
+    }
+
+    public void setJoiningPlayerState(GameState joiningPlayerState) {
+        this.joiningPlayerState = joiningPlayerState;
+    }
 }

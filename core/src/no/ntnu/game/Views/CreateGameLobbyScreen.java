@@ -122,22 +122,17 @@ public class CreateGameLobbyScreen extends Screen {
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
 
-    private String createUsernamesString() {
-        List<Player> players = gameRoomController.getGameRoom().getPlayers();
-        StringBuilder usernameBuilder = new StringBuilder();
-        for (Player player : players) {
-            if (usernameBuilder.length() > 0) {
-                usernameBuilder.append(", ");
-            }
-            usernameBuilder.append(player.getUsername());
-        }
+    private String getUsernames() {
+        String creatingPlayerUsername = gameRoomController.getGameRoom().getCreatingPlayer() != null ? gameRoomController.getGameRoom().getCreatingPlayer().getUsername() : "";
+        String joiningPlayerUsername = gameRoomController.getGameRoom().getJoiningPlayer() != null ? gameRoomController.getGameRoom().getJoiningPlayer().getUsername() : "";
 
-        return usernameBuilder.toString();
+        return creatingPlayerUsername + ", " + joiningPlayerUsername;
     }
+
 
     @Override
     public void render(SpriteBatch sb) {
-        String usernames = createUsernamesString();
+        String usernames = getUsernames();
         String roomCode = gameRoomController.getGameRoom().getRoomCode();
         GameRoom.GameMode gameMode = gameRoomController.getCurrentGameMode();
         final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomCode, font);
@@ -181,30 +176,15 @@ public class CreateGameLobbyScreen extends Screen {
     }
 
     @Override
+    public void create() {
+
+    }
+
+    @Override
     public void dispose() {
         shapeRenderer.dispose();
         logo.dispose();
         System.out.println("Game Lobby View Disposed");
 
     }
-
-    private void updateButtonColors() {
-        GameRoomController gameModeController = GameRoomController.getInstance();
-
-        if (gameModeController.isLastKnightMode()) {
-            lastKnightButton.setColor(Starknightdown); // Highlight LastKnight button
-            fastestKnightButton.setColor(Starknight); // Reset FastestKnight button
-            startGameButton.setColor(green); // Highlight StartGame button
-        } else if (gameModeController.isFastestKnightMode()) {
-            fastestKnightButton.setColor(Starknightdown); // Highlight FastestKnight button
-            lastKnightButton.setColor(Starknight); // Reset LastKnight button
-            startGameButton.setColor(green); // Highlight StartGame button
-        } else {
-            // Optional: Reset both buttons if no mode is selected
-            fastestKnightButton.setColor(Starknight);
-            lastKnightButton.setColor(Starknight);
-            startGameButton.setColor(red); // Disable StartGame button
-        }
-    }
-
 }
