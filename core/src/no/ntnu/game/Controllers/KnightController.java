@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.sql.Time;
 import java.util.Objects;
 
 import no.ntnu.game.Models.KnightModel;
@@ -14,12 +15,15 @@ import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.Settings;
+
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.Views.ChoppingKnightSprite;
 import no.ntnu.game.Views.DeadKnightSprite;
 import no.ntnu.game.Views.IdleKnightSprite;
+import no.ntnu.game.Views.LastKnightEndGameScreen;
 
 /**
  * KnightController class is the main controller class to handle knight sprites, tree and collision logic.
@@ -60,6 +64,8 @@ public class KnightController {
     private PowerUp life2;
     private PowerUp life3;
     private PowerUp doublepoints;
+    private PowerUp bullet;
+
 
     private float powerUpY = 30;
     private float powerUpX1;
@@ -70,6 +76,8 @@ public class KnightController {
     private boolean life2Active = false;
     private boolean life3Active = false;
     private boolean DoubleActive = false;
+    private boolean bulletActive = false;
+
     private boolean playerDied = false;
     private PowerUpFactory powerUpFactory;
 
@@ -78,6 +86,10 @@ public class KnightController {
     private Settings settings;
     private Sound chopSoundEffect;
     public GameRoomController gameRoomController;
+    private TimeLimitBar bulletTimer;
+    private float bulletTimerX;
+    private float bulletTimerY;
+    private boolean moreThanOneBullet = false;
 
 
     // Constructor with idle knight sprite X, Y coordinates and tree model attributes
@@ -85,6 +97,12 @@ public class KnightController {
         this.gamemode = gamemode;
         gameRoomController = GameRoomController.getInstance();
         scoreCounter = new Score();
+
+        bulletTimer = new TimeLimitBar(2f, 2f, 300f, 20f, -99999, -99999);
+//        bulletTimer = new TimeLimitBar(5f, 5f, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 100f);
+        bulletTimerX = (Gdx.graphics.getWidth() - 300f) / 2;
+        bulletTimerY = Gdx.graphics.getHeight() - 100f;
+
 //        timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
@@ -99,6 +117,7 @@ public class KnightController {
         life2.setPosition(-99999, -99999);
         life3.setPosition(-99999, -99999);
         doublepoints = PowerUpFactory.createDoublePoints();
+        bullet = PowerUpFactory.createBullet();
         phoneWidth = Gdx.graphics.getWidth();
 
         knight.setDirection("left");
@@ -149,7 +168,6 @@ public class KnightController {
         }, powerUp.getDuration() / 1000f); // Duration needs to be in seconds, so divide by 1000
     }
 
-
     public void checkPowerUp() {
         PowerUp powerUp = tree.trees.get(0).getPowerup();
         if (Objects.equals(powerUp, null)) {
@@ -180,6 +198,17 @@ public class KnightController {
                 System.out.println("chopped tree with double");
                 // Adding double points
                 getDouble(powerUp);
+            }
+            else if (Objects.equals(powerUp.getName(), "bullet")) {
+                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
+                System.out.println("chopped tree with bullet");
+                // Adding double points
+                if (bulletActive) {
+                    bulletTimer.resetTime();
+                }
+                bulletActive = true;
+                bulletTimer.setPosition(bulletTimerX, bulletTimerY - 50);
+//                getBullet(powerUp);
             }
         }
 
@@ -223,18 +252,8 @@ public class KnightController {
             TreePart lowestTreePart = tree.trees.get(0);
             System.out.println("move right, tree is: " + lowestTreePart.getValue());
 
-            // If knight in same direction as branch -> collision
-            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-                idleKnightSprite.setPosition(-99999, -99999);
-                deadKnightSprite.setPosition(knightRightX, knightY);
-                currentKnightX = knightRightX;
-
-                deathAnimationActive = true;
-                elapsedTime = 0;
-            }
-
             // If knight in opposite direction as branch -> no collision
-            else {
+            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive){
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -250,6 +269,18 @@ public class KnightController {
 
                 checkPowerUp();
             }
+
+            // If knight in same direction as branch -> collision
+            else if (Objects.equals(lowestTreePart.getValue(), knight.getDirection()) && !bulletActive) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightRightX, knightY);
+                currentKnightX = knightRightX;
+
+                deathAnimationActive = true;
+                elapsedTime = 0;
+            }
+
+
         }
     }
 
@@ -260,14 +291,7 @@ public class KnightController {
             TreePart lowestTreePart = tree.trees.get(0);
             System.out.println("stay right, tree is: " + lowestTreePart.getValue());
 
-            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-                idleKnightSprite.setPosition(-99999, -99999);
-                deadKnightSprite.setPosition(knightRightX, knightY);
-                currentKnightX = knightRightX;
-
-                deathAnimationActive = true;
-                elapsedTime = 0;
-            } else {
+            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive){
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -282,6 +306,15 @@ public class KnightController {
                     timeLimitBar.addTime(timeToAdd);
                 }
                 checkPowerUp();
+            }
+
+            else if (Objects.equals(lowestTreePart.getValue(), knight.getDirection()) && !bulletActive) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightRightX, knightY);
+                currentKnightX = knightRightX;
+
+                deathAnimationActive = true;
+                elapsedTime = 0;
             }
         }
     }
@@ -297,14 +330,7 @@ public class KnightController {
             TreePart lowestTreePart = tree.trees.get(0);
             System.out.println("move left, tree is: " + lowestTreePart.getValue());
 
-            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-                idleKnightSprite.setPosition(-99999, -99999);
-                deadKnightSprite.setPosition(knightLeftX, knightY);
-                currentKnightX = knightLeftX;
-
-                deathAnimationActive = true;
-                elapsedTime = 0;
-            } else {
+            if(!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -319,6 +345,15 @@ public class KnightController {
                 }
                 checkPowerUp();
             }
+
+            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection()) && !bulletActive) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightLeftX, knightY);
+                currentKnightX = knightLeftX;
+
+                deathAnimationActive = true;
+                elapsedTime = 0;
+            }
         }
     }
 
@@ -329,14 +364,7 @@ public class KnightController {
             TreePart lowestTreePart = tree.trees.get(0);
             System.out.println("stay left, tree is: " + lowestTreePart.getValue());
 
-            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-                idleKnightSprite.setPosition(-99999, -99999);
-                deadKnightSprite.setPosition(knightLeftX, knightY);
-                currentKnightX = knightLeftX;
-
-                deathAnimationActive = true;
-                elapsedTime = 0;
-            } else {
+            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive){
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -351,6 +379,15 @@ public class KnightController {
                     timeLimitBar.addTime(timeToAdd);
                 }
                 checkPowerUp();
+            }
+
+            if (Objects.equals(lowestTreePart.getValue(), knight.getDirection()) && !bulletActive) {
+                idleKnightSprite.setPosition(-99999, -99999);
+                deadKnightSprite.setPosition(knightLeftX, knightY);
+                currentKnightX = knightLeftX;
+
+                deathAnimationActive = true;
+                elapsedTime = 0;
             }
         }
     }
@@ -365,10 +402,19 @@ public class KnightController {
         TreePart lowestTreePart = tree.trees.get(0);
         if (lowestTreePart.getPowerup() != null){
             String powerUp = lowestTreePart.getPowerup().getName();
-            System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", " + powerUp);
+            //System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", " + powerUp);
         }
         else{
-            System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", no powerup");
+            //System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", no powerup");
+        }
+
+        if (bulletActive) {
+            bulletTimer.updateTime(delta);
+            System.out.println(bulletTimer.getCurrentTime());
+            if (bulletTimer.isTimeUp()) {
+                bulletTimer.setPosition(-99999, -99999);
+                bulletActive = false;
+            }
         }
         // Logic to run chopping knight animation
         if (choppingAnimationActive) {
@@ -390,40 +436,65 @@ public class KnightController {
                 idleKnightSprite.setPosition(currentKnightX, knightY);
 
                 // Logic to check for knight collision and chop tree
-                if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+
+                if (bulletActive) {
+
                     tree.chop();
                     tree.createNewTrunk();
 
                     // if game mode is last knight standing, increment score, else if game mode is fastest knight, decrement score
                     if (Objects.equals(gamemode, "last_knight")) {
-                        if(DoubleActive) {
+                        if (DoubleActive) {
                             scoreCounter.incrementScore(2);
 
-                        }
-                        else{
+                        } else {
                             scoreCounter.incrementScore(1);
                         }
-                    }
-                    else if (Objects.equals(gamemode, "fastest_knight")) {
+                    } else if (Objects.equals(gamemode, "fastest_knight")) {
                         System.out.println("fastest knight found, decrement score");
-                        if(DoubleActive) {
+                        if (DoubleActive) {
                             scoreCounter.decrementScore(2);
 
-                        }
-                        else{
+                        } else {
                             scoreCounter.decrementScore(1);
                         }
                     }
 
-                    // Checking for next collision after chopping the tree
-                    lowestTreePart = tree.trees.get(0);
-                    if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-                        System.out.println("chopped tree and died");
+                } else {
+                    bulletTimer.setPosition(-99999, -99999);
 
-                        idleKnightSprite.setPosition(-99999, -99999);
-                        deathAnimationActive = true;
-                        elapsedTime = 0;
-                        this.stopMusic();
+                    if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                        tree.chop();
+                        tree.createNewTrunk();
+
+                        // if game mode is last knight standing, increment score, else if game mode is fastest knight, decrement score
+                        if (Objects.equals(gamemode, "last_knight")) {
+                            if (DoubleActive) {
+                                scoreCounter.incrementScore(2);
+
+                            } else {
+                                scoreCounter.incrementScore(1);
+                            }
+                        } else if (Objects.equals(gamemode, "fastest_knight")) {
+                            System.out.println("fastest knight found, decrement score");
+                            if (DoubleActive) {
+                                scoreCounter.decrementScore(2);
+
+                            } else {
+                                scoreCounter.decrementScore(1);
+                            }
+                        }
+
+                        // Checking for next collision after chopping the tree
+                        lowestTreePart = tree.trees.get(0);
+                        if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
+                            System.out.println("chopped tree and died");
+
+                            idleKnightSprite.setPosition(-99999, -99999);
+                            deathAnimationActive = true;
+                            elapsedTime = 0;
+                            this.stopMusic();
+                        }
                     }
                 }
             }
@@ -548,6 +619,11 @@ public class KnightController {
 
     public void setDeadPosition(float x, float y) {
         deadKnightSprite.setPosition(x, y);
+    }
+
+    public void renderBulletTimer(ShapeRenderer shapeRenderer) {
+
+        bulletTimer.render(shapeRenderer);
     }
 
     public void disposeIdleKnight() {

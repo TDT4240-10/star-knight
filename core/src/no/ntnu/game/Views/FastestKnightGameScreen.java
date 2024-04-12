@@ -215,9 +215,12 @@ public class FastestKnightGameScreen extends Screen {
         knightController.renderLife3(sb);
 
         player_score = knightController.getScore();
+        if (player_score < 0) {
+            player_score = 0;
+        }
 //        player_score = 1234;
 
-        if ((player_score == 0)) {
+        if (player_score == 0) {
             // stop timer
             timer.stop();
             gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
