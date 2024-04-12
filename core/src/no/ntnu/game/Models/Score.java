@@ -44,7 +44,7 @@ public class Score {
     // Getter for score
     public int getScore() {
         // print this is your score
-        System.out.println("LOLOLOL This is your score: " + score);
+        //System.out.println("LOLOLOL This is your score: " + score);
         return score;
     }
 

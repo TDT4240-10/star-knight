@@ -53,9 +53,9 @@ public class LastKnightGameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 3f;
+    private float timeLimit = 99999f;
 
-    private float initialTime = 3f;
+    private float initialTime = 99999f;
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
@@ -65,12 +65,19 @@ public class LastKnightGameScreen extends Screen {
     private BitmapFont font;
 
     private Stage stage;
+    private Texture timerLogo;
+    private Texture bulletLogo;
+
+    float bulletTimerX = (Gdx.graphics.getWidth() - 300f) / 2;
+    float bulletTimerY = Gdx.graphics.getHeight() - 100f;
 
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
         font = new BitmapFont(); // Assuming you have a font for rendering text
 
         powerUpTextLogo = new Texture("power_ups.png");
+        timerLogo = new Texture("starknight_logo.png");
+        bulletLogo = new Texture("bullet.png");
 
         gameController = new GameController();
 
@@ -210,6 +217,7 @@ public class LastKnightGameScreen extends Screen {
         treeWithPowerUp.draw(sb);
 
         timeLimitBar.render(shapeRenderer);
+        knightController.renderBulletTimer(shapeRenderer);
 
         knightController.renderIdleKnight(sb);
         knightController.renderChoppingKnight(sb);
@@ -230,6 +238,10 @@ public class LastKnightGameScreen extends Screen {
 
         sb.begin();
         sb.draw(powerUpTextLogo, 30, 80);
+        font.getData().setScale(4f);
+//        font.draw(sb, "Game Timer: ", bulletTimerX - 350, Gdx.graphics.getHeight() - 30f);
+//        font.draw(sb, "Bullet Timer: ", bulletTimerX - 350, bulletTimerY);
+
 
         // Calculate the position to center the text on the screen
         float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
