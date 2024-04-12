@@ -119,7 +119,7 @@ public class KnightController {
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
 
-        chopSoundEffect = Gdx.audio.newSound(Gdx.files.internal("audio_cut.wav"));
+        chopSoundEffect = Gdx.audio.newSound(Gdx.files.internal("audio_cut.mp3"));
     }
 
     public void getLife1() {
@@ -343,7 +343,7 @@ public class KnightController {
         if (choppingAnimationActive) {
 
             if(playChopSound){
-                chopSoundEffect.play(settings.getSound());
+                chopSoundEffect.play(settings.getSound() * 0.5f);
                 playChopSound = false;
             }
             
