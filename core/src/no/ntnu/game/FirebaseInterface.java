@@ -1,5 +1,7 @@
 package no.ntnu.game;
 
+import no.ntnu.game.callback.FirebaseCallback;
+import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.Player;
 
 /**
@@ -9,16 +11,15 @@ import no.ntnu.game.firestore.Player;
  */
 public interface FirebaseInterface {
 
-    // TODO: Remove Test Function
-    void SomeFunction();
+    void savePlayer(Player player);
 
-    String SerializeClass(FirebaseClass object);
+    void getPlayer(String username, FirebaseCallback<Player> callback);
 
-    void getPlayer(String username, PlayerCallback callback);
+    void getRoomByCode(String code, FirebaseCallback<GameRoom> callback);
 
-    void joinRoom(String code, Player player, JoinRoomCallback callback);
+    void saveRoom(GameRoom room, FirebaseCallback<GameRoom> callback);
 
-
+    void createRoomListener(GameRoom room, FirebaseCallback<GameRoom> callback);
 
 }
 

@@ -9,10 +9,14 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import no.ntnu.game.Controllers.GameRoomController;
+import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.FirebaseInterface;
 import no.ntnu.game.StarKnight;
+import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.factory.textfield.TextFieldFactory;
+import no.ntnu.game.firestore.GameRoom;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -26,28 +30,25 @@ public class CreateOrJoinRoomScreen extends Screen {
 
     private Stage stage;
     private TextField roomId;
-    private Skin skin; // libGDX skins provide styling for UI widgets
-
-    private SpriteBatch batch;
-//    private ShapeRenderer shapeRenderer;
 
     private Texture logo;
 
     BitmapFont font; // Declare the font variable
     private ShapeRenderer shapeRenderer;
-    private SpriteBatch spriteBatch;
 
     private Button createRoomButton;
 
     private Button joinRoomButton;
-    private FirebaseInterface FI;
 
-    // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
-    // there will be two buttons, one for creating a room and one for joining a room.
+    private PlayerController playerController;
+    private GameRoomController gameRoomController;
 
     public CreateOrJoinRoomScreen(ScreenManager gvm) {
         super(gvm);
-        FI = StarKnight.getFirebaseInterface();
+
+        playerController = PlayerController.getPlayerController();
+        gameRoomController = GameRoomController.getInstance();
+
         logo = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
@@ -62,7 +63,19 @@ public class CreateOrJoinRoomScreen extends Screen {
         joinRoomButton = rectButtonFactory.createButton("Join", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gvm.set(new MainMenuScreen(gvm));
+                gameRoomController.joinGameRoom(playerController.getPlayer(), roomId.getText().toUpperCase(), new FirebaseCallback<GameRoom>() {
+                    @Override
+                    public void onCallback(GameRoom result) {
+                        if (result != null) {
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    gvm.set(new CreateGameLobbyScreen(gvm));
+                                }
+                            });
+                        }
+                    }
+                });
                 return true; // Indicate that the touch event is handled
             }
         });
@@ -72,9 +85,21 @@ public class CreateOrJoinRoomScreen extends Screen {
         createRoomButton = rectButtonFactory.createButton("Create", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                gameRoomController.createGameRoom(playerController.getPlayer(), new FirebaseCallback<GameRoom>() {
+                    @Override
+                    public void onCallback(GameRoom result) {
+                        if (result != null) {
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    gvm.set(new CreateGameLobbyScreen(gvm));
+                                }
+                            });
+                        }
 
-                gvm.set(new CreateGameLobbyScreen(gvm));
-                return true; // Indicate that the touch event is handled
+                    }
+                });
+                return true;
             }
         });
 

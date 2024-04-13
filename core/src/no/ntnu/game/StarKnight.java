@@ -46,7 +46,7 @@ public class StarKnight extends Game {
 		spriteBatch.dispose();
 	}
 
-	public static FirebaseInterface getFirebaseInterface() {
+	public static FirebaseInterface getFirebaseInterface() throws NullPointerException {
 		if (_FI != null) {
 			return _FI;
 		} else {
