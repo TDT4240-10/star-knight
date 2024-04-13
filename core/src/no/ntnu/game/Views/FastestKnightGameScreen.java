@@ -144,6 +144,7 @@ public class FastestKnightGameScreen extends Screen {
         exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                knightController.stopMusic();
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -223,6 +224,7 @@ public class FastestKnightGameScreen extends Screen {
         if (player_score == 0) {
             // stop timer
             timer.stop();
+            knightController.stopMusic();
             gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
         } else if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){
             // stop timer
