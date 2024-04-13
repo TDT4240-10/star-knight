@@ -151,6 +151,7 @@ public class LastKnightGameScreen extends Screen {
         exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                knightController.stopMusic();
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -206,6 +207,7 @@ public class LastKnightGameScreen extends Screen {
         if (gameStart) {
             timeLimitBar.updateTime(dt);
             if (timeLimitBar.isTimeUp()) {
+                knightController.stopMusic();
                 gvm.set(new LastKnightEndGameScreen(gvm, score));
             }
         }
@@ -229,7 +231,7 @@ public class LastKnightGameScreen extends Screen {
         score = knightController.getScore();
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-            knightController.stopMusic();
+
             gvm.set(new LastKnightEndGameScreen(gvm, score));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };
