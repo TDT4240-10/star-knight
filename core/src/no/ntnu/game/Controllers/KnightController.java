@@ -136,7 +136,14 @@ public class KnightController {
         powerUpX2 = powerUpX1 - life1.textureRegion.getRegionWidth() - 200;
         powerUpX3 = powerUpX2 - life1.textureRegion.getRegionWidth() - 200;
 
+        settings = Settings.getInstance();
 
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("HinaCC0_011_Fallen_leaves(chosic.com).mp3"));
+        backgroundMusic.setVolume(settings.getMusic());
+        backgroundMusic.setLooping(true);
+        backgroundMusic.play();
+
+        chopSoundEffect = Gdx.audio.newSound(Gdx.files.internal("audio_cut.mp3"));
     }
 
     public void getLife1() {
@@ -213,15 +220,6 @@ public class KnightController {
         }
 
         this.tree = tree;
-
-        settings = Settings.getInstance();
-
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("HinaCC0_011_Fallen_leaves(chosic.com).mp3"));
-        backgroundMusic.setVolume(settings.getMusic());
-        backgroundMusic.setLooping(true);
-        backgroundMusic.play();
-
-        chopSoundEffect = Gdx.audio.newSound(Gdx.files.internal("audio_cut.wav"));
     }
 
     public void removePowerUp() {
@@ -282,6 +280,7 @@ public class KnightController {
 
 
         }
+
     }
 
     // stayRight() is used when knight's direction is right and right button is clicked
@@ -420,7 +419,7 @@ public class KnightController {
         if (choppingAnimationActive) {
 
             if(playChopSound){
-                chopSoundEffect.play(settings.getSound());
+                chopSoundEffect.play(settings.getSound() * 0.5f);
                 playChopSound = false;
             }
 
@@ -643,5 +642,4 @@ public class KnightController {
     };
 
 }
-
 

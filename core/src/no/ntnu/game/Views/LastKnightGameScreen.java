@@ -93,7 +93,6 @@ public class LastKnightGameScreen extends Screen {
         deadKnightSprite = new DeadKnightSprite();
 
         knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
-        knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
@@ -230,6 +229,7 @@ public class LastKnightGameScreen extends Screen {
         score = knightController.getScore();
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
+            knightController.stopMusic();
             gvm.set(new LastKnightEndGameScreen(gvm, score));
 //            gvm.set(new YouLoseGameScreen(gvm));
         };
