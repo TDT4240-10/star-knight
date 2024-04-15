@@ -96,10 +96,7 @@ public class GameRoomController {
         createGameRoom(player, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
-                if (result == null) {
-                    callback.onCallback(result);
-                    return;
-                }
+                if (result == null) { return; }
                 createRoomListener();
                 callback.onCallback(result);
             }
@@ -214,6 +211,14 @@ public class GameRoomController {
         this.room.getJoiningPlayerState().decrementScore(amount);
     }
 
+    public void setCreatingPlayerScore(int amount) {
+        this.room.getCreatingPlayerState().setScore(amount);
+    }
+
+    public void setJoiningPlayerScore(int amount) {
+        this.room.getCreatingPlayerState().setScore(amount);
+    }
+
     public void updateHighScores() {
         if (room.getGameMode().equals(GameRoom.GameMode.LAST_KNIGHT)) {
             if (room.getCreatingPlayerState().getScore() > room.getCreatingPlayer().getHighScore()) {
@@ -227,7 +232,17 @@ public class GameRoomController {
                 }
             }
         } else {
-            // TODO Add logic for saving fastest time to 30 to player model.
+
+            if (room.getCreatingPlayerState().getScore() < room.getCreatingPlayer().getFastestTime()) {
+                room.getCreatingPlayer().setFastestTime(room.getCreatingPlayerState().getScore());
+                fi.savePlayer(room.getCreatingPlayer());
+            }
+            if (roomType.equals(RoomType.ONLINE)) {
+                if (room.getJoiningPlayerState().getScore() < room.getJoiningPlayer().getFastestTime()) {
+                    room.getJoiningPlayer().setFastestTime(room.getJoiningPlayerState().getScore());
+                    fi.savePlayer(room.getJoiningPlayer());
+                }
+            }
         }
     }
 

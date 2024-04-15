@@ -107,9 +107,11 @@ public class MainMenuScreen extends Screen {
     @Override
     public void render(SpriteBatch sb) {
         final String HIGHSCORE_STRING = "Your highscore: " + playerController.getPlayer().getHighScore().toString();
+        final String FASTEST_STRING = "Your fastest time: " + playerController.getPlayer().getFastestTime().toString();
         final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
         final float CENTER_USERNAME_X = calculateCenterX(playerController.getPlayer().getUsername(), font);
         final float CENTER_USER_HIGHSCORE_X = calculateCenterX(HIGHSCORE_STRING, font);
+        final float CENTER_USER_FASTEST_X = calculateCenterX(FASTEST_STRING, font);
 
 
         // Clear the screen with grey color
@@ -125,6 +127,7 @@ public class MainMenuScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
+        font.draw(sb, FASTEST_STRING, CENTER_USER_FASTEST_X, 1100);
         font.draw(sb, HIGHSCORE_STRING, CENTER_USER_HIGHSCORE_X, 1150);
         font.draw(sb, playerController.getPlayer().getUsername(), CENTER_USERNAME_X, 1200);
         font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);

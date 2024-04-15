@@ -463,6 +463,10 @@ public class KnightController {
         return "continue";
     }
 
+    public void setScore(int amount) {
+        this.scoreCounter.setScore(amount);
+    }
+
     public String getKnightOppositeDirection() {
         if (Objects.equals(knight.getDirection(), "left")) {
             return "right";

@@ -13,6 +13,7 @@ public class Player extends FirebaseClass {
     public Player(String username) {
         this.username = username;
         this.highScore = 0;
+        this.fastestTime = 9999;
         this.setDocumentId(UUID.randomUUID().toString());
     }
 

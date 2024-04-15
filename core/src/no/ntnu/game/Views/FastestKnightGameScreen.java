@@ -217,11 +217,13 @@ public class FastestKnightGameScreen extends Screen {
         knightController.renderLife3(sb);
 
         player_score = knightController.getScore();
-//        player_score = 1234;
 
-        if ((player_score == 0)) {
+        if (player_score == 0) {
             // stop timer
             timer.stop();
+            // TODO: Change from casting to some other method
+            // TODO: Updates even when loosing
+            knightController.setScore((int) timer.getElapsedTime());
             gameRoomController.gameOver();
             gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
         } else if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){

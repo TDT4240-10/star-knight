@@ -39,6 +39,16 @@ public class Score {
         }
     }
 
+    public void setScore(int score) {
+        GameRoomController.Actor actor = gameRoomController.getRoomActor();
+
+        if (actor.equals(GameRoomController.Actor.CREATING)) {
+            gameRoomController.setCreatingPlayerScore(score);
+        } else {
+            gameRoomController.setJoiningPlayerScore(score);
+        }
+    }
+
 
     public int getLocalPlayerScore() {
         GameRoomController.Actor actor = gameRoomController.getRoomActor();
