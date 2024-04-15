@@ -92,6 +92,7 @@ public class GameRoomController {
     }
 
     public void createOnlineRoom(Player player, FirebaseCallback<GameRoom> callback) {
+        roomType = RoomType.ONLINE;
         createGameRoom(player, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
@@ -100,7 +101,6 @@ public class GameRoomController {
                     return;
                 }
                 createRoomListener();
-                roomType = RoomType.ONLINE;
                 callback.onCallback(result);
             }
         });
@@ -195,26 +195,26 @@ public class GameRoomController {
 
     }
     public void incrementCreatingPlayerScore(int amount) {
-        stateChanged();
         this.room.getCreatingPlayerState().incrementScore(amount);
     }
 
     public void incrementJoiningPlayerScore(int amount) {
-        stateChanged();
         this.room.getJoiningPlayerState().incrementScore(amount);
     }
 
+    public void setGameStatusPlaying() {
+        this.room.setGameStatus(GameRoom.GameStatus.PLAYING);
+    }
+
     public void decrementCreatingPlayerScore(int amount) {
-        stateChanged();
         this.room.getCreatingPlayerState().decrementScore(amount);
     }
 
     public void decrementJoiningPlayerScore(int amount) {
-        stateChanged();
         this.room.getJoiningPlayerState().decrementScore(amount);
     }
 
-    public void gameOver() {
+    public void updateHighScores() {
         if (room.getGameMode().equals(GameRoom.GameMode.LAST_KNIGHT)) {
             if (room.getCreatingPlayerState().getScore() > room.getCreatingPlayer().getHighScore()) {
                 room.getCreatingPlayer().setHighScore(room.getCreatingPlayerState().getScore());
@@ -229,7 +229,12 @@ public class GameRoomController {
         } else {
             // TODO Add logic for saving fastest time to 30 to player model.
         }
+    }
 
+    public void gameOver() {
+        this.room.setGameStatus(GameRoom.GameStatus.COMPLETE);
+        stateChanged();
+        updateHighScores();
     }
 
 }

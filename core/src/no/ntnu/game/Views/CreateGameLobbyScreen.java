@@ -112,7 +112,7 @@ public class CreateGameLobbyScreen extends Screen {
         if (currentMode == null) {
             return;
         }
-
+        gameRoomController.setGameStatusPlaying();
         if (currentMode.equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
             gvm.set(new FastestKnightGameScreen(gvm));
         } else { gvm.set(new LastKnightGameScreen(gvm));
@@ -141,6 +141,11 @@ public class CreateGameLobbyScreen extends Screen {
             if (gameRoomController.getGameStartCoundown() == 0) {
                 setGameScreen();
             }
+        }
+
+        // Since clocks can be slightly off, the other client might start the game before the countdown is complete on current device. If that happens we can just start the game on this device.
+        if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.PLAYING)) {
+            setGameScreen();
         }
         String roomCode = gameRoomController.getGameRoom().getRoomCode();
         GameRoom.GameMode gameMode = gameRoomController.getCurrentGameMode();

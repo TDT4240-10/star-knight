@@ -24,6 +24,7 @@ import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.GameRoom;
 
 /**
  * Game Screen View class to render StarKnight game
@@ -215,7 +216,7 @@ public class LastKnightGameScreen extends Screen {
 
         score = knightController.getScore();
 
-        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
+        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose") || gameRoomController.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
             gameRoomController.gameOver();
             gvm.set(new LastKnightEndGameScreen(gvm, score));
 //            gvm.set(new YouLoseGameScreen(gvm));
