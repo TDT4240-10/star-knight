@@ -1,5 +1,8 @@
 package no.ntnu.game.Controllers;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import no.ntnu.game.FirebaseInterface;
 import no.ntnu.game.StarKnight;
 import no.ntnu.game.callback.FirebaseCallback;
@@ -60,6 +63,25 @@ public class GameRoomController {
         });
     }
 
+    public long getGameStartCoundown() {
+        if (this.room.getGameStartTime() != null) {
+            long diffMilli = this.room.getGameStartTime().getTime() - new Date().getTime();
+            return diffMilli / 1000;
+        }
+        return 0;
+    }
+
+    public void startGame() {
+        this.room.setGameStatus(GameRoom.GameStatus.STARTING);
+
+        // Set the start time of the game 10 seconds from now.
+        Calendar gameStartTime = Calendar.getInstance();
+        gameStartTime.add(Calendar.SECOND, 20);
+        this.room.setGameStartTime(gameStartTime.getTime());
+
+        stateChanged();
+    }
+
     public void createSoloRoom(Player player) {
         createGameRoom(player, new FirebaseCallback<GameRoom>() {
             @Override
@@ -73,6 +95,10 @@ public class GameRoomController {
         createGameRoom(player, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
+                if (result == null) {
+                    callback.onCallback(result);
+                    return;
+                }
                 createRoomListener();
                 roomType = RoomType.ONLINE;
                 callback.onCallback(result);
@@ -119,6 +145,10 @@ public class GameRoomController {
         fi.saveRoom(newRoom, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
+                if (result == null) {
+                    callback.onCallback(null);
+                    return;
+                }
                 room = result;
                 roomActor = Actor.CREATING;
                 callback.onCallback(result);
@@ -144,6 +174,10 @@ public class GameRoomController {
     public void setGameStatus(GameRoom.GameStatus status) {
         this.room.setGameStatus(status);
         stateChanged();
+    }
+
+    public GameRoom.GameStatus getGameStatus() {
+        return this.room.getStatus();
     }
 
     // Method to get the current game mode

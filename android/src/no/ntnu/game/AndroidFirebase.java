@@ -94,6 +94,7 @@ public class AndroidFirebase implements FirebaseInterface {
             @Override
             public void onFailure(@NonNull Exception e) {
                 callback.onCallback(null);
+                System.out.println(e);
             }
         });
     }

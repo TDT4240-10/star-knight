@@ -14,9 +14,10 @@ public class GameRoom extends FirebaseClass {
     }
 
     public enum GameStatus {
-        CREATED, LOBBY, PLAYING, COMPLETE
+        CREATED, LOBBY, STARTING, PLAYING, COMPLETE
     }
     private String roomCode;
+    private Date gameStartTime;
 
     private GameMode currentGameMode;
     private Player creatingPlayer;
@@ -90,6 +91,10 @@ public class GameRoom extends FirebaseClass {
     }
 
     public void setGameMode(GameMode mode) {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        for (StackTraceElement element : stackTrace) {
+            System.out.println(element.getClassName() + "." + element.getMethodName() + "()");
+        }
         if (mode == null) {
             return;
         }
@@ -121,5 +126,13 @@ public class GameRoom extends FirebaseClass {
 
     public void setJoiningPlayerState(GameState joiningPlayerState) {
         this.joiningPlayerState = joiningPlayerState;
+    }
+
+    public Date getGameStartTime() {
+        return gameStartTime;
+    }
+
+    public void setGameStartTime(Date gameStartTime) {
+        this.gameStartTime = gameStartTime;
     }
 }

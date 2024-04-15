@@ -1,5 +1,6 @@
 package no.ntnu.game.Views;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
@@ -75,16 +76,7 @@ public class CreateGameLobbyScreen extends Screen {
         startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                GameRoom.GameMode currentMode = gameRoomController.getCurrentGameMode();
-                if (currentMode == null) {
-                    return false;
-                }
-
-                if (currentMode.equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
-                    gvm.set(new FastestKnightGameScreen(gvm));
-                } else { gvm.set(new LastKnightGameScreen(gvm));
-                }
-                gameRoomController.setGameStatus(GameRoom.GameStatus.PLAYING);
+                gameRoomController.startGame();
                 return true;
             }
         });
@@ -115,6 +107,18 @@ public class CreateGameLobbyScreen extends Screen {
 
     }
 
+    private void setGameScreen() {
+        GameRoom.GameMode currentMode = gameRoomController.getCurrentGameMode();
+        if (currentMode == null) {
+            return;
+        }
+
+        if (currentMode.equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
+            gvm.set(new FastestKnightGameScreen(gvm));
+        } else { gvm.set(new LastKnightGameScreen(gvm));
+        }
+    }
+
     public float calculateCenterX(String text, BitmapFont font) {
         GlyphLayout layout = new GlyphLayout();
         layout.setText(font, text);
@@ -133,6 +137,11 @@ public class CreateGameLobbyScreen extends Screen {
     @Override
     public void render(SpriteBatch sb) {
         String usernames = getUsernames();
+        if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
+            if (gameRoomController.getGameStartCoundown() == 0) {
+                setGameScreen();
+            }
+        }
         String roomCode = gameRoomController.getGameRoom().getRoomCode();
         GameRoom.GameMode gameMode = gameRoomController.getCurrentGameMode();
         final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomCode, font);
@@ -155,10 +164,15 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
+
+
         font.draw(sb, "Room ID: " + roomCode, CENTER_ROOMID_X, 1330);
         font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
         font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
-
+        if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
+            final float CENTER_COUNTDOWN = calculateCenterX("Game starting in: " + gameRoomController.getGameStartCoundown(), font);
+            font.draw(sb, "Game starting in: " + gameRoomController.getGameStartCoundown(), CENTER_COUNTDOWN, 1030);
+        }
         sb.end();
 
 
