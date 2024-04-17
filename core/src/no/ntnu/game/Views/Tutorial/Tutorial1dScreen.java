@@ -2,11 +2,9 @@ package no.ntnu.game.Views.Tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.Views.Tutorial.Tutorial1cScreen;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
@@ -24,14 +21,9 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class Tutorial1dScreen extends Screen {
-    private Texture powerUp;
-    BitmapFont font; // Declare the font variable
-
-    private Button backwardButton;
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    private Stage stage;
+    private final Texture powerUp;
+    private final BitmapFont font; // Declare the font variable
+    private final Stage stage;
 
     public Tutorial1dScreen(ScreenManager gvm) {
         super(gvm);
@@ -39,12 +31,10 @@ public class Tutorial1dScreen extends Screen {
 
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-
-        backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
+        Button backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1cScreen(gvm));
@@ -52,7 +42,7 @@ public class Tutorial1dScreen extends Screen {
             }
         });
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -78,7 +68,6 @@ public class Tutorial1dScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
-
     }
 
     public float centerButtonX(Button button) {

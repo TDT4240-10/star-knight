@@ -2,7 +2,6 @@ package no.ntnu.game.Views.Tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,20 +24,13 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 public class Tutorial1bScreen extends Screen {
     private VideoPlayer videoPlayer;
     SpriteBatch batch;
-
-    private Button forwardButton;
-
-    private Button backwardButton;
-    private Button exitButton;
-
-    private Stage stage;
-
+    private final Stage stage;
     public Tutorial1bScreen(ScreenManager gvm) {
         super(gvm);
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
+        Button forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1cScreen(gvm));
@@ -46,7 +38,7 @@ public class Tutorial1bScreen extends Screen {
             }
         });
 
-        backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
+        Button backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1aScreen(gvm));
@@ -54,7 +46,7 @@ public class Tutorial1bScreen extends Screen {
             }
         });
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));

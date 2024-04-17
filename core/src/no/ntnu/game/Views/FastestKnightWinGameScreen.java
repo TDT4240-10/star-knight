@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,18 +20,17 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class FastestKnightWinGameScreen extends Screen {
-    private Texture logo;
-    BitmapFont font; // Declare the font variable
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
 
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
+    private final ShapeRenderer shapeRenderer;
     // private LoseDeadKnightSprite loseDeadKnightSprite;
-    private WinRunningKnightSprite winRunningKnightSprite;
-    private float knightX, knightY;
-    private float knightSpeed = 400; // Pixels per second
-    private float time_elapsed;
-    private Stage stage;
+    private final WinRunningKnightSprite winRunningKnightSprite;
+    private final float time_elapsed;
+    private final Stage stage;
+    private final float knightSpeed = 400; // Pixels per second
+    private int KNIGHT_X = 0;
+    private final int KNIGHT_Y = 900;
 
     // private SpriteBatch spriteBatch;
     public FastestKnightWinGameScreen(ScreenManager gvm, float time_elapsed) {
@@ -45,14 +43,11 @@ public class FastestKnightWinGameScreen extends Screen {
 
         // loseDeadKnightSprite = new LoseDeadKnightSprite();
         winRunningKnightSprite = new WinRunningKnightSprite();
-
-        knightX = 0;
-        knightY = 900;
-
         this.time_elapsed = time_elapsed;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -91,14 +86,11 @@ public class FastestKnightWinGameScreen extends Screen {
 
         sb.end();
 
-        // loseDeadKnightSprite.setPosition(knightX, knightY);
-        // loseDeadKnightSprite.render(sb);
-
         // to ensure the knight is moving at the same speed on all devices
         float dt = Gdx.graphics.getDeltaTime();
         update(dt);
 
-        winRunningKnightSprite.setPosition(knightX, knightY);
+        winRunningKnightSprite.setPosition(KNIGHT_X, KNIGHT_Y);
         winRunningKnightSprite.render(sb);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
@@ -108,7 +100,6 @@ public class FastestKnightWinGameScreen extends Screen {
         // draw stage and text field
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-
     }
 
     @Override
@@ -118,9 +109,9 @@ public class FastestKnightWinGameScreen extends Screen {
 
     @Override
     public void update(float dt) {
-        knightX += knightSpeed * dt;
-        if (knightX > Gdx.graphics.getWidth()) {
-            knightX = -winRunningKnightSprite.getWidth();
+        KNIGHT_X += knightSpeed * dt;
+        if (KNIGHT_X > Gdx.graphics.getWidth()) {
+            KNIGHT_X = -winRunningKnightSprite.getWidth();
         }
     }
 
@@ -135,10 +126,11 @@ public class FastestKnightWinGameScreen extends Screen {
 
     }
 
+    @SuppressWarnings("DefaultLocale")
     private String formatTime(float time) {
-        int hours = (int) (time / 3600);
-        int minutes = (int) ((time % 3600) / 60);
-        int seconds = (int) (time % 60);
+        final int hours = (int) (time / 3600);
+        final int minutes = (int) ((time % 3600) / 60);
+        final int seconds = (int) (time % 60);
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 

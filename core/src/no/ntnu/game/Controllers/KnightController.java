@@ -1,6 +1,5 @@
 package no.ntnu.game.Controllers;
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -24,7 +23,8 @@ import no.ntnu.game.Views.Sprites.DeadKnightSprite;
 import no.ntnu.game.Views.Sprites.IdleKnightSprite;
 
 /**
- * KnightController class is the main controller class to handle knight sprites, tree and collision logic.
+ * KnightController class is the main controller class to handle knight sprites,
+ * tree and collision logic.
  *
  * @author Han
  */
@@ -51,9 +51,9 @@ public class KnightController {
     private boolean playChopSound = true;
     private float elapsedTime = 0;
     private TimeLimitBar timeLimitBar;
-    private float maxTimeLimit;
 
-    // Adjust the time to add for LastKnight, when knight successfully chops a tree branch here
+    // Adjust the time to add for LastKnight, when knight successfully chops a tree
+    // branch here
     // Lower = more difficult, Higher time = easier
     private float timeToAdd = 0.2f;
 
@@ -61,15 +61,11 @@ public class KnightController {
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
-    private PowerUp doublepoints;
-    private PowerUp bullet;
-
 
     private float powerUpY = 30;
     private float powerUpX1;
     private float powerUpX2;
     private float powerUpX3;
-    private float time;
     private boolean life1Active = false;
     private boolean life2Active = false;
     private boolean life3Active = false;
@@ -77,31 +73,30 @@ public class KnightController {
     private boolean bulletActive = false;
 
     private boolean playerDied = false;
-    private PowerUpFactory powerUpFactory;
 
     private Score scoreCounter;
-    //    private Timer timer;
     private Settings settings;
     private Sound chopSoundEffect;
     public GameRoomController gameRoomController;
     private TimeLimitBar bulletTimer;
     private float bulletTimerX;
     private float bulletTimerY;
-    private boolean moreThanOneBullet = false;
 
-
-    // Constructor with idle knight sprite X, Y coordinates and tree model attributes
-    public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar, float maxTimeLimit) {
+    // Constructor with idle knight sprite X, Y coordinates and tree model
+    // attributes
+    public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar,
+            float maxTimeLimit) {
         this.gamemode = gamemode;
         gameRoomController = GameRoomController.getInstance();
         scoreCounter = new Score();
 
         bulletTimer = new TimeLimitBar(2f, 2f, 300f, 20f, -99999, -99999);
-//        bulletTimer = new TimeLimitBar(5f, 5f, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 100f);
+        // bulletTimer = new TimeLimitBar(5f, 5f, 300f, 20f, (Gdx.graphics.getWidth() -
+        // 300f) / 2, Gdx.graphics.getHeight() - 100f);
         bulletTimerX = (Gdx.graphics.getWidth() - 300f) / 2;
         bulletTimerY = Gdx.graphics.getHeight() - 100f;
 
-//        timer = new Timer();
+        // timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
@@ -114,8 +109,8 @@ public class KnightController {
         life1.setPosition(-99999, -99999);
         life2.setPosition(-99999, -99999);
         life3.setPosition(-99999, -99999);
-        doublepoints = PowerUpFactory.createDoublePoints();
-        bullet = PowerUpFactory.createBullet();
+        PowerUpFactory.createDoublePoints();
+        PowerUpFactory.createBullet();
         phoneWidth = Gdx.graphics.getWidth();
 
         knight.setDirection("left");
@@ -126,7 +121,6 @@ public class KnightController {
 
         this.tree = tree;
         this.timeLimitBar = timeLimitBar;
-        this.maxTimeLimit = maxTimeLimit;
 
         // Set Power Up position
         System.out.println(life1.textureRegion.getRegionWidth());
@@ -178,8 +172,7 @@ public class KnightController {
         if (Objects.equals(powerUp, null)) {
             System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
             System.out.println("chopped tree with no powerup");
-        }
-        else {
+        } else {
             if (Objects.equals(powerUp.getName(), "heart")) {
                 System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
                 System.out.println("chopped tree with heart");
@@ -187,24 +180,20 @@ public class KnightController {
                 // Adding life powerup
                 if (life2Active) {
                     getLife3();
-                }
-                else if (life1Active){
+                } else if (life1Active) {
                     getLife2();
-                }
-                else {
+                } else {
                     getLife1();
                 }
             } else if (Objects.equals(powerUp.getName(), "shield")) {
                 System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
                 System.out.println("chopped tree with shield");
-            }
-            else if (Objects.equals(powerUp.getName(), "double")) {
+            } else if (Objects.equals(powerUp.getName(), "double")) {
                 System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
                 System.out.println("chopped tree with double");
                 // Adding double points
                 getDouble(powerUp);
-            }
-            else if (Objects.equals(powerUp.getName(), "bullet")) {
+            } else if (Objects.equals(powerUp.getName(), "bullet")) {
                 System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
                 System.out.println("chopped tree with bullet");
                 // Adding double points
@@ -213,23 +202,19 @@ public class KnightController {
                 }
                 bulletActive = true;
                 bulletTimer.setPosition(bulletTimerX, bulletTimerY - 50);
-//                getBullet(powerUp);
+                // getBullet(powerUp);
             }
         }
-
-        this.tree = tree;
     }
 
     public void removePowerUp() {
         if (life3Active) {
             life3.setPosition(-99999, -99999);
             life3Active = false;
-        }
-        else if (life2Active) {
+        } else if (life2Active) {
             life2.setPosition(-99999, -99999);
             life2Active = false;
-        }
-        else if (life1Active) {
+        } else if (life1Active) {
             life1.setPosition(-99999, -99999);
             life1Active = false;
         }
@@ -237,7 +222,8 @@ public class KnightController {
 
     // Methods to interact with the knight
 
-    // moveRight() is used when knight's direction is left and right button is clicked
+    // moveRight() is used when knight's direction is left and right button is
+    // clicked
     public void moveRight() {
         if (!playerDied) {
             knight.setDirection("right");
@@ -249,7 +235,7 @@ public class KnightController {
             System.out.println("move right, tree is: " + lowestTreePart.getValue());
 
             // If knight in opposite direction as branch -> no collision
-            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive){
+            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -276,19 +262,19 @@ public class KnightController {
                 elapsedTime = 0;
             }
 
-
         }
 
     }
 
-    // stayRight() is used when knight's direction is right and right button is clicked
+    // stayRight() is used when knight's direction is right and right button is
+    // clicked
     public void stayRight() {
         if (!playerDied) {
             knight.setDirection("right");
             TreePart lowestTreePart = tree.trees.get(0);
             System.out.println("stay right, tree is: " + lowestTreePart.getValue());
 
-            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive){
+            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -316,7 +302,8 @@ public class KnightController {
         }
     }
 
-    // moveLeft() is used when knight's direction is right and left button is clicked
+    // moveLeft() is used when knight's direction is right and left button is
+    // clicked
     public void moveLeft() {
         if (!playerDied) {
             knight.setDirection("left");
@@ -327,7 +314,7 @@ public class KnightController {
             TreePart lowestTreePart = tree.trees.get(0);
             System.out.println("move left, tree is: " + lowestTreePart.getValue());
 
-            if(!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
+            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -361,7 +348,7 @@ public class KnightController {
             TreePart lowestTreePart = tree.trees.get(0);
             System.out.println("stay left, tree is: " + lowestTreePart.getValue());
 
-            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive){
+            if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
 
                 idleKnightSprite.setPosition(-99999, -99999);
@@ -395,15 +382,7 @@ public class KnightController {
     // chop tree function,
     // to add a new tree after chopping
     public String update(float delta) {
-        // Get the current lowest tree part=
         TreePart lowestTreePart = tree.trees.get(0);
-        if (lowestTreePart.getPowerup() != null){
-            String powerUp = lowestTreePart.getPowerup().getName();
-            //System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", " + powerUp);
-        }
-        else{
-            //System.out.println("lowest tree direction: " + lowestTreePart.getValue() + ", no powerup");
-        }
 
         if (bulletActive) {
             bulletTimer.updateTime(delta);
@@ -416,7 +395,7 @@ public class KnightController {
         // Logic to run chopping knight animation
         if (choppingAnimationActive) {
 
-            if(playChopSound){
+            if (playChopSound) {
                 chopSoundEffect.play(settings.getSound() * 0.5f);
                 playChopSound = false;
             }
@@ -439,7 +418,8 @@ public class KnightController {
                     tree.chop();
                     tree.createNewTrunk();
 
-                    // if game mode is last knight standing, increment score, else if game mode is fastest knight, decrement score
+                    // if game mode is last knight standing, increment score, else if game mode is
+                    // fastest knight, decrement score
                     if (Objects.equals(gamemode, "last_knight")) {
                         if (DoubleActive) {
                             scoreCounter.incrementScore(2);
@@ -464,7 +444,8 @@ public class KnightController {
                         tree.chop();
                         tree.createNewTrunk();
 
-                        // if game mode is last knight standing, increment score, else if game mode is fastest knight, decrement score
+                        // if game mode is last knight standing, increment score, else if game mode is
+                        // fastest knight, decrement score
                         if (Objects.equals(gamemode, "last_knight")) {
                             if (DoubleActive) {
                                 scoreCounter.incrementScore(2);
@@ -495,8 +476,7 @@ public class KnightController {
                     }
                 }
             }
-        }
-        else {
+        } else {
             playChopSound = true;
         }
 
@@ -523,8 +503,7 @@ public class KnightController {
                         idleKnightSprite.setPosition(knightLeftX, knightY);
                         deadKnightSprite.setPosition(-99999, -99999);
                         currentKnightX = knightLeftX;
-                    }
-                    else{
+                    } else {
                         idleKnightSprite.setPosition(knightRightX, knightY);
                         deadKnightSprite.setPosition(-99999, -99999);
                         currentKnightX = knightRightX;
@@ -533,7 +512,6 @@ public class KnightController {
                     idleKnightSprite.flipDirection();
                     choppingKnightSprite.flipDirection();
                     deadKnightSprite.flipDirection();
-
 
                     return "continue";
                 }
@@ -593,12 +571,12 @@ public class KnightController {
     }
 
     public void renderChoppingKnight(SpriteBatch batch) {
-//        choppingKnightSprite.startAnimation();
+        // choppingKnightSprite.startAnimation();
         choppingKnightSprite.render(batch);
     }
 
     public void renderDeadKnight(SpriteBatch batch) {
-//        choppingKnightSprite.startAnimation();
+        // choppingKnightSprite.startAnimation();
         deadKnightSprite.render(batch);
     }
 
@@ -637,11 +615,10 @@ public class KnightController {
 
     public void stopMusic() {
         if (backgroundMusic != null) {
-            if(backgroundMusic.isPlaying()) {
+            if (backgroundMusic.isPlaying()) {
                 backgroundMusic.stop();
             }
         }
     };
 
 }
-

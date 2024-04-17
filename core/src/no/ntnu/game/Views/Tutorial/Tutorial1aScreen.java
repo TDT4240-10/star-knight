@@ -2,11 +2,9 @@ package no.ntnu.game.Views.Tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,16 +21,10 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class Tutorial1aScreen extends Screen {
-    private Texture logo;
-    private Texture text;
-    BitmapFont font; // Declare the font variable
-
-    private Button forwardButton;
-
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    private Stage stage;
+    private final Texture logo;
+    private final Texture text;
+    private final BitmapFont font;
+    private final Stage stage;
 
     public Tutorial1aScreen(ScreenManager gvm) {
         super(gvm);
@@ -40,11 +32,11 @@ public class Tutorial1aScreen extends Screen {
         text = new Texture("goal_text.jpg");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
+        // Indicate that the touch event is handled
+        Button forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1bScreen(gvm));
@@ -52,7 +44,7 @@ public class Tutorial1aScreen extends Screen {
             }
         });
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));

@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,18 +20,14 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class FastestKnightLoseGameScreen extends Screen {
-    private Texture logo;
-    BitmapFont font; // Declare the font variable
-
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    private LoseDeadKnightSprite loseDeadKnightSprite;
-    // private WinRunningKnightSprite winRunningKnightSprite;
-    private float knightX, knightY;
-    private float knightSpeed = 300; // Pixels per second
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final ShapeRenderer shapeRenderer;
+    private final LoseDeadKnightSprite loseDeadKnightSprite;
     private float time_elapsed;
     private Stage stage;
+    private final int KNIGHT_X = 300;
+    private final int KNIGHT_Y = 900;
 
     // private SpriteBatch spriteBatch;
     public FastestKnightLoseGameScreen(ScreenManager gvm, float time_elapsed) {
@@ -44,15 +39,11 @@ public class FastestKnightLoseGameScreen extends Screen {
         shapeRenderer = new ShapeRenderer();
 
         loseDeadKnightSprite = new LoseDeadKnightSprite();
-        // winRunningKnightSprite = new WinRunningKnightSprite();
-
-        knightX = 300;
-        knightY = 900;
-
         this.time_elapsed = time_elapsed;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -95,7 +86,7 @@ public class FastestKnightLoseGameScreen extends Screen {
         float dt = Gdx.graphics.getDeltaTime();
         update(dt);
 
-        loseDeadKnightSprite.setPosition(knightX, knightY);
+        loseDeadKnightSprite.setPosition(KNIGHT_X, KNIGHT_Y);
         loseDeadKnightSprite.render(sb);
 
         shapeRenderer.end();

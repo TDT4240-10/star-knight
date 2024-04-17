@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -11,8 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.FirebaseInterface;
-import no.ntnu.game.StarKnight;
 import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.factory.textfield.TextFieldFactory;
@@ -22,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
@@ -33,21 +29,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
  */
 
 public class CreateOrJoinRoomScreen extends Screen {
-
-    private Stage stage;
-    private TextField roomId;
-
-    private Texture logo;
-
-    BitmapFont font; // Declare the font variable
-    private ShapeRenderer shapeRenderer;
-
-    private Button createRoomButton;
-
-    private Button joinRoomButton;
-
-    private PlayerController playerController;
-    private GameRoomController gameRoomController;
+    private final Stage stage;
+    private final TextField roomId;
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final ShapeRenderer shapeRenderer;
+    private final PlayerController playerController;
+    private final GameRoomController gameRoomController;
 
     public CreateOrJoinRoomScreen(ScreenManager gvm) {
         super(gvm);
@@ -66,7 +54,8 @@ public class CreateOrJoinRoomScreen extends Screen {
         roomId.setSize(400, 200);
         roomId.setPosition((float) (Gdx.graphics.getWidth() / 2) - 200, 1050);
 
-        joinRoomButton = rectButtonFactory.createButton("Join", new InputListener() {
+        // Indicate that the touch event is handled
+        Button joinRoomButton = rectButtonFactory.createButton("Join", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameRoomController.joinGameRoom(playerController.getPlayer(), roomId.getText().toUpperCase(),
@@ -89,7 +78,7 @@ public class CreateOrJoinRoomScreen extends Screen {
 
         joinRoomButton.setSize(350, 200); // Set the size of the button
         joinRoomButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 550);
-        createRoomButton = rectButtonFactory.createButton("Create", new InputListener() {
+        Button createRoomButton = rectButtonFactory.createButton("Create", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameRoomController.createOnlineRoom(playerController.getPlayer(), new FirebaseCallback<GameRoom>() {
