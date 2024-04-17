@@ -167,6 +167,8 @@ public class FastestKnightGameScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 knightController.stopMusic();
+                timer.stop();
+                gameRoomController.gameOver();
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
