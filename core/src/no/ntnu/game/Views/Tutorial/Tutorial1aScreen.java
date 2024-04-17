@@ -1,64 +1,56 @@
-package no.ntnu.game.Views;
+package no.ntnu.game.Views.Tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.video.VideoPlayer;
-import com.badlogic.gdx.video.VideoPlayerCreator;
 
 
-import java.io.FileNotFoundException;
-
-import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.factory.button.CircleButtonFactory;
+import no.ntnu.game.Views.MainMenuScreen;
+import no.ntnu.game.Views.Screen;
+import no.ntnu.game.Views.ScreenManager;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
- * Tutorial 1c Screen, third screen for controls tutorial, with video
+ * Tutorial 1a Screen, first screen for controls tutorial
  *
  * @author Deen
  */
-public class Tutorial1cScreen extends Screen {
-    private VideoPlayer videoPlayer;
-    SpriteBatch batch;
+public class Tutorial1aScreen extends Screen {
+    private Texture logo;
+    private Texture text;
+    BitmapFont font; // Declare the font variable
 
     private Button forwardButton;
 
-    private Button backwardButton;
     private Button exitButton;
 
+    private ShapeRenderer shapeRenderer;
     private Stage stage;
 
 
-    public Tutorial1cScreen(ScreenManager gvm) {
+    public Tutorial1aScreen(ScreenManager gvm) {
         super(gvm);
+        logo = new Texture("goal.png");
+        text = new Texture("goal_text.jpg");
+        font = new BitmapFont(); // Load the font
+        font.getData().setScale(3); // Set the font scale to 2 for double size
+        shapeRenderer = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
         forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gvm.push(new Tutorial1dScreen(gvm));
-                return true; // Indicate that the touch event is handled
-            }
-        });
-
-
-        backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1bScreen(gvm));
-                return true;
+                return true; // Indicate that the touch event is handled
             }
         });
 
@@ -75,18 +67,13 @@ public class Tutorial1cScreen extends Screen {
         exitButton.setPosition(centerButtonX(exitButton), 100);
 
         float forwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) + 300;
-        float backwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) - 470 - backwardButton.getWidth();
 
         forwardButton.setSize(200, 200);
         forwardButton.setPosition(forwardButtonX, 100);
 
-        backwardButton.setSize(200, 200); // Set the size of the button
-        backwardButton.setPosition(backwardButtonX, 100);
-
         // Create the stage for the buttons
         stage = new Stage();
         stage.addActor(forwardButton);
-        stage.addActor(backwardButton);
         stage.addActor(exitButton);
 
         // Set input processors
@@ -94,9 +81,6 @@ public class Tutorial1cScreen extends Screen {
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
-        batch = new SpriteBatch();
-        create();
-        videoPlayer.setLooping(true);
     }
 
     public float centerButtonX(Button button) {
@@ -110,16 +94,24 @@ public class Tutorial1cScreen extends Screen {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (videoPlayer.isPlaying()) {
-            videoPlayer.update();
+        float logoWidth = logo.getWidth();
+        float logoHeight = logo.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float logoX = (screenWidth - logoWidth) / 2;
+        float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
-            batch.begin();
-            Texture frame = videoPlayer.getTexture();
-            if (frame != null) {
-                batch.draw(frame, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            }
-            batch.end();
-        }
+        // render text
+        float textWidth = text.getWidth();
+        float textHeight = text.getHeight();
+        float textX = (screenWidth - textWidth) / 2;
+        float textY = (screenHeight - textHeight) / 2;
+
+
+        sb.begin();
+        sb.draw(logo, logoX, logoY);
+        sb.draw(text, textX, textY);
+        sb.end();
 
         // draw stage and text field
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
@@ -136,23 +128,13 @@ public class Tutorial1cScreen extends Screen {
     }
     @Override
     public void dispose() {
-        if (videoPlayer != null) {
-            videoPlayer.stop(); // Stop the video player
-            videoPlayer.dispose(); // Dispose of the video player
-            videoPlayer = null; // Nullify the reference
-        }
+        logo.dispose();
+        text.dispose();
+        font.dispose();
         stage.dispose();
-        batch.dispose();
     }
     @Override
     public void create(){
-        videoPlayer = VideoPlayerCreator.createVideoPlayer();
 
-        try {
-            videoPlayer.play(Gdx.files.internal("tutorial_videos/move_right_tutorial_720p.webm"));
-            Gdx.app.log("Tutorial1cScreen", "Tutorial1cScreen Video loaded and should be playing.");
-        } catch (Exception e) {
-            Gdx.app.error("Tutorial1cScreen", "Tutorial1cScreen Video file not found or error playing video.", e);
-        }
     }
 }

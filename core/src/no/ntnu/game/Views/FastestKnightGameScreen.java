@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -21,6 +22,9 @@ import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
+import no.ntnu.game.Views.Sprites.ChoppingKnightSprite;
+import no.ntnu.game.Views.Sprites.DeadKnightSprite;
+import no.ntnu.game.Views.Sprites.IdleKnightSprite;
 import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
@@ -68,11 +72,26 @@ public class FastestKnightGameScreen extends Screen {
     private final BitmapFont font;
     private Timer timer;
 
+    private Texture animationTexture;
+    private TextureRegion[] animationFrames;
+    private float frameDuration = 0.1f; // Adjust this value to change animation speed
+    private float stateTime = 0f;
+
     public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
         timer = new Timer();
         font = new BitmapFont(); // Assuming you have a font for rendering text
-
+        // Load the background image
+        animationTexture = new Texture("background.png");
+        // Calculate the width of each frame
+        int frameCount = 4; // Assuming 4 frames horizontally
+        int frameWidth = animationTexture.getWidth() / frameCount;
+        // Split the texture into individual frames
+        TextureRegion[][] tmp = TextureRegion.split(animationTexture, frameWidth, animationTexture.getHeight());
+        animationFrames = new TextureRegion[frameCount];
+        for (int i = 0; i < frameCount; i++) {
+            animationFrames[i] = tmp[0][i];
+        }
         powerUpTextLogo = new Texture("power_ups.png");
 
         stage = new Stage();
@@ -203,6 +222,16 @@ public class FastestKnightGameScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
+        // Update the animation state time
+        stateTime += Gdx.graphics.getDeltaTime();
+
+        // Get the current frame index based on the state time and frame duration
+        int frameIndex = (int) (stateTime / frameDuration) % animationFrames.length;
+
+        // Draw the current frame
+        sb.begin();
+        sb.draw(animationFrames[frameIndex], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sb.end();
         treeWithPowerUp.draw(sb);
 
 //        timeLimitBar.render(shapeRenderer);
@@ -261,6 +290,8 @@ public class FastestKnightGameScreen extends Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        animationTexture.dispose();
+
     }
 
     @Override

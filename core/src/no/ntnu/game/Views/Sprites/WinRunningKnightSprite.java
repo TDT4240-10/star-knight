@@ -1,4 +1,4 @@
-package no.ntnu.game.Views;
+package no.ntnu.game.Views.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.sql.Time;
 import java.util.Objects;
 
 import no.ntnu.game.Models.KnightModel;
@@ -20,10 +19,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
-import no.ntnu.game.Views.ChoppingKnightSprite;
-import no.ntnu.game.Views.DeadKnightSprite;
-import no.ntnu.game.Views.IdleKnightSprite;
-import no.ntnu.game.Views.LastKnightEndGameScreen;
+import no.ntnu.game.Views.Sprites.ChoppingKnightSprite;
+import no.ntnu.game.Views.Sprites.DeadKnightSprite;
+import no.ntnu.game.Views.Sprites.IdleKnightSprite;
 
 /**
  * KnightController class is the main controller class to handle knight sprites, tree and collision logic.
