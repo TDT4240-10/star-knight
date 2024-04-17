@@ -1,5 +1,6 @@
 package no.ntnu.game.Views;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -17,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameController;
+import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
@@ -27,6 +29,7 @@ import no.ntnu.game.Views.Sprites.DeadKnightSprite;
 import no.ntnu.game.Views.Sprites.IdleKnightSprite;
 import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.GameRoom;
 
 /**
  * Game Screen View class to render StarKnight game
@@ -36,7 +39,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 public class FastestKnightGameScreen extends Screen {
 //    private float elapsedTime = 0;
 
-    private GameController gameController;
+    private GameRoomController gameRoomController;
 
     private Texture powerUpTextLogo;
 
@@ -79,6 +82,7 @@ public class FastestKnightGameScreen extends Screen {
 
     public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
+        gameRoomController = GameRoomController.getInstance();
         timer = new Timer();
         font = new BitmapFont(); // Assuming you have a font for rendering text
         // Load the background image
@@ -96,7 +100,6 @@ public class FastestKnightGameScreen extends Screen {
 
         stage = new Stage();
 
-        gameController = new GameController();
 
         treeWithPowerUp = new TreeWithPowerUp();
         treeWithPowerUp.init();
@@ -164,6 +167,8 @@ public class FastestKnightGameScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 knightController.stopMusic();
+                timer.stop();
+                gameRoomController.gameOver();
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -184,7 +189,7 @@ public class FastestKnightGameScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
         // Adding left and right keystrokes to move the Knight
-        Gdx.input.setInputProcessor(new InputAdapter() {
+        inputMultiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.LEFT) {
@@ -245,6 +250,7 @@ public class FastestKnightGameScreen extends Screen {
         knightController.renderLife3(sb);
 
         player_score = knightController.getScore();
+        
         if (player_score < 0) {
             player_score = 0;
         }
@@ -253,12 +259,28 @@ public class FastestKnightGameScreen extends Screen {
         if (player_score == 0) {
             // stop timer
             timer.stop();
+            // TODO: Change from casting to some other method
+            // TODO: Updates even when loosing
+            knightController.setScore((int) timer.getElapsedTime());
+            gameRoomController.gameOver();
             knightController.stopMusic();
             gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
-        } else if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){
+            return;
+        }
+        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){
             // stop timer
             timer.stop();
+            gameRoomController.gameOver();
             gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
+            return;
+        }
+
+        // You you haven't won, but the game is complete, you have lost the game
+        if(gameRoomController.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
+            timer.stop();
+            gameRoomController.gameOver();
+            gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
+            return;
         }
 
         shapeRenderer.end();
@@ -280,6 +302,7 @@ public class FastestKnightGameScreen extends Screen {
     }
 
     // method to format time in HH:MM:SS format
+    @SuppressWarnings("DefaultLocale")
     private String formatTime(float time) {
         int hours = (int) (time / 3600);
         int minutes = (int) ((time % 3600) / 60);

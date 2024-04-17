@@ -545,6 +545,10 @@ public class KnightController {
         return "continue";
     }
 
+    public void setScore(int amount) {
+        this.scoreCounter.setScore(amount);
+    }
+
     public String getKnightOppositeDirection() {
         if (Objects.equals(knight.getDirection(), "left")) {
             return "right";
@@ -611,7 +615,7 @@ public class KnightController {
     }
 
     public int getScore() {
-        return scoreCounter.getScore();
+        return scoreCounter.getLocalPlayerScore();
     }
 
     public void setDeadPosition(float x, float y) {

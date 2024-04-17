@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameController;
+import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
@@ -27,6 +28,7 @@ import no.ntnu.game.Views.Sprites.DeadKnightSprite;
 import no.ntnu.game.Views.Sprites.IdleKnightSprite;
 import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.GameRoom;
 
 /**
  * Game Screen View class to render StarKnight game
@@ -35,7 +37,6 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  */
 public class LastKnightGameScreen extends Screen {
 
-    private GameController gameController;
 
     private Texture powerUpTextLogo;
 
@@ -78,6 +79,9 @@ public class LastKnightGameScreen extends Screen {
     private TextureRegion[] animationFrames;
     private float frameDuration = 0.1f; // Adjust this value to change animation speed
     private float stateTime = 0f;
+
+    GameRoomController gameRoomController;
+
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
         font = new BitmapFont(); // Assuming you have a font for rendering text
@@ -96,7 +100,7 @@ public class LastKnightGameScreen extends Screen {
         timerLogo = new Texture("starknight_logo.png");
         bulletLogo = new Texture("bullet.png");
 
-        gameController = new GameController();
+        gameRoomController = GameRoomController.getInstance();
 
         timeLimitBar = new TimeLimitBar(initialTime, timeLimit, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2, Gdx.graphics.getHeight() - 50f);
 
@@ -190,7 +194,7 @@ public class LastKnightGameScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
         // Adding left and right keystrokes to move the Knight
-        Gdx.input.setInputProcessor(new InputAdapter() {
+        inputMultiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 gameStart = true;
@@ -224,8 +228,8 @@ public class LastKnightGameScreen extends Screen {
         if (gameStart) {
             timeLimitBar.updateTime(dt);
             if (timeLimitBar.isTimeUp()) {
-                knightController.stopMusic();
                 gvm.set(new LastKnightEndGameScreen(gvm, score));
+                knightController.stopMusic();
             }
         }
     }
@@ -258,10 +262,15 @@ public class LastKnightGameScreen extends Screen {
         score = knightController.getScore();
 
         if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
-
+            gameRoomController.gameOver();
             gvm.set(new LastKnightEndGameScreen(gvm, score));
-//            gvm.set(new YouLoseGameScreen(gvm));
+            return;
         };
+        if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
+            gameRoomController.gameOver();
+            gvm.set(new LastKnightYouWinGameScreen(gvm, score));
+            return;
+        }
 
         shapeRenderer.end();
 

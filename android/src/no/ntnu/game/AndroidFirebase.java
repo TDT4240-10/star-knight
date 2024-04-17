@@ -23,17 +23,13 @@ import no.ntnu.game.firestore.Player;
 
 public class AndroidFirebase implements FirebaseInterface {
 
-    // private static final String TAG = "DocSnippets";
-
     private final FirebaseDatabase realtimeDatabase;
     private final FirebaseFirestore firestore;
-    // DatabaseReference myRef;
 
     public AndroidFirebase() {
         realtimeDatabase = FirebaseDatabase.getInstance();
         firestore = FirebaseFirestore.getInstance();
     }
-
 
     @Override
     public void savePlayer(Player player) {
@@ -94,6 +90,7 @@ public class AndroidFirebase implements FirebaseInterface {
             @Override
             public void onFailure(@NonNull Exception e) {
                 callback.onCallback(null);
+                System.out.println(e);
             }
         });
     }

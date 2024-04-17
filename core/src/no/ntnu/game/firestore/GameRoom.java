@@ -14,12 +14,17 @@ public class GameRoom extends FirebaseClass {
     }
 
     public enum GameStatus {
-        CREATED, LOBBY, PLAYING, COMPLETE
+        CREATED, LOBBY, STARTING, PLAYING, COMPLETE
     }
     private String roomCode;
+    private Date gameStartTime;
 
     private GameMode currentGameMode;
-    private List<Player> players;
+    private Player creatingPlayer;
+    private Player joiningPlayer;
+
+    private GameState creatingPlayerState;
+    private GameState joiningPlayerState;
     private Date createdAt;
     private GameStatus status;
 
@@ -28,12 +33,13 @@ public class GameRoom extends FirebaseClass {
     public GameRoom() {};
 
     public GameRoom(Player creatingPlayer) {
-        players = new ArrayList<>();
-        this.players.add(creatingPlayer);
         this.createdAt = new Date();
+        this.creatingPlayer = creatingPlayer;
         this.status = GameStatus.CREATED;
         this.roomCode = generateRandomCode();
         this.setDocumentId(UUID.randomUUID().toString());
+        creatingPlayerState = new GameState();
+        joiningPlayerState = new GameState();
     }
 
     public static String generateRandomCode() {
@@ -56,8 +62,8 @@ public class GameRoom extends FirebaseClass {
         return sb.toString();
     }
 
-    public void addPlayer(Player player) {
-        this.players.add(player);
+    public void addJoiningPlayer(Player player) {
+        this.joiningPlayer = player;
     }
 
     public GameStatus getStatus() {
@@ -72,8 +78,12 @@ public class GameRoom extends FirebaseClass {
         return roomCode;
     }
 
-    public List<Player> getPlayers() {
-        return this.players;
+    public Player getCreatingPlayer() {
+        return this.creatingPlayer;
+    }
+
+    public Player getJoiningPlayer() {
+        return this.joiningPlayer;
     }
 
     public GameMode getGameMode() {
@@ -81,6 +91,20 @@ public class GameRoom extends FirebaseClass {
     }
 
     public void setGameMode(GameMode mode) {
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        for (StackTraceElement element : stackTrace) {
+            System.out.println(element.getClassName() + "." + element.getMethodName() + "()");
+        }
+        if (mode == null) {
+            return;
+        }
+        if (mode.equals(GameMode.FASTEST_KNIGHT)) {
+            this.joiningPlayerState.setScore(30);
+            this.creatingPlayerState.setScore(30);
+        } else {
+            this.creatingPlayerState.setScore(9999);
+            this.joiningPlayerState.setScore(9999);
+        }
         this.currentGameMode = mode;
     }
 
@@ -88,4 +112,27 @@ public class GameRoom extends FirebaseClass {
         this.status = status;
     }
 
+    public GameState getCreatingPlayerState() {
+        return creatingPlayerState;
+    }
+
+    public void setCreatingPlayerState(GameState creatingPlayerState) {
+        this.creatingPlayerState = creatingPlayerState;
+    }
+
+    public GameState getJoiningPlayerState() {
+        return joiningPlayerState;
+    }
+
+    public void setJoiningPlayerState(GameState joiningPlayerState) {
+        this.joiningPlayerState = joiningPlayerState;
+    }
+
+    public Date getGameStartTime() {
+        return gameStartTime;
+    }
+
+    public void setGameStartTime(Date gameStartTime) {
+        this.gameStartTime = gameStartTime;
+    }
 }
