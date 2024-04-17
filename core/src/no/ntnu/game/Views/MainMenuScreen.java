@@ -24,17 +24,11 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class MainMenuScreen extends Screen {
-    private Texture logo;
+    private final Texture logo;
     BitmapFont font; // Declare the font variable
-
-    private Button playButton;
-
-    private Button tutorialButton;
-    private Button settingsButton;
-
-    private ShapeRenderer shapeRenderer;
-    private Stage stage;
-    private PlayerController playerController;
+    private final ShapeRenderer shapeRenderer;
+    private final Stage stage;
+    private final PlayerController playerController;
 
 
     public MainMenuScreen(ScreenManager gvm) {
@@ -48,7 +42,8 @@ public class MainMenuScreen extends Screen {
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        playButton = rectButtonFactory.createButton("Play", new InputListener() {
+        // Indicate that the touch event is handled
+        Button playButton = rectButtonFactory.createButton("Play", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new SingleOrMultiplayerScreen(gvm));
@@ -58,28 +53,25 @@ public class MainMenuScreen extends Screen {
         playButton.setSize(350, 200); // Set the size of the button
         playButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 800);
 
-        tutorialButton = rectButtonFactory.createButton("Tutorial", new InputListener() {
+        Button tutorialButton = rectButtonFactory.createButton("Tutorial", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new SelectTutorialScreen(gvm));
                 return true;
             }
         });
-
         tutorialButton.setSize(350, 200); // Set the size of the button
         tutorialButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 550);
 
-        settingsButton = rectButtonFactory.createButton("Settings", new InputListener() {
+        Button settingsButton = rectButtonFactory.createButton("Settings", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new SettingsScreen(gvm));
                 return true;
             }
         });
-
         settingsButton.setSize(350, 200); // Set the size of the button
         settingsButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
-
 
         // Create the stage for the buttons
         stage = new Stage();
@@ -91,7 +83,6 @@ public class MainMenuScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
-
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
