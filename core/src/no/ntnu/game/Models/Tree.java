@@ -22,17 +22,16 @@ public class Tree {
     private ShapeRenderer shapeRenderer;
     private Stage stage;
     public List<TreePart> trees;
-    private String[] treesPossibility = {"none", "left", "right"};
+    private String[] treesPossibility = { "none", "left", "right" };
     protected Color trunkColor = new Color(0.647f, 0.455f, 0.208f, 1); // Brown color 1
 
-    protected Color TreeColor1 = new Color(0.765f, 0.556f, 0.208f, 1); //tree color 1
+    protected Color TreeColor1 = new Color(0.765f, 0.556f, 0.208f, 1); // tree color 1
 
-    protected Color TreeColor2 = new Color(0.8f, 0.556f, 0.208f, 1); //tree color 2
+    protected Color TreeColor2 = new Color(0.8f, 0.556f, 0.208f, 1); // tree color 2
 
-    private Color[] colorPossibility = {TreeColor1, TreeColor2};
+    private Color[] colorPossibility = { TreeColor1, TreeColor2 };
 
     private String newTrunk;
-
 
     private int stemWidth = 300;
     private int stemHeight = 100;
@@ -40,7 +39,7 @@ public class Tree {
     private int width = 300;
     private int minYPosition = 200; // adjust this for space for character
 
-    //here creates the tree object which includes stage that is to render the tree.
+    // here creates the tree object which includes stage that is to render the tree.
     public Tree() {
         float simulatorWidth = Gdx.graphics.getWidth();
         float simulatorHeight = Gdx.graphics.getHeight();
@@ -49,7 +48,7 @@ public class Tree {
         trees = new ArrayList<>();
     }
 
-    //so it always initialise a basic number of tree and the color is either 1 or 2
+    // so it always initialise a basic number of tree and the color is either 1 or 2
     public void init() {
         trees.add(new TreePart("none", TreeColor1));
         trees.add(new TreePart("none", TreeColor1));
@@ -59,41 +58,37 @@ public class Tree {
                     Objects.equals(trees.get(trees.size() - 1).getValue(), "right")) {
                 newTrunk = "none";
 
-            }
-            else {
+            } else {
                 newTrunk = treesPossibility[MathUtils.random(2)];
             }
             // the string is where we decide to have branch on left or right.
-            Color color = (i % 2 == 0) ?TreeColor1 : TreeColor2;
+            Color color = (i % 2 == 0) ? TreeColor1 : TreeColor2;
             trees.add(new TreePart(newTrunk, color));
 
         }
     }
 
-    public void chop(){
+    public void chop() {
         trees.remove(0);
     }
 
-    // this function is used in the controller for the game to create new tree each time we chop one.
+    // this function is used in the controller for the game to create new tree each
+    // time we chop one.
     public void createNewTrunk() {
-
 
         if (Objects.equals(trees.get(trees.size() - 1).getValue(), "left") ||
                 Objects.equals(trees.get(trees.size() - 1).getValue(), "right")) {
             newTrunk = "none";
 
-        }
-        else {
+        } else {
             newTrunk = treesPossibility[MathUtils.random(2)];
         }
         Color color = colorPossibility[MathUtils.random(1)];
 
-//        String newTrunk = trees.get(trees.size() - 1).value.equals("left") ? "right" : "left";
-//        Color color = (trees.get(trees.size() - 1).color.equals(trunkColor)) ? TreeColor1 : TreeColor2;
         trees.add(new TreePart(newTrunk, color));
     }
 
-    //this is where how the trees are drawn.
+    // this is where how the trees are drawn.
     public void draw(SpriteBatch batch) {
 
         batch.begin();
@@ -116,16 +111,15 @@ public class Tree {
             shapeRenderer.rect(centerX, centerY + i * height, width, height);
 
             if (treePart.value.equals("left")) {
-                treePart.setPos(centerX - stemWidth,centerY +stemWidth/2+ i * height + height / 2 );
+                treePart.setPos(centerX - stemWidth, centerY + stemWidth / 2 + i * height + height / 2);
                 shapeRenderer.rect(centerX - stemWidth, centerY + i * height + height / 2, stemWidth, stemHeight);
             } else if (treePart.value.equals("right")) {
-                treePart.setPos(centerX + width,centerY+stemWidth/2 + i * height + height / 2);
+                treePart.setPos(centerX + width, centerY + stemWidth / 2 + i * height + height / 2);
                 shapeRenderer.rect(centerX + width, centerY + i * height + height / 2, stemWidth, stemHeight);
             }
 
             shapeRenderer.end();
-            }
-
+        }
 
         batch.end();
     }

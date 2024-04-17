@@ -24,8 +24,6 @@ public class GameRoomController {
     private RoomType roomType;
     private Actor roomActor;
 
-
-
     private final FirebaseInterface fi;
 
     private GameRoomController() {
@@ -52,7 +50,6 @@ public class GameRoomController {
     }
 
     private void stateChanged() {
-         // if (roomType.equals(RoomType.SOLO)) return;
         fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
@@ -94,7 +91,9 @@ public class GameRoomController {
         createGameRoom(player, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
-                if (result == null) { return; }
+                if (result == null) {
+                    return;
+                }
                 createRoomListener();
                 callback.onCallback(result);
             }
@@ -162,7 +161,8 @@ public class GameRoomController {
     }
 
     public void setGameMode(GameRoom.GameMode gameMode) {
-        if (this.room == null) return;
+        if (this.room == null)
+            return;
         this.room.setGameMode(gameMode);
         stateChanged();
     }
@@ -196,6 +196,7 @@ public class GameRoomController {
         return this.room.getGameMode() == GameRoom.GameMode.LAST_KNIGHT;
 
     }
+
     public void incrementCreatingPlayerScore(int amount) {
         this.room.getCreatingPlayerState().incrementScore(amount);
     }
@@ -237,7 +238,7 @@ public class GameRoomController {
                 }
             }
         }
-        if (room.getGameMode().equals(GameRoom.GameMode.FASTEST_KNIGHT)){
+        if (room.getGameMode().equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
             if (room.getCreatingPlayerState().getScore() < room.getCreatingPlayer().getFastestTime()) {
                 room.getCreatingPlayer().setFastestTime(room.getCreatingPlayerState().getScore());
                 fi.savePlayer(room.getCreatingPlayer());

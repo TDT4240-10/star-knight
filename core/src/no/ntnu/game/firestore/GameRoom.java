@@ -1,12 +1,8 @@
 package no.ntnu.game.firestore;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-
-import no.ntnu.game.Controllers.GameRoomController;
 
 public class GameRoom extends FirebaseClass {
     public enum GameMode {
@@ -16,6 +12,7 @@ public class GameRoom extends FirebaseClass {
     public enum GameStatus {
         CREATED, LOBBY, STARTING, PLAYING, COMPLETE
     }
+
     private String roomCode;
     private Date gameStartTime;
 
@@ -28,9 +25,8 @@ public class GameRoom extends FirebaseClass {
     private Date createdAt;
     private GameStatus status;
 
-
-
-    public GameRoom() {};
+    public GameRoom() {
+    };
 
     public GameRoom(Player creatingPlayer) {
         this.createdAt = new Date();

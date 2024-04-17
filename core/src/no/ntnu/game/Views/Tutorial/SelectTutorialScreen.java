@@ -46,7 +46,6 @@ public class SelectTutorialScreen extends Screen {
             }
         });
         gameModeButton.setSize(650, 200);
-        // gameModeButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 800);
         gameModeButton.setPosition(centerButtonX(gameModeButton), 800);
         Button controlsButton = rectButtonFactory.createButton("Controls & Game Play", new InputListener() {
             @Override

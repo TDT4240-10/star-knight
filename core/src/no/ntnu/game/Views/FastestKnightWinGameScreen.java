@@ -22,9 +22,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 public class FastestKnightWinGameScreen extends Screen {
     private final Texture logo;
     private final BitmapFont font; // Declare the font variable
-
     private final ShapeRenderer shapeRenderer;
-    // private LoseDeadKnightSprite loseDeadKnightSprite;
     private final WinRunningKnightSprite winRunningKnightSprite;
     private final float time_elapsed;
     private final Stage stage;
@@ -32,7 +30,6 @@ public class FastestKnightWinGameScreen extends Screen {
     private int KNIGHT_X = 0;
     private final int KNIGHT_Y = 900;
 
-    // private SpriteBatch spriteBatch;
     public FastestKnightWinGameScreen(ScreenManager gvm, float time_elapsed) {
         super(gvm);
         logo = new Texture("you_cleared.png");
@@ -41,7 +38,6 @@ public class FastestKnightWinGameScreen extends Screen {
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-        // loseDeadKnightSprite = new LoseDeadKnightSprite();
         winRunningKnightSprite = new WinRunningKnightSprite();
         this.time_elapsed = time_elapsed;
 

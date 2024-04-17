@@ -3,8 +3,6 @@ package no.ntnu.game.Models;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import java.awt.Shape;
-
 public class TimeLimitBar {
 
     private float maxTimeLimit;
@@ -28,6 +26,7 @@ public class TimeLimitBar {
     public float getCurrentTime() {
         return currentTime;
     }
+
     public void setMaxTimeLimit(float time) {
         this.maxTimeLimit = time;
     }
@@ -59,6 +58,7 @@ public class TimeLimitBar {
     public float getTimeLimit() {
         return currentTime;
     }
+
     public void addTime(float timeToAdd) {
         currentTime += timeToAdd;
         if (currentTime > maxTimeLimit) {
@@ -71,4 +71,3 @@ public class TimeLimitBar {
         barY = y;
     }
 }
-

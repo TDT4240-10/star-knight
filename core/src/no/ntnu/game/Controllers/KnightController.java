@@ -202,7 +202,6 @@ public class KnightController {
                 }
                 bulletActive = true;
                 bulletTimer.setPosition(bulletTimerX, bulletTimerY - 50);
-                // getBullet(powerUp);
             }
         }
     }

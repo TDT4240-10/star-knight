@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,11 +28,9 @@ public class LastKnightEndGameScreen extends Screen {
     private ShapeRenderer shapeRenderer;
     private LoseDeadKnightSprite loseDeadKnightSprite;
     private float knightX, knightY;
-    private float knightSpeed = 300; // Pixels per second
     private int player_score;
     private Stage stage;
 
-    // private SpriteBatch spriteBatch;
     public LastKnightEndGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
         logo = new Texture("your_score.png");
@@ -108,16 +105,11 @@ public class LastKnightEndGameScreen extends Screen {
 
     @Override
     public void update(float dt) {
-        // knightX += knightSpeed * dt;
-        // if (knightX > Gdx.graphics.getWidth()) {
-        // knightX = -runningKnightSprite.getWidth();
-        // }
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-        // runningKnightSprite.dispose();
     }
 
     @Override

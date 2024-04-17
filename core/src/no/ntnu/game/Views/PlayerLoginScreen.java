@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -19,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
@@ -30,26 +28,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public class PlayerLoginScreen extends Screen {
     public Player player;
-    private Stage stage;
-    private TextField usernameField;
-    private Skin skin; // libGDX skins provide styling for UI widgets
+    private final Stage stage;
+    private final TextField usernameField;
 
-    private SpriteBatch batch;
-    // private ShapeRenderer shapeRenderer;
+    private final Texture logo;
 
-    private Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final ShapeRenderer shapeRenderer;
 
-    BitmapFont font; // Declare the font variable
-    private ShapeRenderer shapeRenderer;
-    private SpriteBatch spriteBatch;
-
-    private Button loginButton;
-
-    private PlayerController playerController;
-    // this is the constructor for the CreateGameScreen class, a user will come to
-    // this screen either make a new room or join a room.
-    // there will be two buttons, one for creating a room and one for joining a
-    // room.
+    private final PlayerController playerController;
 
     public PlayerLoginScreen(ScreenManager gvm) {
         super(gvm);
@@ -60,7 +47,7 @@ public class PlayerLoginScreen extends Screen {
         shapeRenderer = new ShapeRenderer();
         RectangleButtonFactory rectangleButtonFactory = new RectangleButtonFactory();
         TextFieldFactory textFieldFactory = new TextFieldFactory();
-        loginButton = rectangleButtonFactory.createButton("Login", new InputListener() {
+        Button loginButton = rectangleButtonFactory.createButton("Login", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String username = usernameField.getText();

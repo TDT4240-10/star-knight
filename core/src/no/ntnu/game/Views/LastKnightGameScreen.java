@@ -101,7 +101,6 @@ public class LastKnightGameScreen extends Screen {
         Button leftButton = circleButtonFactory.createButton("<", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                // gvm.set(new CreateOrJoinRoomScreen(gvm));
                 gameStart = true;
 
                 if (Objects.equals(knightController.getDirection(), "right")) {

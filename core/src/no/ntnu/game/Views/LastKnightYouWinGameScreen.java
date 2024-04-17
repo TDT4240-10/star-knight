@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,18 +20,14 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class LastKnightYouWinGameScreen extends Screen {
-    private Texture logo;
-    BitmapFont font; // Declare the font variable
-
-    private Button exitButton;
-    private Stage stage;
-
-    private ShapeRenderer shapeRenderer;
-    private WinRunningKnightSprite winRunningKnightSprite;
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final Stage stage;
+    private final ShapeRenderer shapeRenderer;
+    private final WinRunningKnightSprite winRunningKnightSprite;
     private float knightX, knightY;
     private float knightSpeed = 300; // Pixels per second
-    // private SpriteBatch spriteBatch;
-    private int player_score;
+    private final int player_score;
 
     public LastKnightYouWinGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
@@ -48,7 +43,8 @@ public class LastKnightYouWinGameScreen extends Screen {
         this.player_score = player_score;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));

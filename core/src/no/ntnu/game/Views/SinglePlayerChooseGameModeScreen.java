@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,14 +23,14 @@ import no.ntnu.game.firestore.GameRoom;
 public class SinglePlayerChooseGameModeScreen extends Screen {
     private final Stage stage;
     private final Texture logo;
-    BitmapFont font; // Declare the font variable
     private final ShapeRenderer shapeRenderer;
     private final GameRoomController gameRoomController = GameRoomController.getInstance();
 
     public SinglePlayerChooseGameModeScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("starknight_logo.png");
-        font = new BitmapFont(); // Load the font
+        // Declare the font variable
+        BitmapFont font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 

@@ -1,24 +1,24 @@
 
-
 package no.ntnu.game.Models;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Null;
 
 import java.util.Random;
 
 /**
- * PowerupFactory class to create different Powerup  for the game
+ * PowerupFactory class to create different Powerup for the game
  *
  * @author Jeff
  */
 public class PowerUpFactory {
     private static Texture powerUpTexture; // Texture containing all power-up sprites
     // Load the power-up texture
+
     public static void loadTextures() {
         powerUpTexture = new Texture("powerups.png");
     }
+
     // A power will be created randomly
     public static PowerUp createPowerUp() {
         loadTextures();
@@ -34,25 +34,26 @@ public class PowerUpFactory {
                 return createBullet();
             // Add cases for other types of PowerUps as needed
             default:
-                return  null; // Default to speed power-up
+                return null; // Default to speed power-up
         }
     }
 
     // Method to create a Extra lives PowerUp
     public static PowerUp createLivesPowerUp() {
-        return new PowerUp("heart", 2000,getTextureRegionForType("heart")); // Example duration: 5000 milliseconds
+        return new PowerUp("heart", 2000, getTextureRegionForType("heart")); // Example duration: 5000 milliseconds
     }
 
     // Method to create a Shield PowerUp
     public static PowerUp createShieldPowerUp() {
-        return new PowerUp("shield", 5000,getTextureRegionForType("shield")); // Example duration: 10000 milliseconds
+        return new PowerUp("shield", 5000, getTextureRegionForType("shield")); // Example duration: 10000 milliseconds
     }
+
     public static PowerUp createDoublePoints() {
-        return new PowerUp("double", 5000,getTextureRegionForType("double")); // Example duration: 10000 milliseconds
+        return new PowerUp("double", 5000, getTextureRegionForType("double")); // Example duration: 10000 milliseconds
     }
 
     public static PowerUp createBullet() {
-        return new PowerUp("bullet", 5000,getTextureRegionForType("bullet")); // Example duration: 10000 milliseconds
+        return new PowerUp("bullet", 5000, getTextureRegionForType("bullet")); // Example duration: 10000 milliseconds
     }
 
     // Method to get the texture region for a specific type of power-up

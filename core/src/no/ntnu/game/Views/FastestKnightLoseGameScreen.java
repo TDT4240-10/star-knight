@@ -29,7 +29,6 @@ public class FastestKnightLoseGameScreen extends Screen {
     private final int KNIGHT_X = 300;
     private final int KNIGHT_Y = 900;
 
-    // private SpriteBatch spriteBatch;
     public FastestKnightLoseGameScreen(ScreenManager gvm, float time_elapsed) {
         super(gvm);
         logo = new Texture("you_failed.png");

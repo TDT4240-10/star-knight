@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,40 +24,30 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class SettingsScreen extends Screen {
-    private Texture logo;
-    private Texture musicText;
-    private Texture soundText;
-    BitmapFont font; // Declare the font variable
+    private final Texture logo;
+    private final Texture musicText;
+    private final Texture soundText;
 
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    // private SpriteBatch spriteBatch;
-
-    private Stage stage;
-
-    private Skin skin;
-
-    private Slider musicSlider;
-
-    private Slider soundSlider;
-
-    private Settings settings;
+    private final ShapeRenderer shapeRenderer;
+    private final Stage stage;
+    private final Slider musicSlider;
+    private final Slider soundSlider;
+    private final Settings settings;
 
     public SettingsScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("settings.png");
         musicText = new Texture("music.png");
         soundText = new Texture("sound.png");
-        font = new BitmapFont(); // Load the font
+        // Declare the font variable
+        BitmapFont font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        // spriteBatch = new SpriteBatch();
 
         stage = new Stage();
 
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         float sliderKnobHeight = 100.0f;
 
@@ -96,7 +85,8 @@ public class SettingsScreen extends Screen {
             }
         });
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -129,13 +119,13 @@ public class SettingsScreen extends Screen {
         float musicHeight = musicText.getHeight();
         float musicX = (screenWidth - musicWidth) / 2;
         float musicY = (screenHeight) / 2 - musicHeight / 2;
-        ;
+
 
         float soundWidth = soundText.getWidth();
         float soundHeight = soundText.getHeight();
         float soundX = (screenWidth - soundWidth) / 2;
         float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;
-        ;
+
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
@@ -150,10 +140,6 @@ public class SettingsScreen extends Screen {
 
     @Override
     protected void handleInput() {
-        // if play button is pressed, go to CreateOrJoinRoomScreen
-        // if(playButton.isPressed()){
-        // gvm.set(new CreateOrJoinRoomScreen(gvm));
-        // }
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
+import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.factory.button.CircleButtonFactory;
@@ -76,6 +77,10 @@ public class FastestKnightGameScreen extends Screen {
         knightController.setIdlePosition(-80, 500);
         knightController.setChoppingPosition(-99999, -99999);
         knightController.setDeadPosition(-99999, -99999);
+
+        PowerUpFactory.createLivesPowerUp();
+        PowerUpFactory.createLivesPowerUp();
+        PowerUpFactory.createLivesPowerUp();
 
         float x_offset = 80;
         float y_offset = 100;
@@ -199,8 +204,6 @@ public class FastestKnightGameScreen extends Screen {
         sb.end();
         treeWithPowerUp.draw(sb);
 
-        // timeLimitBar.render(shapeRenderer);
-
         knightController.renderIdleKnight(sb);
         knightController.renderChoppingKnight(sb);
         knightController.renderDeadKnight(sb);
@@ -214,12 +217,10 @@ public class FastestKnightGameScreen extends Screen {
         if (player_score < 0) {
             player_score = 0;
         }
-        // player_score = 1234;
 
         if (player_score == 0) {
             // stop timer
             timer.stop();
-            // TODO: Change from casting to some other method
             knightController.setScore((int) timer.getElapsedTime());
             gameRoomController.gameOver();
             knightController.stopMusic();

@@ -1,14 +1,11 @@
 
 package no.ntnu.game.Models;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import org.w3c.dom.Text;
-
 /**
- * Powerup class to create a Powerup  for the game
+ * Powerup class to create a Powerup for the game
  *
  * @author Jeff
  */
@@ -22,6 +19,7 @@ public class PowerUp {
     private float powerUpWidth;
     private float powerUpHeight;
     public TextureRegion textureRegion;
+
     // Constructor
     public PowerUp(String name, int duration, TextureRegion textureRegion) {
         this.name = name;
@@ -48,9 +46,6 @@ public class PowerUp {
         powerUpHeight = textureRegion.getRegionHeight() * 6;
         batch.draw(textureRegion, x, y, powerUpWidth, powerUpHeight);
         batch.end();
-
-//        knightSprite.setRegion(currentFrame);
-//        knightSprite.setPosition(250, 500);
     }
 
     // Getter for duration
@@ -75,4 +70,3 @@ public class PowerUp {
         return isActive;
     }
 }
-
