@@ -288,6 +288,7 @@ public class FastestKnightGameScreen extends Screen {
     }
 
     // method to format time in HH:MM:SS format
+    @SuppressWarnings("DefaultLocale")
     private String formatTime(float time) {
         int hours = (int) (time / 3600);
         int minutes = (int) ((time % 3600) / 60);

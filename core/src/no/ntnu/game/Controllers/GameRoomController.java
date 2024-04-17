@@ -113,6 +113,7 @@ public class GameRoomController {
     }
 
     public void joinGameRoom(Player player, String code, FirebaseCallback<GameRoom> callback) {
+        roomType = RoomType.ONLINE;
         fi.getRoomByCode(code, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
