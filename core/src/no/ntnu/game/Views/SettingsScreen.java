@@ -33,7 +33,7 @@ public class SettingsScreen extends Screen {
     private Button exitButton;
 
     private ShapeRenderer shapeRenderer;
-    //    private SpriteBatch spriteBatch;
+    // private SpriteBatch spriteBatch;
 
     private Stage stage;
 
@@ -54,7 +54,7 @@ public class SettingsScreen extends Screen {
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-//        spriteBatch = new SpriteBatch();
+        // spriteBatch = new SpriteBatch();
 
         stage = new Stage();
 
@@ -81,7 +81,8 @@ public class SettingsScreen extends Screen {
         musicSlider.setValue(settings.getMusic());
         soundSlider.setValue(settings.getSound());
 
-        // The addListeners methods are AI generated code that has been somewhat modified
+        // The addListeners methods are AI generated code that has been somewhat
+        // modified
         musicSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -117,11 +118,6 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -132,20 +128,20 @@ public class SettingsScreen extends Screen {
         float musicWidth = musicText.getWidth();
         float musicHeight = musicText.getHeight();
         float musicX = (screenWidth - musicWidth) / 2;
-        float musicY = (screenHeight) / 2 - musicHeight / 2;;
+        float musicY = (screenHeight) / 2 - musicHeight / 2;
+        ;
 
         float soundWidth = soundText.getWidth();
         float soundHeight = soundText.getHeight();
         float soundX = (screenWidth - soundWidth) / 2;
-        float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;;
-
+        float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;
+        ;
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
         sb.draw(musicText, musicX, musicY);
         sb.draw(soundText, soundX, soundY);
         sb.end();
-
 
         // draw stage and music slider and sound effects slider
         stage.act();
@@ -155,15 +151,16 @@ public class SettingsScreen extends Screen {
     @Override
     protected void handleInput() {
         // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
+        // if(playButton.isPressed()){
+        // gvm.set(new CreateOrJoinRoomScreen(gvm));
+        // }
     }
 
     @Override
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
@@ -171,7 +168,7 @@ public class SettingsScreen extends Screen {
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

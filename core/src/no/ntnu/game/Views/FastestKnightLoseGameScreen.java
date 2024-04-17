@@ -28,12 +28,13 @@ public class FastestKnightLoseGameScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     private LoseDeadKnightSprite loseDeadKnightSprite;
-    //    private WinRunningKnightSprite winRunningKnightSprite;
+    // private WinRunningKnightSprite winRunningKnightSprite;
     private float knightX, knightY;
     private float knightSpeed = 300; // Pixels per second
     private float time_elapsed;
     private Stage stage;
-    //    private SpriteBatch spriteBatch;
+
+    // private SpriteBatch spriteBatch;
     public FastestKnightLoseGameScreen(ScreenManager gvm, float time_elapsed) {
         super(gvm);
         logo = new Texture("you_failed.png");
@@ -43,7 +44,7 @@ public class FastestKnightLoseGameScreen extends Screen {
         shapeRenderer = new ShapeRenderer();
 
         loseDeadKnightSprite = new LoseDeadKnightSprite();
-//        winRunningKnightSprite = new WinRunningKnightSprite();
+        // winRunningKnightSprite = new WinRunningKnightSprite();
 
         knightX = 300;
         knightY = 900;
@@ -63,7 +64,6 @@ public class FastestKnightLoseGameScreen extends Screen {
 
         stage.addActor(exitButton);
 
-
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
@@ -79,13 +79,8 @@ public class FastestKnightLoseGameScreen extends Screen {
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         sb.begin();
         sb.draw(logo, logoX, logoY);
-
 
         // Calculate the position to center the text on the screen
         font.getData().setScale(10f);
@@ -124,11 +119,11 @@ public class FastestKnightLoseGameScreen extends Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-//        runningKnightSprite.dispose();
+        // runningKnightSprite.dispose();
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 

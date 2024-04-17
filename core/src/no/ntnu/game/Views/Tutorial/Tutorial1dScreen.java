@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
@@ -33,7 +32,6 @@ public class Tutorial1dScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     private Stage stage;
-
 
     public Tutorial1dScreen(ScreenManager gvm) {
         super(gvm);
@@ -66,7 +64,7 @@ public class Tutorial1dScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition(centerButtonX(exitButton), 100);
 
-        float backwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) - 470 - backwardButton.getWidth();
+        float backwardButtonX = ((float) 0.5 * Gdx.graphics.getWidth()) - 470 - backwardButton.getWidth();
 
         backwardButton.setSize(200, 200);
         backwardButton.setPosition(backwardButtonX, 100);
@@ -83,25 +81,19 @@ public class Tutorial1dScreen extends Screen {
 
     }
 
-
     public float centerButtonX(Button button) {
         return (Gdx.graphics.getWidth() - button.getWidth()) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
         float powerUpWidth = powerUp.getWidth();
         float powerUpHeight = powerUp.getHeight();
         float powerUpX = (screenWidth - powerUpWidth) / 2;
-        //1/4 from the top
+        // 1/4 from the top
         float powerUpY = (screenHeight - powerUpHeight) * 3 / 4;
 
         sb.begin();
@@ -121,14 +113,16 @@ public class Tutorial1dScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         powerUp.dispose();
         font.dispose();
         stage.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

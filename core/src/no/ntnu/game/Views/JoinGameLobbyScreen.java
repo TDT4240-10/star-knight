@@ -27,7 +27,7 @@ public class JoinGameLobbyScreen extends Screen {
     private Skin skin; // libGDX skins provide styling for UI widgets
 
     private SpriteBatch batch;
-//    private ShapeRenderer shapeRenderer;
+    // private ShapeRenderer shapeRenderer;
 
     private Texture logo;
     private Texture waitingForHostToStart;
@@ -61,7 +61,6 @@ public class JoinGameLobbyScreen extends Screen {
         stage = new Stage();
         stage.addActor(exitButton);
 
-
         waitingForHostToStart = new Texture("waiting_for_host_to_start.png");
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
@@ -82,13 +81,8 @@ public class JoinGameLobbyScreen extends Screen {
         final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + joinRoomID, font);
         final float CENTER_PLAYERS_X = calculateCenterX("Players: ", font);
 
-
         // display logo
         sb.begin();
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        // draw logo
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -149,7 +143,7 @@ public class JoinGameLobbyScreen extends Screen {
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 

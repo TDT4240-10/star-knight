@@ -1,29 +1,23 @@
 package no.ntnu.game;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-
-import no.ntnu.game.Views.CreateOrJoinRoomScreen;
 import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.Views.MainMenuScreen;
-import no.ntnu.game.Views.PlayerLoginScreen;
-import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.firestore.Player;
-
 
 public class StarKnight extends Game {
 	private SpriteBatch spriteBatch;
 	private static FirebaseInterface _FI;
 	private ScreenManager gvm;
 
-	public StarKnight(FirebaseInterface FI) { _FI = FI; }
-	// private TreeWithPowerUp tree;
+	public StarKnight(FirebaseInterface FI) {
+		_FI = FI;
+	}
+
 	@Override
-	public void create () {
+	public void create() {
 		gvm = new ScreenManager();
 		spriteBatch = new SpriteBatch();
 
@@ -31,17 +25,19 @@ public class StarKnight extends Game {
 	}
 
 	@Override
-	public void render () {
-		Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+	public void render() {
+		Gdx.gl.glClearColor(0.4f, 0.4f, 0.4f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		gvm.update(Gdx.graphics.getDeltaTime()); // delta time is the time diff between one frame rendered and next frame rendered
+		// delta time is the time diff between one frame rendered and next frame
+		// rendered
+		gvm.update(Gdx.graphics.getDeltaTime());
 		gvm.render(spriteBatch);
 
 	}
 
 	@Override
-	public void dispose () {
+	public void dispose() {
 		super.dispose();
 		spriteBatch.dispose();
 	}

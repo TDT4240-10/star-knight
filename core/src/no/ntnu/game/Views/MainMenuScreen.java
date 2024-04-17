@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-
 
 import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.Views.Tutorial.SelectTutorialScreen;
@@ -39,10 +37,8 @@ public class MainMenuScreen extends Screen {
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        // Indicate that the touch event is handled
         Button playButton = rectButtonFactory.createButton("Play", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -97,15 +93,10 @@ public class MainMenuScreen extends Screen {
     public void render(SpriteBatch sb) {
         final String HIGHSCORE_STRING = "Your highscore: " + playerController.getPlayer().getHighScore().toString();
         final String FASTEST_STRING = "Your fastest time: " + playerController.getPlayer().getFastestTime().toString();
-        final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
-        final float CENTER_USERNAME_X = calculateCenterX(playerController.getPlayer().getUsername(), font);
+        final String WELCOME_STRING = "Welcome " + playerController.getPlayer().getUsername() + "!";
+        final float CENTER_WELCOME_X = calculateCenterX(WELCOME_STRING, font);
         final float CENTER_USER_HIGHSCORE_X = calculateCenterX(HIGHSCORE_STRING, font);
         final float CENTER_USER_FASTEST_X = calculateCenterX(FASTEST_STRING, font);
-
-
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
@@ -116,10 +107,9 @@ public class MainMenuScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
-        font.draw(sb, FASTEST_STRING, CENTER_USER_FASTEST_X, 1100);
-        font.draw(sb, HIGHSCORE_STRING, CENTER_USER_HIGHSCORE_X, 1150);
-        font.draw(sb, playerController.getPlayer().getUsername(), CENTER_USERNAME_X, 1200);
-        font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);
+        font.draw(sb, FASTEST_STRING, CENTER_USER_FASTEST_X, 1150);
+        font.draw(sb, HIGHSCORE_STRING, CENTER_USER_HIGHSCORE_X, 1200);
+        font.draw(sb, WELCOME_STRING, CENTER_WELCOME_X, 1250);
         sb.end();
 
         // draw stage and text field

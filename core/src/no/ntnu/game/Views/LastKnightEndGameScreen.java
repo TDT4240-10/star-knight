@@ -32,7 +32,8 @@ public class LastKnightEndGameScreen extends Screen {
     private float knightSpeed = 300; // Pixels per second
     private int player_score;
     private Stage stage;
-    //    private SpriteBatch spriteBatch;
+
+    // private SpriteBatch spriteBatch;
     public LastKnightEndGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
         logo = new Texture("your_score.png");
@@ -60,7 +61,6 @@ public class LastKnightEndGameScreen extends Screen {
 
         stage.addActor(exitButton);
 
-
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
@@ -75,14 +75,8 @@ public class LastKnightEndGameScreen extends Screen {
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
-
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         sb.begin();
         sb.draw(logo, logoX, logoY);
-
 
         // Calculate the position to center the text on the screen
         font.getData().setScale(10f);
@@ -114,20 +108,20 @@ public class LastKnightEndGameScreen extends Screen {
 
     @Override
     public void update(float dt) {
-//        knightX += knightSpeed * dt;
-//        if (knightX > Gdx.graphics.getWidth()) {
-//            knightX = -runningKnightSprite.getWidth();
-//        }
+        // knightX += knightSpeed * dt;
+        // if (knightX > Gdx.graphics.getWidth()) {
+        // knightX = -runningKnightSprite.getWidth();
+        // }
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-//        runningKnightSprite.dispose();
+        // runningKnightSprite.dispose();
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

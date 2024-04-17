@@ -26,7 +26,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
- * Create or join room screen, linked with firestore to allow user to create or join a room
+ * Create or join room screen, linked with firestore to allow user to create or
+ * join a room
  *
  * @author Deen
  */
@@ -68,19 +69,20 @@ public class CreateOrJoinRoomScreen extends Screen {
         joinRoomButton = rectButtonFactory.createButton("Join", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameRoomController.joinGameRoom(playerController.getPlayer(), roomId.getText().toUpperCase(), new FirebaseCallback<GameRoom>() {
-                    @Override
-                    public void onCallback(GameRoom result) {
-                        if (result != null) {
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    gvm.set(new CreateGameLobbyScreen(gvm));
+                gameRoomController.joinGameRoom(playerController.getPlayer(), roomId.getText().toUpperCase(),
+                        new FirebaseCallback<GameRoom>() {
+                            @Override
+                            public void onCallback(GameRoom result) {
+                                if (result != null) {
+                                    Gdx.app.postRunnable(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            gvm.set(new CreateGameLobbyScreen(gvm));
+                                        }
+                                    });
                                 }
-                            });
-                        }
-                    }
-                });
+                            }
+                        });
                 return true; // Indicate that the touch event is handled
             }
         });
@@ -111,8 +113,6 @@ public class CreateOrJoinRoomScreen extends Screen {
         createRoomButton.setSize(350, 200); // Set the size of the button
         createRoomButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
-
-
         stage = new Stage();
         stage.addActor(roomId);
         stage.addActor(joinRoomButton);
@@ -124,24 +124,15 @@ public class CreateOrJoinRoomScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-
-
     @Override
     public void render(SpriteBatch sb) {
         // to center the words
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(font,"Enter a 4 letters unique room ID!");
+        layout.setText(font, "Enter a 4 letters unique room ID!");
         float textWidth = layout.width;
         final float CENTER_WORDS_X = (Gdx.graphics.getWidth() - textWidth) / 2;
 
-        // Create input listeners for buttons
-
-
         sb.begin();
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        // draw logo
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -163,20 +154,17 @@ public class CreateOrJoinRoomScreen extends Screen {
     }
 
     @Override
-    public void update(float dt){
-
+    public void update(float dt) {
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
         logo.dispose();
-        stage.dispose(); // Dispose of the stage
-        System.out.println("Create or Join Room View Disposed");
+        stage.dispose();
     }
 
     @Override
-    public void create(){
-
+    public void create() {
     }
 }

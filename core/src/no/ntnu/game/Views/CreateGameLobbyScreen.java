@@ -115,7 +115,8 @@ public class CreateGameLobbyScreen extends Screen {
         gameRoomController.setGameStatusPlaying();
         if (currentMode.equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
             gvm.set(new FastestKnightGameScreen(gvm));
-        } else { gvm.set(new LastKnightGameScreen(gvm));
+        } else {
+            gvm.set(new LastKnightGameScreen(gvm));
         }
     }
 
@@ -127,12 +128,15 @@ public class CreateGameLobbyScreen extends Screen {
     }
 
     private String getUsernames() {
-        String creatingPlayerUsername = gameRoomController.getGameRoom().getCreatingPlayer() != null ? gameRoomController.getGameRoom().getCreatingPlayer().getUsername() : "";
-        String joiningPlayerUsername = gameRoomController.getGameRoom().getJoiningPlayer() != null ? gameRoomController.getGameRoom().getJoiningPlayer().getUsername() : "";
+        String creatingPlayerUsername = gameRoomController.getGameRoom().getCreatingPlayer() != null
+                ? gameRoomController.getGameRoom().getCreatingPlayer().getUsername()
+                : "";
+        String joiningPlayerUsername = gameRoomController.getGameRoom().getJoiningPlayer() != null
+                ? gameRoomController.getGameRoom().getJoiningPlayer().getUsername()
+                : "";
 
         return creatingPlayerUsername + ", " + joiningPlayerUsername;
     }
-
 
     @Override
     public void render(SpriteBatch sb) {
@@ -143,7 +147,8 @@ public class CreateGameLobbyScreen extends Screen {
             }
         }
 
-        // Since clocks can be slightly off, the other client might start the game before the countdown is complete on current device.
+        // Since clocks can be slightly off, the other client might start the game
+        // before the countdown is complete on current device.
         // If that happens we can just start the game on this device.
         if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.PLAYING)) {
             setGameScreen();
@@ -156,9 +161,7 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display logo
         sb.begin();
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         // draw logo
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
@@ -171,16 +174,15 @@ public class CreateGameLobbyScreen extends Screen {
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
 
-
         font.draw(sb, "Room ID: " + roomCode, CENTER_ROOMID_X, 1330);
         font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
         font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
         if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
-            final float CENTER_COUNTDOWN = calculateCenterX("Game starting in: " + gameRoomController.getGameStartCountdown(), font);
+            final float CENTER_COUNTDOWN = calculateCenterX(
+                    "Game starting in: " + gameRoomController.getGameStartCountdown(), font);
             font.draw(sb, "Game starting in: " + gameRoomController.getGameStartCountdown(), CENTER_COUNTDOWN, 1030);
         }
         sb.end();
-
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

@@ -35,7 +35,8 @@ public class SingleOrMultiplayerScreen extends Screen {
     private PlayerController playerController;
 
     private ShapeRenderer shapeRenderer;
-    //    private SpriteBatch spriteBatch;
+
+    // private SpriteBatch spriteBatch;
     public SingleOrMultiplayerScreen(ScreenManager gvm) {
         super(gvm);
         gameRoomController = GameRoomController.getInstance();
@@ -45,7 +46,7 @@ public class SingleOrMultiplayerScreen extends Screen {
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
-//        spriteBatch = new SpriteBatch();
+        // spriteBatch = new SpriteBatch();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -84,7 +85,6 @@ public class SingleOrMultiplayerScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
-
         // Create the stage for the buttons
         stage.addActor(singleplayerButton);
         stage.addActor(multiplayerButton);
@@ -99,18 +99,12 @@ public class SingleOrMultiplayerScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
-
         sb.begin();
         sb.draw(logo, logoX, logoY);
         sb.end();
@@ -124,22 +118,23 @@ public class SingleOrMultiplayerScreen extends Screen {
     @Override
     protected void handleInput() {
         // if play button is pressed, go to CreateOrJoinRoomScreen
-//        if(playButton.isPressed()){
-//            gvm.set(new CreateOrJoinRoomScreen(gvm));
-//        }
+        // if(playButton.isPressed()){
+        // gvm.set(new CreateOrJoinRoomScreen(gvm));
+        // }
     }
 
     @Override
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-
 import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
@@ -36,7 +35,7 @@ public class PlayerLoginScreen extends Screen {
     private Skin skin; // libGDX skins provide styling for UI widgets
 
     private SpriteBatch batch;
-//    private ShapeRenderer shapeRenderer;
+    // private ShapeRenderer shapeRenderer;
 
     private Texture logo;
 
@@ -47,8 +46,10 @@ public class PlayerLoginScreen extends Screen {
     private Button loginButton;
 
     private PlayerController playerController;
-    // this is the constructor for the CreateGameScreen class, a user will come to this screen either make a new room or join a room.
-    // there will be two buttons, one for creating a room and one for joining a room.
+    // this is the constructor for the CreateGameScreen class, a user will come to
+    // this screen either make a new room or join a room.
+    // there will be two buttons, one for creating a room and one for joining a
+    // room.
 
     public PlayerLoginScreen(ScreenManager gvm) {
         super(gvm);
@@ -99,11 +100,9 @@ public class PlayerLoginScreen extends Screen {
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
         final float CENTER_USERNAME_X = calculateCenterX("Enter your username!", font);
-
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -112,9 +111,6 @@ public class PlayerLoginScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         sb.begin();
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         // draw logo
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
@@ -140,7 +136,7 @@ public class PlayerLoginScreen extends Screen {
     }
 
     @Override
-    public void update(float dt){
+    public void update(float dt) {
 
     }
 
@@ -153,13 +149,12 @@ public class PlayerLoginScreen extends Screen {
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 
     public void setPlayer(Player player) {
         this.player = player;
     }
-
 
 }

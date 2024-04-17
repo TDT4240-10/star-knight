@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
@@ -34,7 +33,6 @@ public class Tutorial1aScreen extends Screen {
 
     private ShapeRenderer shapeRenderer;
     private Stage stage;
-
 
     public Tutorial1aScreen(ScreenManager gvm) {
         super(gvm);
@@ -66,7 +64,7 @@ public class Tutorial1aScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition(centerButtonX(exitButton), 100);
 
-        float forwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) + 300;
+        float forwardButtonX = ((float) 0.5 * Gdx.graphics.getWidth()) + 300;
 
         forwardButton.setSize(200, 200);
         forwardButton.setPosition(forwardButtonX, 100);
@@ -87,13 +85,8 @@ public class Tutorial1aScreen extends Screen {
         return (Gdx.graphics.getWidth() - button.getWidth()) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -106,7 +99,6 @@ public class Tutorial1aScreen extends Screen {
         float textHeight = text.getHeight();
         float textX = (screenWidth - textWidth) / 2;
         float textY = (screenHeight - textHeight) / 2;
-
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
@@ -126,6 +118,7 @@ public class Tutorial1aScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         logo.dispose();
@@ -133,8 +126,9 @@ public class Tutorial1aScreen extends Screen {
         font.dispose();
         stage.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

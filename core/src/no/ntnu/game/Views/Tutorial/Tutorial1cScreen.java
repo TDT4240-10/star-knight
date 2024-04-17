@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 
-
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
@@ -34,7 +33,6 @@ public class Tutorial1cScreen extends Screen {
 
     private Stage stage;
 
-
     public Tutorial1cScreen(ScreenManager gvm) {
         super(gvm);
 
@@ -47,7 +45,6 @@ public class Tutorial1cScreen extends Screen {
                 return true; // Indicate that the touch event is handled
             }
         });
-
 
         backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
             @Override
@@ -69,8 +66,8 @@ public class Tutorial1cScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition(centerButtonX(exitButton), 100);
 
-        float forwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) + 300;
-        float backwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) - 470 - backwardButton.getWidth();
+        float forwardButtonX = ((float) 0.5 * Gdx.graphics.getWidth()) + 300;
+        float backwardButtonX = ((float) 0.5 * Gdx.graphics.getWidth()) - 470 - backwardButton.getWidth();
 
         forwardButton.setSize(200, 200);
         forwardButton.setPosition(forwardButtonX, 100);
@@ -98,12 +95,8 @@ public class Tutorial1cScreen extends Screen {
         return (Gdx.graphics.getWidth() - button.getWidth()) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (videoPlayer.isPlaying()) {
             videoPlayer.update();
@@ -129,6 +122,7 @@ public class Tutorial1cScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         if (videoPlayer != null) {
@@ -139,8 +133,9 @@ public class Tutorial1cScreen extends Screen {
         stage.dispose();
         batch.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
 
         try {
