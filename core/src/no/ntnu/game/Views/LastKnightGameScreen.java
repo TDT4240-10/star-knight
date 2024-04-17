@@ -261,11 +261,16 @@ public class LastKnightGameScreen extends Screen {
 
         score = knightController.getScore();
 
-        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose") || gameRoomController.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
+        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
             gameRoomController.gameOver();
             gvm.set(new LastKnightEndGameScreen(gvm, score));
-//            gvm.set(new YouLoseGameScreen(gvm));
+            return;
         };
+        if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
+            gameRoomController.gameOver();
+            gvm.set(new LastKnightYouWinGameScreen(gvm, score));
+            return;
+        }
 
         shapeRenderer.end();
 

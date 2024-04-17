@@ -12,38 +12,39 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import no.ntnu.game.Views.Sprites.LoseDeadKnightSprite;
+import no.ntnu.game.Views.Sprites.WinRunningKnightSprite;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
- * End Game Screen View class to render Lose screen
+ * End Game Screen View class to render Win screen
  *
  * @author Deen
  */
-public class YouLoseGameScreen extends Screen {
+public class LastKnightYouWinGameScreen extends Screen {
     private Texture logo;
     BitmapFont font; // Declare the font variable
 
     private Button exitButton;
+    private Stage stage;
 
     private ShapeRenderer shapeRenderer;
-    private LoseDeadKnightSprite loseDeadKnightSprite;
+    private WinRunningKnightSprite winRunningKnightSprite;
     private float knightX, knightY;
     private float knightSpeed = 300; // Pixels per second
-    private Stage stage;
     //    private SpriteBatch spriteBatch;
-    public YouLoseGameScreen(ScreenManager gvm) {
+    private int player_score;
+    public LastKnightYouWinGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
-        logo = new Texture("lose.png");
+        logo = new Texture("win.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-        loseDeadKnightSprite = new LoseDeadKnightSprite();
+        winRunningKnightSprite = new WinRunningKnightSprite();
 
-        knightX = 300;
+        knightX = 0;
         knightY = 900;
-//        spriteBatch = new SpriteBatch();
+        this.player_score = player_score;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
         exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
@@ -64,10 +65,16 @@ public class YouLoseGameScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
         Gdx.input.setInputProcessor(inputMultiplexer);
+
     }
 
     @Override
     public void render(SpriteBatch sb) {
+
+        // Clear the screen with grey color
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -75,24 +82,22 @@ public class YouLoseGameScreen extends Screen {
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         sb.begin();
         sb.draw(logo, logoX, logoY);
-        sb.end();
 
+        font.getData().setScale(10f);
+        float x = (Gdx.graphics.getWidth() - font.getXHeight()) / 2; // Assuming average glyph width
+        float y = logoY - 100; // Center vertically
+        font.draw(sb, String.valueOf(player_score), x, y);
+
+        sb.end();
 
         // to ensure the knight is moving at the same speed on all devices
         float dt = Gdx.graphics.getDeltaTime();
         update(dt);
 
-        loseDeadKnightSprite.setPosition(knightX, knightY);
-        loseDeadKnightSprite.render(sb);
-
-        shapeRenderer.end();
-
+        winRunningKnightSprite.setPosition(knightX, knightY);
+        winRunningKnightSprite.render(sb);
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
 
@@ -105,16 +110,16 @@ public class YouLoseGameScreen extends Screen {
 
     @Override
     public void update(float dt) {
-//        knightX += knightSpeed * dt;
-//        if (knightX > Gdx.graphics.getWidth()) {
-//            knightX = -runningKnightSprite.getWidth();
-//        }
+        knightX += knightSpeed * dt;
+        if (knightX > Gdx.graphics.getWidth()) {
+            knightX = -winRunningKnightSprite.getWidth();
+        }
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-//        runningKnightSprite.dispose();
+        winRunningKnightSprite.dispose();
     }
 
     @Override
