@@ -10,10 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.factory.textfield.TextFieldFactory;
-import no.ntnu.game.firestore.GameRoom;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -59,17 +57,9 @@ public class CreateOrJoinRoomScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameRoomController.joinGameRoom(playerController.getPlayer(), roomId.getText().toUpperCase(),
-                        new FirebaseCallback<GameRoom>() {
-                            @Override
-                            public void onCallback(GameRoom result) {
-                                if (result != null) {
-                                    Gdx.app.postRunnable(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            gvm.set(new CreateGameLobbyScreen(gvm));
-                                        }
-                                    });
-                                }
+                        result -> {
+                            if (result != null) {
+                                Gdx.app.postRunnable(() -> gvm.set(new CreateGameLobbyScreen(gvm)));
                             }
                         });
                 return true; // Indicate that the touch event is handled
@@ -81,19 +71,11 @@ public class CreateOrJoinRoomScreen extends Screen {
         Button createRoomButton = rectButtonFactory.createButton("Create", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameRoomController.createOnlineRoom(playerController.getPlayer(), new FirebaseCallback<GameRoom>() {
-                    @Override
-                    public void onCallback(GameRoom result) {
-                        if (result != null) {
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    gvm.set(new CreateGameLobbyScreen(gvm));
-                                }
-                            });
-                        }
-
+                gameRoomController.createOnlineRoom(playerController.getPlayer(), result -> {
+                    if (result != null) {
+                        Gdx.app.postRunnable(() -> gvm.set(new CreateGameLobbyScreen(gvm)));
                     }
+
                 });
                 return true;
             }

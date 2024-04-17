@@ -23,12 +23,11 @@ public class GameRoomController {
 
     private RoomType roomType;
     private Actor roomActor;
-
-    private final FirebaseInterface fi;
+    private final FirebaseInterface _FI;
 
     private GameRoomController() {
-        fi = StarKnight.getFirebaseInterface();
-    };
+        _FI = StarKnight.getFirebaseInterface();
+    }
 
     public Actor getRoomActor() {
         return this.roomActor;
@@ -50,12 +49,7 @@ public class GameRoomController {
     }
 
     private void stateChanged() {
-        fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-                System.out.println("Updated room");
-            }
-        });
+        _FI.saveRoom(room, result -> System.out.println("Updated room"));
     }
 
     public long getGameStartCountdown() {
@@ -78,76 +72,56 @@ public class GameRoomController {
     }
 
     public void createSoloRoom(Player player) {
-        createGameRoom(player, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-                roomType = RoomType.SOLO;
-            }
-        });
+        createGameRoom(player, result -> roomType = RoomType.SOLO);
     }
 
     public void createOnlineRoom(Player player, FirebaseCallback<GameRoom> callback) {
         roomType = RoomType.ONLINE;
-        createGameRoom(player, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-                if (result == null) {
-                    return;
-                }
-                createRoomListener();
-                callback.onCallback(result);
+        createGameRoom(player, result -> {
+            if (result == null) {
+                return;
             }
+            createRoomListener();
+            callback.onCallback(result);
         });
     }
 
     private void createRoomListener() {
-        fi.createRoomListener(room, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-                if (result != null) {
-                    room = result;
-                }
+        _FI.createRoomListener(room, result -> {
+            if (result != null) {
+                room = result;
             }
         });
     }
 
     public void joinGameRoom(Player player, String code, FirebaseCallback<GameRoom> callback) {
         roomType = RoomType.ONLINE;
-        fi.getRoomByCode(code, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-                if (result != null) {
-                    result.addJoiningPlayer(player);
-                    roomActor = Actor.JOINING;
-                    result.setGameStatus(GameRoom.GameStatus.LOBBY);
-                    room = result;
-                    fi.saveRoom(result, new FirebaseCallback<GameRoom>() {
-                        @Override
-                        public void onCallback(GameRoom result) {
-                            if (result != null) {
-                                createRoomListener();
-                                callback.onCallback(room);
-                            }
-                        }
-                    });
-                }
+        _FI.getRoomByCode(code, result -> {
+            if (result != null) {
+                result.addJoiningPlayer(player);
+                roomActor = Actor.JOINING;
+                result.setGameStatus(GameRoom.GameStatus.LOBBY);
+                room = result;
+                _FI.saveRoom(result, result1 -> {
+                    if (result1 != null) {
+                        createRoomListener();
+                        callback.onCallback(room);
+                    }
+                });
             }
         });
     }
 
     public void createGameRoom(Player player, FirebaseCallback<GameRoom> callback) {
         GameRoom newRoom = new GameRoom(player);
-        fi.saveRoom(newRoom, new FirebaseCallback<GameRoom>() {
-            @Override
-            public void onCallback(GameRoom result) {
-                if (result == null) {
-                    callback.onCallback(null);
-                    return;
-                }
-                room = result;
-                roomActor = Actor.CREATING;
-                callback.onCallback(result);
+        _FI.saveRoom(newRoom, result -> {
+            if (result == null) {
+                callback.onCallback(null);
+                return;
             }
+            room = result;
+            roomActor = Actor.CREATING;
+            callback.onCallback(result);
         });
     }
 
@@ -187,14 +161,12 @@ public class GameRoomController {
         return this.room.getGameMode();
     }
 
-    // Utility methods for checking the active game mode
     public boolean isFastestKnightMode() {
         return this.room.getGameMode() == GameRoom.GameMode.FASTEST_KNIGHT;
     }
 
     public boolean isLastKnightMode() {
         return this.room.getGameMode() == GameRoom.GameMode.LAST_KNIGHT;
-
     }
 
     public void incrementCreatingPlayerScore(int amount) {
@@ -229,24 +201,24 @@ public class GameRoomController {
         if (room.getGameMode().equals(GameRoom.GameMode.LAST_KNIGHT)) {
             if (room.getCreatingPlayerState().getScore() > room.getCreatingPlayer().getHighScore()) {
                 room.getCreatingPlayer().setHighScore(room.getCreatingPlayerState().getScore());
-                fi.savePlayer(room.getCreatingPlayer());
+                _FI.savePlayer(room.getCreatingPlayer());
             }
             if (roomType.equals(RoomType.ONLINE)) {
                 if (room.getJoiningPlayerState().getScore() > room.getJoiningPlayer().getHighScore()) {
                     room.getJoiningPlayer().setHighScore(room.getJoiningPlayerState().getScore());
-                    fi.savePlayer(room.getJoiningPlayer());
+                    _FI.savePlayer(room.getJoiningPlayer());
                 }
             }
         }
         if (room.getGameMode().equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
             if (room.getCreatingPlayerState().getScore() < room.getCreatingPlayer().getFastestTime()) {
                 room.getCreatingPlayer().setFastestTime(room.getCreatingPlayerState().getScore());
-                fi.savePlayer(room.getCreatingPlayer());
+                _FI.savePlayer(room.getCreatingPlayer());
             }
             if (roomType.equals(RoomType.ONLINE)) {
                 if (room.getJoiningPlayerState().getScore() < room.getJoiningPlayer().getFastestTime()) {
                     room.getJoiningPlayer().setFastestTime(room.getJoiningPlayerState().getScore());
-                    fi.savePlayer(room.getJoiningPlayer());
+                    _FI.savePlayer(room.getJoiningPlayer());
                 }
             }
         }

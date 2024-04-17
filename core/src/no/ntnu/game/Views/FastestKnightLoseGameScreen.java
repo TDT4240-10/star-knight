@@ -24,8 +24,8 @@ public class FastestKnightLoseGameScreen extends Screen {
     private final BitmapFont font; // Declare the font variable
     private final ShapeRenderer shapeRenderer;
     private final LoseDeadKnightSprite loseDeadKnightSprite;
-    private float time_elapsed;
-    private Stage stage;
+    private final float time_elapsed;
+    private final Stage stage;
     private final int KNIGHT_X = 300;
     private final int KNIGHT_Y = 900;
 
@@ -117,6 +117,7 @@ public class FastestKnightLoseGameScreen extends Screen {
 
     }
 
+    @SuppressWarnings("DefaultLocale")
     private String formatTime(float time) {
         int hours = (int) (time / 3600);
         int minutes = (int) ((time % 3600) / 60);

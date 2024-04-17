@@ -81,7 +81,7 @@ public class MainMenuScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
     }
 
-    public float calculateCenterX(String text, BitmapFont font) {
+    private float calculateCenterX(String text, BitmapFont font) {
         GlyphLayout layout = new GlyphLayout();
         layout.setText(font, text);
         float textWidth = layout.width;

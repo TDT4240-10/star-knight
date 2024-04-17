@@ -6,7 +6,9 @@ import no.ntnu.game.StarKnight;
 import no.ntnu.game.firestore.Player;
 
 /**
- * PlayerController is a singleton class for logic related to the Player model that is synced to Firebase.
+ * PlayerController is a singleton class for logic related to the Player model
+ * that is synced to Firebase.
+ * 
  * @author Casper Salminen Andreassen
  */
 
@@ -14,11 +16,10 @@ public class PlayerController {
     private static PlayerController instance;
 
     private Player player;
-    private final FirebaseInterface fi;
-
+    private final FirebaseInterface _FI;
 
     private PlayerController() {
-        fi = StarKnight.getFirebaseInterface();
+        _FI = StarKnight.getFirebaseInterface();
     }
 
     public static PlayerController getPlayerController() {
@@ -32,27 +33,16 @@ public class PlayerController {
         return this.player;
     }
 
-    public void signOutPlayer() {
-        this.player = null;
-    }
-
-    public void savePlayer() {
-        fi.savePlayer(player);
-    }
-
     public void signInPlayer(String username, FirebaseCallback<Player> playerCallback) {
-       fi.getPlayer(username, new FirebaseCallback<Player>() {
-           @Override
-           public void onCallback(Player maybePlayer) {
-               if (maybePlayer == null) {
-                   Player newPlayer = new Player(username);
-                   fi.savePlayer(newPlayer);
-                   player = newPlayer;
-               } else {
-                   player = maybePlayer;
-               }
-               playerCallback.onCallback(player);
-           }
-       });
-    };
+        _FI.getPlayer(username, maybePlayer -> {
+            if (maybePlayer == null) {
+                Player newPlayer = new Player(username);
+                _FI.savePlayer(newPlayer);
+                player = newPlayer;
+            } else {
+                player = maybePlayer;
+            }
+            playerCallback.onCallback(player);
+        });
+    }
 }

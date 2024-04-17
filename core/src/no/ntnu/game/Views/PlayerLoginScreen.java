@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.factory.textfield.TextFieldFactory;
 import no.ntnu.game.firestore.Player;
@@ -52,17 +51,8 @@ public class PlayerLoginScreen extends Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 String username = usernameField.getText();
                 if (!username.isEmpty()) {
-                    playerController.signInPlayer(username, new FirebaseCallback<Player>() {
-                        @Override
-                        public void onCallback(Player player) {
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    gvm.set(new MainMenuScreen(gvm));
-                                }
-                            });
-                        }
-                    });
+                    playerController.signInPlayer(username,
+                            player -> Gdx.app.postRunnable(() -> gvm.set(new MainMenuScreen(gvm))));
                 }
                 return true;
             }

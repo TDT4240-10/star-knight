@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,16 +21,13 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class LastKnightEndGameScreen extends Screen {
-    private Texture logo;
-    BitmapFont font; // Declare the font variable
-
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    private LoseDeadKnightSprite loseDeadKnightSprite;
-    private float knightX, knightY;
-    private int player_score;
-    private Stage stage;
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final ShapeRenderer shapeRenderer;
+    private final LoseDeadKnightSprite loseDeadKnightSprite;
+    private final float knightX, knightY;
+    private final int player_score;
+    private final Stage stage;
 
     public LastKnightEndGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
@@ -46,7 +44,8 @@ public class LastKnightEndGameScreen extends Screen {
         this.player_score = player_score;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -64,6 +63,12 @@ public class LastKnightEndGameScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
+    private float calculateCenterX(String text, BitmapFont font) {
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, text);
+        float textWidth = layout.width;
+        return (Gdx.graphics.getWidth() - textWidth) / 2;
+    }
     @Override
     public void render(SpriteBatch sb) {
         float logoWidth = logo.getWidth();
@@ -77,9 +82,7 @@ public class LastKnightEndGameScreen extends Screen {
 
         // Calculate the position to center the text on the screen
         font.getData().setScale(10f);
-        float x = (Gdx.graphics.getWidth() - font.getXHeight()) / 2; // Assuming average glyph width
-        float y = logoY - 100; // Center vertically
-        font.draw(sb, String.valueOf(player_score), x, y);
+        font.draw(sb, String.valueOf(player_score), calculateCenterX(String.valueOf(player_score), font), logoY - 100);
 
         sb.end();
 
@@ -95,12 +98,10 @@ public class LastKnightEndGameScreen extends Screen {
         // draw stage and text field
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-
     }
 
     @Override
     protected void handleInput() {
-
     }
 
     @Override
