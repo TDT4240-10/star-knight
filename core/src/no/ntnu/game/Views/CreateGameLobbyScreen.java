@@ -138,7 +138,7 @@ public class CreateGameLobbyScreen extends Screen {
     public void render(SpriteBatch sb) {
         String usernames = getUsernames();
         if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
-            if (gameRoomController.getGameStartCoundown() == 0) {
+            if (gameRoomController.getGameStartCountdown() == 0) {
                 setGameScreen();
             }
         }
@@ -175,8 +175,8 @@ public class CreateGameLobbyScreen extends Screen {
         font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
         font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
         if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
-            final float CENTER_COUNTDOWN = calculateCenterX("Game starting in: " + gameRoomController.getGameStartCoundown(), font);
-            font.draw(sb, "Game starting in: " + gameRoomController.getGameStartCoundown(), CENTER_COUNTDOWN, 1030);
+            final float CENTER_COUNTDOWN = calculateCenterX("Game starting in: " + gameRoomController.getGameStartCountdown(), font);
+            font.draw(sb, "Game starting in: " + gameRoomController.getGameStartCountdown(), CENTER_COUNTDOWN, 1030);
         }
         sb.end();
 

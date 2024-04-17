@@ -10,13 +10,6 @@ import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.Player;
 
 public class GameRoomController {
-
-
-    public enum GameType {
-        LOCAL, ONLINE
-    }
-
-    private GameType gameType;
     private static GameRoomController instance;
     private GameRoom room;
 
@@ -29,7 +22,6 @@ public class GameRoomController {
     }
 
     private RoomType roomType;
-
     private Actor roomActor;
 
 
@@ -60,7 +52,7 @@ public class GameRoomController {
     }
 
     private void stateChanged() {
-         if (gameType.equals(GameType.LOCAL)) return;
+         // if (roomType.equals(RoomType.SOLO)) return;
         fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
@@ -69,7 +61,7 @@ public class GameRoomController {
         });
     }
 
-    public long getGameStartCoundown() {
+    public long getGameStartCountdown() {
         if (this.room.getGameStartTime() != null) {
             long diffMilli = this.room.getGameStartTime().getTime() - new Date().getTime();
             return diffMilli / 1000;
@@ -161,7 +153,7 @@ public class GameRoomController {
 
     public void createSoloRoom() {
         this.room = new GameRoom();
-        this.gameType = GameType.LOCAL;
+        this.roomType = RoomType.SOLO;
     }
 
     public GameRoom getGameRoom() {
@@ -243,8 +235,8 @@ public class GameRoomController {
                     fi.savePlayer(room.getJoiningPlayer());
                 }
             }
-        } else {
-
+        }
+        if (room.getGameMode().equals(GameRoom.GameMode.FASTEST_KNIGHT)){
             if (room.getCreatingPlayerState().getScore() < room.getCreatingPlayer().getFastestTime()) {
                 room.getCreatingPlayer().setFastestTime(room.getCreatingPlayerState().getScore());
                 fi.savePlayer(room.getCreatingPlayer());
@@ -264,10 +256,4 @@ public class GameRoomController {
         updateHighScores();
     }
 
-
-    public void resetGameMode() {
-        if (room != null) {
-            room.setGameMode(GameRoom.GameMode.NONE);
-        }
-    }
 }

@@ -79,6 +79,9 @@ public class LastKnightGameScreen extends Screen {
     private TextureRegion[] animationFrames;
     private float frameDuration = 0.1f; // Adjust this value to change animation speed
     private float stateTime = 0f;
+
+    GameRoomController gameRoomController;
+
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
         font = new BitmapFont(); // Assuming you have a font for rendering text
