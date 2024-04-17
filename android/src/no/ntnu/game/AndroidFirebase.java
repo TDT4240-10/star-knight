@@ -1,6 +1,5 @@
 package no.ntnu.game;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.Query;
@@ -11,12 +10,9 @@ import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.Player;
 
 public class AndroidFirebase implements FirebaseInterface {
-
-    private final FirebaseDatabase realtimeDatabase;
     private final FirebaseFirestore firestore;
 
     public AndroidFirebase() {
-        realtimeDatabase = FirebaseDatabase.getInstance();
         firestore = FirebaseFirestore.getInstance();
     }
 
