@@ -28,7 +28,6 @@ public class MainMenuScreen extends Screen {
     private final Stage stage;
     private final PlayerController playerController;
 
-
     public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
         playerController = PlayerController.getPlayerController();
@@ -88,11 +87,12 @@ public class MainMenuScreen extends Screen {
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
         final String HIGHSCORE_STRING = "Your highscore: " + playerController.getPlayer().getHighScore().toString();
-        final String FASTEST_STRING = "Your fastest time: " + playerController.getPlayer().getFastestTime().toString();
+        final String FASTEST_STRING = "Your fastest time: "
+                + (Float.isInfinite(playerController.getPlayer().getFastestTime()) ? "0"
+                        : playerController.getPlayer().getFastestTime().toString());
         final String WELCOME_STRING = "Welcome " + playerController.getPlayer().getUsername() + "!";
         final float CENTER_WELCOME_X = calculateCenterX(WELCOME_STRING, font);
         final float CENTER_USER_HIGHSCORE_X = calculateCenterX(HIGHSCORE_STRING, font);
@@ -125,12 +125,14 @@ public class MainMenuScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

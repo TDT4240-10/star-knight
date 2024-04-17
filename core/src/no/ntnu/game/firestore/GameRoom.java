@@ -98,8 +98,8 @@ public class GameRoom extends FirebaseClass {
             this.joiningPlayerState.setScore(30);
             this.creatingPlayerState.setScore(30);
         } else {
-            this.creatingPlayerState.setScore(9999);
-            this.joiningPlayerState.setScore(9999);
+            this.creatingPlayerState.setScore(0);
+            this.joiningPlayerState.setScore(0);
         }
         this.currentGameMode = mode;
     }
