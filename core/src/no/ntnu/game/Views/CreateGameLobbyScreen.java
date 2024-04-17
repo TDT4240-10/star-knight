@@ -159,8 +159,7 @@ public class CreateGameLobbyScreen extends Screen {
         sb.draw(logo, logoX, logoY);
 
         // display room id and player list in the middle
-        font.setColor(0, 0, 0, 1);
-
+        font.setColor(WHITE);
         font.draw(sb, "Room ID: " + roomCode, CENTER_ROOM_ID_X, 1330);
         font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
         font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
