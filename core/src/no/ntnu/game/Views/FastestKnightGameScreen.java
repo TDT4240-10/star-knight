@@ -29,6 +29,7 @@ import no.ntnu.game.Views.Sprites.DeadKnightSprite;
 import no.ntnu.game.Views.Sprites.IdleKnightSprite;
 import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.firestore.GameRoom;
 
 /**
  * Game Screen View class to render StarKnight game
@@ -262,11 +263,22 @@ public class FastestKnightGameScreen extends Screen {
             gameRoomController.gameOver();
             knightController.stopMusic();
             gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
-        } else if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){
+            return;
+        }
+        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")){
             // stop timer
             timer.stop();
             gameRoomController.gameOver();
             gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
+            return;
+        }
+
+        // You you haven't won, but the game is complete, you have lost the game
+        if(gameRoomController.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
+            timer.stop();
+            gameRoomController.gameOver();
+            gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
+            return;
         }
 
         shapeRenderer.end();

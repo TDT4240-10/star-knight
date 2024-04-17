@@ -143,7 +143,8 @@ public class CreateGameLobbyScreen extends Screen {
             }
         }
 
-        // Since clocks can be slightly off, the other client might start the game before the countdown is complete on current device. If that happens we can just start the game on this device.
+        // Since clocks can be slightly off, the other client might start the game before the countdown is complete on current device.
+        // If that happens we can just start the game on this device.
         if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.PLAYING)) {
             setGameScreen();
         }

@@ -74,7 +74,7 @@ public class GameRoomController {
 
         // Set the start time of the game 10 seconds from now.
         Calendar gameStartTime = Calendar.getInstance();
-        gameStartTime.add(Calendar.SECOND, 20);
+        gameStartTime.add(Calendar.SECOND, 10);
         this.room.setGameStartTime(gameStartTime.getTime());
 
         stateChanged();
