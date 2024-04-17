@@ -23,15 +23,15 @@ public class PowerUpFactory {
     public static PowerUp createPowerUp() {
         loadTextures();
         Random random = new Random();
-        int randomIndex = random.nextInt(3) - 1; // Adjust the range based on the number of power-up types
+        int randomIndex = random.nextInt(3); // Adjust the range based on the number of power-up types
 
         switch (randomIndex) {
             case 0:
                 return createLivesPowerUp();
             case 1:
-                return createShieldPowerUp();
-            case 2:
                 return createDoublePoints();
+            case 2:
+                return createBullet();
             // Add cases for other types of PowerUps as needed
             default:
                 return  null; // Default to speed power-up
@@ -49,6 +49,10 @@ public class PowerUpFactory {
     }
     public static PowerUp createDoublePoints() {
         return new PowerUp("double", 5000,getTextureRegionForType("double")); // Example duration: 10000 milliseconds
+    }
+
+    public static PowerUp createBullet() {
+        return new PowerUp("bullet", 5000,getTextureRegionForType("bullet")); // Example duration: 10000 milliseconds
     }
 
     // Method to get the texture region for a specific type of power-up
@@ -71,8 +75,11 @@ public class PowerUpFactory {
                 return 1;
             case "shield":
                 return 4;
+            case "bullet":
+                return 2;
             case "double":
                 return 14;
+
             // Add cases for other types...
             default:
                 return 0; // Default to coin

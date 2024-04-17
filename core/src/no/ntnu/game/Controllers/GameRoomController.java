@@ -12,6 +12,11 @@ import no.ntnu.game.firestore.Player;
 public class GameRoomController {
 
 
+    public enum GameType {
+        LOCAL, ONLINE
+    }
+
+    private GameType gameType;
     private static GameRoomController instance;
     private GameRoom room;
 
@@ -55,6 +60,7 @@ public class GameRoomController {
     }
 
     private void stateChanged() {
+         if (gameType.equals(GameType.LOCAL)) return;
         fi.saveRoom(room, new FirebaseCallback<GameRoom>() {
             @Override
             public void onCallback(GameRoom result) {
@@ -153,11 +159,17 @@ public class GameRoomController {
         });
     }
 
+    public void createSoloRoom() {
+        this.room = new GameRoom();
+        this.gameType = GameType.LOCAL;
+    }
+
     public GameRoom getGameRoom() {
         return this.room;
     }
 
     public void setGameMode(GameRoom.GameMode gameMode) {
+        if (this.room == null) return;
         this.room.setGameMode(gameMode);
         stateChanged();
     }
@@ -252,4 +264,10 @@ public class GameRoomController {
         updateHighScores();
     }
 
+
+    public void resetGameMode() {
+        if (room != null) {
+            room.setGameMode(GameRoom.GameMode.NONE);
+        }
+    }
 }

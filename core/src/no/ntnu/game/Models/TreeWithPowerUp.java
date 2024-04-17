@@ -37,7 +37,7 @@ public class TreeWithPowerUp extends Tree {
     public void init() {
         super.init(); // Call the init method of the superclass
 
-        powerUpFrequency = 2;
+        powerUpFrequency = 10;
         countTowardsNextPowerUp = 0;
 
         // Add powerups to certain trees

@@ -32,17 +32,17 @@ public class Settings {
         return music;
     }
 
-    public float getSound() {
-        return sound;
-    }
-
-    public void setMusic(float music) {
-        if(music >= 0f && music <= 1.0f) {
-            this.music = music;
+        public float getSound() {
+            return sound;
         }
-    }
 
-    public void setSound(float sound) {
+        public void setMusic(float music) {
+            if(music >= 0f && music <= 1.0f) {
+                this.music = music;
+            }
+        }
+
+        public void setSound(float sound) {
         if(sound >= 0f && sound <= 1.0f) {
             this.sound = sound;
         }

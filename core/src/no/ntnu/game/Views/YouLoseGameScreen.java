@@ -12,12 +12,13 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import no.ntnu.game.Views.Sprites.LoseDeadKnightSprite;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * End Game Screen View class to render Lose screen
  *
- * @author Han
+ * @author Deen
  */
 public class YouLoseGameScreen extends Screen {
     private Texture logo;

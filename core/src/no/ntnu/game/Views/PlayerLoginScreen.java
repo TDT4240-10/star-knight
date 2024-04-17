@@ -23,6 +23,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
+/**
+ * Log in screen, linked with firestore to load user's data
+ *
+ * @author Deen
+ */
 
 public class PlayerLoginScreen extends Screen {
     public Player player;

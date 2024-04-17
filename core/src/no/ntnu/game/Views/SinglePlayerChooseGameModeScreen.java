@@ -37,7 +37,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     private Button lastKnightButton;
     private Button fastestKnightButton;
     private Button exitButton;
-    private GameRoomController gameModeController = GameRoomController.getInstance();
+    private GameRoomController gameRoomController = GameRoomController.getInstance();
 
 
     public SinglePlayerChooseGameModeScreen(ScreenManager gvm) {
@@ -55,7 +55,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to last knight
-                gameModeController.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
+                gameRoomController.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
                 gvm.push(new LastKnightGameScreen(gvm));
                 return true;
             }
@@ -68,7 +68,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to fastest knight
-                gameModeController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
+                gameRoomController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
                 gvm.set(new FastestKnightGameScreen(gvm));
                 return true;
             }

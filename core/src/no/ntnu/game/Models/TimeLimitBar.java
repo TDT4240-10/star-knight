@@ -25,11 +25,22 @@ public class TimeLimitBar {
         barWidthPerSecond = barWidth / maxTimeLimit;
     }
 
+    public float getCurrentTime() {
+        return currentTime;
+    }
+    public void setMaxTimeLimit(float time) {
+        this.maxTimeLimit = time;
+    }
+
     public void updateTime(float deltaTime) {
         currentTime -= deltaTime;
         if (currentTime < 0) {
             currentTime = 0;
         }
+    }
+
+    public void resetTime() {
+        currentTime = maxTimeLimit;
     }
 
     public void render(ShapeRenderer shapeRenderer) {
@@ -53,6 +64,11 @@ public class TimeLimitBar {
         if (currentTime > maxTimeLimit) {
             currentTime = maxTimeLimit;
         }
+    }
+
+    public void setPosition(float x, float y) {
+        barX = x;
+        barY = y;
     }
 }
 

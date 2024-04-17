@@ -15,9 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.Models.PlayerModel;
+import no.ntnu.game.Views.Tutorial.SelectTutorialScreen;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
-import no.ntnu.game.firestore.Player;
 
 /**
  * Main Menu View class to render main menu screen
@@ -62,8 +61,7 @@ public class MainMenuScreen extends Screen {
         tutorialButton = rectButtonFactory.createButton("Tutorial", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-//                gvm.push(new TutorialScreen(gvm));
-                gvm.push(new Tutorial1aScreen(gvm));
+                gvm.push(new SelectTutorialScreen(gvm));
                 return true;
             }
         });

@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -22,6 +23,9 @@ import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.TreeWithPowerUp;
+import no.ntnu.game.Views.Sprites.ChoppingKnightSprite;
+import no.ntnu.game.Views.Sprites.DeadKnightSprite;
+import no.ntnu.game.Views.Sprites.IdleKnightSprite;
 import no.ntnu.game.factory.button.CircleButtonFactory;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.firestore.GameRoom;
@@ -40,7 +44,7 @@ public class LastKnightGameScreen extends Screen {
 
     private Button rightButton;
     private Button exitButton;
-
+    private boolean gameStart = false;
 
     private TreeWithPowerUp treeWithPowerUp;
     private ChoppingKnightSprite choppingKnightSprite;
@@ -54,10 +58,9 @@ public class LastKnightGameScreen extends Screen {
 
     private float temp = 0;
 
-    private float timeLimit = 6f;
+    private float timeLimit = 99999f;
 
-    private float initialTime = 6f;
-
+    private float initialTime = 99999f;
     private PowerUp life1;
     private PowerUp life2;
     private PowerUp life3;
@@ -67,13 +70,32 @@ public class LastKnightGameScreen extends Screen {
     private BitmapFont font;
 
     private Stage stage;
-    private GameRoomController gameRoomController;
+    private Texture timerLogo;
+    private Texture bulletLogo;
 
+    float bulletTimerX = (Gdx.graphics.getWidth() - 300f) / 2;
+    float bulletTimerY = Gdx.graphics.getHeight() - 100f;
+    private Texture animationTexture;
+    private TextureRegion[] animationFrames;
+    private float frameDuration = 0.1f; // Adjust this value to change animation speed
+    private float stateTime = 0f;
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
         font = new BitmapFont(); // Assuming you have a font for rendering text
-
+        // Load the background image
+        animationTexture = new Texture("background.png");
+        // Calculate the width of each frame
+        int frameCount = 4; // Assuming 4 frames horizontally
+        int frameWidth = animationTexture.getWidth() / frameCount;
+        // Split the texture into individual frames
+        TextureRegion[][] tmp = TextureRegion.split(animationTexture, frameWidth, animationTexture.getHeight());
+        animationFrames = new TextureRegion[frameCount];
+        for (int i = 0; i < frameCount; i++) {
+            animationFrames[i] = tmp[0][i];
+        }
         powerUpTextLogo = new Texture("power_ups.png");
+        timerLogo = new Texture("starknight_logo.png");
+        bulletLogo = new Texture("bullet.png");
 
         gameRoomController = GameRoomController.getInstance();
 
@@ -88,7 +110,6 @@ public class LastKnightGameScreen extends Screen {
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
-        knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
         knightController = new KnightController("last_knight", -80, 500, treeWithPowerUp, timeLimitBar, timeLimit);
 
         knightController.setIdlePosition(-80, 500);
@@ -109,6 +130,8 @@ public class LastKnightGameScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 //                gvm.set(new CreateOrJoinRoomScreen(gvm));
+                gameStart = true;
+
                 if (Objects.equals(knightController.getDirection(), "right")) {
                     // Run chopping animation
                     knightController.moveLeft();
@@ -128,6 +151,8 @@ public class LastKnightGameScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (Objects.equals(knightController.getDirection(), "left")) {
+                    gameStart = true;
+
                     // Run chopping animation
                     knightController.moveRight();
                 }
@@ -144,6 +169,7 @@ public class LastKnightGameScreen extends Screen {
         exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                knightController.stopMusic();
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -168,6 +194,8 @@ public class LastKnightGameScreen extends Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
+                gameStart = true;
+
                 if (keycode == Input.Keys.LEFT) {
                     if (Objects.equals(knightController.getDirection(), "right")) {
                         knightController.moveLeft();
@@ -194,17 +222,31 @@ public class LastKnightGameScreen extends Screen {
     @Override
     public void update(float dt) {
         // Update the time limit
-        timeLimitBar.updateTime(dt);
-        if (timeLimitBar.isTimeUp()) {
-            gvm.set(new LastKnightEndGameScreen(gvm, score));
+        if (gameStart) {
+            timeLimitBar.updateTime(dt);
+            if (timeLimitBar.isTimeUp()) {
+                knightController.stopMusic();
+                gvm.set(new LastKnightEndGameScreen(gvm, score));
+            }
         }
     }
 
     @Override
     public void render(SpriteBatch sb) {
+        // Update the animation state time
+        stateTime += Gdx.graphics.getDeltaTime();
+
+        // Get the current frame index based on the state time and frame duration
+        int frameIndex = (int) (stateTime / frameDuration) % animationFrames.length;
+
+        // Draw the current frame
+        sb.begin();
+        sb.draw(animationFrames[frameIndex], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sb.end();
         treeWithPowerUp.draw(sb);
 
         timeLimitBar.render(shapeRenderer);
+        knightController.renderBulletTimer(shapeRenderer);
 
         knightController.renderIdleKnight(sb);
         knightController.renderChoppingKnight(sb);
@@ -226,6 +268,10 @@ public class LastKnightGameScreen extends Screen {
 
         sb.begin();
         sb.draw(powerUpTextLogo, 30, 80);
+        font.getData().setScale(4f);
+//        font.draw(sb, "Game Timer: ", bulletTimerX - 350, Gdx.graphics.getHeight() - 30f);
+//        font.draw(sb, "Bullet Timer: ", bulletTimerX - 350, bulletTimerY);
+
 
         // Calculate the position to center the text on the screen
         float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
@@ -242,6 +288,8 @@ public class LastKnightGameScreen extends Screen {
     @Override
     public void dispose() {
         shapeRenderer.dispose();
+        animationTexture.dispose();
+
     }
 
     @Override

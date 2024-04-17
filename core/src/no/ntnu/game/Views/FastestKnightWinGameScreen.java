@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import no.ntnu.game.Views.Sprites.WinRunningKnightSprite;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
