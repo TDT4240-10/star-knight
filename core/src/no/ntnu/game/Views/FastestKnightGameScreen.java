@@ -186,7 +186,7 @@ public class FastestKnightGameScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
         // Adding left and right keystrokes to move the Knight
-        Gdx.input.setInputProcessor(new InputAdapter() {
+        inputMultiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.LEFT) {

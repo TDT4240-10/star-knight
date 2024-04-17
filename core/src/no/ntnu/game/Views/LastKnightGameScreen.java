@@ -194,7 +194,7 @@ public class LastKnightGameScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
         // Adding left and right keystrokes to move the Knight
-        Gdx.input.setInputProcessor(new InputAdapter() {
+        inputMultiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 gameStart = true;
@@ -228,8 +228,8 @@ public class LastKnightGameScreen extends Screen {
         if (gameStart) {
             timeLimitBar.updateTime(dt);
             if (timeLimitBar.isTimeUp()) {
-                knightController.stopMusic();
                 gvm.set(new LastKnightEndGameScreen(gvm, score));
+                knightController.stopMusic();
             }
         }
     }
