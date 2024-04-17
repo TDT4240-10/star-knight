@@ -3,7 +3,6 @@ package no.ntnu.game.Views.Sprites;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
@@ -12,12 +11,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Deen
  */
 public class WinRunningKnightSprite {
-    private Animation<TextureRegion> knightAnimation;
-    private Texture spriteSheet;
+    private final Animation<TextureRegion> knightAnimation;
     private float stateTime;
-    private TextureRegion[] knightFrames;
-    private Sprite knightSprite;
-
+    private final TextureRegion[] knightFrames;
     private int knightHeight;
     private int knightWidth;
     private float x, y; // Position of the sprite
@@ -28,7 +24,7 @@ public class WinRunningKnightSprite {
         y = 0;
 
         // Load the textures from file
-        spriteSheet = new Texture(Gdx.files.internal("win_running_sheet.png"));
+        Texture spriteSheet = new Texture(Gdx.files.internal("win_running_sheet.png"));
         int frameWidth = spriteSheet.getWidth() / 10;
         int frameHeight = spriteSheet.getHeight();
         knightFrames = new TextureRegion[10];
@@ -38,14 +34,6 @@ public class WinRunningKnightSprite {
         }
 
         knightAnimation = new Animation<>(0.1f, knightFrames);
-
-        knightSprite = new Sprite(knightAnimation.getKeyFrame(0));
-    }
-
-    public void flipDirection() {
-        for (TextureRegion region : knightFrames) {
-            region.flip(true, false);
-        }
     }
 
     public void setPosition(float x, float y) {
@@ -58,19 +46,12 @@ public class WinRunningKnightSprite {
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = knightAnimation.getKeyFrame(stateTime, true);
 
-        System.out.println("State time: " + stateTime + ", Frame index: " + knightAnimation.getKeyFrameIndex(stateTime));
-
         // Draw the sprite onto the batch
         batch.begin();
         knightWidth = currentFrame.getRegionWidth() * 6;
         knightHeight = currentFrame.getRegionHeight() * 6;
         batch.draw(currentFrame, x, y, knightWidth, knightHeight);
         batch.end();
-    }
-
-    // Additional methods for sprite animation, if needed
-    public void setBounds (float x, float y, float width, float height) {
-        knightSprite.setBounds(x, y, width, height);
     }
 
     public int getHeight() {

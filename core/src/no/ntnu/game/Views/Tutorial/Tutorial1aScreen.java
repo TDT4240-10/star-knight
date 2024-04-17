@@ -2,16 +2,13 @@ package no.ntnu.game.Views.Tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-
 
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
@@ -24,17 +21,10 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class Tutorial1aScreen extends Screen {
-    private Texture logo;
-    private Texture text;
-    BitmapFont font; // Declare the font variable
-
-    private Button forwardButton;
-
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    private Stage stage;
-
+    private final Texture logo;
+    private final Texture text;
+    private final BitmapFont font;
+    private final Stage stage;
 
     public Tutorial1aScreen(ScreenManager gvm) {
         super(gvm);
@@ -42,11 +32,11 @@ public class Tutorial1aScreen extends Screen {
         text = new Texture("goal_text.jpg");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
+        // Indicate that the touch event is handled
+        Button forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1bScreen(gvm));
@@ -54,7 +44,7 @@ public class Tutorial1aScreen extends Screen {
             }
         });
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -66,7 +56,7 @@ public class Tutorial1aScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition(centerButtonX(exitButton), 100);
 
-        float forwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) + 300;
+        float forwardButtonX = ((float) 0.5 * Gdx.graphics.getWidth()) + 300;
 
         forwardButton.setSize(200, 200);
         forwardButton.setPosition(forwardButtonX, 100);
@@ -87,13 +77,8 @@ public class Tutorial1aScreen extends Screen {
         return (Gdx.graphics.getWidth() - button.getWidth()) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -106,7 +91,6 @@ public class Tutorial1aScreen extends Screen {
         float textHeight = text.getHeight();
         float textX = (screenWidth - textWidth) / 2;
         float textY = (screenHeight - textHeight) / 2;
-
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
@@ -126,6 +110,7 @@ public class Tutorial1aScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         logo.dispose();
@@ -133,8 +118,9 @@ public class Tutorial1aScreen extends Screen {
         font.dispose();
         stage.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

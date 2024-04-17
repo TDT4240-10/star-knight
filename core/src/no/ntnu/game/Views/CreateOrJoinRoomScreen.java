@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -11,42 +10,30 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.FirebaseInterface;
-import no.ntnu.game.StarKnight;
-import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.factory.textfield.TextFieldFactory;
-import no.ntnu.game.firestore.GameRoom;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 /**
- * Create or join room screen, linked with firestore to allow user to create or join a room
+ * Create or join room screen, linked with firestore to allow user to create or
+ * join a room
  *
  * @author Deen
  */
 
 public class CreateOrJoinRoomScreen extends Screen {
-
-    private Stage stage;
-    private TextField roomId;
-
-    private Texture logo;
-
-    BitmapFont font; // Declare the font variable
-    private ShapeRenderer shapeRenderer;
-
-    private Button createRoomButton;
-
-    private Button joinRoomButton;
-
-    private PlayerController playerController;
-    private GameRoomController gameRoomController;
+    private final Stage stage;
+    private final TextField roomId;
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final ShapeRenderer shapeRenderer;
+    private final PlayerController playerController;
+    private final GameRoomController gameRoomController;
 
     public CreateOrJoinRoomScreen(ScreenManager gvm) {
         super(gvm);
@@ -65,44 +52,30 @@ public class CreateOrJoinRoomScreen extends Screen {
         roomId.setSize(400, 200);
         roomId.setPosition((float) (Gdx.graphics.getWidth() / 2) - 200, 1050);
 
-        joinRoomButton = rectButtonFactory.createButton("Join", new InputListener() {
+        // Indicate that the touch event is handled
+        Button joinRoomButton = rectButtonFactory.createButton("Join", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameRoomController.joinGameRoom(playerController.getPlayer(), roomId.getText().toUpperCase(), new FirebaseCallback<GameRoom>() {
-                    @Override
-                    public void onCallback(GameRoom result) {
-                        if (result != null) {
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    gvm.set(new CreateGameLobbyScreen(gvm));
-                                }
-                            });
-                        }
-                    }
-                });
+                gameRoomController.joinGameRoom(playerController.getPlayer(), roomId.getText().toUpperCase(),
+                        result -> {
+                            if (result != null) {
+                                Gdx.app.postRunnable(() -> gvm.set(new CreateGameLobbyScreen(gvm)));
+                            }
+                        });
                 return true; // Indicate that the touch event is handled
             }
         });
 
         joinRoomButton.setSize(350, 200); // Set the size of the button
         joinRoomButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 550);
-        createRoomButton = rectButtonFactory.createButton("Create", new InputListener() {
+        Button createRoomButton = rectButtonFactory.createButton("Create", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameRoomController.createOnlineRoom(playerController.getPlayer(), new FirebaseCallback<GameRoom>() {
-                    @Override
-                    public void onCallback(GameRoom result) {
-                        if (result != null) {
-                            Gdx.app.postRunnable(new Runnable() {
-                                @Override
-                                public void run() {
-                                    gvm.set(new CreateGameLobbyScreen(gvm));
-                                }
-                            });
-                        }
-
+                gameRoomController.createOnlineRoom(playerController.getPlayer(), result -> {
+                    if (result != null) {
+                        Gdx.app.postRunnable(() -> gvm.set(new CreateGameLobbyScreen(gvm)));
                     }
+
                 });
                 return true;
             }
@@ -110,8 +83,6 @@ public class CreateOrJoinRoomScreen extends Screen {
 
         createRoomButton.setSize(350, 200); // Set the size of the button
         createRoomButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
-
-
 
         stage = new Stage();
         stage.addActor(roomId);
@@ -124,24 +95,15 @@ public class CreateOrJoinRoomScreen extends Screen {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-
-
     @Override
     public void render(SpriteBatch sb) {
         // to center the words
         GlyphLayout layout = new GlyphLayout();
-        layout.setText(font,"Enter a 4 letters unique room ID!");
+        layout.setText(font, "Enter a 4 letters unique room ID!");
         float textWidth = layout.width;
         final float CENTER_WORDS_X = (Gdx.graphics.getWidth() - textWidth) / 2;
 
-        // Create input listeners for buttons
-
-
         sb.begin();
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        // draw logo
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -163,20 +125,17 @@ public class CreateOrJoinRoomScreen extends Screen {
     }
 
     @Override
-    public void update(float dt){
-
+    public void update(float dt) {
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
         logo.dispose();
-        stage.dispose(); // Dispose of the stage
-        System.out.println("Create or Join Room View Disposed");
+        stage.dispose();
     }
 
     @Override
-    public void create(){
-
+    public void create() {
     }
 }

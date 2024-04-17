@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -21,18 +20,15 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class LastKnightYouWinGameScreen extends Screen {
-    private Texture logo;
-    BitmapFont font; // Declare the font variable
-
-    private Button exitButton;
-    private Stage stage;
-
-    private ShapeRenderer shapeRenderer;
-    private WinRunningKnightSprite winRunningKnightSprite;
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final Stage stage;
+    private final ShapeRenderer shapeRenderer;
+    private final WinRunningKnightSprite winRunningKnightSprite;
     private float knightX, knightY;
     private float knightSpeed = 300; // Pixels per second
-    //    private SpriteBatch spriteBatch;
-    private int player_score;
+    private final int player_score;
+
     public LastKnightYouWinGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
         logo = new Texture("win.png");
@@ -47,7 +43,8 @@ public class LastKnightYouWinGameScreen extends Screen {
         this.player_score = player_score;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -60,7 +57,6 @@ public class LastKnightYouWinGameScreen extends Screen {
         stage = new Stage();
         stage.addActor(exitButton);
 
-
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
@@ -70,18 +66,12 @@ public class LastKnightYouWinGameScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
-
         sb.begin();
         sb.draw(logo, logoX, logoY);
 
@@ -123,7 +113,7 @@ public class LastKnightYouWinGameScreen extends Screen {
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

@@ -2,9 +2,9 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -21,18 +21,14 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class LastKnightEndGameScreen extends Screen {
-    private Texture logo;
-    BitmapFont font; // Declare the font variable
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final ShapeRenderer shapeRenderer;
+    private final LoseDeadKnightSprite loseDeadKnightSprite;
+    private final float knightX, knightY;
+    private final int player_score;
+    private final Stage stage;
 
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    private LoseDeadKnightSprite loseDeadKnightSprite;
-    private float knightX, knightY;
-    private float knightSpeed = 300; // Pixels per second
-    private int player_score;
-    private Stage stage;
-    //    private SpriteBatch spriteBatch;
     public LastKnightEndGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
         logo = new Texture("your_score.png");
@@ -48,7 +44,8 @@ public class LastKnightEndGameScreen extends Screen {
         this.player_score = player_score;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -60,13 +57,18 @@ public class LastKnightEndGameScreen extends Screen {
 
         stage.addActor(exitButton);
 
-
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
+    private float calculateCenterX(String text, BitmapFont font) {
+        GlyphLayout layout = new GlyphLayout();
+        layout.setText(font, text);
+        float textWidth = layout.width;
+        return (Gdx.graphics.getWidth() - textWidth) / 2;
+    }
     @Override
     public void render(SpriteBatch sb) {
         float logoWidth = logo.getWidth();
@@ -75,20 +77,12 @@ public class LastKnightEndGameScreen extends Screen {
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
-
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         sb.begin();
         sb.draw(logo, logoX, logoY);
 
-
         // Calculate the position to center the text on the screen
         font.getData().setScale(10f);
-        float x = (Gdx.graphics.getWidth() - font.getXHeight()) / 2; // Assuming average glyph width
-        float y = logoY - 100; // Center vertically
-        font.draw(sb, String.valueOf(player_score), x, y);
+        font.draw(sb, String.valueOf(player_score), calculateCenterX(String.valueOf(player_score), font), logoY - 100);
 
         sb.end();
 
@@ -104,30 +98,23 @@ public class LastKnightEndGameScreen extends Screen {
         // draw stage and text field
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-
     }
 
     @Override
     protected void handleInput() {
-
     }
 
     @Override
     public void update(float dt) {
-//        knightX += knightSpeed * dt;
-//        if (knightX > Gdx.graphics.getWidth()) {
-//            knightX = -runningKnightSprite.getWidth();
-//        }
     }
 
     @Override
     public void dispose() {
         shapeRenderer.dispose();
-//        runningKnightSprite.dispose();
     }
 
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

@@ -2,7 +2,6 @@ package no.ntnu.game.Views.Tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
-
 
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
@@ -26,21 +24,15 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 public class Tutorial1cScreen extends Screen {
     private VideoPlayer videoPlayer;
     SpriteBatch batch;
-
-    private Button forwardButton;
-
-    private Button backwardButton;
-    private Button exitButton;
-
-    private Stage stage;
-
+    private final Stage stage;
 
     public Tutorial1cScreen(ScreenManager gvm) {
         super(gvm);
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
+        // Indicate that the touch event is handled
+        Button forwardButton = rectButtonFactory.createButton(">>", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1dScreen(gvm));
@@ -48,8 +40,7 @@ public class Tutorial1cScreen extends Screen {
             }
         });
 
-
-        backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
+        Button backwardButton = rectButtonFactory.createButton("<<", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1bScreen(gvm));
@@ -57,7 +48,7 @@ public class Tutorial1cScreen extends Screen {
             }
         });
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -69,8 +60,8 @@ public class Tutorial1cScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition(centerButtonX(exitButton), 100);
 
-        float forwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) + 300;
-        float backwardButtonX = ((float)0.5*Gdx.graphics.getWidth()) - 470 - backwardButton.getWidth();
+        float forwardButtonX = ((float) 0.5 * Gdx.graphics.getWidth()) + 300;
+        float backwardButtonX = ((float) 0.5 * Gdx.graphics.getWidth()) - 470 - backwardButton.getWidth();
 
         forwardButton.setSize(200, 200);
         forwardButton.setPosition(forwardButtonX, 100);
@@ -98,12 +89,8 @@ public class Tutorial1cScreen extends Screen {
         return (Gdx.graphics.getWidth() - button.getWidth()) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (videoPlayer.isPlaying()) {
             videoPlayer.update();
@@ -129,6 +116,7 @@ public class Tutorial1cScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         if (videoPlayer != null) {
@@ -139,8 +127,9 @@ public class Tutorial1cScreen extends Screen {
         stage.dispose();
         batch.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
 
         try {

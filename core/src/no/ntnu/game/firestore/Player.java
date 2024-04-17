@@ -6,14 +6,15 @@ public class Player extends FirebaseClass {
 
     private String username;
     private Integer highScore;
-    private Integer fastestTime;
+    private Float fastestTime;
 
-    public Player() {};
+    public Player() {
+    };
 
     public Player(String username) {
         this.username = username;
         this.highScore = 0;
-        this.fastestTime = 9999;
+        this.fastestTime = Float.POSITIVE_INFINITY;
         this.setDocumentId(UUID.randomUUID().toString());
     }
 
@@ -33,11 +34,11 @@ public class Player extends FirebaseClass {
         this.highScore = highScore;
     }
 
-    public Integer getFastestTime() {
+    public Float getFastestTime() {
         return this.fastestTime;
     }
 
-    public void setFastestTime(Integer time) {
+    public void setFastestTime(Float time) {
         this.fastestTime = time;
     }
 }

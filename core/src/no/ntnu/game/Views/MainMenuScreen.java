@@ -2,7 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -12,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-
 
 import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.Views.Tutorial.SelectTutorialScreen;
@@ -24,18 +22,11 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class MainMenuScreen extends Screen {
-    private Texture logo;
+    private final Texture logo;
     BitmapFont font; // Declare the font variable
-
-    private Button playButton;
-
-    private Button tutorialButton;
-    private Button settingsButton;
-
-    private ShapeRenderer shapeRenderer;
-    private Stage stage;
-    private PlayerController playerController;
-
+    private final ShapeRenderer shapeRenderer;
+    private final Stage stage;
+    private final PlayerController playerController;
 
     public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
@@ -45,10 +36,9 @@ public class MainMenuScreen extends Screen {
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
-
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        playButton = rectButtonFactory.createButton("Play", new InputListener() {
+        Button playButton = rectButtonFactory.createButton("Play", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new SingleOrMultiplayerScreen(gvm));
@@ -58,28 +48,25 @@ public class MainMenuScreen extends Screen {
         playButton.setSize(350, 200); // Set the size of the button
         playButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 800);
 
-        tutorialButton = rectButtonFactory.createButton("Tutorial", new InputListener() {
+        Button tutorialButton = rectButtonFactory.createButton("Tutorial", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new SelectTutorialScreen(gvm));
                 return true;
             }
         });
-
         tutorialButton.setSize(350, 200); // Set the size of the button
         tutorialButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 550);
 
-        settingsButton = rectButtonFactory.createButton("Settings", new InputListener() {
+        Button settingsButton = rectButtonFactory.createButton("Settings", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new SettingsScreen(gvm));
                 return true;
             }
         });
-
         settingsButton.setSize(350, 200); // Set the size of the button
         settingsButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
-
 
         // Create the stage for the buttons
         stage = new Stage();
@@ -91,30 +78,25 @@ public class MainMenuScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
-
     }
 
-    public float calculateCenterX(String text, BitmapFont font) {
+    private float calculateCenterX(String text, BitmapFont font) {
         GlyphLayout layout = new GlyphLayout();
         layout.setText(font, text);
         float textWidth = layout.width;
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
         final String HIGHSCORE_STRING = "Your highscore: " + playerController.getPlayer().getHighScore().toString();
-        final String FASTEST_STRING = "Your fastest time: " + playerController.getPlayer().getFastestTime().toString();
-        final float CENTER_WELCOME_X = calculateCenterX("Welcome!", font);
-        final float CENTER_USERNAME_X = calculateCenterX(playerController.getPlayer().getUsername(), font);
+        final String FASTEST_STRING = "Your fastest time: "
+                + (Float.isInfinite(playerController.getPlayer().getFastestTime()) ? "0"
+                        : playerController.getPlayer().getFastestTime().toString());
+        final String WELCOME_STRING = "Welcome " + playerController.getPlayer().getUsername() + "!";
+        final float CENTER_WELCOME_X = calculateCenterX(WELCOME_STRING, font);
         final float CENTER_USER_HIGHSCORE_X = calculateCenterX(HIGHSCORE_STRING, font);
         final float CENTER_USER_FASTEST_X = calculateCenterX(FASTEST_STRING, font);
-
-
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
@@ -125,10 +107,9 @@ public class MainMenuScreen extends Screen {
 
         sb.begin();
         sb.draw(logo, logoX, logoY);
-        font.draw(sb, FASTEST_STRING, CENTER_USER_FASTEST_X, 1100);
-        font.draw(sb, HIGHSCORE_STRING, CENTER_USER_HIGHSCORE_X, 1150);
-        font.draw(sb, playerController.getPlayer().getUsername(), CENTER_USERNAME_X, 1200);
-        font.draw(sb, "Welcome!", CENTER_WELCOME_X, 1250);
+        font.draw(sb, FASTEST_STRING, CENTER_USER_FASTEST_X, 1150);
+        font.draw(sb, HIGHSCORE_STRING, CENTER_USER_HIGHSCORE_X, 1200);
+        font.draw(sb, WELCOME_STRING, CENTER_WELCOME_X, 1250);
         sb.end();
 
         // draw stage and text field
@@ -144,12 +125,14 @@ public class MainMenuScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
 
     }
 }

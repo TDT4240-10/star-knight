@@ -1,10 +1,8 @@
 package no.ntnu.game.Views;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -15,30 +13,17 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-import java.util.List;
-
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.firestore.GameRoom;
-import no.ntnu.game.firestore.Player;
 
 public class CreateGameLobbyScreen extends Screen {
-    public static Color Starknightdown = new Color(61 / 255f, 63 / 255f, 65 / 255f, 255 / 255f);
-    public static Color green = new Color(0 / 255f, 255 / 255f, 0 / 255f, 255 / 255f);
-    public static Color grey = new Color(105 / 255f, 105 / 255f, 105 / 255f, 1 / 255f);
-    public static Color white = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
-
-    private Texture logo;
-
-    BitmapFont font; // Declare the font variable
-    private ShapeRenderer shapeRenderer;
-
-    private Button startGameButton;
-    private Button lastKnightButton;
-    private Button fastestKnightButton;
-    private Button exitButton;
-    private GameRoomController gameRoomController;
-    private Stage stage;
+    public static Color WHITE = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+    private final Texture logo;
+    private final BitmapFont font; // Declare the font variable
+    private final ShapeRenderer shapeRenderer;
+    private final GameRoomController gameRoomController;
+    private final Stage stage;
 
     public CreateGameLobbyScreen(ScreenManager gvm) {
         super(gvm);
@@ -50,7 +35,8 @@ public class CreateGameLobbyScreen extends Screen {
         stage = new Stage();
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
 
-        lastKnightButton = rectButtonFactory.createButton("Last knight", new InputListener() {
+        // Indicate that the touch event is handled
+        Button lastKnightButton = rectButtonFactory.createButton("Last knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameRoomController.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
@@ -58,10 +44,11 @@ public class CreateGameLobbyScreen extends Screen {
 
             }
         });
-        lastKnightButton.setColor(white);
+        lastKnightButton.setColor(WHITE);
         lastKnightButton.setSize(400, 200);
         lastKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 + 50, 800);
-        fastestKnightButton = rectButtonFactory.createButton("Fast knight", new InputListener() {
+        // Indicate that the touch event is handled
+        Button fastestKnightButton = rectButtonFactory.createButton("Fast knight", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameRoomController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
@@ -69,11 +56,11 @@ public class CreateGameLobbyScreen extends Screen {
 
             }
         });
-        fastestKnightButton.setColor(white);
+        fastestKnightButton.setColor(WHITE);
         fastestKnightButton.setSize(400, 200);
         fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 450, 800);
 
-        startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
+        Button startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gameRoomController.startGame();
@@ -84,7 +71,8 @@ public class CreateGameLobbyScreen extends Screen {
         startGameButton.setSize(350, 200);
         startGameButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 550);
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        // Indicate that the touch event is handled
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -104,7 +92,6 @@ public class CreateGameLobbyScreen extends Screen {
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
         Gdx.input.setInputProcessor(inputMultiplexer);
-
     }
 
     private void setGameScreen() {
@@ -115,7 +102,8 @@ public class CreateGameLobbyScreen extends Screen {
         gameRoomController.setGameStatusPlaying();
         if (currentMode.equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
             gvm.set(new FastestKnightGameScreen(gvm));
-        } else { gvm.set(new LastKnightGameScreen(gvm));
+        } else {
+            gvm.set(new LastKnightGameScreen(gvm));
         }
     }
 
@@ -127,12 +115,15 @@ public class CreateGameLobbyScreen extends Screen {
     }
 
     private String getUsernames() {
-        String creatingPlayerUsername = gameRoomController.getGameRoom().getCreatingPlayer() != null ? gameRoomController.getGameRoom().getCreatingPlayer().getUsername() : "";
-        String joiningPlayerUsername = gameRoomController.getGameRoom().getJoiningPlayer() != null ? gameRoomController.getGameRoom().getJoiningPlayer().getUsername() : "";
+        String creatingPlayerUsername = gameRoomController.getGameRoom().getCreatingPlayer() != null
+                ? gameRoomController.getGameRoom().getCreatingPlayer().getUsername()
+                : "";
+        String joiningPlayerUsername = gameRoomController.getGameRoom().getJoiningPlayer() != null
+                ? gameRoomController.getGameRoom().getJoiningPlayer().getUsername()
+                : "";
 
         return creatingPlayerUsername + ", " + joiningPlayerUsername;
     }
-
 
     @Override
     public void render(SpriteBatch sb) {
@@ -143,22 +134,21 @@ public class CreateGameLobbyScreen extends Screen {
             }
         }
 
-        // Since clocks can be slightly off, the other client might start the game before the countdown is complete on current device.
+        // Since clocks can be slightly off, the other client might start the game
+        // before the countdown is complete on current device.
         // If that happens we can just start the game on this device.
         if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.PLAYING)) {
             setGameScreen();
         }
         String roomCode = gameRoomController.getGameRoom().getRoomCode();
         GameRoom.GameMode gameMode = gameRoomController.getCurrentGameMode();
-        final float CENTER_ROOMID_X = calculateCenterX("Room ID: " + roomCode, font);
+        final float CENTER_ROOM_ID_X = calculateCenterX("Room ID: " + roomCode, font);
         final float CENTER_PLAYERS_X = calculateCenterX("Players: " + usernames, font);
         final float CENTER_GAME_MODE = calculateCenterX("Game mode: " + gameMode, font);
 
         // display logo
         sb.begin();
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         // draw logo
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
@@ -171,16 +161,15 @@ public class CreateGameLobbyScreen extends Screen {
         // display room id and player list in the middle
         font.setColor(0, 0, 0, 1);
 
-
-        font.draw(sb, "Room ID: " + roomCode, CENTER_ROOMID_X, 1330);
+        font.draw(sb, "Room ID: " + roomCode, CENTER_ROOM_ID_X, 1330);
         font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
         font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
         if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
-            final float CENTER_COUNTDOWN = calculateCenterX("Game starting in: " + gameRoomController.getGameStartCountdown(), font);
+            final float CENTER_COUNTDOWN = calculateCenterX(
+                    "Game starting in: " + gameRoomController.getGameStartCountdown(), font);
             font.draw(sb, "Game starting in: " + gameRoomController.getGameStartCountdown(), CENTER_COUNTDOWN, 1030);
         }
         sb.end();
-
 
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();

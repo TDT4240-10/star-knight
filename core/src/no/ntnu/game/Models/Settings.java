@@ -2,9 +2,6 @@ package no.ntnu.game.Models;
 
 public class Settings {
     private static volatile Settings instance = null;
-
-    // TODO add player information
-
     // https://libgdx.com/wiki/audio/streaming-music
     private float music;
     // https://libgdx.com/wiki/audio/sound-effects
@@ -19,7 +16,7 @@ public class Settings {
 
     public static Settings getInstance() {
         if (instance == null) {
-            synchronized(Settings.class) {
+            synchronized (Settings.class) {
                 if (instance == null) {
                     instance = new Settings();
                 }
@@ -32,18 +29,18 @@ public class Settings {
         return music;
     }
 
-        public float getSound() {
-            return sound;
-        }
+    public float getSound() {
+        return sound;
+    }
 
-        public void setMusic(float music) {
-            if(music >= 0f && music <= 1.0f) {
-                this.music = music;
-            }
+    public void setMusic(float music) {
+        if (music >= 0f && music <= 1.0f) {
+            this.music = music;
         }
+    }
 
-        public void setSound(float sound) {
-        if(sound >= 0f && sound <= 1.0f) {
+    public void setSound(float sound) {
+        if (sound >= 0f && sound <= 1.0f) {
             this.sound = sound;
         }
     }

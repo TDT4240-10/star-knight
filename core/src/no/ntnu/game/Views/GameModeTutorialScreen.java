@@ -2,8 +2,6 @@ package no.ntnu.game.Views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -13,10 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 
-import java.io.FileNotFoundException;
-
 import no.ntnu.game.factory.button.RectangleButtonFactory;
-
 
 /**
  * Game Mode Tutorial Screen, tutorial for the different game modes with video
@@ -31,6 +26,7 @@ public class GameModeTutorialScreen extends Screen {
 
     private Button exitButton;
     private Texture frame;
+
     public GameModeTutorialScreen(ScreenManager gvm) {
         super(gvm);
 
@@ -60,13 +56,8 @@ public class GameModeTutorialScreen extends Screen {
         videoPlayer.setLooping(true);
     }
 
-
-
     @Override
     public void render(SpriteBatch sb) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if (videoPlayer.isPlaying()) {
             videoPlayer.update();
 
@@ -83,7 +74,6 @@ public class GameModeTutorialScreen extends Screen {
         stage.draw();
     }
 
-
     @Override
     public void create() {
         videoPlayer = VideoPlayerCreator.createVideoPlayer();
@@ -92,10 +82,10 @@ public class GameModeTutorialScreen extends Screen {
             videoPlayer.play(Gdx.files.internal("tutorial_videos/game_mode_tutorial_720p.webm"));
             Gdx.app.log("GameModeTutorialScreen", "GameModeTutorialScreen Video loaded and should be playing.");
         } catch (Exception e) {
-            Gdx.app.error("GameModeTutorialScreen", "GameModeTutorialScreen Video file not found or error playing video.", e);
+            Gdx.app.error("GameModeTutorialScreen",
+                    "GameModeTutorialScreen Video file not found or error playing video.", e);
         }
     }
-
 
     @Override
     protected void handleInput() {
@@ -105,6 +95,7 @@ public class GameModeTutorialScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         if (videoPlayer != null) {

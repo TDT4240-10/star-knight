@@ -2,7 +2,6 @@ package no.ntnu.game.Views.Tutorial;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,13 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
-
-import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.Views.GameModeTutorialScreen;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.Views.Tutorial.Tutorial1aScreen;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
@@ -27,30 +23,22 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class SelectTutorialScreen extends Screen {
-    private Texture logo;
-    BitmapFont font; // Declare the font variable
-
-    private Button gameModeButton;
-
-    private Button controlsButton;
-    private Button exitButton;
-
-    private ShapeRenderer shapeRenderer;
-    private Stage stage;
-    private PlayerController playerController;
-
+    private final Texture logo;
+    private final ShapeRenderer shapeRenderer;
+    private final Stage stage;
 
     public SelectTutorialScreen(ScreenManager gvm) {
         super(gvm);
-        playerController = PlayerController.getPlayerController();
         logo = new Texture("tutorial.png");
-        font = new BitmapFont(); // Load the font
+        // Declare the font variable
+        BitmapFont font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
         shapeRenderer = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
-        gameModeButton = rectButtonFactory.createButton("Game Modes", new InputListener() {
+        // Indicate that the touch event is handled
+        Button gameModeButton = rectButtonFactory.createButton("Game Modes", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new GameModeTutorialScreen(gvm));
@@ -58,9 +46,8 @@ public class SelectTutorialScreen extends Screen {
             }
         });
         gameModeButton.setSize(650, 200);
-//        gameModeButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 800);
         gameModeButton.setPosition(centerButtonX(gameModeButton), 800);
-        controlsButton = rectButtonFactory.createButton("Controls & Game Play", new InputListener() {
+        Button controlsButton = rectButtonFactory.createButton("Controls & Game Play", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.push(new Tutorial1aScreen(gvm));
@@ -71,7 +58,7 @@ public class SelectTutorialScreen extends Screen {
         controlsButton.setSize(950, 200); // Set the size of the button
         controlsButton.setPosition(centerButtonX(controlsButton), 550);
 
-        exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
+        Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 gvm.set(new MainMenuScreen(gvm));
@@ -99,13 +86,8 @@ public class SelectTutorialScreen extends Screen {
         return (Gdx.graphics.getWidth() - button.getWidth()) / 2;
     }
 
-
     @Override
     public void render(SpriteBatch sb) {
-        // Clear the screen with grey color
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         float logoWidth = logo.getWidth();
         float logoHeight = logo.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -130,12 +112,14 @@ public class SelectTutorialScreen extends Screen {
     public void update(float dt) {
 
     }
+
     @Override
     public void dispose() {
         shapeRenderer.dispose();
     }
+
     @Override
-    public void create(){
+    public void create() {
 
     }
 }
