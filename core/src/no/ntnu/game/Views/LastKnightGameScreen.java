@@ -31,29 +31,20 @@ import no.ntnu.game.firestore.GameRoom;
  * @author Han
  */
 public class LastKnightGameScreen extends Screen {
-
     private final Texture powerUpTextLogo;
-
     private boolean gameStart = false;
-
     private final TreeWithPowerUp treeWithPowerUp;
     private final KnightController knightController;
-
     private final ShapeRenderer shapeRenderer;
-
     private final TimeLimitBar timeLimitBar;
-
     private int score;
-
     private final BitmapFont font;
-
     private final Stage stage;
     private final Texture animationTexture;
     private final TextureRegion[] animationFrames;
     private final float frameDuration = 0.1f; // Adjust this value to change animation speed
     private float stateTime = 0f;
-
-    GameRoomController gameRoomController;
+    private final GameRoomController gameRoomController;
 
     public LastKnightGameScreen(ScreenManager gvm) {
         super(gvm);
@@ -71,8 +62,8 @@ public class LastKnightGameScreen extends Screen {
 
         gameRoomController = GameRoomController.getInstance();
 
-        float timeLimit = 99999f;
-        float initialTime = 99999f;
+        float timeLimit = 3f;
+        float initialTime = 3f;
         timeLimitBar = new TimeLimitBar(initialTime, timeLimit, 300f, 20f, (Gdx.graphics.getWidth() - 300f) / 2,
                 Gdx.graphics.getHeight() - 50f);
 
