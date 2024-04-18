@@ -29,7 +29,7 @@ public class Tutorial1aScreen extends Screen {
     public Tutorial1aScreen(ScreenManager gvm) {
         super(gvm);
         logo = new Texture("goal.png");
-        text = new Texture("goal_text.jpg");
+        text = new Texture("goal_text.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
 
