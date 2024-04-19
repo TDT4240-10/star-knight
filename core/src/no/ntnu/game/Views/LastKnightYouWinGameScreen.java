@@ -20,27 +20,27 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class LastKnightYouWinGameScreen extends Screen {
-    private final Texture logo;
-    private final BitmapFont font; // Declare the font variable
-    private final Stage stage;
-    private final ShapeRenderer shapeRenderer;
-    private final WinRunningKnightSprite winRunningKnightSprite;
+    private final Texture LOGO;
+    private final BitmapFont FONT; // Declare the font variable
+    private final Stage STAGE;
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final WinRunningKnightSprite WIN_RUNNING_KNIGT_SPRITE;
     private float knightX, knightY;
     private float knightSpeed = 300; // Pixels per second
-    private final int player_score;
+    private final int PLAYER_SCORE;
 
     public LastKnightYouWinGameScreen(ScreenManager gvm, int player_score) {
         super(gvm);
-        logo = new Texture("win.png");
-        font = new BitmapFont(); // Load the font
-        font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        LOGO = new Texture("win.png");
+        FONT = new BitmapFont(); // Load the font
+        FONT.getData().setScale(3); // Set the font scale to 2 for double size
+        SHAPE_RENDERER = new ShapeRenderer();
 
-        winRunningKnightSprite = new WinRunningKnightSprite();
+        WIN_RUNNING_KNIGT_SPRITE = new WinRunningKnightSprite();
 
         knightX = 0;
         knightY = 900;
-        this.player_score = player_score;
+        this.PLAYER_SCORE = player_score;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
         // Indicate that the touch event is handled
@@ -54,31 +54,31 @@ public class LastKnightYouWinGameScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
-        stage = new Stage();
-        stage.addActor(exitButton);
+        STAGE = new Stage();
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
+        inputMultiplexer.addProcessor(STAGE); // Add stage first to ensure it receives input first
         Gdx.input.setInputProcessor(inputMultiplexer);
 
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.begin();
-        sb.draw(logo, logoX, logoY);
+        sb.draw(LOGO, logoX, logoY);
 
-        font.getData().setScale(10f);
-        float x = (Gdx.graphics.getWidth() - font.getXHeight()) / 2; // Assuming average glyph width
+        FONT.getData().setScale(10f);
+        float x = (Gdx.graphics.getWidth() - FONT.getXHeight()) / 2; // Assuming average glyph width
         float y = logoY - 100; // Center vertically
-        font.draw(sb, String.valueOf(player_score), x, y);
+        FONT.draw(sb, String.valueOf(PLAYER_SCORE), x, y);
 
         sb.end();
 
@@ -86,10 +86,10 @@ public class LastKnightYouWinGameScreen extends Screen {
         float dt = Gdx.graphics.getDeltaTime();
         update(dt);
 
-        winRunningKnightSprite.setPosition(knightX, knightY);
-        winRunningKnightSprite.render(sb);
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        WIN_RUNNING_KNIGT_SPRITE.setPosition(knightX, knightY);
+        WIN_RUNNING_KNIGT_SPRITE.render(sb);
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
 
     }
 
@@ -102,14 +102,14 @@ public class LastKnightYouWinGameScreen extends Screen {
     public void update(float dt) {
         knightX += knightSpeed * dt;
         if (knightX > Gdx.graphics.getWidth()) {
-            knightX = -winRunningKnightSprite.getWidth();
+            knightX = -WIN_RUNNING_KNIGT_SPRITE.getWidth();
         }
     }
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        winRunningKnightSprite.dispose();
+        SHAPE_RENDERER.dispose();
+        WIN_RUNNING_KNIGT_SPRITE.dispose();
     }
 
     @Override

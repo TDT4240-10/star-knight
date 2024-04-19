@@ -16,8 +16,8 @@ public class TreeWithPowerUp extends Tree {
     float centerX, centerY;
     private int powerUpFrequency;
     private int countTowardsNextPowerUp;
-    private final String[] treesPossibility = { "none", "left", "right" };
-    private final Color[] colorPossibility = { TreeColor1, TreeColor2 };
+    private final String[] TREES_POSSIBILITY = { "none", "left", "right" };
+    private final Color[] COLOR_POSSIBILITY = { TreeColor1, TreeColor2 };
 
     public TreeWithPowerUp() {
         super();
@@ -76,9 +76,9 @@ public class TreeWithPowerUp extends Tree {
                 newTrunk = "none";
 
             } else {
-                newTrunk = treesPossibility[MathUtils.random(2)];
+                newTrunk = TREES_POSSIBILITY[MathUtils.random(2)];
             }
-            Color color = colorPossibility[MathUtils.random(1)];
+            Color color = COLOR_POSSIBILITY[MathUtils.random(1)];
 
             TreePart treePart = new TreePart(newTrunk, color);
             if (!Objects.equals(newTrunk, "none")) {

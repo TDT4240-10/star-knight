@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 public class RectangleButtonFactory implements AbstractButtonFactory {
-    private final Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
+    private final Skin SKIN = new Skin(Gdx.files.internal("uiskin.json"));
 
     @Override
     public Button createButton(String text, InputListener inputListener) {
-        TextButton button = new TextButton(text, skin);
+        TextButton button = new TextButton(text, SKIN);
         button.getLabel().setFontScale(5);
 
         if (inputListener != null) {

@@ -27,31 +27,31 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public class PlayerLoginScreen extends Screen {
     public Player player;
-    private final Stage stage;
-    private final TextField usernameField;
+    private final Stage STAGE;
+    private final TextField USERNAME_FIELD;
 
-    private final Texture logo;
+    private final Texture LOGO;
 
-    private final BitmapFont font; // Declare the font variable
-    private final ShapeRenderer shapeRenderer;
+    private final BitmapFont FONT; // Declare the font variable
+    private final ShapeRenderer SHAPE_RENDERER;
 
-    private final PlayerController playerController;
+    private final PlayerController PLAYER_CONTROLLER;
 
     public PlayerLoginScreen(ScreenManager gvm) {
         super(gvm);
-        playerController = PlayerController.getPlayerController();
-        logo = new Texture("starknight_logo.png");
-        font = new BitmapFont(); // Load the font
-        font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        PLAYER_CONTROLLER = PlayerController.getPlayerController();
+        LOGO = new Texture("starknight_logo.png");
+        FONT = new BitmapFont(); // Load the font
+        FONT.getData().setScale(3); // Set the font scale to 2 for double size
+        SHAPE_RENDERER = new ShapeRenderer();
         RectangleButtonFactory rectangleButtonFactory = new RectangleButtonFactory();
         TextFieldFactory textFieldFactory = new TextFieldFactory();
         Button loginButton = rectangleButtonFactory.createButton("Login", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                String username = usernameField.getText();
+                String username = USERNAME_FIELD.getText();
                 if (!username.isEmpty()) {
-                    playerController.signInPlayer(username,
+                    PLAYER_CONTROLLER.signInPlayer(username,
                             player -> Gdx.app.postRunnable(() -> gvm.set(new MainMenuScreen(gvm))));
                 }
                 return true;
@@ -61,13 +61,13 @@ public class PlayerLoginScreen extends Screen {
         loginButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 700);
 
         // create text field
-        usernameField = textFieldFactory.createTextfield("");
-        usernameField.setPosition((float) Gdx.graphics.getWidth() / 2 - 250, 1050);
-        usernameField.setSize(500, 150);
+        USERNAME_FIELD = textFieldFactory.createTextfield("");
+        USERNAME_FIELD.setPosition((float) Gdx.graphics.getWidth() / 2 - 250, 1050);
+        USERNAME_FIELD.setSize(500, 150);
 
-        stage = new Stage();
-        stage.addActor(usernameField);
-        stage.addActor(loginButton);
+        STAGE = new Stage();
+        STAGE.addActor(USERNAME_FIELD);
+        STAGE.addActor(loginButton);
     }
 
     public float calculateCenterX(String text, BitmapFont font) {
@@ -79,33 +79,33 @@ public class PlayerLoginScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final float CENTER_USERNAME_X = calculateCenterX("Enter your username!", font);
+        final float CENTER_USERNAME_X = calculateCenterX("Enter your username!", FONT);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
+        inputMultiplexer.addProcessor(STAGE); // Add stage first to ensure it receives input first
 
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         sb.begin();
         // draw logo
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
-        sb.draw(logo, logoX, logoY);
+        sb.draw(LOGO, logoX, logoY);
 
-        font.draw(sb, "Enter your username!", CENTER_USERNAME_X, 1000);
+        FONT.draw(sb, "Enter your username!", CENTER_USERNAME_X, 1000);
         sb.end();
 
         // render both buttons
-        shapeRenderer.end();
+        SHAPE_RENDERER.end();
 
         // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     @Override
@@ -119,9 +119,9 @@ public class PlayerLoginScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        logo.dispose();
-        stage.dispose(); // Dispose of the stage
+        SHAPE_RENDERER.dispose();
+        LOGO.dispose();
+        STAGE.dispose(); // Dispose of the stage
         System.out.println("Create or Join Room View Disposed");
     }
 

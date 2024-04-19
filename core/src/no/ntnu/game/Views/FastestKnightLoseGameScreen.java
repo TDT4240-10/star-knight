@@ -20,25 +20,25 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class FastestKnightLoseGameScreen extends Screen {
-    private final Texture logo;
-    private final BitmapFont font; // Declare the font variable
-    private final ShapeRenderer shapeRenderer;
-    private final LoseDeadKnightSprite loseDeadKnightSprite;
-    private final float time_elapsed;
-    private final Stage stage;
+    private final Texture LOGO;
+    private final BitmapFont FONT; // Declare the font variable
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final LoseDeadKnightSprite LOSE_DEAD_KNIGHT_SPRITE;
+    private final float TIME_ELAPSED;
+    private final Stage STAGE;
     private final int KNIGHT_X = 300;
     private final int KNIGHT_Y = 900;
 
     public FastestKnightLoseGameScreen(ScreenManager gvm, float time_elapsed) {
         super(gvm);
-        logo = new Texture("you_failed.png");
-        stage = new Stage();
-        font = new BitmapFont(); // Load the font
-        font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        LOGO = new Texture("you_failed.png");
+        STAGE = new Stage();
+        FONT = new BitmapFont(); // Load the font
+        FONT.getData().setScale(3); // Set the font scale to 2 for double size
+        SHAPE_RENDERER = new ShapeRenderer();
 
-        loseDeadKnightSprite = new LoseDeadKnightSprite();
-        this.time_elapsed = time_elapsed;
+        LOSE_DEAD_KNIGHT_SPRITE = new LoseDeadKnightSprite();
+        this.TIME_ELAPSED = time_elapsed;
 
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
         // Indicate that the touch event is handled
@@ -52,32 +52,32 @@ public class FastestKnightLoseGameScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
-        stage.addActor(exitButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
+        inputMultiplexer.addProcessor(STAGE); // Add stage first to ensure it receives input first
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
         sb.begin();
-        sb.draw(logo, logoX, logoY);
+        sb.draw(LOGO, logoX, logoY);
 
         // Calculate the position to center the text on the screen
-        font.getData().setScale(10f);
+        FONT.getData().setScale(10f);
         // center x
-        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
+        float x = (Gdx.graphics.getWidth() - FONT.getXHeight() * 7) / 2; // Assuming average glyph width
         float y = logoY - 100; // Center vertically
-        font.draw(sb, String.valueOf(formatTime(time_elapsed)), x, y);
+        FONT.draw(sb, String.valueOf(formatTime(TIME_ELAPSED)), x, y);
 
         sb.end();
 
@@ -85,14 +85,14 @@ public class FastestKnightLoseGameScreen extends Screen {
         float dt = Gdx.graphics.getDeltaTime();
         update(dt);
 
-        loseDeadKnightSprite.setPosition(KNIGHT_X, KNIGHT_Y);
-        loseDeadKnightSprite.render(sb);
+        LOSE_DEAD_KNIGHT_SPRITE.setPosition(KNIGHT_X, KNIGHT_Y);
+        LOSE_DEAD_KNIGHT_SPRITE.render(sb);
 
-        shapeRenderer.end();
+        SHAPE_RENDERER.end();
 
         // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
 
     }
 
@@ -108,7 +108,7 @@ public class FastestKnightLoseGameScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+        SHAPE_RENDERER.dispose();
         // runningKnightSprite.dispose();
     }
 

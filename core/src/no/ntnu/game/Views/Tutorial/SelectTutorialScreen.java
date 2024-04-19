@@ -23,17 +23,17 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class SelectTutorialScreen extends Screen {
-    private final Texture logo;
-    private final ShapeRenderer shapeRenderer;
-    private final Stage stage;
+    private final Texture LOGO;
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final Stage STAGE;
 
     public SelectTutorialScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("tutorial.png");
+        LOGO = new Texture("tutorial.png");
         // Declare the font variable
         BitmapFont font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        SHAPE_RENDERER = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -70,14 +70,14 @@ public class SelectTutorialScreen extends Screen {
         exitButton.setPosition(centerButtonX(exitButton), 300);
 
         // Create the stage for the buttons
-        stage = new Stage();
-        stage.addActor(gameModeButton);
-        stage.addActor(controlsButton);
-        stage.addActor(exitButton);
+        STAGE = new Stage();
+        STAGE.addActor(gameModeButton);
+        STAGE.addActor(controlsButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
     }
@@ -88,20 +88,20 @@ public class SelectTutorialScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
         sb.begin();
-        sb.draw(logo, logoX, logoY);
+        sb.draw(LOGO, logoX, logoY);
         sb.end();
 
         // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     @Override
@@ -115,7 +115,7 @@ public class SelectTutorialScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+        SHAPE_RENDERER.dispose();
     }
 
     @Override

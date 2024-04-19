@@ -8,13 +8,13 @@ import no.ntnu.game.Controllers.GameRoomController;
 
 public class Score {
 
-    private final BitmapFont font;
+    private final BitmapFont FONT;
     public GameRoomController gameRoomController;
 
     // Constructor
     public Score() {
         gameRoomController = GameRoomController.getInstance();
-        font = new BitmapFont(); // Assuming you have a font for rendering text
+        FONT = new BitmapFont(); // Assuming you have a font for rendering text
     }
 
     // Method to increment score
@@ -71,12 +71,12 @@ public class Score {
         // if game mode is last knight standing, render score
         batch.begin();
         // Calculate the position to center the text on the screen
-        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2; // Assuming average glyph width
+        float x = (Gdx.graphics.getWidth() - FONT.getXHeight() * 7) / 2; // Assuming average glyph width
         float y = Gdx.graphics.getHeight() - 500; // Center vertically
-        font.getData().setScale(4f);
-        font.draw(batch, "Score: " + getLocalPlayerScore(), x, y);
+        FONT.getData().setScale(4f);
+        FONT.draw(batch, "Score: " + getLocalPlayerScore(), x, y);
         if (gameRoomController.getRoomType().equals(GameRoomController.RoomType.ONLINE)) {
-            font.draw(batch, "Opponent: " + getRemotePlayerScore(), x, y - 40);
+            FONT.draw(batch, "Opponent: " + getRemotePlayerScore(), x, y - 40);
         }
         batch.end();
     }

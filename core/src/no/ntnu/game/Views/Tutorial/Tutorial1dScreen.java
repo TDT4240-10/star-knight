@@ -21,16 +21,16 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class Tutorial1dScreen extends Screen {
-    private final Texture powerUp;
-    private final BitmapFont font; // Declare the font variable
-    private final Stage stage;
-
+    private final Texture POWER_UP;
+    private final BitmapFont FONT; // Declare the font variable
+    private final Stage STAGE;
+    
     public Tutorial1dScreen(ScreenManager gvm) {
         super(gvm);
-        powerUp = new Texture("power_up_tutorial.png");
+        POWER_UP = new Texture("power_up_tutorial.png");
 
-        font = new BitmapFont(); // Load the font
-        font.getData().setScale(3); // Set the font scale to 2 for double size
+        FONT = new BitmapFont(); // Load the font
+        FONT.getData().setScale(3); // Set the font scale to 2 for double size
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -60,13 +60,13 @@ public class Tutorial1dScreen extends Screen {
         backwardButton.setPosition(backwardButtonX, 100);
 
         // Create the stage for the buttons
-        stage = new Stage();
-        stage.addActor(backwardButton);
-        stage.addActor(exitButton);
+        STAGE = new Stage();
+        STAGE.addActor(backwardButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
     }
 
@@ -79,19 +79,19 @@ public class Tutorial1dScreen extends Screen {
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
 
-        float powerUpWidth = powerUp.getWidth();
-        float powerUpHeight = powerUp.getHeight();
+        float powerUpWidth = POWER_UP.getWidth();
+        float powerUpHeight = POWER_UP.getHeight();
         float powerUpX = (screenWidth - powerUpWidth) / 2;
         // 1/4 from the top
         float powerUpY = (screenHeight - powerUpHeight) * 3 / 4;
 
         sb.begin();
-        sb.draw(powerUp, powerUpX, powerUpY);
+        sb.draw(POWER_UP, powerUpX, powerUpY);
         sb.end();
 
         // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     @Override
@@ -105,9 +105,9 @@ public class Tutorial1dScreen extends Screen {
 
     @Override
     public void dispose() {
-        powerUp.dispose();
-        font.dispose();
-        stage.dispose();
+        POWER_UP.dispose();
+        FONT.dispose();
+        STAGE.dispose();
     }
 
     @Override

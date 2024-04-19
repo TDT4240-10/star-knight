@@ -22,19 +22,19 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class MainMenuScreen extends Screen {
-    private final Texture logo;
+    private final Texture LOGO;
     BitmapFont font; // Declare the font variable
-    private final ShapeRenderer shapeRenderer;
-    private final Stage stage;
-    private final PlayerController playerController;
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final Stage STAGE;
+    private final PlayerController PLAYER_CONTROLLER;
 
     public MainMenuScreen(ScreenManager gvm) {
         super(gvm);
-        playerController = PlayerController.getPlayerController();
-        logo = new Texture("starknight_logo.png");
+        PLAYER_CONTROLLER = PlayerController.getPlayerController();
+        LOGO = new Texture("starknight_logo.png");
         font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        SHAPE_RENDERER = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -69,14 +69,14 @@ public class MainMenuScreen extends Screen {
         settingsButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
         // Create the stage for the buttons
-        stage = new Stage();
-        stage.addActor(playButton);
-        stage.addActor(tutorialButton);
-        stage.addActor(settingsButton);
+        STAGE = new Stage();
+        STAGE.addActor(playButton);
+        STAGE.addActor(tutorialButton);
+        STAGE.addActor(settingsButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
     }
 
@@ -89,32 +89,32 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        final String HIGHSCORE_STRING = "Your highscore: " + playerController.getPlayer().getHighScore().toString();
+        final String HIGHSCORE_STRING = "Your highscore: " + PLAYER_CONTROLLER.getPlayer().getHighScore().toString();
         final String FASTEST_STRING = "Your fastest time: "
-                + (Float.isInfinite(playerController.getPlayer().getFastestTime()) ? "0"
-                        : playerController.getPlayer().getFastestTime().toString());
-        final String WELCOME_STRING = "Welcome " + playerController.getPlayer().getUsername() + "!";
+                + (Float.isInfinite(PLAYER_CONTROLLER.getPlayer().getFastestTime()) ? "0"
+                        : PLAYER_CONTROLLER.getPlayer().getFastestTime().toString());
+        final String WELCOME_STRING = "Welcome " + PLAYER_CONTROLLER.getPlayer().getUsername() + "!";
         final float CENTER_WELCOME_X = calculateCenterX(WELCOME_STRING, font);
         final float CENTER_USER_HIGHSCORE_X = calculateCenterX(HIGHSCORE_STRING, font);
         final float CENTER_USER_FASTEST_X = calculateCenterX(FASTEST_STRING, font);
 
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
         sb.begin();
-        sb.draw(logo, logoX, logoY);
+        sb.draw(LOGO, logoX, logoY);
         font.draw(sb, FASTEST_STRING, CENTER_USER_FASTEST_X, 1150);
         font.draw(sb, HIGHSCORE_STRING, CENTER_USER_HIGHSCORE_X, 1200);
         font.draw(sb, WELCOME_STRING, CENTER_WELCOME_X, 1250);
         sb.end();
 
         // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class MainMenuScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+        SHAPE_RENDERER.dispose();
     }
 
     @Override

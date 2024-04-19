@@ -21,25 +21,25 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class SingleOrMultiplayerScreen extends Screen {
-    private final Texture logo;
+    private final Texture LOGO;
 
-    private final Stage stage;
+    private final Stage STAGE;
 
-    public final GameRoomController gameRoomController;
-    private final PlayerController playerController;
+    public final GameRoomController GAME_ROOM_CONTROLLER;
+    private final PlayerController PLAYER_CONTROLLER;
 
-    private final ShapeRenderer shapeRenderer;
+    private final ShapeRenderer SHAPE_RENDERER;
 
     public SingleOrMultiplayerScreen(ScreenManager gvm) {
         super(gvm);
-        gameRoomController = GameRoomController.getInstance();
-        playerController = PlayerController.getPlayerController();
-        logo = new Texture("starknight_logo.png");
-        stage = new Stage();
+        GAME_ROOM_CONTROLLER = GameRoomController.getInstance();
+        PLAYER_CONTROLLER = PlayerController.getPlayerController();
+        LOGO = new Texture("starknight_logo.png");
+        STAGE = new Stage();
         // Declare the font variable
         BitmapFont font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        SHAPE_RENDERER = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -47,8 +47,8 @@ public class SingleOrMultiplayerScreen extends Screen {
         Button singleplayerButton = rectButtonFactory.createButton("Solo", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameRoomController.resetGameMode();
-                gameRoomController.createSoloRoom(playerController.getPlayer());
+                GAME_ROOM_CONTROLLER.resetGameMode();
+                GAME_ROOM_CONTROLLER.createSoloRoom(PLAYER_CONTROLLER.getPlayer());
                 gvm.set(new SinglePlayerChooseGameModeScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -59,7 +59,7 @@ public class SingleOrMultiplayerScreen extends Screen {
         Button multiplayerButton = rectButtonFactory.createButton("Online", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                gameRoomController.resetGameMode();
+                GAME_ROOM_CONTROLLER.resetGameMode();
                 gvm.push(new CreateOrJoinRoomScreen(gvm));
                 return true;
             }
@@ -80,32 +80,32 @@ public class SingleOrMultiplayerScreen extends Screen {
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
         // Create the stage for the buttons
-        stage.addActor(singleplayerButton);
-        stage.addActor(multiplayerButton);
-        stage.addActor(exitButton);
+        STAGE.addActor(singleplayerButton);
+        STAGE.addActor(multiplayerButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
         sb.begin();
-        sb.draw(logo, logoX, logoY);
+        sb.draw(LOGO, logoX, logoY);
         sb.end();
 
-        shapeRenderer.end();
+        SHAPE_RENDERER.end();
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     @Override
@@ -119,7 +119,7 @@ public class SingleOrMultiplayerScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
+        SHAPE_RENDERER.dispose();
     }
 
     @Override

@@ -24,7 +24,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 public class Tutorial1cScreen extends Screen {
     private VideoPlayer videoPlayer;
     SpriteBatch batch;
-    private final Stage stage;
+    private final Stage STAGE;
 
     public Tutorial1cScreen(ScreenManager gvm) {
         super(gvm);
@@ -70,14 +70,14 @@ public class Tutorial1cScreen extends Screen {
         backwardButton.setPosition(backwardButtonX, 100);
 
         // Create the stage for the buttons
-        stage = new Stage();
-        stage.addActor(forwardButton);
-        stage.addActor(backwardButton);
-        stage.addActor(exitButton);
+        STAGE = new Stage();
+        STAGE.addActor(forwardButton);
+        STAGE.addActor(backwardButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
         batch = new SpriteBatch();
@@ -104,8 +104,8 @@ public class Tutorial1cScreen extends Screen {
         }
 
         // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     @Override
@@ -124,7 +124,7 @@ public class Tutorial1cScreen extends Screen {
             videoPlayer.dispose(); // Dispose of the video player
             videoPlayer = null; // Nullify the reference
         }
-        stage.dispose();
+        STAGE.dispose();
         batch.dispose();
     }
 

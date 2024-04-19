@@ -31,52 +31,52 @@ import no.ntnu.game.firestore.GameRoom;
  * @author Han
  */
 public class FastestKnightGameScreen extends Screen {
-    private final GameRoomController gameRoomController;
-    private final Texture powerUpTextLogo;
-    private final TreeWithPowerUp treeWithPowerUp;
-    private final KnightController knightController;
-    private final ShapeRenderer shapeRenderer;
-    private final Stage stage;
-    private final BitmapFont font;
-    private final Timer timer;
+    private final GameRoomController GAME_ROOM_CONTROLLER;
+    private final Texture POWER_UP_TEXT_LOGO;
+    private final TreeWithPowerUp TREE_WITH_POWER_UP;
+    private final KnightController KNIGHT_CONTROLLER;
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final Stage STAGE;
+    private final BitmapFont FONT;
+    private final Timer TIMER;
 
-    private final Texture animationTexture;
-    private final TextureRegion[] animationFrames;
+    private final Texture ANIMATION_TEXTURE;
+    private final TextureRegion[] ANIMATION_FRAMES;
     private final float TIME_LIMIT = 30f;
     private final float FRAME_DURATION = 0.1f; // Adjust this value to change animation speed
-    private float stateTime = 0f;
+    private float STATE_TIME = 0f;
 
     public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
-        gameRoomController = GameRoomController.getInstance();
-        timer = new Timer();
-        font = new BitmapFont(); // Assuming you have a font for rendering text
+        GAME_ROOM_CONTROLLER = GameRoomController.getInstance();
+        TIMER = new Timer();
+        FONT = new BitmapFont(); // Assuming you have a font for rendering text
 
         // Load the background image
-        animationTexture = new Texture("background.png");
+        ANIMATION_TEXTURE = new Texture("background.png");
 
         // Calculate the width of each frame
         int frameCount = 4; // Assuming 4 frames horizontally
-        int frameWidth = animationTexture.getWidth() / frameCount;
+        int frameWidth = ANIMATION_TEXTURE.getWidth() / frameCount;
 
         // Split the texture into individual frames
-        TextureRegion[][] tmp = TextureRegion.split(animationTexture, frameWidth, animationTexture.getHeight());
-        animationFrames = new TextureRegion[frameCount];
-        System.arraycopy(tmp[0], 0, animationFrames, 0, frameCount);
+        TextureRegion[][] tmp = TextureRegion.split(ANIMATION_TEXTURE, frameWidth, ANIMATION_TEXTURE.getHeight());
+        ANIMATION_FRAMES = new TextureRegion[frameCount];
+        System.arraycopy(tmp[0], 0, ANIMATION_FRAMES, 0, frameCount);
 
-        powerUpTextLogo = new Texture("power_ups.png");
+        POWER_UP_TEXT_LOGO = new Texture("power_ups.png");
 
-        stage = new Stage();
+        STAGE = new Stage();
 
-        treeWithPowerUp = new TreeWithPowerUp();
-        treeWithPowerUp.init();
+        TREE_WITH_POWER_UP = new TreeWithPowerUp();
+        TREE_WITH_POWER_UP.init();
 
-        shapeRenderer = new ShapeRenderer();
+        SHAPE_RENDERER = new ShapeRenderer();
 
-        knightController = new KnightController("fastest_knight", -80, 500, treeWithPowerUp, null, TIME_LIMIT);
-        knightController.setIdlePosition(-80, 500);
-        knightController.setChoppingPosition(-99999, -99999);
-        knightController.setDeadPosition(-99999, -99999);
+        KNIGHT_CONTROLLER = new KnightController("fastest_knight", -80, 500, TREE_WITH_POWER_UP, null, TIME_LIMIT);
+        KNIGHT_CONTROLLER.setIdlePosition(-80, 500);
+        KNIGHT_CONTROLLER.setChoppingPosition(-99999, -99999);
+        KNIGHT_CONTROLLER.setDeadPosition(-99999, -99999);
 
         PowerUpFactory.createLivesPowerUp();
         PowerUpFactory.createLivesPowerUp();
@@ -94,11 +94,11 @@ public class FastestKnightGameScreen extends Screen {
         Button leftButton = circleButtonFactory.createButton("<", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (Objects.equals(knightController.getDirection(), "right")) {
+                if (Objects.equals(KNIGHT_CONTROLLER.getDirection(), "right")) {
                     // Run chopping animation
-                    knightController.moveLeft();
+                    KNIGHT_CONTROLLER.moveLeft();
                 } else {
-                    knightController.stayLeft();
+                    KNIGHT_CONTROLLER.stayLeft();
                 }
                 return true; // Indicate that the touch event is handled
             }
@@ -114,11 +114,11 @@ public class FastestKnightGameScreen extends Screen {
         Button rightButton = circleButtonFactory.createButton(">", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if (Objects.equals(knightController.getDirection(), "left")) {
+                if (Objects.equals(KNIGHT_CONTROLLER.getDirection(), "left")) {
                     // Run chopping animation
-                    knightController.moveRight();
+                    KNIGHT_CONTROLLER.moveRight();
                 } else {
-                    knightController.stayRight();
+                    KNIGHT_CONTROLLER.stayRight();
                 }
                 return true; // Indicate that the touch event is handled
             }
@@ -131,9 +131,9 @@ public class FastestKnightGameScreen extends Screen {
         Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                knightController.stopMusic();
-                timer.stop();
-                gameRoomController.gameOver();
+                KNIGHT_CONTROLLER.stopMusic();
+                TIMER.stop();
+                GAME_ROOM_CONTROLLER.gameOver();
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -144,29 +144,29 @@ public class FastestKnightGameScreen extends Screen {
         exitButton.setSize(300, 250);
 
         // Create the stage for the buttons
-        stage.addActor(leftButton);
-        stage.addActor(rightButton);
-        stage.addActor(exitButton);
+        STAGE.addActor(leftButton);
+        STAGE.addActor(rightButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
 
         // Adding left and right keystrokes to move the Knight
         inputMultiplexer.addProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.LEFT) {
-                    if (Objects.equals(knightController.getDirection(), "right")) {
-                        knightController.moveLeft();
+                    if (Objects.equals(KNIGHT_CONTROLLER.getDirection(), "right")) {
+                        KNIGHT_CONTROLLER.moveLeft();
                     } else {
-                        knightController.stayLeft();
+                        KNIGHT_CONTROLLER.stayLeft();
                     }
                 } else if (keycode == Input.Keys.RIGHT) {
-                    if (Objects.equals(knightController.getDirection(), "left")) {
-                        knightController.moveRight();
+                    if (Objects.equals(KNIGHT_CONTROLLER.getDirection(), "left")) {
+                        KNIGHT_CONTROLLER.moveRight();
                     } else {
-                        knightController.stayRight();
+                        KNIGHT_CONTROLLER.stayRight();
                     }
                 }
                 return true; // Indicate that the key event is handled
@@ -180,39 +180,39 @@ public class FastestKnightGameScreen extends Screen {
     protected void handleInput() {
         // when touched either buttons, start timer
         if (Gdx.input.justTouched()) {
-            timer.start();
+            TIMER.start();
         }
     }
 
     @Override
     public void update(float dt) {
         // Update the elapsed time
-        timer.update(dt);
+        TIMER.update(dt);
     }
 
     @Override
     public void render(SpriteBatch sb) {
         // Update the animation state time
-        stateTime += Gdx.graphics.getDeltaTime();
+        STATE_TIME += Gdx.graphics.getDeltaTime();
 
         // Get the current frame index based on the state time and frame duration
-        int frameIndex = (int) (stateTime / FRAME_DURATION) % animationFrames.length;
+        int frameIndex = (int) (STATE_TIME / FRAME_DURATION) % ANIMATION_FRAMES.length;
 
         // Draw the current frame
         sb.begin();
-        sb.draw(animationFrames[frameIndex], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sb.draw(ANIMATION_FRAMES[frameIndex], 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         sb.end();
-        treeWithPowerUp.draw(sb);
+        TREE_WITH_POWER_UP.draw(sb);
 
-        knightController.renderIdleKnight(sb);
-        knightController.renderChoppingKnight(sb);
-        knightController.renderDeadKnight(sb);
+        KNIGHT_CONTROLLER.renderIdleKnight(sb);
+        KNIGHT_CONTROLLER.renderChoppingKnight(sb);
+        KNIGHT_CONTROLLER.renderDeadKnight(sb);
 
-        knightController.renderLife1(sb);
-        knightController.renderLife2(sb);
-        knightController.renderLife3(sb);
+        KNIGHT_CONTROLLER.renderLife1(sb);
+        KNIGHT_CONTROLLER.renderLife2(sb);
+        KNIGHT_CONTROLLER.renderLife3(sb);
 
-        int player_score = knightController.getScore();
+        int player_score = KNIGHT_CONTROLLER.getScore();
 
         if (player_score < 0) {
             player_score = 0;
@@ -220,45 +220,45 @@ public class FastestKnightGameScreen extends Screen {
 
         if (player_score == 0) {
             // stop timer
-            timer.stop();
-            knightController.setScore((int) timer.getElapsedTime());
-            gameRoomController.gameOver();
-            knightController.stopMusic();
-            gvm.set(new FastestKnightWinGameScreen(gvm, timer.getElapsedTime()));
+            TIMER.stop();
+            KNIGHT_CONTROLLER.setScore((int) TIMER.getElapsedTime());
+            GAME_ROOM_CONTROLLER.gameOver();
+            KNIGHT_CONTROLLER.stopMusic();
+            gvm.set(new FastestKnightWinGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
-        if (Objects.equals(knightController.update(Gdx.graphics.getDeltaTime()), "lose")) {
+        if (Objects.equals(KNIGHT_CONTROLLER.update(Gdx.graphics.getDeltaTime()), "lose")) {
             // stop timer
-            timer.stop();
-            gameRoomController.gameOver();
-            gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
+            TIMER.stop();
+            GAME_ROOM_CONTROLLER.gameOver();
+            gvm.set(new FastestKnightLoseGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
 
         // You you haven't won, but the game is complete, you have lost the game
-        if (gameRoomController.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
-            timer.stop();
-            gameRoomController.gameOver();
-            gvm.set(new FastestKnightLoseGameScreen(gvm, timer.getElapsedTime()));
+        if (GAME_ROOM_CONTROLLER.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
+            TIMER.stop();
+            GAME_ROOM_CONTROLLER.gameOver();
+            gvm.set(new FastestKnightLoseGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
 
-        shapeRenderer.end();
+        SHAPE_RENDERER.end();
 
         sb.begin();
-        sb.draw(powerUpTextLogo, 30, 80);
+        sb.draw(POWER_UP_TEXT_LOGO, 30, 80);
 
-        float x = (Gdx.graphics.getWidth() - font.getXHeight() * 7) / 2 - 80; // Assuming average glyph width
+        float x = (Gdx.graphics.getWidth() - FONT.getXHeight() * 7) / 2 - 80; // Assuming average glyph width
         float y = Gdx.graphics.getHeight() - 500; // Center vertically
         float timer_y = Gdx.graphics.getHeight() - 300; // Center vertically
-        font.getData().setScale(4f);
-        font.draw(sb, "Trees to cut: " + player_score, x, y);
-        font.draw(sb, "Time: " + formatTime(timer.getElapsedTime()), x, timer_y);
+        FONT.getData().setScale(4f);
+        FONT.draw(sb, "Trees to cut: " + player_score, x, y);
+        FONT.draw(sb, "Time: " + formatTime(TIMER.getElapsedTime()), x, timer_y);
         // print out the time that user has taken
         // implement a count up timer
         sb.end();
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     // method to format time in HH:MM:SS format
@@ -272,8 +272,8 @@ public class FastestKnightGameScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        animationTexture.dispose();
+        SHAPE_RENDERER.dispose();
+        ANIMATION_TEXTURE.dispose();
     }
 
     @Override

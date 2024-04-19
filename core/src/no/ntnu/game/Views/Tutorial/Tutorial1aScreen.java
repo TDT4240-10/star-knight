@@ -21,17 +21,17 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Deen
  */
 public class Tutorial1aScreen extends Screen {
-    private final Texture logo;
-    private final Texture text;
-    private final BitmapFont font;
-    private final Stage stage;
+    private final Texture LOGO;
+    private final Texture TEXT;
+    private final BitmapFont FONT;
+    private final Stage STAGE;
 
     public Tutorial1aScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("goal.png");
-        text = new Texture("goal_text.png");
-        font = new BitmapFont(); // Load the font
-        font.getData().setScale(3); // Set the font scale to 2 for double size
+        LOGO = new Texture("goal.png");
+        TEXT = new Texture("goal_text.png");
+        FONT = new BitmapFont(); // Load the font
+        FONT.getData().setScale(3); // Set the font scale to 2 for double size
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -62,13 +62,13 @@ public class Tutorial1aScreen extends Screen {
         forwardButton.setPosition(forwardButtonX, 100);
 
         // Create the stage for the buttons
-        stage = new Stage();
-        stage.addActor(forwardButton);
-        stage.addActor(exitButton);
+        STAGE = new Stage();
+        STAGE.addActor(forwardButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
     }
@@ -79,27 +79,27 @@ public class Tutorial1aScreen extends Screen {
 
     @Override
     public void render(SpriteBatch sb) {
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
         // render text
-        float textWidth = text.getWidth();
-        float textHeight = text.getHeight();
+        float textWidth = TEXT.getWidth();
+        float textHeight = TEXT.getHeight();
         float textX = (screenWidth - textWidth) / 2;
         float textY = (screenHeight - textHeight) / 2;
 
         sb.begin();
-        sb.draw(logo, logoX, logoY);
-        sb.draw(text, textX, textY);
+        sb.draw(LOGO, logoX, logoY);
+        sb.draw(TEXT, textX, textY);
         sb.end();
 
         // draw stage and text field
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
     }
 
     @Override
@@ -113,10 +113,10 @@ public class Tutorial1aScreen extends Screen {
 
     @Override
     public void dispose() {
-        logo.dispose();
-        text.dispose();
-        font.dispose();
-        stage.dispose();
+        LOGO.dispose();
+        TEXT.dispose();
+        FONT.dispose();
+        STAGE.dispose();
     }
 
     @Override

@@ -154,7 +154,7 @@ public class KnightController {
         life3Active = true;
     }
 
-    public void getDouble(final PowerUp powerUp) {
+    public void getDouble(final PowerUp POWER_UP) {
         // Set DoubleActive to true
         DoubleActive = true;
 
@@ -164,7 +164,7 @@ public class KnightController {
             public void run() {
                 DoubleActive = false; // Reset DoubleActive to false after duration
             }
-        }, powerUp.getDuration() / 1000f); // Duration needs to be in seconds, so divide by 1000
+        }, POWER_UP.getDuration() / 1000f); // Duration needs to be in seconds, so divide by 1000
     }
 
     public void checkPowerUp() {

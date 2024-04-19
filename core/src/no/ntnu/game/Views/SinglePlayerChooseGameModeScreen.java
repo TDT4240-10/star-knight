@@ -21,18 +21,18 @@ import no.ntnu.game.firestore.GameRoom;
  * for single player mode.
  */
 public class SinglePlayerChooseGameModeScreen extends Screen {
-    private final Stage stage;
-    private final Texture logo;
-    private final ShapeRenderer shapeRenderer;
-    private final GameRoomController gameRoomController = GameRoomController.getInstance();
+    private final Stage STAGE;
+    private final Texture LOGO;
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final GameRoomController GAME_ROOM_CONTROLLER = GameRoomController.getInstance();
 
     public SinglePlayerChooseGameModeScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("starknight_logo.png");
+        LOGO = new Texture("starknight_logo.png");
         // Declare the font variable
         BitmapFont font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        SHAPE_RENDERER = new ShapeRenderer();
 
         // Create buttons
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
@@ -42,7 +42,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to last knight
-                gameRoomController.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
+                GAME_ROOM_CONTROLLER.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
                 gvm.push(new LastKnightGameScreen(gvm));
                 return true;
             }
@@ -55,7 +55,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to fastest knight
-                gameRoomController.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
+                GAME_ROOM_CONTROLLER.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
                 gvm.set(new FastestKnightGameScreen(gvm));
                 return true;
             }
@@ -74,14 +74,14 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
         // Create the stage for the buttons
-        stage = new Stage();
-        stage.addActor(fastestKnightButton);
-        stage.addActor(lastKnightButton);
-        stage.addActor(exitButton);
+        STAGE = new Stage();
+        STAGE.addActor(fastestKnightButton);
+        STAGE.addActor(lastKnightButton);
+        STAGE.addActor(exitButton);
 
         // Set input processors
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(STAGE);
         Gdx.input.setInputProcessor(inputMultiplexer);// Add stage first to ensure it receives input first
 
     }
@@ -89,19 +89,19 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     @Override
     public void render(SpriteBatch sb) {
         sb.begin();
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
-        sb.draw(logo, logoX, logoY);
+        sb.draw(LOGO, logoX, logoY);
         sb.end();
 
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        STAGE.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
+        STAGE.draw();
 
-        shapeRenderer.end();
+        SHAPE_RENDERER.end();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        logo.dispose();
+        SHAPE_RENDERER.dispose();
+        LOGO.dispose();
     }
 }

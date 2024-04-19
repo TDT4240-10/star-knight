@@ -12,8 +12,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Han
  */
 public class DeadKnightSprite {
-    private final Animation<TextureRegion> knightAnimation;
-    private final TextureRegion[] knightFrames;
+    private final Animation<TextureRegion> KNIGHT_ANIMATION;
+    private final TextureRegion[] KNIGHT_FRAMES;
 
     private int knightHeight;
     private int knightWidth;
@@ -27,16 +27,16 @@ public class DeadKnightSprite {
         y = 0;
 
         // Load the textures from file
-        knightFrames = new TextureRegion[10];
+        KNIGHT_FRAMES = new TextureRegion[10];
         for (int i = 0; i < 10; i++) {
-            knightFrames[i] = new TextureRegion(new Texture("death_frames/frame" + i + ".png"));
+            KNIGHT_FRAMES[i] = new TextureRegion(new Texture("death_frames/frame" + i + ".png"));
         }
 
-        knightAnimation = new Animation<>(0.03f, knightFrames); // Frame duration 0.1 seconds
+        KNIGHT_ANIMATION = new Animation<>(0.03f, KNIGHT_FRAMES); // Frame duration 0.1 seconds
     }
 
     public void flipDirection() {
-        for (TextureRegion region : knightFrames) {
+        for (TextureRegion region : KNIGHT_FRAMES) {
             region.flip(true, false);
         }
     }
@@ -49,7 +49,7 @@ public class DeadKnightSprite {
     public void render(SpriteBatch batch) {
         // Render the sprite on the screen
         stateTime += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = knightAnimation.getKeyFrame(stateTime, true);
+        TextureRegion currentFrame = KNIGHT_ANIMATION.getKeyFrame(stateTime, true);
 
         // Draw the sprite onto the batch
         batch.begin();
@@ -69,7 +69,7 @@ public class DeadKnightSprite {
 
     public void dispose() {
         // Dispose of the sprite's texture when no longer needed
-        for (TextureRegion frame : knightFrames) {
+        for (TextureRegion frame : KNIGHT_FRAMES) {
             frame.getTexture().dispose();
         }
     }

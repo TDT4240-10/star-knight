@@ -24,64 +24,64 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
  * @author Han
  */
 public class SettingsScreen extends Screen {
-    private final Texture logo;
-    private final Texture musicText;
-    private final Texture soundText;
+    private final Texture LOGO;
+    private final Texture MUSIC_TEXT;
+    private final Texture SOUND_TEXT;
 
-    private final ShapeRenderer shapeRenderer;
-    private final Stage stage;
-    private final Slider musicSlider;
-    private final Slider soundSlider;
-    private final Settings settings;
-
+    private final ShapeRenderer SHAPE_RENDERER;
+    private final Stage STAGE;
+    private final Slider MUSIC_SLIDER;
+    private final Slider SOUND_SLIDER;
+    private final Settings SETTINGS;
+    
     public SettingsScreen(ScreenManager gvm) {
         super(gvm);
-        logo = new Texture("settings.png");
-        musicText = new Texture("music.png");
-        soundText = new Texture("sound.png");
+        LOGO = new Texture("settings.png");
+        MUSIC_TEXT = new Texture("music.png");
+        SOUND_TEXT = new Texture("sound.png");
         // Declare the font variable
         BitmapFont font = new BitmapFont(); // Load the font
         font.getData().setScale(3); // Set the font scale to 2 for double size
-        shapeRenderer = new ShapeRenderer();
+        SHAPE_RENDERER = new ShapeRenderer();
         RectangleButtonFactory rectButtonFactory = new RectangleButtonFactory();
 
-        stage = new Stage();
+        STAGE = new Stage();
 
         Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 
         float sliderKnobHeight = 100.0f;
 
-        musicSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        MUSIC_SLIDER = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
         // Only need to change for one slider since they share the same knob
-        musicSlider.getStyle().knob.setMinHeight(sliderKnobHeight);
+        MUSIC_SLIDER.getStyle().knob.setMinHeight(sliderKnobHeight);
 
-        soundSlider = new Slider(0.0f, 1.0f, 0.1f, false, skin);
+        SOUND_SLIDER = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
         // Position of sliders
-        musicSlider.setPosition(300, 1050);
-        soundSlider.setPosition(300, 700);
+        MUSIC_SLIDER.setPosition(300, 1050);
+        SOUND_SLIDER.setPosition(300, 700);
 
         // Width of sliders
-        musicSlider.setWidth(500);
-        soundSlider.setWidth(500);
-        settings = Settings.getInstance();
+        MUSIC_SLIDER.setWidth(500);
+        SOUND_SLIDER.setWidth(500);
+        SETTINGS = Settings.getInstance();
 
-        musicSlider.setValue(settings.getMusic());
-        soundSlider.setValue(settings.getSound());
+        MUSIC_SLIDER.setValue(SETTINGS.getMusic());
+        SOUND_SLIDER.setValue(SETTINGS.getSound());
 
         // The addListeners methods are AI generated code that has been somewhat
         // modified
-        musicSlider.addListener(new ChangeListener() {
+        MUSIC_SLIDER.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                settings.setMusic(musicSlider.getValue());
+                SETTINGS.setMusic(MUSIC_SLIDER.getValue());
             }
         });
-        soundSlider.addListener(new ChangeListener() {
+        SOUND_SLIDER.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                settings.setSound(soundSlider.getValue());
+                SETTINGS.setSound(SOUND_SLIDER.getValue());
             }
         });
 
@@ -96,46 +96,46 @@ public class SettingsScreen extends Screen {
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
-        stage.addActor(musicSlider);
-        stage.addActor(soundSlider);
-        stage.addActor(exitButton);
+        STAGE.addActor(MUSIC_SLIDER);
+        STAGE.addActor(SOUND_SLIDER);
+        STAGE.addActor(exitButton);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage); // Add stage first to ensure it receives input first
+        inputMultiplexer.addProcessor(STAGE); // Add stage first to ensure it receives input first
 
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     @Override
     public void render(SpriteBatch sb) {
-        float logoWidth = logo.getWidth();
-        float logoHeight = logo.getHeight();
+        float logoWidth = LOGO.getWidth();
+        float logoHeight = LOGO.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
 
-        float musicWidth = musicText.getWidth();
-        float musicHeight = musicText.getHeight();
+        float musicWidth = MUSIC_TEXT.getWidth();
+        float musicHeight = MUSIC_TEXT.getHeight();
         float musicX = (screenWidth - musicWidth) / 2;
         float musicY = (screenHeight) / 2 - musicHeight / 2;
 
 
-        float soundWidth = soundText.getWidth();
-        float soundHeight = soundText.getHeight();
+        float soundWidth = SOUND_TEXT.getWidth();
+        float soundHeight = SOUND_TEXT.getHeight();
         float soundX = (screenWidth - soundWidth) / 2;
         float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;
 
 
         sb.begin();
-        sb.draw(logo, logoX, logoY);
-        sb.draw(musicText, musicX, musicY);
-        sb.draw(soundText, soundX, soundY);
+        sb.draw(LOGO, logoX, logoY);
+        sb.draw(MUSIC_TEXT, musicX, musicY);
+        sb.draw(SOUND_TEXT, soundX, soundY);
         sb.end();
 
         // draw stage and music slider and sound effects slider
-        stage.act();
-        stage.draw();
+        STAGE.act();
+        STAGE.draw();
     }
 
     @Override
@@ -149,8 +149,8 @@ public class SettingsScreen extends Screen {
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        stage.dispose(); // Dispose of the stage
+        SHAPE_RENDERER.dispose();
+        STAGE.dispose(); // Dispose of the stage
     }
 
     @Override
