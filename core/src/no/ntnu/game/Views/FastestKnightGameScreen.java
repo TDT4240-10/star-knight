@@ -44,7 +44,7 @@ public class FastestKnightGameScreen extends Screen {
     private final TextureRegion[] ANIMATION_FRAMES;
     private final float TIME_LIMIT = 30f;
     private final float FRAME_DURATION = 0.1f; // Adjust this value to change animation speed
-    private float STATE_TIME = 0f;
+    private float stateTime = 0f;
 
     public FastestKnightGameScreen(ScreenManager gvm) {
         super(gvm);
@@ -193,10 +193,10 @@ public class FastestKnightGameScreen extends Screen {
     @Override
     public void render(SpriteBatch sb) {
         // Update the animation state time
-        STATE_TIME += Gdx.graphics.getDeltaTime();
+        stateTime += Gdx.graphics.getDeltaTime();
 
         // Get the current frame index based on the state time and frame duration
-        int frameIndex = (int) (STATE_TIME / FRAME_DURATION) % ANIMATION_FRAMES.length;
+        int frameIndex = (int) (stateTime / FRAME_DURATION) % ANIMATION_FRAMES.length;
 
         // Draw the current frame
         sb.begin();
