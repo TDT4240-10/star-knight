@@ -18,7 +18,7 @@ import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.firestore.GameRoom;
 
 public class CreateGameLobbyScreen extends Screen {
-    public static Color WHITE = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
+    public static Color white = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);
     private final Texture logo;
     private final BitmapFont font; // Declare the font variable
     private final ShapeRenderer shapeRenderer;
@@ -44,7 +44,7 @@ public class CreateGameLobbyScreen extends Screen {
 
             }
         });
-        lastKnightButton.setColor(WHITE);
+        lastKnightButton.setColor(white);
         lastKnightButton.setSize(400, 200);
         lastKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 + 50, 800);
         // Indicate that the touch event is handled
@@ -56,7 +56,7 @@ public class CreateGameLobbyScreen extends Screen {
 
             }
         });
-        fastestKnightButton.setColor(WHITE);
+        fastestKnightButton.setColor(white);
         fastestKnightButton.setSize(400, 200);
         fastestKnightButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 450, 800);
 
@@ -159,7 +159,7 @@ public class CreateGameLobbyScreen extends Screen {
         sb.draw(logo, logoX, logoY);
 
         // display room id and player list in the middle
-        font.setColor(WHITE);
+        font.setColor(white);
         font.draw(sb, "Room ID: " + roomCode, CENTER_ROOM_ID_X, 1330);
         font.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
         font.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
