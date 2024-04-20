@@ -92,21 +92,19 @@ public class KnightController {
         bulletTimerX = (Gdx.graphics.getWidth() - 300f) / 2;
         bulletTimerY = Gdx.graphics.getHeight() - 100f;
 
-        // timer = new Timer();
         knight = new KnightModel(1);
         choppingKnightSprite = new ChoppingKnightSprite();
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
+        // Initialize some sprites
         life1 = PowerUpFactory.createLivesPowerUp();
         life2 = PowerUpFactory.createLivesPowerUp();
         life3 = PowerUpFactory.createLivesPowerUp();
-
         life1.setPosition(-99999, -99999);
         life2.setPosition(-99999, -99999);
         life3.setPosition(-99999, -99999);
-        PowerUpFactory.createDoublePoints();
-        PowerUpFactory.createBullet();
+
         phoneWidth = Gdx.graphics.getWidth();
 
         knight.setDirection("left");
@@ -515,28 +513,8 @@ public class KnightController {
         return "left";
     }
 
-    // Getter methods to access knight attributes
-    public int getLives() {
-        return knight.getLives();
-    }
-
-    public void setLives(int lives) {
-        knight.setLives(lives);
-    }
-
     public String getDirection() {
         return knight.getDirection();
-    }
-
-    public void setDirection(String direction) {
-        knight.setDirection(direction);
-    }
-
-    // Add lives += 1 when knight chops branch with extra life/shield
-    public void addLives(int lives) {
-        int currentLives = knight.getLives();
-        currentLives += 1;
-        knight.setLives(currentLives);
     }
 
     public void renderIdleKnight(SpriteBatch batch) {

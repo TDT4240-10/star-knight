@@ -198,6 +198,7 @@ public class FastestKnightGameScreen extends Screen {
         sb.end();
         TREE_WITH_POWER_UP.draw(sb);
 
+        KNIGHT_CONTROLLER.renderBulletTimer(SHAPE_RENDERER);
         KNIGHT_CONTROLLER.renderIdleKnight(sb);
         KNIGHT_CONTROLLER.renderChoppingKnight(sb);
         KNIGHT_CONTROLLER.renderDeadKnight(sb);

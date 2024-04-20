@@ -43,11 +43,6 @@ public class PowerUpFactory {
         return new PowerUp("heart", 2000, getTextureRegionForType("heart")); // Example duration: 5000 milliseconds
     }
 
-    // Method to create a Shield PowerUp
-    public static PowerUp createShieldPowerUp() {
-        return new PowerUp("shield", 5000, getTextureRegionForType("shield")); // Example duration: 10000 milliseconds
-    }
-
     public static PowerUp createDoublePoints() {
         return new PowerUp("double", 5000, getTextureRegionForType("double")); // Example duration: 10000 milliseconds
     }
@@ -74,8 +69,6 @@ public class PowerUpFactory {
         switch (type.toLowerCase()) {
             case "heart":
                 return 1;
-            case "shield":
-                return 4;
             case "bullet":
                 return 2;
             case "double":
