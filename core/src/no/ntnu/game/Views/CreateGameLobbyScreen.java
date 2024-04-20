@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.Controllers.GameRoomController;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
-import no.ntnu.game.firestore.GameRoom;
+import no.ntnu.game.Factory.button.RectangleButtonFactory;
+import no.ntnu.game.Firestore.GameRoom;
 
 public class CreateGameLobbyScreen extends Screen {
     public static final Color WHITE = new Color(255 / 255f, 255 / 255f, 255 / 255f, 255 / 255f);

@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import no.ntnu.game.Factory.button.RectangleButtonFactory;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * Tutorial 1d Screen, fourth screen for controls tutorial
@@ -24,7 +24,7 @@ public class Tutorial1dScreen extends Screen {
     private final Texture POWER_UP;
     private final BitmapFont FONT; // Declare the font variable
     private final Stage STAGE;
-    
+
     public Tutorial1dScreen(ScreenManager gvm) {
         super(gvm);
         POWER_UP = new Texture("power_up_tutorial.png");

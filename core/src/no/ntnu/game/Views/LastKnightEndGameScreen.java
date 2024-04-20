@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import no.ntnu.game.Factory.button.RectangleButtonFactory;
 import no.ntnu.game.Views.Sprites.LoseDeadKnightSprite;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * End Game Screen View class to render Lose screen
@@ -68,6 +68,7 @@ public class LastKnightEndGameScreen extends Screen {
         float textWidth = layout.width;
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
+
     @Override
     public void render(SpriteBatch sb) {
         float logoWidth = LOGO.getWidth();

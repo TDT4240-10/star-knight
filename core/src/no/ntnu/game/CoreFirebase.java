@@ -1,8 +1,8 @@
 package no.ntnu.game;
 
-import no.ntnu.game.callback.FirebaseCallback;
-import no.ntnu.game.firestore.GameRoom;
-import no.ntnu.game.firestore.Player;
+import no.ntnu.game.Callback.FirebaseCallback;
+import no.ntnu.game.Firestore.GameRoom;
+import no.ntnu.game.Firestore.Player;
 
 /**
  * CoreFirebase is a class that will be overridden by the AndroidFirebase class.
@@ -12,7 +12,6 @@ import no.ntnu.game.firestore.Player;
  * @author Magnus Byrkjeland
  */
 public class CoreFirebase implements FirebaseInterface {
-
 
     @Override
     public void savePlayer(Player player) {
@@ -33,7 +32,6 @@ public class CoreFirebase implements FirebaseInterface {
     public void saveRoom(GameRoom room, FirebaseCallback<GameRoom> callback) {
 
     }
-
 
     @Override
     public void createRoomListener(GameRoom room, FirebaseCallback<GameRoom> callback) {

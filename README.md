@@ -44,6 +44,8 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
 │ │ ├── Settings/                   Contains setting implementations.
 │ │ ├── Sound/                      Contains sound implementations.
 │ │ ├── Views/                      Contains the different views of the game.
+│ │ │ ├── Sprites/                  Contains the different sprites of the game.
+│ │ │ ├── Tutorial/                 Contains the tutorial views.
 │ │ ├── StarKnight.java             Main class for the game.
 │ │ ├── CoreFirebase.java           Core class that implements the FirebaseInterface.
 │ │ ├── FirebaseInterface.java      Interface for Firebase methods.

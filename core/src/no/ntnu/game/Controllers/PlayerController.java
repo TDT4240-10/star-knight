@@ -1,9 +1,9 @@
 package no.ntnu.game.Controllers;
 
 import no.ntnu.game.FirebaseInterface;
-import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.StarKnight;
-import no.ntnu.game.firestore.Player;
+import no.ntnu.game.Callback.FirebaseCallback;
+import no.ntnu.game.Firestore.Player;
 
 /**
  * PlayerController is a singleton class for logic related to the Player model

@@ -11,10 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 
+import no.ntnu.game.Factory.button.RectangleButtonFactory;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * Tutorial 1c Screen, third screen for controls tutorial, with video

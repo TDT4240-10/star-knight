@@ -8,11 +8,11 @@ import java.util.List;
 import no.ntnu.game.FirebaseInterface;
 import no.ntnu.game.Sound.MusicPlayer;
 import no.ntnu.game.StarKnight;
-import no.ntnu.game.callback.FirebaseCallback;
-import no.ntnu.game.firestore.GameRoom;
-import no.ntnu.game.firestore.GameRoomObservable;
-import no.ntnu.game.firestore.GameRoomObserver;
-import no.ntnu.game.firestore.Player;
+import no.ntnu.game.Callback.FirebaseCallback;
+import no.ntnu.game.Firestore.GameRoom;
+import no.ntnu.game.Firestore.GameRoomObservable;
+import no.ntnu.game.Firestore.GameRoomObserver;
+import no.ntnu.game.Firestore.Player;
 
 public class GameRoomController implements GameRoomObservable {
     private static GameRoomController instance;

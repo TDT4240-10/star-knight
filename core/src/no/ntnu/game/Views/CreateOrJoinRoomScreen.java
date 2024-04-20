@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
-import no.ntnu.game.factory.textfield.TextFieldFactory;
+import no.ntnu.game.Factory.button.RectangleButtonFactory;
+import no.ntnu.game.Factory.textfield.TextFieldFactory;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

@@ -1,6 +1,6 @@
-package no.ntnu.game.firestore;
+package no.ntnu.game.Firestore;
 
-import no.ntnu.game.firestore.GameRoom.GameStatus;
+import no.ntnu.game.Firestore.GameRoom.GameStatus;
 
 public interface GameRoomObservable {
 

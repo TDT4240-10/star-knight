@@ -1,4 +1,4 @@
-package no.ntnu.game.firestore;
+package no.ntnu.game.Firestore;
 
 import java.util.UUID;
 

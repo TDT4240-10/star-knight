@@ -1,4 +1,4 @@
-package no.ntnu.game.factory.button;
+package no.ntnu.game.Factory.button;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

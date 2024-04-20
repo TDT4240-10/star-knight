@@ -1,8 +1,8 @@
 package no.ntnu.game;
 
-import no.ntnu.game.callback.FirebaseCallback;
-import no.ntnu.game.firestore.GameRoom;
-import no.ntnu.game.firestore.Player;
+import no.ntnu.game.Callback.FirebaseCallback;
+import no.ntnu.game.Firestore.GameRoom;
+import no.ntnu.game.Firestore.Player;
 
 /**
  * Interface for Firebase Database Interaction
@@ -22,4 +22,3 @@ public interface FirebaseInterface {
     void createRoomListener(GameRoom room, FirebaseCallback<GameRoom> callback);
 
 }
-
