@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.Factory.button.RectangleButtonFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Views.Tutorial.SelectTutorialScreen;
 
 /**

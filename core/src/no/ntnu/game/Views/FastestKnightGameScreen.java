@@ -18,8 +18,8 @@ import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
-import no.ntnu.game.Factory.button.CircleButtonFactory;
-import no.ntnu.game.Factory.button.RectangleButtonFactory;
+import no.ntnu.game.Factory.Button.CircleButtonFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Firestore.GameRoom;
 import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
