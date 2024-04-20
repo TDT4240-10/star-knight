@@ -4,6 +4,10 @@ import com.google.firebase.firestore.Exclude;
 
 import no.ntnu.game.firestore.FirebaseClass;
 
+/**
+ * FirebasePlayer is a class that extends FirebaseClass and is used to store
+ * player data in the Firestore database.
+ */
 public class FirebasePlayer extends FirebaseClass {
 
     @Exclude

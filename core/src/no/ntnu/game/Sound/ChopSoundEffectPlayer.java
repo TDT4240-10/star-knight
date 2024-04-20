@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 
 import no.ntnu.game.Settings.Settings;
 import no.ntnu.game.StarKnight;
-import no.ntnu.game.Settings.SoundPlayer;
+
 import com.badlogic.gdx.audio.Sound;
 
 public class ChopSoundEffectPlayer implements SoundPlayer {

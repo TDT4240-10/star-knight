@@ -1,4 +1,4 @@
-package no.ntnu.game.Settings;
+package no.ntnu.game.Sound;
 
 public interface SoundPlayer {
 

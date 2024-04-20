@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
 import no.ntnu.game.Settings.Settings;
-import no.ntnu.game.Settings.SoundPlayer;
 import no.ntnu.game.firestore.GameRoom;
 import no.ntnu.game.firestore.GameRoomObserver;
 
