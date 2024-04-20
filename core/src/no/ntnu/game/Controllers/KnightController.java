@@ -89,8 +89,6 @@ public class KnightController {
         scoreCounter = new Score();
 
         bulletTimer = new TimeLimitBar(2f, 2f, 300f, 20f, -99999, -99999);
-        // bulletTimer = new TimeLimitBar(5f, 5f, 300f, 20f, (Gdx.graphics.getWidth() -
-        // 300f) / 2, Gdx.graphics.getHeight() - 100f);
         bulletTimerX = (Gdx.graphics.getWidth() - 300f) / 2;
         bulletTimerY = Gdx.graphics.getHeight() - 100f;
 
@@ -378,7 +376,6 @@ public class KnightController {
 
         if (bulletActive) {
             bulletTimer.updateTime(delta);
-            System.out.println(bulletTimer.getCurrentTime());
             if (bulletTimer.isTimeUp()) {
                 bulletTimer.setPosition(-99999, -99999);
                 bulletActive = false;
@@ -535,7 +532,7 @@ public class KnightController {
         knight.setDirection(direction);
     }
 
-    // Add lives += 1 when knight chopes branch with extra life/shield
+    // Add lives += 1 when knight chops branch with extra life/shield
     public void addLives(int lives) {
         int currentLives = knight.getLives();
         currentLives += 1;
@@ -555,12 +552,10 @@ public class KnightController {
     }
 
     public void renderChoppingKnight(SpriteBatch batch) {
-        // choppingKnightSprite.startAnimation();
         choppingKnightSprite.render(batch);
     }
 
     public void renderDeadKnight(SpriteBatch batch) {
-        // choppingKnightSprite.startAnimation();
         deadKnightSprite.render(batch);
     }
 
