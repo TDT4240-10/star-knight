@@ -63,6 +63,8 @@ public class CreateGameLobbyScreen extends Screen {
         Button startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(GAME_ROOM_CONTROLLER.getCurrentGameMode() == null) return true;
+                if(GAME_ROOM_CONTROLLER.getGameRoom().getJoiningPlayer() == null) return true;
                 GAME_ROOM_CONTROLLER.startGame();
                 return true;
             }
@@ -160,13 +162,13 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         FONT.setColor(WHITE);
-        FONT.draw(sb, "Room ID: " + roomCode, CENTER_ROOM_ID_X, 1330);
-        FONT.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
-        FONT.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
+        FONT.draw(sb, "Room ID: " + roomCode, CENTER_ROOM_ID_X, 1360);
+        FONT.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1260);
+        FONT.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1160);
         if (GAME_ROOM_CONTROLLER.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
             final float CENTER_COUNTDOWN = calculateCenterX(
                     "Game starting in: " + GAME_ROOM_CONTROLLER.getGameStartCountdown(), FONT);
-            FONT.draw(sb, "Game starting in: " + GAME_ROOM_CONTROLLER.getGameStartCountdown(), CENTER_COUNTDOWN, 1030);
+            FONT.draw(sb, "Game starting in: " + GAME_ROOM_CONTROLLER.getGameStartCountdown(), CENTER_COUNTDOWN, 1060);
         }
         sb.end();
 
