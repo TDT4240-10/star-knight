@@ -36,10 +36,10 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
 │ ├── google-services.json          Firebase configuration file.
 ├── core/                           Contains the main game logic.
 │ ├── src/no/ntnu/game
-│ │ ├── Callback/                   Contains callback implementations.
+│ │ ├── callback/                   Contains Firebase callback implementations.
 │ │ ├── Controllers/                Contains the different controllers of the game.
 │ │ ├── Factory/                    Contains the different factories of the game.
-│ │ ├── Firestore/                  Contains the Firestore helper classes.
+│ │ ├── firestore/                  Contains the Firestore helper classes.
 │ │ ├── Models/                     Contains the different models of the game.
 │ │ ├── Settings/                   Contains setting implementations.
 │ │ ├── Sound/                      Contains sound implementations.

@@ -1,4 +1,4 @@
-package no.ntnu.game.Callback;
+package no.ntnu.game.callback;
 
 /**
  * FirebaseCallback provides a generic interface for creating a callback when

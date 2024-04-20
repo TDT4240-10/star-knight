@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Factory.Button.RectangleButtonFactory;
-import no.ntnu.game.Firestore.GameRoom;
+import no.ntnu.game.firestore.GameRoom;
 
 /**
  * SinglePlayerChooseGameModeScreen is a screen where the player can choose

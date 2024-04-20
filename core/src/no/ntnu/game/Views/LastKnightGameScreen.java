@@ -20,9 +20,9 @@ import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
 import no.ntnu.game.Factory.Button.CircleButtonFactory;
 import no.ntnu.game.Factory.Button.RectangleButtonFactory;
-import no.ntnu.game.Firestore.GameRoom;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.TreeWithPowerUp;
+import no.ntnu.game.firestore.GameRoom;
 
 /**
  * Game Screen View class to render StarKnight game

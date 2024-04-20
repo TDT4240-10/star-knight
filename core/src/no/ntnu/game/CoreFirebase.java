@@ -1,8 +1,8 @@
 package no.ntnu.game;
 
-import no.ntnu.game.Callback.FirebaseCallback;
-import no.ntnu.game.Firestore.GameRoom;
-import no.ntnu.game.Firestore.Player;
+import no.ntnu.game.callback.FirebaseCallback;
+import no.ntnu.game.firestore.GameRoom;
+import no.ntnu.game.firestore.Player;
 
 /**
  * CoreFirebase is a class that will be overridden by the AndroidFirebase class.

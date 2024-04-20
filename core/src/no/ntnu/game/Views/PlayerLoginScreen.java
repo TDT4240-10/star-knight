@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import no.ntnu.game.Controllers.PlayerController;
 import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Factory.Textfield.TextFieldFactory;
-import no.ntnu.game.Firestore.Player;
+import no.ntnu.game.firestore.Player;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
