@@ -1,15 +1,20 @@
 package no.ntnu.game.Controllers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import no.ntnu.game.FirebaseInterface;
+import no.ntnu.game.Sound.MusicPlayer;
 import no.ntnu.game.StarKnight;
 import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.firestore.GameRoom;
+import no.ntnu.game.firestore.GameRoomObservable;
+import no.ntnu.game.firestore.GameRoomObserver;
 import no.ntnu.game.firestore.Player;
 
-public class GameRoomController {
+public class GameRoomController implements GameRoomObservable {
     private static GameRoomController instance;
     private GameRoom room;
 
@@ -24,9 +29,14 @@ public class GameRoomController {
     private RoomType roomType;
     private Actor roomActor;
     private final FirebaseInterface _FI;
+    private final MusicPlayer MUSIC_PLAYER;
+    List<GameRoomObserver> observers;
 
     private GameRoomController() {
         _FI = StarKnight.getFirebaseInterface();
+        MUSIC_PLAYER = MusicPlayer.getMusicPlayer();
+        this.observers = new ArrayList<>();
+        this.addObserver(MUSIC_PLAYER);
     }
 
     public Actor getRoomActor() {
@@ -50,6 +60,7 @@ public class GameRoomController {
 
     private void stateChanged() {
         _FI.saveRoom(room, result -> System.out.println("Updated room"));
+        this.notifyObservers();
     }
 
     public long getGameStartCountdown() {
@@ -150,6 +161,7 @@ public class GameRoomController {
     public void setGameStatus(GameRoom.GameStatus status) {
         this.room.setGameStatus(status);
         stateChanged();
+        notifyObservers();
     }
 
     public GameRoom.GameStatus getGameStatus() {
@@ -179,6 +191,7 @@ public class GameRoomController {
 
     public void setGameStatusPlaying() {
         this.room.setGameStatus(GameRoom.GameStatus.PLAYING);
+        stateChanged();
     }
 
     public void decrementCreatingPlayerScore(int amount) {
@@ -226,10 +239,31 @@ public class GameRoomController {
         }
     }
 
+    @Override
+    public void addObserver(GameRoomObserver observer) {
+        this.observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(GameRoomObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (GameRoomObserver observer : this.observers) {
+            observer.gameStatusChanged(this.room);
+        }
+    }
+
     public void gameOver() {
+        gameOver(true);
+    }
+
+    public void gameOver(boolean updateHighScores) {
         this.room.setGameStatus(GameRoom.GameStatus.COMPLETE);
         stateChanged();
-        updateHighScores();
+        if (updateHighScores)
+            updateHighScores();
     }
 
 }

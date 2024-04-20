@@ -18,7 +18,6 @@ import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
-import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
 import no.ntnu.game.factory.button.CircleButtonFactory;
@@ -78,10 +77,6 @@ public class FastestKnightGameScreen extends Screen {
         KNIGHT_CONTROLLER.setChoppingPosition(-99999, -99999);
         KNIGHT_CONTROLLER.setDeadPosition(-99999, -99999);
 
-        PowerUpFactory.createLivesPowerUp();
-        PowerUpFactory.createLivesPowerUp();
-        PowerUpFactory.createLivesPowerUp();
-
         float x_offset = 80;
         float y_offset = 100;
 
@@ -131,9 +126,8 @@ public class FastestKnightGameScreen extends Screen {
         Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                KNIGHT_CONTROLLER.stopMusic();
                 TIMER.stop();
-                GAME_ROOM_CONTROLLER.gameOver();
+                GAME_ROOM_CONTROLLER.gameOver(false);
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -223,7 +217,6 @@ public class FastestKnightGameScreen extends Screen {
             TIMER.stop();
             KNIGHT_CONTROLLER.setScore((int) TIMER.getElapsedTime());
             GAME_ROOM_CONTROLLER.gameOver();
-            KNIGHT_CONTROLLER.stopMusic();
             gvm.set(new FastestKnightWinGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }

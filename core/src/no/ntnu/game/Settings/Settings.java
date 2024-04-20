@@ -1,17 +1,17 @@
-package no.ntnu.game.Models;
+package no.ntnu.game.Settings;
 
 public class Settings {
     private static volatile Settings instance = null;
     // https://libgdx.com/wiki/audio/streaming-music
-    private float music;
+    private float musicVolume;
     // https://libgdx.com/wiki/audio/sound-effects
-    private float sound;
+    private float effectVolume;
 
     private Settings() {
         // The music starts out at full volume
-        music = 1.0f;
+        musicVolume = 1.0f;
         // The sound effects starts out at full volume
-        sound = 1.0f;
+        effectVolume = 1.0f;
     }
 
     public static Settings getInstance() {
@@ -25,23 +25,23 @@ public class Settings {
         return instance;
     }
 
-    public float getMusic() {
-        return music;
+    public float getMusicVolume() {
+        return musicVolume;
     }
 
-    public float getSound() {
-        return sound;
+    public float getEffectVolume() {
+        return effectVolume;
     }
 
-    public void setMusic(float music) {
+    public void setMusicVolume(float music) {
         if (music >= 0f && music <= 1.0f) {
-            this.music = music;
+            this.musicVolume = music;
         }
     }
 
-    public void setSound(float sound) {
+    public void setEffectVolume(float sound) {
         if (sound >= 0f && sound <= 1.0f) {
-            this.sound = sound;
+            this.effectVolume = sound;
         }
     }
 }

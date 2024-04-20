@@ -4,16 +4,20 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import no.ntnu.game.Settings.Settings;
 import no.ntnu.game.Views.PlayerLoginScreen;
 import no.ntnu.game.Views.ScreenManager;
 
 public class StarKnight extends Game {
 	private SpriteBatch spriteBatch;
 	private static FirebaseInterface _FI;
+	private static Settings SETTINGS;
 	private ScreenManager gvm;
 
 	public StarKnight(FirebaseInterface FI) {
 		_FI = FI;
+		SETTINGS = Settings.getInstance();
 	}
 
 	@Override
@@ -33,7 +37,6 @@ public class StarKnight extends Game {
 		// rendered
 		gvm.update(Gdx.graphics.getDeltaTime());
 		gvm.render(spriteBatch);
-
 	}
 
 	@Override
@@ -47,6 +50,14 @@ public class StarKnight extends Game {
 			return _FI;
 		} else {
 			throw new NullPointerException("Firebaseinterface is not present");
+		}
+	}
+
+	public static Settings getSettings() throws NullPointerException {
+		if (SETTINGS != null) {
+			return SETTINGS;
+		} else {
+			throw new NullPointerException("Settings instance is not present");
 		}
 	}
 }

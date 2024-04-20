@@ -15,7 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import no.ntnu.game.Models.Settings;
+import no.ntnu.game.Settings.Settings;
+import no.ntnu.game.StarKnight;
 import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
@@ -33,7 +34,7 @@ public class SettingsScreen extends Screen {
     private final Slider MUSIC_SLIDER;
     private final Slider SOUND_SLIDER;
     private final Settings SETTINGS;
-    
+
     public SettingsScreen(ScreenManager gvm) {
         super(gvm);
         LOGO = new Texture("settings.png");
@@ -65,23 +66,23 @@ public class SettingsScreen extends Screen {
         // Width of sliders
         MUSIC_SLIDER.setWidth(500);
         SOUND_SLIDER.setWidth(500);
-        SETTINGS = Settings.getInstance();
+        SETTINGS = StarKnight.getSettings();
 
-        MUSIC_SLIDER.setValue(SETTINGS.getMusic());
-        SOUND_SLIDER.setValue(SETTINGS.getSound());
+        MUSIC_SLIDER.setValue(SETTINGS.getMusicVolume());
+        SOUND_SLIDER.setValue(SETTINGS.getEffectVolume());
 
         // The addListeners methods are AI generated code that has been somewhat
         // modified
         MUSIC_SLIDER.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SETTINGS.setMusic(MUSIC_SLIDER.getValue());
+                SETTINGS.setMusicVolume(MUSIC_SLIDER.getValue());
             }
         });
         SOUND_SLIDER.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SETTINGS.setSound(SOUND_SLIDER.getValue());
+                SETTINGS.setEffectVolume(SOUND_SLIDER.getValue());
             }
         });
 
@@ -120,12 +121,10 @@ public class SettingsScreen extends Screen {
         float musicX = (screenWidth - musicWidth) / 2;
         float musicY = (screenHeight) / 2 - musicHeight / 2;
 
-
         float soundWidth = SOUND_TEXT.getWidth();
         float soundHeight = SOUND_TEXT.getHeight();
         float soundX = (screenWidth - soundWidth) / 2;
         float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;
-
 
         sb.begin();
         sb.draw(LOGO, logoX, logoY);

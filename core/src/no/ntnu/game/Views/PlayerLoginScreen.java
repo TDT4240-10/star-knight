@@ -122,7 +122,6 @@ public class PlayerLoginScreen extends Screen {
         SHAPE_RENDERER.dispose();
         LOGO.dispose();
         STAGE.dispose(); // Dispose of the stage
-        System.out.println("Create or Join Room View Disposed");
     }
 
     @Override

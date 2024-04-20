@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class GameRoom extends FirebaseClass {
+
     public enum GameMode {
         NONE, FASTEST_KNIGHT, LAST_KNIGHT
     }
@@ -26,7 +27,7 @@ public class GameRoom extends FirebaseClass {
     private GameStatus status;
 
     public GameRoom() {
-    };
+    }
 
     public GameRoom(Player creatingPlayer) {
         this.createdAt = new Date();
@@ -87,10 +88,6 @@ public class GameRoom extends FirebaseClass {
     }
 
     public void setGameMode(GameMode mode) {
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        for (StackTraceElement element : stackTrace) {
-            System.out.println(element.getClassName() + "." + element.getMethodName() + "()");
-        }
         if (mode == null) {
             return;
         }
