@@ -182,6 +182,7 @@ public class LastKnightGameScreen extends Screen {
         if (gameStart) {
             TIME_LIMIT_BAR.updateTime(dt);
             if (TIME_LIMIT_BAR.isTimeUp()) {
+                GAME_ROOM_CONTROLLER.gameOver();
                 gvm.set(new LastKnightEndGameScreen(gvm, score));
             }
         }
