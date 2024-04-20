@@ -59,14 +59,20 @@ public class SettingsScreen extends Screen {
 
         SOUND_SLIDER = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
-        // Position of sliders
-        MUSIC_SLIDER.setPosition(300, 1050);
-        SOUND_SLIDER.setPosition(300, 700);
-
         // Width of sliders
         MUSIC_SLIDER.setWidth(500);
         SOUND_SLIDER.setWidth(500);
         SETTINGS = StarKnight.getSettings();
+
+        // Position of sliders
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float musicSliderX = (screenWidth - MUSIC_SLIDER.getWidth()) / 2;
+        float musicSliderY = (screenHeight) / 2.25f - MUSIC_SLIDER.getHeight() / 2;
+        float soundSliderX = (screenWidth - MUSIC_SLIDER.getWidth()) / 2;
+        float soundSliderY = (screenHeight) / 3.5f - MUSIC_SLIDER.getHeight() / 2;
+        MUSIC_SLIDER.setPosition(musicSliderX, musicSliderY);
+        SOUND_SLIDER.setPosition(soundSliderX, soundSliderY);
 
         MUSIC_SLIDER.setValue(SETTINGS.getMusicVolume());
         SOUND_SLIDER.setValue(SETTINGS.getEffectVolume());
