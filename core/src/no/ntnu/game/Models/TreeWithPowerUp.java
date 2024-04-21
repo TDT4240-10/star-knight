@@ -58,9 +58,9 @@ public class TreeWithPowerUp extends Tree {
             centerY = treePart.y;
             if (treePart.powerup != null) {
                 // Draw the textureRegion at position (x, y)
-                batch.draw(treePart.powerup.textureRegion, centerX, centerY,
-                        treePart.powerup.textureRegion.getRegionWidth() * 6,
-                        treePart.powerup.textureRegion.getRegionHeight() * 6);
+                batch.draw(treePart.powerup.getTextureRegion(), centerX, centerY,
+                        treePart.powerup.getTextureRegion().getRegionWidth() * 6,
+                        treePart.powerup.getTextureRegion().getRegionHeight() * 6);
             }
 
         }

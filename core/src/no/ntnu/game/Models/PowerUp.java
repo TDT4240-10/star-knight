@@ -10,27 +10,26 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  * @author Jeff
  */
 public class PowerUp {
-    private String name;
-    private int duration; // Duration of the power-up in milliseconds
-    private boolean isActive;
-
+    private final String NAME;
+    private final int DURATION; // Duration of the power-up in milliseconds
     private float x;
     private float y;
-    private float powerUpWidth;
-    private float powerUpHeight;
-    public TextureRegion textureRegion;
+    private final float POWERUP_WIDTH;
+    private final float POWERUP_HEIGHT;
+    private TextureRegion textureRegion;
 
     // Constructor
     public PowerUp(String name, int duration, TextureRegion textureRegion) {
-        this.name = name;
-        this.duration = duration;
-        this.isActive = false;
+        this.NAME = name;
+        this.DURATION = duration;
         this.textureRegion = textureRegion;
+        this.POWERUP_WIDTH = textureRegion.getRegionWidth() * 6;
+        this.POWERUP_HEIGHT = textureRegion.getRegionHeight() * 6;
     }
 
     // Getter for name
-    public String getName() {
-        return name;
+    public String getNAME() {
+        return NAME;
     }
 
     public void setPosition(float x, float y) {
@@ -42,31 +41,17 @@ public class PowerUp {
     public void render(SpriteBatch batch) {
         // Draw the sprite onto the batch
         batch.begin();
-        powerUpWidth = textureRegion.getRegionWidth() * 6;
-        powerUpHeight = textureRegion.getRegionHeight() * 6;
-        batch.draw(textureRegion, x, y, powerUpWidth, powerUpHeight);
+        batch.draw(textureRegion, x, y, POWERUP_WIDTH, POWERUP_HEIGHT);
         batch.end();
     }
 
     // Getter for duration
     public int getDuration() {
-        return duration;
+        return DURATION;
     }
 
-    // Method to activate the power-up
-    public void activate() {
-        isActive = true;
-        // Implement any logic related to activating the power-up
+    public TextureRegion getTextureRegion() {
+        return this.textureRegion;
     }
 
-    // Method to deactivate the power-up
-    public void deactivate() {
-        isActive = false;
-        // Implement any logic related to deactivating the power-up
-    }
-
-    // Getter for isActive
-    public boolean isActive() {
-        return isActive;
-    }
 }

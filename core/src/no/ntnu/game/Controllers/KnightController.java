@@ -54,7 +54,7 @@ public class KnightController {
     // Adjust the time to add for LastKnight, when knight successfully chops a tree
     // branch here
     // Lower = more difficult, Higher time = easier
-    private float timeToAdd = 0.2f;
+    private final float TIME_TO_ADD = 0.2f;
 
     // Power Ups
     private PowerUp life1;
@@ -92,7 +92,7 @@ public class KnightController {
         BULLET_TIMER_X = (Gdx.graphics.getWidth() - 300f) / 2;
         BULLET_TIMER_Y = Gdx.graphics.getHeight() - 100f;
 
-        KNIGHT = new KnightModel(1);
+        KNIGHT = new KnightModel();
         CHOPPING_KNIGHT_SPRITE = new ChoppingKnightSprite();
         IDLE_KNIGHT_SPRITE = new IdleKnightSprite();
         DEAD_KNIGHT_SPRITE = new DeadKnightSprite();
@@ -118,9 +118,9 @@ public class KnightController {
         this.TIME_LIMIT_BAR = timeLimitBar;
 
         // Set Power Up position
-        POWERUP_X1 = Gdx.graphics.getWidth() - life1.textureRegion.getRegionWidth() - 200;
-        POWERUP_X2 = POWERUP_X1 - life1.textureRegion.getRegionWidth() - 200;
-        POWERUP_X3 = POWERUP_X2 - life1.textureRegion.getRegionWidth() - 200;
+        POWERUP_X1 = Gdx.graphics.getWidth() - life1.getTextureRegion().getRegionWidth() - 200;
+        POWERUP_X2 = POWERUP_X1 - life1.getTextureRegion().getRegionWidth() - 200;
+        POWERUP_X3 = POWERUP_X2 - life1.getTextureRegion().getRegionWidth() - 200;
     }
 
     /*
@@ -169,7 +169,7 @@ public class KnightController {
             return;
         }
 
-        if (Objects.equals(powerUp.getName(), "heart")) {
+        if (Objects.equals(powerUp.getNAME(), "heart")) {
             // Adding life powerup
             if (life2Active) {
                 getLife3();
@@ -182,12 +182,12 @@ public class KnightController {
 
         }
 
-        if (Objects.equals(powerUp.getName(), "double")) {
+        if (Objects.equals(powerUp.getNAME(), "double")) {
             getDouble(powerUp);
             return;
         }
 
-        if (Objects.equals(powerUp.getName(), "bullet")) {
+        if (Objects.equals(powerUp.getNAME(), "bullet")) {
             if (bulletActive) {
                 BULLET_TIMER.resetTime();
             }
@@ -237,7 +237,7 @@ public class KnightController {
                 elapsedTime = 0;
 
                 if (Objects.equals(GAME_MODE, "last_knight")) {
-                    TIME_LIMIT_BAR.addTime(timeToAdd);
+                    TIME_LIMIT_BAR.addTime(TIME_TO_ADD);
                 }
 
                 checkPowerUp();
@@ -277,7 +277,7 @@ public class KnightController {
                 elapsedTime = 0;
 
                 if (Objects.equals(GAME_MODE, "last_knight")) {
-                    TIME_LIMIT_BAR.addTime(timeToAdd);
+                    TIME_LIMIT_BAR.addTime(TIME_TO_ADD);
                 }
                 checkPowerUp();
             }
@@ -316,7 +316,7 @@ public class KnightController {
                 elapsedTime = 0;
 
                 if (Objects.equals(GAME_MODE, "last_knight")) {
-                    TIME_LIMIT_BAR.addTime(timeToAdd);
+                    TIME_LIMIT_BAR.addTime(TIME_TO_ADD);
                 }
                 checkPowerUp();
             }
@@ -351,7 +351,7 @@ public class KnightController {
                 elapsedTime = 0;
 
                 if (Objects.equals(GAME_MODE, "last_knight")) {
-                    TIME_LIMIT_BAR.addTime(timeToAdd);
+                    TIME_LIMIT_BAR.addTime(TIME_TO_ADD);
                 }
                 checkPowerUp();
             }
