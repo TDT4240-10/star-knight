@@ -2,8 +2,6 @@ package no.ntnu.game.Models;
 
 import com.badlogic.gdx.graphics.Color;
 
-import no.ntnu.game.Factory.PowerUp.PowerUp;
-
 public class TreePart {
     String value;
     Color color;

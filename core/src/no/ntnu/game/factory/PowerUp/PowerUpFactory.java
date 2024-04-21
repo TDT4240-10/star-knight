@@ -4,6 +4,8 @@ package no.ntnu.game.Factory.PowerUp;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import no.ntnu.game.Models.PowerUp;
+
 import java.util.Random;
 
 /**

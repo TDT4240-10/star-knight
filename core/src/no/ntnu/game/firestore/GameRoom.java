@@ -67,10 +67,6 @@ public class GameRoom extends FirebaseClass {
         return status;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
     public String getRoomCode() {
         return roomCode;
     }
@@ -109,16 +105,8 @@ public class GameRoom extends FirebaseClass {
         return creatingPlayerState;
     }
 
-    public void setCreatingPlayerState(GameState creatingPlayerState) {
-        this.creatingPlayerState = creatingPlayerState;
-    }
-
     public GameState getJoiningPlayerState() {
         return joiningPlayerState;
-    }
-
-    public void setJoiningPlayerState(GameState joiningPlayerState) {
-        this.joiningPlayerState = joiningPlayerState;
     }
 
     public Date getGameStartTime() {

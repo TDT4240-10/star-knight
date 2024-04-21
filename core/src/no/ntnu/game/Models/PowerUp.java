@@ -1,5 +1,5 @@
 
-package no.ntnu.game.Factory.PowerUp;
+package no.ntnu.game.Models;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
