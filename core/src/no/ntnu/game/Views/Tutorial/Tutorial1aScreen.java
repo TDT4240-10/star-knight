@@ -10,10 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * Tutorial 1a Screen, first screen for controls tutorial

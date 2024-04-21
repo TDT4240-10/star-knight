@@ -22,4 +22,3 @@ public interface FirebaseInterface {
     void createRoomListener(GameRoom room, FirebaseCallback<GameRoom> callback);
 
 }
-

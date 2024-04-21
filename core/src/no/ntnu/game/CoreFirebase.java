@@ -13,7 +13,6 @@ import no.ntnu.game.firestore.Player;
  */
 public class CoreFirebase implements FirebaseInterface {
 
-
     @Override
     public void savePlayer(Player player) {
 
@@ -33,7 +32,6 @@ public class CoreFirebase implements FirebaseInterface {
     public void saveRoom(GameRoom room, FirebaseCallback<GameRoom> callback) {
 
     }
-
 
     @Override
     public void createRoomListener(GameRoom room, FirebaseCallback<GameRoom> callback) {

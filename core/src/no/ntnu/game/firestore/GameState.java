@@ -4,7 +4,9 @@ public class GameState {
 
     private int score;
 
-    public void incrementScore(int amount) { score += amount; }
+    public void incrementScore(int amount) {
+        score += amount;
+    }
 
     public int getScore() {
         return this.score;

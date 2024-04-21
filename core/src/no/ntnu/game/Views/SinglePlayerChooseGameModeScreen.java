@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.Controllers.GameRoomController;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.firestore.GameRoom;
 
 /**
@@ -24,10 +24,11 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
     private final Stage STAGE;
     private final Texture LOGO;
     private final ShapeRenderer SHAPE_RENDERER;
-    private final GameRoomController GAME_ROOM_CONTROLLER = GameRoomController.getInstance();
+    private final GameRoomController GAME_ROOM_CONTROLLER;
 
     public SinglePlayerChooseGameModeScreen(ScreenManager gvm) {
         super(gvm);
+        GAME_ROOM_CONTROLLER = GameRoomController.getInstance();
         LOGO = new Texture("starknight_logo.png");
         // Declare the font variable
         BitmapFont font = new BitmapFont(); // Load the font
@@ -43,6 +44,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to last knight
                 GAME_ROOM_CONTROLLER.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
+                GAME_ROOM_CONTROLLER.setGameStatusPlaying();
                 gvm.push(new LastKnightGameScreen(gvm));
                 return true;
             }
@@ -56,6 +58,7 @@ public class SinglePlayerChooseGameModeScreen extends Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 // set game mode to fastest knight
                 GAME_ROOM_CONTROLLER.setGameMode(GameRoom.GameMode.FASTEST_KNIGHT);
+                GAME_ROOM_CONTROLLER.setGameStatusPlaying();
                 gvm.set(new FastestKnightGameScreen(gvm));
                 return true;
             }

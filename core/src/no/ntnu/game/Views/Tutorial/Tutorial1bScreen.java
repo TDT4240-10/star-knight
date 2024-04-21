@@ -11,10 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Views.MainMenuScreen;
 import no.ntnu.game.Views.Screen;
 import no.ntnu.game.Views.ScreenManager;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * Tutorial 1b Screen, second screen for controls tutorial, with video
@@ -25,6 +25,7 @@ public class Tutorial1bScreen extends Screen {
     private VideoPlayer videoPlayer;
     SpriteBatch batch;
     private final Stage STAGE;
+
     public Tutorial1bScreen(ScreenManager gvm) {
         super(gvm);
 

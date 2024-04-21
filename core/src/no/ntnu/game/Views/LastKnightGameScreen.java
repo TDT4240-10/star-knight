@@ -18,11 +18,10 @@ import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
-import no.ntnu.game.Models.PowerUpFactory;
+import no.ntnu.game.Factory.Button.CircleButtonFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Models.TimeLimitBar;
 import no.ntnu.game.Models.TreeWithPowerUp;
-import no.ntnu.game.factory.button.CircleButtonFactory;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.firestore.GameRoom;
 
 /**
@@ -72,15 +71,12 @@ public class LastKnightGameScreen extends Screen {
 
         SHAPE_RENDERER = new ShapeRenderer();
 
-        KNIGHT_CONTROLLER = new KnightController("last_knight", -80, 500, TREE_WITH_POWER_UP, TIME_LIMIT_BAR, timeLimit);
+        KNIGHT_CONTROLLER = new KnightController("last_knight", -80, 500, TREE_WITH_POWER_UP, TIME_LIMIT_BAR,
+                timeLimit);
 
         KNIGHT_CONTROLLER.setIdlePosition(-80, 500);
         KNIGHT_CONTROLLER.setChoppingPosition(-99999, -99999);
         KNIGHT_CONTROLLER.setDeadPosition(-99999, -99999);
-
-        PowerUpFactory.createLivesPowerUp();
-        PowerUpFactory.createLivesPowerUp();
-        PowerUpFactory.createLivesPowerUp();
 
         float x_offset = 80;
         float y_offset = 100;
@@ -130,7 +126,7 @@ public class LastKnightGameScreen extends Screen {
         Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                KNIGHT_CONTROLLER.stopMusic();
+                GAME_ROOM_CONTROLLER.gameOver(false);
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -186,8 +182,8 @@ public class LastKnightGameScreen extends Screen {
         if (gameStart) {
             TIME_LIMIT_BAR.updateTime(dt);
             if (TIME_LIMIT_BAR.isTimeUp()) {
+                GAME_ROOM_CONTROLLER.gameOver();
                 gvm.set(new LastKnightEndGameScreen(gvm, score));
-                KNIGHT_CONTROLLER.stopMusic();
             }
         }
     }
@@ -224,7 +220,6 @@ public class LastKnightGameScreen extends Screen {
             gvm.set(new LastKnightEndGameScreen(gvm, score));
             return;
         }
-        ;
         if (GAME_ROOM_CONTROLLER.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
             GAME_ROOM_CONTROLLER.gameOver();
             gvm.set(new LastKnightYouWinGameScreen(gvm, score));

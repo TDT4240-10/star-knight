@@ -18,11 +18,10 @@ import java.util.Objects;
 
 import no.ntnu.game.Controllers.GameRoomController;
 import no.ntnu.game.Controllers.KnightController;
-import no.ntnu.game.Models.PowerUpFactory;
+import no.ntnu.game.Factory.Button.CircleButtonFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Models.Timer;
 import no.ntnu.game.Models.TreeWithPowerUp;
-import no.ntnu.game.factory.button.CircleButtonFactory;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 import no.ntnu.game.firestore.GameRoom;
 
 /**
@@ -78,10 +77,6 @@ public class FastestKnightGameScreen extends Screen {
         KNIGHT_CONTROLLER.setChoppingPosition(-99999, -99999);
         KNIGHT_CONTROLLER.setDeadPosition(-99999, -99999);
 
-        PowerUpFactory.createLivesPowerUp();
-        PowerUpFactory.createLivesPowerUp();
-        PowerUpFactory.createLivesPowerUp();
-
         float x_offset = 80;
         float y_offset = 100;
 
@@ -131,9 +126,8 @@ public class FastestKnightGameScreen extends Screen {
         Button exitButton = rectButtonFactory.createButton("Exit", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                KNIGHT_CONTROLLER.stopMusic();
                 TIMER.stop();
-                GAME_ROOM_CONTROLLER.gameOver();
+                GAME_ROOM_CONTROLLER.gameOver(false);
                 gvm.set(new MainMenuScreen(gvm));
                 return true; // Indicate that the touch event is handled
             }
@@ -204,6 +198,7 @@ public class FastestKnightGameScreen extends Screen {
         sb.end();
         TREE_WITH_POWER_UP.draw(sb);
 
+        KNIGHT_CONTROLLER.renderBulletTimer(SHAPE_RENDERER);
         KNIGHT_CONTROLLER.renderIdleKnight(sb);
         KNIGHT_CONTROLLER.renderChoppingKnight(sb);
         KNIGHT_CONTROLLER.renderDeadKnight(sb);
@@ -212,25 +207,26 @@ public class FastestKnightGameScreen extends Screen {
         KNIGHT_CONTROLLER.renderLife2(sb);
         KNIGHT_CONTROLLER.renderLife3(sb);
 
-        int player_score = KNIGHT_CONTROLLER.getScore();
+        SHAPE_RENDERER.end();
 
+        // Check game logic
+        int player_score = KNIGHT_CONTROLLER.getScore();
         if (player_score < 0) {
             player_score = 0;
         }
-
         if (player_score == 0) {
             // stop timer
             TIMER.stop();
             KNIGHT_CONTROLLER.setScore((int) TIMER.getElapsedTime());
             GAME_ROOM_CONTROLLER.gameOver();
-            KNIGHT_CONTROLLER.stopMusic();
             gvm.set(new FastestKnightWinGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
+
         if (Objects.equals(KNIGHT_CONTROLLER.update(Gdx.graphics.getDeltaTime()), "lose")) {
             // stop timer
             TIMER.stop();
-            GAME_ROOM_CONTROLLER.gameOver();
+            GAME_ROOM_CONTROLLER.gameOver(false);
             gvm.set(new FastestKnightLoseGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
@@ -238,12 +234,10 @@ public class FastestKnightGameScreen extends Screen {
         // You you haven't won, but the game is complete, you have lost the game
         if (GAME_ROOM_CONTROLLER.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
             TIMER.stop();
-            GAME_ROOM_CONTROLLER.gameOver();
+            GAME_ROOM_CONTROLLER.gameOver(false);
             gvm.set(new FastestKnightLoseGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
-
-        SHAPE_RENDERER.end();
 
         sb.begin();
         sb.draw(POWER_UP_TEXT_LOGO, 30, 80);

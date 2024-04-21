@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.Controllers.GameRoomController;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.firestore.GameRoom;
 
 public class CreateGameLobbyScreen extends Screen {
@@ -41,7 +41,6 @@ public class CreateGameLobbyScreen extends Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 GAME_ROOM_CONTROLLER.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
                 return true; // Indicate that the touch event is handled
-
             }
         });
         lastKnightButton.setColor(WHITE);
@@ -63,6 +62,10 @@ public class CreateGameLobbyScreen extends Screen {
         Button startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if (GAME_ROOM_CONTROLLER.getCurrentGameMode() == null)
+                    return true;
+                if (GAME_ROOM_CONTROLLER.getGameRoom().getJoiningPlayer() == null)
+                    return true;
                 GAME_ROOM_CONTROLLER.startGame();
                 return true;
             }
@@ -79,7 +82,6 @@ public class CreateGameLobbyScreen extends Screen {
                 return true; // Indicate that the touch event is handled
             }
         });
-
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
@@ -160,13 +162,13 @@ public class CreateGameLobbyScreen extends Screen {
 
         // display room id and player list in the middle
         FONT.setColor(WHITE);
-        FONT.draw(sb, "Room ID: " + roomCode, CENTER_ROOM_ID_X, 1330);
-        FONT.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1230);
-        FONT.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1130);
+        FONT.draw(sb, "Room ID: " + roomCode, CENTER_ROOM_ID_X, 1360);
+        FONT.draw(sb, "Players: " + usernames, CENTER_PLAYERS_X, 1260);
+        FONT.draw(sb, "Game mode: " + gameMode, CENTER_GAME_MODE, 1160);
         if (GAME_ROOM_CONTROLLER.getGameStatus().equals(GameRoom.GameStatus.STARTING)) {
             final float CENTER_COUNTDOWN = calculateCenterX(
                     "Game starting in: " + GAME_ROOM_CONTROLLER.getGameStartCountdown(), FONT);
-            FONT.draw(sb, "Game starting in: " + GAME_ROOM_CONTROLLER.getGameStartCountdown(), CENTER_COUNTDOWN, 1030);
+            FONT.draw(sb, "Game starting in: " + GAME_ROOM_CONTROLLER.getGameStartCountdown(), CENTER_COUNTDOWN, 1060);
         }
         sb.end();
 
@@ -192,8 +194,6 @@ public class CreateGameLobbyScreen extends Screen {
     public void dispose() {
         SHAPE_RENDERER.dispose();
         LOGO.dispose();
-        System.out.println("Game Lobby View Disposed");
-
     }
 
 }

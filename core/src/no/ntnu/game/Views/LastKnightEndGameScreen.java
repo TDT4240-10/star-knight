@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Views.Sprites.LoseDeadKnightSprite;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
 
 /**
  * End Game Screen View class to render Lose screen
@@ -68,6 +68,7 @@ public class LastKnightEndGameScreen extends Screen {
         float textWidth = layout.width;
         return (Gdx.graphics.getWidth() - textWidth) / 2;
     }
+
     @Override
     public void render(SpriteBatch sb) {
         float logoWidth = LOGO.getWidth();
@@ -76,18 +77,13 @@ public class LastKnightEndGameScreen extends Screen {
         float screenHeight = Gdx.graphics.getHeight();
         float logoX = (screenWidth - logoWidth) / 2;
         float logoY = (2 * screenHeight) / 3 - logoHeight / 2; // 1/3 from the top
+
         sb.begin();
         sb.draw(LOGO, logoX, logoY);
-
         // Calculate the position to center the text on the screen
         FONT.getData().setScale(10f);
         FONT.draw(sb, String.valueOf(PLAYER_SCORE), calculateCenterX(String.valueOf(PLAYER_SCORE), FONT), logoY - 100);
-
         sb.end();
-
-        // to ensure the knight is moving at the same speed on all devices
-        float dt = Gdx.graphics.getDeltaTime();
-        update(dt);
 
         LOSE_DEAD_KNIGHT_SPRITE.setPosition(KNIGHT_X, KNIGHT_Y);
         LOSE_DEAD_KNIGHT_SPRITE.render(sb);

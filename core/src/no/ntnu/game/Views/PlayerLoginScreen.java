@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
-import no.ntnu.game.factory.textfield.TextFieldFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
+import no.ntnu.game.Factory.Textfield.TextFieldFactory;
 import no.ntnu.game.firestore.Player;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -122,7 +122,6 @@ public class PlayerLoginScreen extends Screen {
         SHAPE_RENDERER.dispose();
         LOGO.dispose();
         STAGE.dispose(); // Dispose of the stage
-        System.out.println("Create or Join Room View Disposed");
     }
 
     @Override

@@ -15,8 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import no.ntnu.game.Models.Settings;
-import no.ntnu.game.factory.button.RectangleButtonFactory;
+import no.ntnu.game.Settings.Settings;
+import no.ntnu.game.StarKnight;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 
 /**
  * Settings View class to render settings screen
@@ -33,7 +34,7 @@ public class SettingsScreen extends Screen {
     private final Slider MUSIC_SLIDER;
     private final Slider SOUND_SLIDER;
     private final Settings SETTINGS;
-    
+
     public SettingsScreen(ScreenManager gvm) {
         super(gvm);
         LOGO = new Texture("settings.png");
@@ -58,30 +59,36 @@ public class SettingsScreen extends Screen {
 
         SOUND_SLIDER = new Slider(0.0f, 1.0f, 0.1f, false, skin);
 
-        // Position of sliders
-        MUSIC_SLIDER.setPosition(300, 1050);
-        SOUND_SLIDER.setPosition(300, 700);
-
         // Width of sliders
         MUSIC_SLIDER.setWidth(500);
         SOUND_SLIDER.setWidth(500);
-        SETTINGS = Settings.getInstance();
+        SETTINGS = StarKnight.getSettings();
 
-        MUSIC_SLIDER.setValue(SETTINGS.getMusic());
-        SOUND_SLIDER.setValue(SETTINGS.getSound());
+        // Position of sliders
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        float musicSliderX = (screenWidth - MUSIC_SLIDER.getWidth()) / 2;
+        float musicSliderY = (screenHeight) / 2.25f - MUSIC_SLIDER.getHeight() / 2;
+        float soundSliderX = (screenWidth - MUSIC_SLIDER.getWidth()) / 2;
+        float soundSliderY = (screenHeight) / 3.5f - MUSIC_SLIDER.getHeight() / 2;
+        MUSIC_SLIDER.setPosition(musicSliderX, musicSliderY);
+        SOUND_SLIDER.setPosition(soundSliderX, soundSliderY);
+
+        MUSIC_SLIDER.setValue(SETTINGS.getMusicVolume());
+        SOUND_SLIDER.setValue(SETTINGS.getEffectVolume());
 
         // The addListeners methods are AI generated code that has been somewhat
         // modified
         MUSIC_SLIDER.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SETTINGS.setMusic(MUSIC_SLIDER.getValue());
+                SETTINGS.setMusicVolume(MUSIC_SLIDER.getValue());
             }
         });
         SOUND_SLIDER.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SETTINGS.setSound(SOUND_SLIDER.getValue());
+                SETTINGS.setEffectVolume(SOUND_SLIDER.getValue());
             }
         });
 
@@ -120,12 +127,10 @@ public class SettingsScreen extends Screen {
         float musicX = (screenWidth - musicWidth) / 2;
         float musicY = (screenHeight) / 2 - musicHeight / 2;
 
-
         float soundWidth = SOUND_TEXT.getWidth();
         float soundHeight = SOUND_TEXT.getHeight();
         float soundX = (screenWidth - soundWidth) / 2;
         float soundY = ((screenHeight) / 2.75f) - soundHeight / 2;
-
 
         sb.begin();
         sb.draw(LOGO, logoX, logoY);

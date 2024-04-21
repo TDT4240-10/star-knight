@@ -34,7 +34,6 @@ public class ScreenManager {
         try {
             screens.peek().update(dt);
         } catch (EmptyStackException e) {
-            System.out.println("Emoy stack");
         }
     }
 
@@ -42,7 +41,7 @@ public class ScreenManager {
         try {
             screens.peek().render(sb);
         } catch (EmptyStackException e) {
-            System.out.println("Empty stack");
+            e.printStackTrace();
         }
     }
 }
