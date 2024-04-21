@@ -2,6 +2,8 @@
 
 The Star knight game is a 2D platformer game developed using the LibGDX framework.
 
+![StarKnight](https://github.com/TDT4240-10/star-knight/assets/92637738/39fd1e74-007a-4650-bf13-86cc2392883b)
+
 ## Getting Started 🚀
 
 ### Prerequisites 📋
