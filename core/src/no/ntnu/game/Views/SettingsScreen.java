@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import no.ntnu.game.Settings.Settings;
 import no.ntnu.game.StarKnight;
-import no.ntnu.game.Factory.Button.RectangleButtonFactory;
+import no.ntnu.game.Models.Factory.Button.RectangleButtonFactory;
 
 /**
  * Settings View class to render settings screen

@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 
 import no.ntnu.game.Controllers.PlayerController;
-import no.ntnu.game.Factory.Button.RectangleButtonFactory;
+import no.ntnu.game.Models.Factory.Button.RectangleButtonFactory;
 import no.ntnu.game.Views.Tutorial.SelectTutorialScreen;
 
 /**
@@ -91,8 +91,8 @@ public class MainMenuScreen extends Screen {
     public void render(SpriteBatch sb) {
         final String HIGHSCORE_STRING = "Your highscore: " + PLAYER_CONTROLLER.getPlayer().getHighScore().toString();
         final String FASTEST_STRING = "Your fastest time: "
-        + (Float.isInfinite(PLAYER_CONTROLLER.getPlayer().getFastestTime()) ? "0"
-                : Integer.toString(PLAYER_CONTROLLER.getPlayer().getFastestTime().intValue()));
+                + (Float.isInfinite(PLAYER_CONTROLLER.getPlayer().getFastestTime()) ? "0"
+                        : Integer.toString(PLAYER_CONTROLLER.getPlayer().getFastestTime().intValue()));
         final String WELCOME_STRING = "Welcome " + PLAYER_CONTROLLER.getPlayer().getUsername() + "!";
         final float CENTER_WELCOME_X = calculateCenterX(WELCOME_STRING, font);
         final float CENTER_USER_HIGHSCORE_X = calculateCenterX(HIGHSCORE_STRING, font);

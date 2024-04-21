@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Objects;
 
-import no.ntnu.game.Factory.PowerUp.PowerUpFactory;
 import no.ntnu.game.Models.KnightModel;
 import no.ntnu.game.Models.PowerUp;
 import no.ntnu.game.Models.Score;
@@ -15,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
 import no.ntnu.game.Models.TreePart;
 import no.ntnu.game.Models.TreeWithPowerUp;
+import no.ntnu.game.Models.Factory.PowerUp.PowerUpFactory;
 import no.ntnu.game.Sound.ChopSoundEffectPlayer;
 import no.ntnu.game.Views.Sprites.ChoppingKnightSprite;
 import no.ntnu.game.Views.Sprites.DeadKnightSprite;
