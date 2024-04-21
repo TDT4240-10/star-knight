@@ -9,12 +9,12 @@ import no.ntnu.game.firestore.GameRoom;
 
 public class MusicPlayer implements SoundPlayer, GameRoomObserver {
     private static MusicPlayer instance;
-    private final Music backgroundMusic;
+    private final Music BACKGROUND_MUSIC;
 
     private MusicPlayer() {
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("HinaCC0_011_Fallen_leaves(chosic.com).mp3"));
-        backgroundMusic.setVolume(Settings.getInstance().getMusicVolume());
-        backgroundMusic.setLooping(true);
+        BACKGROUND_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("HinaCC0_011_Fallen_leaves(chosic.com).mp3"));
+        BACKGROUND_MUSIC.setVolume(Settings.getInstance().getMusicVolume());
+        BACKGROUND_MUSIC.setLooping(true);
     }
 
     public static MusicPlayer getMusicPlayer() {
@@ -26,12 +26,12 @@ public class MusicPlayer implements SoundPlayer, GameRoomObserver {
 
     @Override
     public void play() {
-        backgroundMusic.play();
+        BACKGROUND_MUSIC.play();
     }
 
     @Override
     public void stop() {
-        backgroundMusic.stop();
+        BACKGROUND_MUSIC.stop();
     }
 
     @Override
