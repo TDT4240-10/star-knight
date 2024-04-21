@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
+import no.ntnu.game.Factory.PowerUp.PowerUpFactory;
+
 import java.util.Objects;
 
 /**

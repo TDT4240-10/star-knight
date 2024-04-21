@@ -207,12 +207,13 @@ public class FastestKnightGameScreen extends Screen {
         KNIGHT_CONTROLLER.renderLife2(sb);
         KNIGHT_CONTROLLER.renderLife3(sb);
 
-        int player_score = KNIGHT_CONTROLLER.getScore();
+        SHAPE_RENDERER.end();
 
+        // Check game logic
+        int player_score = KNIGHT_CONTROLLER.getScore();
         if (player_score < 0) {
             player_score = 0;
         }
-
         if (player_score == 0) {
             // stop timer
             TIMER.stop();
@@ -221,10 +222,11 @@ public class FastestKnightGameScreen extends Screen {
             gvm.set(new FastestKnightWinGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
+
         if (Objects.equals(KNIGHT_CONTROLLER.update(Gdx.graphics.getDeltaTime()), "lose")) {
             // stop timer
             TIMER.stop();
-            GAME_ROOM_CONTROLLER.gameOver();
+            GAME_ROOM_CONTROLLER.gameOver(false);
             gvm.set(new FastestKnightLoseGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
@@ -232,12 +234,10 @@ public class FastestKnightGameScreen extends Screen {
         // You you haven't won, but the game is complete, you have lost the game
         if (GAME_ROOM_CONTROLLER.getGameStatus().equals(GameRoom.GameStatus.COMPLETE)) {
             TIMER.stop();
-            GAME_ROOM_CONTROLLER.gameOver();
+            GAME_ROOM_CONTROLLER.gameOver(false);
             gvm.set(new FastestKnightLoseGameScreen(gvm, TIMER.getElapsedTime()));
             return;
         }
-
-        SHAPE_RENDERER.end();
 
         sb.begin();
         sb.draw(POWER_UP_TEXT_LOGO, 30, 80);

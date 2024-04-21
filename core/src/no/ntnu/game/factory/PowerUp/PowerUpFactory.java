@@ -1,8 +1,10 @@
 
-package no.ntnu.game.Models;
+package no.ntnu.game.Factory.PowerUp;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import no.ntnu.game.Models.AbstractPowerUpFactory;
 
 import java.util.Random;
 
@@ -11,7 +13,7 @@ import java.util.Random;
  *
  * @author Jeff
  */
-public class PowerUpFactory implements AbstractPowerUpFactory{
+public class PowerUpFactory implements AbstractPowerUpFactory {
     private Texture powerUpTexture; // Texture containing all power-up sprites
     // Load the power-up texture
 

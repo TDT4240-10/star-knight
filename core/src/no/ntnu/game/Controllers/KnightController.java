@@ -5,9 +5,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Objects;
 
+import no.ntnu.game.Factory.PowerUp.PowerUp;
+import no.ntnu.game.Factory.PowerUp.PowerUpFactory;
 import no.ntnu.game.Models.KnightModel;
-import no.ntnu.game.Models.PowerUp;
-import no.ntnu.game.Models.PowerUpFactory;
 import no.ntnu.game.Models.Score;
 import no.ntnu.game.Models.TimeLimitBar;
 
