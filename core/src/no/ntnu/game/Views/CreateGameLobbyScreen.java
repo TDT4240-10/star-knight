@@ -41,7 +41,6 @@ public class CreateGameLobbyScreen extends Screen {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 GAME_ROOM_CONTROLLER.setGameMode(GameRoom.GameMode.LAST_KNIGHT);
                 return true; // Indicate that the touch event is handled
-
             }
         });
         lastKnightButton.setColor(WHITE);
@@ -83,7 +82,6 @@ public class CreateGameLobbyScreen extends Screen {
                 return true; // Indicate that the touch event is handled
             }
         });
-
         exitButton.setSize(350, 200); // Set the size of the button
         exitButton.setPosition((float) Gdx.graphics.getWidth() / 2 - 175, 300);
 
