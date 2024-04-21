@@ -1,4 +1,4 @@
-package no.ntnu.game.Models.Factory.PowerUp;
+package no.ntnu.game.Factory.PowerUp;
 
 import no.ntnu.game.Models.PowerUp;
 

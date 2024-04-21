@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 
-import no.ntnu.game.Models.Factory.Button.RectangleButtonFactory;
+import no.ntnu.game.Factory.Button.RectangleButtonFactory;
 
 /**
  * Game Mode Tutorial Screen, tutorial for the different game modes with video

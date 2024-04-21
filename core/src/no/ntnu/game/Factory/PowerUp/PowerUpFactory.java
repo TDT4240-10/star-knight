@@ -1,5 +1,5 @@
 
-package no.ntnu.game.Models.Factory.PowerUp;
+package no.ntnu.game.Factory.PowerUp;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
