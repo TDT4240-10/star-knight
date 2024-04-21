@@ -117,23 +117,30 @@ public class KnightController {
         this.timeLimitBar = timeLimitBar;
 
         // Set Power Up position
-        System.out.println(life1.textureRegion.getRegionWidth());
         powerUpX1 = Gdx.graphics.getWidth() - life1.textureRegion.getRegionWidth() - 200;
         powerUpX2 = powerUpX1 - life1.textureRegion.getRegionWidth() - 200;
         powerUpX3 = powerUpX2 - life1.textureRegion.getRegionWidth() - 200;
     }
 
+    /*
+     * Method to show the life power up sprite on the screen
+     */
     public void getLife1() {
         life1.setPosition(powerUpX1, powerUpY);
         life1Active = true;
-        System.out.println("set life 1 pos");
     }
 
+    /*
+     * Method to show the life power up sprite on the screen
+     */
     public void getLife2() {
         life2.setPosition(powerUpX2, powerUpY);
         life2Active = true;
     }
 
+    /*
+     * Method to show the life power up sprite on the screen
+     */
     public void getLife3() {
         life3.setPosition(powerUpX3, powerUpY);
         life3Active = true;
@@ -154,41 +161,40 @@ public class KnightController {
 
     public void checkPowerUp() {
         PowerUp powerUp = tree.trees.get(0).getPowerup();
-        if (Objects.equals(powerUp, null)) {
-            System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
-            System.out.println("chopped tree with no powerup");
-        } else {
-            if (Objects.equals(powerUp.getName(), "heart")) {
-                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
-                System.out.println("chopped tree with heart");
 
-                // Adding life powerup
-                if (life2Active) {
-                    getLife3();
-                } else if (life1Active) {
-                    getLife2();
-                } else {
-                    getLife1();
-                }
-            } else if (Objects.equals(powerUp.getName(), "shield")) {
-                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
-                System.out.println("chopped tree with shield");
-            } else if (Objects.equals(powerUp.getName(), "double")) {
-                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
-                System.out.println("chopped tree with double");
-                // Adding double points
-                getDouble(powerUp);
-            } else if (Objects.equals(powerUp.getName(), "bullet")) {
-                System.out.println("tree direction: " + tree.trees.get(tree.trees.size() - 1).getValue());
-                System.out.println("chopped tree with bullet");
-                // Adding double points
-                if (bulletActive) {
-                    bulletTimer.resetTime();
-                }
-                bulletActive = true;
-                bulletTimer.setPosition(bulletTimerX, bulletTimerY - 50);
-            }
+        // Chopped tree with no powerup
+        // Do nothing
+        if (Objects.equals(powerUp, null)) {
+            return;
         }
+
+        if (Objects.equals(powerUp.getName(), "heart")) {
+            // Adding life powerup
+            if (life2Active) {
+                getLife3();
+            } else if (life1Active) {
+                getLife2();
+            } else {
+                getLife1();
+            }
+            return;
+
+        }
+
+        if (Objects.equals(powerUp.getName(), "double")) {
+            getDouble(powerUp);
+            return;
+        }
+
+        if (Objects.equals(powerUp.getName(), "bullet")) {
+            if (bulletActive) {
+                bulletTimer.resetTime();
+            }
+            bulletActive = true;
+            bulletTimer.setPosition(bulletTimerX, bulletTimerY - 50);
+            return;
+        }
+
     }
 
     public void removePowerUp() {
@@ -216,7 +222,6 @@ public class KnightController {
             deadKnightSprite.flipDirection();
 
             TreePart lowestTreePart = tree.trees.get(0);
-            System.out.println("move right, tree is: " + lowestTreePart.getValue());
 
             // If knight in opposite direction as branch -> no collision
             if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
@@ -257,7 +262,6 @@ public class KnightController {
         if (!playerDied) {
             knight.setDirection("right");
             TreePart lowestTreePart = tree.trees.get(0);
-            System.out.println("stay right, tree is: " + lowestTreePart.getValue());
 
             if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
@@ -298,7 +302,6 @@ public class KnightController {
             deadKnightSprite.flipDirection();
 
             TreePart lowestTreePart = tree.trees.get(0);
-            System.out.println("move left, tree is: " + lowestTreePart.getValue());
 
             if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
@@ -333,7 +336,6 @@ public class KnightController {
         if (!playerDied) {
             knight.setDirection("left");
             TreePart lowestTreePart = tree.trees.get(0);
-            System.out.println("stay left, tree is: " + lowestTreePart.getValue());
 
             if (!Objects.equals(lowestTreePart.getValue(), knight.getDirection()) || bulletActive) {
                 // switch knight direction and run chopping animation
@@ -410,7 +412,6 @@ public class KnightController {
                             scoreCounter.incrementScore(1);
                         }
                     } else if (Objects.equals(gamemode, "fastest_knight")) {
-                        System.out.println("fastest knight found, decrement score");
                         if (DoubleActive) {
                             scoreCounter.decrementScore(2);
 
@@ -436,7 +437,6 @@ public class KnightController {
                                 scoreCounter.incrementScore(1);
                             }
                         } else if (Objects.equals(gamemode, "fastest_knight")) {
-                            System.out.println("fastest knight found, decrement score");
                             if (DoubleActive) {
                                 scoreCounter.decrementScore(2);
 
@@ -448,8 +448,6 @@ public class KnightController {
                         // Checking for next collision after chopping the tree
                         lowestTreePart = tree.trees.get(0);
                         if (Objects.equals(lowestTreePart.getValue(), knight.getDirection())) {
-                            System.out.println("chopped tree and died");
-
                             idleKnightSprite.setPosition(-99999, -99999);
                             deathAnimationActive = true;
                             elapsedTime = 0;
@@ -474,7 +472,7 @@ public class KnightController {
 
                 if (life1Active) {
                     playerDied = false;
-                    System.out.println("collision, remove 1 life");
+                    // Remove life power up
                     removePowerUp();
                     String oppositeDirection = getKnightOppositeDirection();
                     knight.setDirection(oppositeDirection);

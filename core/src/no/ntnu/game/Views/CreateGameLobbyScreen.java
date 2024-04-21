@@ -63,8 +63,10 @@ public class CreateGameLobbyScreen extends Screen {
         Button startGameButton = rectButtonFactory.createButton("Start game", new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(GAME_ROOM_CONTROLLER.getCurrentGameMode() == null) return true;
-                if(GAME_ROOM_CONTROLLER.getGameRoom().getJoiningPlayer() == null) return true;
+                if (GAME_ROOM_CONTROLLER.getCurrentGameMode() == null)
+                    return true;
+                if (GAME_ROOM_CONTROLLER.getGameRoom().getJoiningPlayer() == null)
+                    return true;
                 GAME_ROOM_CONTROLLER.startGame();
                 return true;
             }
@@ -194,8 +196,6 @@ public class CreateGameLobbyScreen extends Screen {
     public void dispose() {
         SHAPE_RENDERER.dispose();
         LOGO.dispose();
-        System.out.println("Game Lobby View Disposed");
-
     }
 
 }

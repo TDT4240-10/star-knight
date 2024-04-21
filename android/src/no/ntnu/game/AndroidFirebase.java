@@ -63,7 +63,7 @@ public class AndroidFirebase implements FirebaseInterface {
         firestore.collection("gameRoom").document(room.getDocumentId()).set(room)
                 .addOnSuccessListener(unused -> callback.onCallback(room)).addOnFailureListener(e -> {
                     callback.onCallback(null);
-                    System.out.println(e.getMessage());
+                    System.out.error(e.getMessage());
                 });
     }
 
