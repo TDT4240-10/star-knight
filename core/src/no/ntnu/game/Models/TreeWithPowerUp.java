@@ -18,8 +18,6 @@ public class TreeWithPowerUp extends Tree {
     float centerX, centerY;
     private int powerUpFrequency;
     private int countTowardsNextPowerUp;
-    private final String[] TREES_POSSIBILITY = { "none", "left", "right" };
-    private final Color[] COLOR_POSSIBILITY = { TreeColor1, TreeColor2 };
     private final PowerUpFactory POWERUP_FACTORY;
 
     public TreeWithPowerUp() {
@@ -91,6 +89,5 @@ public class TreeWithPowerUp extends Tree {
             trees.add(treePart);
             countTowardsNextPowerUp = 0;
         }
-
     }
 }

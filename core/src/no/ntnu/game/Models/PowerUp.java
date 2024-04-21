@@ -16,13 +16,13 @@ public class PowerUp {
     private float y;
     private final float POWERUP_WIDTH;
     private final float POWERUP_HEIGHT;
-    private TextureRegion textureRegion;
+    private final TextureRegion TEXTURE_REGION;
 
     // Constructor
     public PowerUp(String name, int duration, TextureRegion textureRegion) {
         this.NAME = name;
         this.DURATION = duration;
-        this.textureRegion = textureRegion;
+        this.TEXTURE_REGION = textureRegion;
         this.POWERUP_WIDTH = textureRegion.getRegionWidth() * 6;
         this.POWERUP_HEIGHT = textureRegion.getRegionHeight() * 6;
     }
@@ -41,7 +41,7 @@ public class PowerUp {
     public void render(SpriteBatch batch) {
         // Draw the sprite onto the batch
         batch.begin();
-        batch.draw(textureRegion, x, y, POWERUP_WIDTH, POWERUP_HEIGHT);
+        batch.draw(TEXTURE_REGION, x, y, POWERUP_WIDTH, POWERUP_HEIGHT);
         batch.end();
     }
 
@@ -51,7 +51,7 @@ public class PowerUp {
     }
 
     public TextureRegion getTextureRegion() {
-        return this.textureRegion;
+        return this.TEXTURE_REGION;
     }
 
 }

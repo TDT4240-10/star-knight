@@ -11,6 +11,8 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
 
 ### Installation 🔧
 
+> The project is only tested to run locally on an Android emulator.
+
 1. Clone the repository
 2. Open the project in Android Studio
 3. Set up an android emulator or connect a physical device
