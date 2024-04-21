@@ -11,17 +11,21 @@ import java.util.Random;
  *
  * @author Jeff
  */
-public class PowerUpFactory {
-    private static Texture powerUpTexture; // Texture containing all power-up sprites
+public class PowerUpFactory implements AbstractPowerUpFactory{
+    private Texture powerUpTexture; // Texture containing all power-up sprites
     // Load the power-up texture
 
-    public static void loadTextures() {
+    public void loadTextures() {
         powerUpTexture = new Texture("powerups.png");
     }
 
-    // A power will be created randomly
-    public static PowerUp createPowerUp() {
+    public PowerUpFactory() {
         loadTextures();
+    }
+
+    // A power will be created randomly
+    @Override
+    public PowerUp createPowerUp() {
         Random random = new Random();
         int randomIndex = random.nextInt(3); // Adjust the range based on the number of power-up types
 
@@ -39,28 +43,27 @@ public class PowerUpFactory {
     }
 
     // Method to create a Extra lives PowerUp
-    public static PowerUp createLivesPowerUp() {
-        return new PowerUp("heart", 2000, getTextureRegionForType("heart")); // Example duration: 5000 milliseconds
+    public PowerUp createLivesPowerUp() {
+        return new PowerUp("heart", 2000, this.getTextureRegionForType("heart")); // Example duration: 5000 milliseconds
     }
 
-    public static PowerUp createDoublePoints() {
+    public PowerUp createDoublePoints() {
         return new PowerUp("double", 5000, getTextureRegionForType("double")); // Example duration: 10000 milliseconds
     }
 
-    public static PowerUp createBullet() {
+    public PowerUp createBullet() {
         return new PowerUp("bullet", 5000, getTextureRegionForType("bullet")); // Example duration: 10000 milliseconds
     }
 
     // Method to get the texture region for a specific type of power-up
-    private static TextureRegion getTextureRegionForType(String type) {
-        loadTextures();
+    private TextureRegion getTextureRegionForType(String type) {
         int index = getIndexForType(type); // Get the index of the sprite for this type
         int rows = 4;
         int spriteWidth = 32;
         int spriteHeight = 32;
         int row = index / rows;
         int col = index % rows;
-        return new TextureRegion(powerUpTexture, col * spriteWidth, row * spriteHeight, spriteWidth, spriteHeight);
+        return new TextureRegion(this.powerUpTexture, col * spriteWidth, row * spriteHeight, spriteWidth, spriteHeight);
     }
 
     // Method to get the index of a power-up type

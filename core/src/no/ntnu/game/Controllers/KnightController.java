@@ -27,29 +27,29 @@ import no.ntnu.game.Views.Sprites.IdleKnightSprite;
  * @author Han
  */
 public class KnightController {
-    private KnightModel knight;
-    private String gamemode;
-    private ChoppingKnightSprite choppingKnightSprite;
-    private IdleKnightSprite idleKnightSprite;
-    private DeadKnightSprite deadKnightSprite;
-    private int knightLeftX;
-    private int knightRightX;
-    private int knightY;
+    private final KnightModel knight;
+    private final String gameMode;
+    private final ChoppingKnightSprite choppingKnightSprite;
+    private final IdleKnightSprite idleKnightSprite;
+    private final DeadKnightSprite deadKnightSprite;
+    private final int knightLeftX;
+    private final int knightRightX;
+    private final int knightY;
     private int currentKnightX;
 
-    private TreeWithPowerUp tree;
+    private final TreeWithPowerUp tree;
 
-    private int phoneWidth;
-    private float animationDuration = 0.12f; // Example duration in seconds
+    private final int phoneWidth;
+    private final float animationDuration = 0.12f; // Example duration in seconds
 
-    private float deathAnimationDuration = 0.3f;
+    private final float deathAnimationDuration = 0.3f;
 
     private boolean choppingAnimationActive = false;
     private boolean deathAnimationActive = false;
 
-    private ChopSoundEffectPlayer soundEffectPlayer;
+    private final ChopSoundEffectPlayer soundEffectPlayer;
     private float elapsedTime = 0;
-    private TimeLimitBar timeLimitBar;
+    private final TimeLimitBar timeLimitBar;
 
     // Adjust the time to add for LastKnight, when knight successfully chops a tree
     // branch here
@@ -61,10 +61,10 @@ public class KnightController {
     private PowerUp life2;
     private PowerUp life3;
 
-    private float powerUpY = 30;
-    private float powerUpX1;
-    private float powerUpX2;
-    private float powerUpX3;
+    private final float powerUpY = 30;
+    private final float powerUpX1;
+    private final float powerUpX2;
+    private final float powerUpX3;
     private boolean life1Active = false;
     private boolean life2Active = false;
     private boolean life3Active = false;
@@ -73,17 +73,17 @@ public class KnightController {
 
     private boolean playerDied = false;
 
-    private Score scoreCounter;
+    private final Score scoreCounter;
     public GameRoomController gameRoomController;
-    private TimeLimitBar bulletTimer;
-    private float bulletTimerX;
-    private float bulletTimerY;
+    private final TimeLimitBar bulletTimer;
+    private final float bulletTimerX;
+    private final float bulletTimerY;
 
     // Constructor with idle knight sprite X, Y coordinates and tree model
     // attributes
     public KnightController(String gamemode, int idleX, int idleY, TreeWithPowerUp tree, TimeLimitBar timeLimitBar,
             float maxTimeLimit) {
-        this.gamemode = gamemode;
+        this.gameMode = gamemode;
         gameRoomController = GameRoomController.getInstance();
         soundEffectPlayer = new ChopSoundEffectPlayer();
         scoreCounter = new Score();
@@ -97,10 +97,11 @@ public class KnightController {
         idleKnightSprite = new IdleKnightSprite();
         deadKnightSprite = new DeadKnightSprite();
 
-        // Initialize some sprites
-        life1 = PowerUpFactory.createLivesPowerUp();
-        life2 = PowerUpFactory.createLivesPowerUp();
-        life3 = PowerUpFactory.createLivesPowerUp();
+        // Initialize lives sprites
+        PowerUpFactory powerUpFactory = new PowerUpFactory();
+        life1 = powerUpFactory.createLivesPowerUp();
+        life2 = powerUpFactory.createLivesPowerUp();
+        life3 = powerUpFactory.createLivesPowerUp();
         life1.setPosition(-99999, -99999);
         life2.setPosition(-99999, -99999);
         life3.setPosition(-99999, -99999);
@@ -235,7 +236,7 @@ public class KnightController {
                 soundEffectPlayer.play();
                 elapsedTime = 0;
 
-                if (Objects.equals(gamemode, "last_knight")) {
+                if (Objects.equals(gameMode, "last_knight")) {
                     timeLimitBar.addTime(timeToAdd);
                 }
 
@@ -275,7 +276,7 @@ public class KnightController {
                 soundEffectPlayer.play();
                 elapsedTime = 0;
 
-                if (Objects.equals(gamemode, "last_knight")) {
+                if (Objects.equals(gameMode, "last_knight")) {
                     timeLimitBar.addTime(timeToAdd);
                 }
                 checkPowerUp();
@@ -314,7 +315,7 @@ public class KnightController {
                 soundEffectPlayer.play();
                 elapsedTime = 0;
 
-                if (Objects.equals(gamemode, "last_knight")) {
+                if (Objects.equals(gameMode, "last_knight")) {
                     timeLimitBar.addTime(timeToAdd);
                 }
                 checkPowerUp();
@@ -349,7 +350,7 @@ public class KnightController {
                 soundEffectPlayer.play();
                 elapsedTime = 0;
 
-                if (Objects.equals(gamemode, "last_knight")) {
+                if (Objects.equals(gameMode, "last_knight")) {
                     timeLimitBar.addTime(timeToAdd);
                 }
                 checkPowerUp();
@@ -404,14 +405,14 @@ public class KnightController {
 
                     // if game mode is last knight standing, increment score, else if game mode is
                     // fastest knight, decrement score
-                    if (Objects.equals(gamemode, "last_knight")) {
+                    if (Objects.equals(gameMode, "last_knight")) {
                         if (DoubleActive) {
                             scoreCounter.incrementScore(2);
 
                         } else {
                             scoreCounter.incrementScore(1);
                         }
-                    } else if (Objects.equals(gamemode, "fastest_knight")) {
+                    } else if (Objects.equals(gameMode, "fastest_knight")) {
                         if (DoubleActive) {
                             scoreCounter.decrementScore(2);
 
@@ -429,14 +430,14 @@ public class KnightController {
 
                         // if game mode is last knight standing, increment score, else if game mode is
                         // fastest knight, decrement score
-                        if (Objects.equals(gamemode, "last_knight")) {
+                        if (Objects.equals(gameMode, "last_knight")) {
                             if (DoubleActive) {
                                 scoreCounter.incrementScore(2);
 
                             } else {
                                 scoreCounter.incrementScore(1);
                             }
-                        } else if (Objects.equals(gamemode, "fastest_knight")) {
+                        } else if (Objects.equals(gameMode, "fastest_knight")) {
                             if (DoubleActive) {
                                 scoreCounter.decrementScore(2);
 

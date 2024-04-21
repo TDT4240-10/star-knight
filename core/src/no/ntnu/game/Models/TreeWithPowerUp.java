@@ -18,9 +18,11 @@ public class TreeWithPowerUp extends Tree {
     private int countTowardsNextPowerUp;
     private final String[] TREES_POSSIBILITY = { "none", "left", "right" };
     private final Color[] COLOR_POSSIBILITY = { TreeColor1, TreeColor2 };
+    private final PowerUpFactory POWERUP_FACTORY;
 
     public TreeWithPowerUp() {
         super();
+        POWERUP_FACTORY = new PowerUpFactory();
     }
 
     // Override init method to include powerups
@@ -37,7 +39,7 @@ public class TreeWithPowerUp extends Tree {
                                              // frequency
                 TreePart treePart = trees.get(i);
                 if (!Objects.equals(treePart.value, "none")) {
-                    treePart.setPowerup(PowerUpFactory.createPowerUp());
+                    treePart.setPowerup(POWERUP_FACTORY.createPowerUp());
                 }
             }
         }
@@ -82,7 +84,7 @@ public class TreeWithPowerUp extends Tree {
 
             TreePart treePart = new TreePart(newTrunk, color);
             if (!Objects.equals(newTrunk, "none")) {
-                treePart.setPowerup(PowerUpFactory.createPowerUp());
+                treePart.setPowerup(POWERUP_FACTORY.createPowerUp());
             }
             trees.add(treePart);
             countTowardsNextPowerUp = 0;
