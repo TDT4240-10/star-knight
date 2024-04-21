@@ -225,13 +225,11 @@ public class GameRoomController implements GameRoomObservable {
         }
         if (room.getGameMode().equals(GameRoom.GameMode.FASTEST_KNIGHT)) {
             if (room.getCreatingPlayerState().getScore() < room.getCreatingPlayer().getFastestTime()) {
-                // TODO: Alter score to accept floats
                 room.getCreatingPlayer().setFastestTime((float) room.getCreatingPlayerState().getScore());
                 _FI.savePlayer(room.getCreatingPlayer());
             }
             if (roomType.equals(RoomType.ONLINE)) {
                 if (room.getJoiningPlayerState().getScore() < room.getJoiningPlayer().getFastestTime()) {
-                    // TODO: Alter score to accept floats
                     room.getJoiningPlayer().setFastestTime((float) room.getJoiningPlayerState().getScore());
                     _FI.savePlayer(room.getJoiningPlayer());
                 }
