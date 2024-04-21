@@ -24,6 +24,7 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
    ```sh
    ./gradlew android:assembleRelease
    ```
+3. The APK file will be located in `android/build/outputs/apk/`
 
 ## Structure 🏗
 
@@ -54,8 +55,9 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
 ├── .gitignore                      Contains the files that should be ignored by git.
 ├── .README.md                      Documentation
 └── ...
-
 ```
+
+> **Note:** The packages 'callback' and 'firestore' are written with lowercase letters to avoid conflicts with the Firebase Firestore package.
 
 ## Firebase 🔥
 
