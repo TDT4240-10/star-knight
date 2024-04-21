@@ -9,8 +9,6 @@ import no.ntnu.game.FirebaseInterface;
 import no.ntnu.game.Sound.MusicPlayer;
 import no.ntnu.game.callback.FirebaseCallback;
 import no.ntnu.game.firestore.GameRoom;
-import no.ntnu.game.firestore.GameRoomObservable;
-import no.ntnu.game.firestore.GameRoomObserver;
 import no.ntnu.game.firestore.Player;
 import no.ntnu.game.StarKnight;
 

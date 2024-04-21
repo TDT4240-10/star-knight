@@ -28,6 +28,8 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
    ```
 3. The APK file will be located in `android/build/outputs/apk/`
 
+> **Note:** An APK file is already compiled and located in the root of the project: `star-knight.apk`.
+
 ## Structure 🏗
 
 ```

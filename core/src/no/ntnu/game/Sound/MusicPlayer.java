@@ -3,9 +3,9 @@ package no.ntnu.game.Sound;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
+import no.ntnu.game.Controllers.GameRoomObserver;
 import no.ntnu.game.Settings.Settings;
 import no.ntnu.game.firestore.GameRoom;
-import no.ntnu.game.firestore.GameRoomObserver;
 
 public class MusicPlayer implements SoundPlayer, GameRoomObserver {
     private static MusicPlayer instance;
