@@ -7,15 +7,15 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
 ### Prerequisites 📋
 
 - Java 17 or higher
-- Android Studio
+- Android Studio Hedgehog | 2023.1.1 Patch 1 or higher
 
 ### Installation 🔧
 
-> The project is only tested to run locally on an Android emulator.
+> **Note:** As none of us in the group have an Android device, we primarily utilized the emulator present in Android Studio to get the game up and running.
 
 1. Clone the repository
 2. Open the project in Android Studio
-3. Set up an android emulator or connect a physical device
+3. Set up an android emulator or connect a physical device (Preferably the default - Pixel 3a)
 4. Configure the project to run as an Android project
 5. Enjoy the game 🎮
 
@@ -60,6 +60,12 @@ The Star knight game is a 2D platformer game developed using the LibGDX framewor
 ```
 
 > **Note:** The packages 'callback' and 'firestore' are written with lowercase letters to avoid conflicts with the Firebase Firestore package.
+
+## Third-party Libraries 📚
+
+- [LibGDX](https://libgdx.com/) - Game development framework
+- [GDX-Video](https://github.com/libgdx/gdx-video) - Video playback
+- [Firebase](https://firebase.google.com/) - Backend services
 
 ## Firebase 🔥
 
