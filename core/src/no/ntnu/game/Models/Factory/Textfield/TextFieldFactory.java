@@ -1,4 +1,4 @@
-package no.ntnu.game.Factory.Textfield;
+package no.ntnu.game.Models.Factory.Textfield;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
